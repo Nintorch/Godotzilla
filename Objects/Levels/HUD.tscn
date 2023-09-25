@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://bono4mu6juvo8"]
 
-[ext_resource type="Script" path="res://Scripts/HUD.gd" id="1_2xv67"]
+[ext_resource type="Script" path="res://Scripts/Levels/HUD.gd" id="1_2xv67"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="1_jnlnu"]
-[ext_resource type="PackedScene" uid="uid://nbd34bkxryjd" path="res://Scenes/Bar.tscn" id="3_t2v0k"]
+[ext_resource type="PackedScene" uid="uid://nbd34bkxryjd" path="res://Objects/Levels/Bar.tscn" id="3_t2v0k"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ke5ce"]
 line_spacing = 0.0

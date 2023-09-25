@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://d2do8ilhab482"]
 
-[ext_resource type="Script" path="res://Scripts/Board.gd" id="1_t4bq6"]
+[ext_resource type="Script" path="res://Scripts/Boards/Board.gd" id="1_t4bq6"]
 [ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/TestLevel.tscn" id="2_dqcpd"]
 [ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Sprites/Levels/TestLevel/board.png" id="3_iq2cy"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="3_pdgfq"]
-[ext_resource type="PackedScene" uid="uid://dtc8wqm5nbty2" path="res://Scenes/Boards/Selector.tscn" id="4_73gdn"]
-[ext_resource type="PackedScene" uid="uid://bn3se1dw6cfhu" path="res://Scenes/Boards/MessageWindow.tscn" id="5_v40o1"]
+[ext_resource type="PackedScene" uid="uid://dtc8wqm5nbty2" path="res://Objects/Boards/Selector.tscn" id="4_73gdn"]
+[ext_resource type="PackedScene" uid="uid://bn3se1dw6cfhu" path="res://Objects/Boards/MessageWindow.tscn" id="5_v40o1"]
 [ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="6_yu6su"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wxb3r"]
