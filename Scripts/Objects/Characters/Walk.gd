@@ -11,49 +11,49 @@ var jumping = false
 var jump_speed = -2 * 60
 
 func state_init() -> void:
-	walk_frames = char.body.sprite_frames.get_frame_count("Walk")
+	walk_frames = parent.body.sprite_frames.get_frame_count("Walk")
 	walk_frame_speed = 9
 
 func _process(delta: float) -> void:
 	walk(delta)
 	
-	if char.inputs_pressed[GameCharacter.Inputs.A]:
-		char.use_attack(GameCharacter.Attack.PUNCH)
-	if char.animation_player.current_animation != "Crouch" \
-		and char.inputs_pressed[GameCharacter.Inputs.B]:
-			char.use_attack(GameCharacter.Attack.KICK)
+	if parent.inputs_pressed[GameCharacter.Inputs.A]:
+		parent.use_attack(GameCharacter.Attack.PUNCH)
+	if parent.animation_player.current_animation != "Crouch" \
+		and parent.inputs_pressed[GameCharacter.Inputs.B]:
+			parent.use_attack(GameCharacter.Attack.KICK)
 	
 func walk(delta: float):
-	var direction = char.inputs[GameCharacter.Inputs.XINPUT]
+	var direction = parent.inputs[GameCharacter.Inputs.XINPUT]
 	if direction:
-		char.velocity.x = char.move_speed * direction
+		parent.velocity.x = parent.move_speed * direction
 		walk_frame = wrapf(
 			walk_frame + walk_frame_speed * delta * direction,
 			0, walk_frames)
-		if char.body.animation == "Walk":
-			char.body.frame = int(walk_frame)
+		if parent.body.animation == "Walk":
+			parent.body.frame = int(walk_frame)
 	else:
-		char.velocity.x = 0
+		parent.velocity.x = 0
 		
-	var up_down = char.inputs[GameCharacter.Inputs.YINPUT]
+	var up_down = parent.inputs[GameCharacter.Inputs.YINPUT]
 	
-	if char.is_on_floor() and up_down < 0:
-		char.velocity.y = jump_speed
+	if parent.is_on_floor() and up_down < 0:
+		parent.velocity.y = jump_speed
 		jumping = true
 	
-	if not char.is_on_floor() and jumping:
-		if up_down < 0 and char.velocity.y < -1.95 * 60:
-			char.velocity.y -= 216 * delta
-		if char.velocity.y < 0 and up_down >= 0:
+	if not parent.is_on_floor() and jumping:
+		if up_down < 0 and parent.velocity.y < -1.95 * 60:
+			parent.velocity.y -= 216 * delta
+		if parent.velocity.y < 0 and up_down >= 0:
 			jumping = false
-			char.velocity.y = 0
+			parent.velocity.y = 0
 					
-	if char.is_on_floor():
+	if parent.is_on_floor():
 		if up_down > 0:
-			if char.animation_player.current_animation == "Walk"\
-				or char.animation_player.current_animation == "":
-				char.animation_player.play("Crouch")
+			if parent.animation_player.current_animation == "Walk"\
+				or parent.animation_player.current_animation == "":
+				parent.animation_player.play("Crouch")
 		
-		if up_down <= 0 and char.animation_player.current_animation == "Crouch":
-			char.animation_player.play("RESET")
+		if up_down <= 0 and parent.animation_player.current_animation == "Crouch":
+			parent.animation_player.play("RESET")
 			walk_frame = 0

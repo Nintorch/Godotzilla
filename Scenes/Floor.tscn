@@ -10,11 +10,6 @@ func _ready() -> void:
 	size.x = width
 	$StaticBody2D/CollisionShape2D.shape.size.x = width + 100
 	$StaticBody2D/CollisionShape2D.position.x = width / 2 - 50
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ajba1"]

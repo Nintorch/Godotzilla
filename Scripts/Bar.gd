@@ -17,7 +17,7 @@ enum Style {
 @export var color2 = Color(0.71, 0.19, 0.125)
 
 var value: float = 0
-var target_value: int = 0  # float is a bit unreliable here
+var target_value: float = 0
 const speed = 1 * 60
 var max_value: float = 0
 

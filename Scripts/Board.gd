@@ -49,7 +49,7 @@ func _ready():
 	board.process_mode = Node.PROCESS_MODE_INHERIT
 	Global.play_music(music)
 		
-func _process(delta: float):
+func _process(_delta: float):
 	if board.visible and selector.is_stopped():
 		if Input.is_action_just_pressed("A"):
 			if not selected_piece:
@@ -154,4 +154,3 @@ func returned() -> void:
 	Global.play_music(music)
 	selected_piece.deselect()
 	selected_piece = null
-	

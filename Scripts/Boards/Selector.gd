@@ -66,11 +66,11 @@ func next_hex():
 	# Basically, if the player wants to move horizontally and vertically,
 	# set xspeed to horizontal direction * 2 (-2 if left and 2 if right),
 	# otherwise the player shouldn't move (only horizontal moves are not allowed)
-	speed.x = dirx * 2 if diry else 0
+	speed.x = roundi(dirx * 2) if diry else 0
 	# If the player wants to move diagonally, set yspeed to vertical direction,
 	# (-1 if up and 1 is down), otherwise we move only vertically with
 	# absolute yspeed 2
-	speed.y = diry if dirx else diry * 2
+	speed.y = roundi(diry) if dirx else roundi(diry * 2)
 	
 	# Stop if no input
 	if not diry:

@@ -1,5 +1,5 @@
-extends CharacterBody2D
 class_name GameCharacter
+extends CharacterBody2D
 
 enum Type {
 	GODZILLA,
@@ -20,8 +20,6 @@ enum State {
 }
 
 enum Attack {
-	NONE,
-	
 	PUNCH,
 	KICK,
 	
@@ -155,8 +153,8 @@ func get_power_bar():
 func get_life_bar():
 	return Global.level.get_HUD().get_node("PlayerCharacter/Life")
 	
-func get_sfx(name: String) -> AudioStreamPlayer:
-	return get_node("SFX/" + name)
+func get_sfx(sfx_name: String) -> AudioStreamPlayer:
+	return get_node("SFX/" + sfx_name)
 	
 func get_character_name() -> String:
 	return CharacterNames[character]

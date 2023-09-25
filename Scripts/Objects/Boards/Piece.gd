@@ -40,7 +40,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	hide_cell_below()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if selected:
 		global_position = selector.global_position
 

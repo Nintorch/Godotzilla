@@ -18,7 +18,7 @@ func fade_out() -> void:
 func fade_in() -> void:
 	$Fade/AnimationPlayer.play("FadeIn")
 
-func _on_animation_finished(anim_name: StringName) -> void:
+func _on_animation_finished(_anim_name: StringName) -> void:
 	Global.emit_signal("fade_end")
 	
 func scene_changed() -> void:

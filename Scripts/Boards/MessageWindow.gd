@@ -57,11 +57,11 @@ func _process(delta: float):
 				state = State.HIDDEN
 				timer = 0
 	
-func appear(text: String, enable_sound = true, req_size: Vector2i = default_window_size):
+func appear(message: String, enable_sound = true, req_size: Vector2i = default_window_size):
 	window_size = req_size
 	
 	if state == State.SHOWN:
-		next_text = text
+		next_text = message
 		disappear()
 		if enable_sound:
 			$MenuBip.play()
@@ -69,7 +69,7 @@ func appear(text: String, enable_sound = true, req_size: Vector2i = default_wind
 	elif state == State.APPEARING or state == State.DISAPPEARING:
 		return
 		
-	self.text.text = text
+	self.text.text = message
 	self.text.visible = false
 	self.text.size.x = window_size.x - 8
 	self.text.size.y = window_size.y - 16
