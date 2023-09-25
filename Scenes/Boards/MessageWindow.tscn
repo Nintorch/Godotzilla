@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://bn3se1dw6cfhu"]
+
+[ext_resource type="Script" path="res://Scripts/Boards/MessageWindow.gd" id="1_4muex"]
+[ext_resource type="Texture2D" uid="uid://wmgv6kcqcri0" path="res://Sprites/BoardSprites.png" id="1_yr4n5"]
+[ext_resource type="FontFile" uid="uid://b4bp7sni8u0il" path="res://Sprites/font2.png" id="3_qerkx"]
+[ext_resource type="AudioStream" uid="uid://cmyl7fsh4kab4" path="res://Audio/SFX/MenuBip.ogg" id="4_us2g2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qwev6"]
+line_spacing = 0.0
+
+[node name="MessageWindow" type="NinePatchRect"]
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("1_yr4n5")
+region_rect = Rect2(48, 0, 24, 24)
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+script = ExtResource("1_4muex")
+
+[node name="Text" type="Label" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 158.0
+offset_bottom = 24.0
+theme_override_fonts/font = ExtResource("3_qerkx")
+text = "text here"
+label_settings = SubResource("LabelSettings_qwev6")
+autowrap_mode = 2
+uppercase = true
+
+[node name="MenuBip" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("4_us2g2")

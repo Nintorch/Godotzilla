@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bodc65p38bitn"]
+
+[ext_resource type="FontFile" uid="uid://b4bp7sni8u0il" path="res://Sprites/font2.png" id="1_mbah8"]
+[ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="1_vjily"]
+
+[node name="RichTextLabel" type="RichTextLabel"]
+offset_right = 128.0
+offset_bottom = 8.0
+theme_override_fonts/normal_font = ExtResource("1_mbah8")
+theme_override_fonts/bold_font = ExtResource("1_vjily")
+bbcode_enabled = true
+text = "hello world"

@@ -1,0 +1,79 @@
+[gd_scene load_steps=6 format=3 uid="uid://du38sf8ro3elu"]
+
+[ext_resource type="PackedScene" uid="uid://d2do8ilhab482" path="res://Scenes/Boards/Board.tscn" id="1_6g5xa"]
+[ext_resource type="Script" path="res://Scripts/Main.gd" id="1_csd2w"]
+
+[sub_resource type="Animation" id="Animation_xmtka"]
+resource_name = "FadeIn"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fader:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(4.43828, 1, 1, 1.2394e-05),
+"update": 1,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.666667), Color(1, 1, 1, 0.333333), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_mfy1u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fader:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fader:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lb25u"]
+_data = {
+"FadeIn": SubResource("Animation_xmtka"),
+"RESET": SubResource("Animation_mfy1u")
+}
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_csd2w")
+initial_scene = ExtResource("1_6g5xa")
+
+[node name="CurrentScene" type="Node2D" parent="."]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+volume_db = -80.0
+
+[node name="Fade" type="CanvasLayer" parent="."]
+process_mode = 3
+layer = 10
+
+[node name="Fader" type="ColorRect" parent="Fade"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Fade"]
+libraries = {
+"": SubResource("AnimationLibrary_lb25u")
+}
+
+[connection signal="animation_finished" from="Fade/AnimationPlayer" to="." method="_on_animation_finished"]

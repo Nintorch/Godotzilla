@@ -1,0 +1,108 @@
+[gd_scene load_steps=5 format=3 uid="uid://bono4mu6juvo8"]
+
+[ext_resource type="Script" path="res://Scripts/HUD.gd" id="1_2xv67"]
+[ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="1_jnlnu"]
+[ext_resource type="PackedScene" uid="uid://nbd34bkxryjd" path="res://Scenes/Bar.tscn" id="3_t2v0k"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ke5ce"]
+line_spacing = 0.0
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_2xv67")
+
+[node name="BgRect" type="ColorRect" parent="."]
+offset_right = 256.0
+offset_bottom = 48.0
+color = Color(0, 0, 0, 1)
+
+[node name="PlayerCharacter" type="Node2D" parent="."]
+position = Vector2(8, 24)
+
+[node name="CharacterName" type="Label" parent="PlayerCharacter"]
+offset_right = 150.0
+offset_bottom = 8.0
+theme_override_fonts/font = ExtResource("1_jnlnu")
+text = "player"
+label_settings = SubResource("LabelSettings_ke5ce")
+uppercase = true
+
+[node name="PowerLife" type="Label" parent="PlayerCharacter"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 24.0
+theme_override_fonts/font = ExtResource("1_jnlnu")
+text = "power
+life"
+label_settings = SubResource("LabelSettings_ke5ce")
+uppercase = true
+
+[node name="Power" parent="PlayerCharacter" instance=ExtResource("3_t2v0k")]
+offset_left = 56.0
+offset_top = 8.0
+offset_right = 137.0
+offset_bottom = 16.0
+width = 6
+
+[node name="Life" parent="PlayerCharacter" instance=ExtResource("3_t2v0k")]
+offset_left = 56.0
+offset_top = 16.0
+offset_right = 137.0
+offset_bottom = 24.0
+width = 6
+color2 = Color(0.709804, 0.188235, 0.12549, 1)
+
+[node name="Level" type="Label" parent="PlayerCharacter"]
+offset_left = 168.0
+offset_right = 232.0
+offset_bottom = 8.0
+theme_override_fonts/font = ExtResource("1_jnlnu")
+text = "level 01"
+label_settings = SubResource("LabelSettings_ke5ce")
+uppercase = true
+
+[node name="LevelBar" parent="PlayerCharacter" instance=ExtResource("3_t2v0k")]
+offset_left = 168.0
+offset_top = 8.0
+offset_right = 232.0
+offset_bottom = 16.0
+style = 1
+width = 100
+initial_value = 0
+color1 = Color(0.615686, 0.196078, 0, 1)
+color2 = Color(1, 0.407843, 0.12549, 1)
+
+[node name="BossCharacter" type="Node2D" parent="."]
+visible = false
+position = Vector2(8, 48)
+
+[node name="CharacterName" type="Label" parent="BossCharacter"]
+offset_right = 150.0
+offset_bottom = 8.0
+theme_override_fonts/font = ExtResource("1_jnlnu")
+text = "boss"
+label_settings = SubResource("LabelSettings_ke5ce")
+uppercase = true
+
+[node name="PowerLife" type="Label" parent="BossCharacter"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 24.0
+theme_override_fonts/font = ExtResource("1_jnlnu")
+text = "power
+life"
+label_settings = SubResource("LabelSettings_ke5ce")
+uppercase = true
+
+[node name="Power" parent="BossCharacter" instance=ExtResource("3_t2v0k")]
+offset_left = 56.0
+offset_top = 8.0
+offset_right = 137.0
+offset_bottom = 16.0
+
+[node name="Life" parent="BossCharacter" instance=ExtResource("3_t2v0k")]
+offset_left = 56.0
+offset_top = 16.0
+offset_right = 137.0
+offset_bottom = 24.0

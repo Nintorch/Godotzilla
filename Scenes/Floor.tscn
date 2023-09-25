@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://cx8rkmxhgw3oc"]
+
+[ext_resource type="Texture2D" uid="uid://b2vt2myb2u4qi" path="res://Sprites/Levels/TestLevel/floor.png" id="1_fk1m6"]
+
+[sub_resource type="GDScript" id="GDScript_jtqjn"]
+script/source = "extends TextureRect
+
+func _ready() -> void:
+	var width = get_parent().get_node(\"Camera\").limit_right
+	size.x = width
+	$StaticBody2D/CollisionShape2D.shape.size.x = width + 100
+	$StaticBody2D/CollisionShape2D.position.x = width / 2 - 50
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ajba1"]
+size = Vector2(200, 32)
+
+[node name="Floor" type="TextureRect"]
+offset_right = 100.0
+offset_bottom = 32.0
+texture = ExtResource("1_fk1m6")
+stretch_mode = 1
+script = SubResource("GDScript_jtqjn")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -200)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 216)
+shape = SubResource("RectangleShape2D_ajba1")

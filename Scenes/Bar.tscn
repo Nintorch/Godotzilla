@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://nbd34bkxryjd"]
+
+[ext_resource type="Texture2D" uid="uid://cdqaohmcc1tj1" path="res://Sprites/hudbar.png" id="1_b8jd6"]
+[ext_resource type="Script" path="res://Scripts/Bar.gd" id="1_f4ary"]
+
+[node name="Bar" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 80.0
+offset_bottom = 8.0
+script = ExtResource("1_f4ary")
+
+[node name="Style1" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 81.0
+offset_bottom = 8.0
+
+[node name="RedBar" type="ColorRect" parent="Style1"]
+layout_mode = 0
+offset_top = 2.0
+offset_right = 8.0
+offset_bottom = 5.0
+color = Color(0.71, 0.19, 0.125, 1)
+
+[node name="BarsOutline" type="TextureRect" parent="Style1"]
+layout_mode = 0
+offset_right = 9.0
+offset_bottom = 8.0
+texture = ExtResource("1_b8jd6")
+stretch_mode = 1
+
+[node name="Style2" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 80.0
+offset_bottom = 8.0
+
+[node name="BarBG" type="ColorRect" parent="Style2"]
+layout_mode = 0
+offset_top = 1.0
+offset_right = 80.0
+offset_bottom = 6.0
+color = Color(0.431373, 0.431373, 0.431373, 1)
+
+[node name="BarColor" type="ColorRect" parent="Style2"]
+layout_mode = 0
+offset_top = 1.0
+offset_right = 64.0
+offset_bottom = 6.0
