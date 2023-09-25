@@ -15,4 +15,4 @@ Default input map is from keyboard to "NES controller" is:
 - X - A
 - Enter - Start
 - Space - Select
-- And all the input actions are accurate to the original game
+And all the input actions are accurate to the original game.
