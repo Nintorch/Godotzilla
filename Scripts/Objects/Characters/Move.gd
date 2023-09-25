@@ -1,7 +1,8 @@
 extends "res://Scripts/Objects/Characters/State.gd"
 
-# Walk state is used for characters that walk on the ground.
+# Move state is used for characters that walk on the ground.
 # This state consists of not only walking but also crouching and jumping.
+# This state also includes the movement for flying characters.
 
 var walk_frame = 0.0
 var walk_frames = 0
@@ -15,7 +16,7 @@ func state_init() -> void:
 	walk_frame_speed = 9
 
 func _process(delta: float) -> void:
-	walk(delta)
+	move(delta)
 	
 	if parent.inputs_pressed[GameCharacter.Inputs.A]:
 		parent.use_attack(GameCharacter.Attack.PUNCH)
@@ -23,7 +24,7 @@ func _process(delta: float) -> void:
 		and parent.inputs_pressed[GameCharacter.Inputs.B]:
 			parent.use_attack(GameCharacter.Attack.KICK)
 	
-func walk(delta: float):
+func move(delta: float):
 	var direction = parent.inputs[GameCharacter.Inputs.XINPUT]
 	if direction:
 		parent.velocity.x = parent.move_speed * direction

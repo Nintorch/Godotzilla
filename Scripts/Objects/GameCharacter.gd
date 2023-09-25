@@ -14,7 +14,7 @@ const CharacterNames: Array[String] = [
 # States in "States" node of the player should be
 # in the same order as in here.
 enum State {
-	WALK,
+	MOVE,
 	LEVEL_INTRO,
 	ATTACK,
 }
