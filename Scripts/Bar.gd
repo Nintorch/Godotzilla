@@ -23,12 +23,12 @@ var max_value: float = 0
 
 func _ready() -> void:
 	update_style()
-			
+
 func _process(delta: float) -> void:
 	if target_value > max_value or value > max_value:
 		target_value = max_value
 		value = max_value
-		
+
 	if int(value) != target_value:
 		value = move_toward(value, target_value, speed * delta)
 		match style:
@@ -36,7 +36,7 @@ func _process(delta: float) -> void:
 				$Style1/RedBar.size.x = int(value)
 			Style.STYLE2:
 				$Style2/BarColor.size.x = (value / max_value) * $Style2/BarBG.size.x
-		
+
 func update_style() -> void:
 	match style:
 		Style.STYLE1:
@@ -44,10 +44,12 @@ func update_style() -> void:
 			$Style1/BarsOutline.self_modulate = color1
 			$Style1/RedBar.color = color2
 			max_value = width * 8
+			
 			if initial_value < 0:
 				value = max_value
 			else:
 				value = initial_value
+				
 			$Style1/RedBar.size.x = value
 			
 		Style.STYLE2:
@@ -57,10 +59,12 @@ func update_style() -> void:
 			$Style2/BarBG.size.x = size.x
 			$Style2/BarColor.color = color2
 			max_value = width
+			
 			if initial_value < 0:
 				value = max_value
 			else:
 				value = initial_value
+				
 			$Style2/BarColor.size.x = (value / max_value) * $Style2/BarBG.size.x
-			
+
 	target_value = value

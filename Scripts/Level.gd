@@ -55,7 +55,8 @@ func next_level() -> void:
 		if level.music != music:
 			Global.music_fade_out()
 	else:
-		Global.music_fade_out()
+		if Global.board.music != music:
+			Global.music_fade_out()
 		
 	get_tree().paused = true
 	Global.fade_out()

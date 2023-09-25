@@ -4,14 +4,14 @@ extends Node2D
 @export var board_name := "The Earth"
 @export var levels: Array[PackedScene]
 
-# There are so many @onready's ;-;
 @onready var tilemap: TileMap = $Board/TileMap
 @onready var message_window: NinePatchRect = $Board/CanvasLayer/MessageWindow
 @onready var selector: Sprite2D = $Board/TileMap/Selector
 
 @onready var board_pieces = $"Board/TileMap/Board Pieces".get_children()
+# The actual playable board, the node that has this script
+# also includes the board name.
 @onready var board: Node2D = $Board
-@onready var board_name_node: Label = $BoardName/Label
 
 @onready var menubip: AudioStreamPlayer = $Board/CanvasLayer/MessageWindow/MenuBip
 
@@ -24,14 +24,13 @@ func _ready():
 	build_outline()
 	
 	Global.characters.append(GameCharacter.Type.GODZILLA)
-	Global.current_character = Global.characters[0]
 	Global.planet_levels = levels
 	
 	if board_name:
 		# Show the board name and hide the actual board for now
-		board_name_node.text = board_name
-		board_name_node.position = Global.get_default_resolution() / 2 \
-			- Vector2i(board_name_node.size) / 2
+		$BoardName/Label.text = board_name
+		$BoardName/Label.position = Global.get_default_resolution() / 2 \
+			- Vector2i($BoardName/Label.size) / 2
 		board.visible = false
 		board.process_mode = Node.PROCESS_MODE_DISABLED
 		Global.fade_in()
@@ -143,6 +142,9 @@ func start_playing() -> void:
 	await $Timer.timeout
 	
 	get_tree().paused = false
+	Global.current_character = selected_piece.piece_character
+	# We don't free the board scene so we can later return to it,
+	# hence the second false argument.
 	Global.change_scene(Global.get_next_level(), false)
 	
 # TODO: Boss' steps
@@ -151,6 +153,7 @@ func returned() -> void:
 	await $Timer.timeout
 	
 	Global.fade_in()
-	Global.play_music(music)
+	if not Global.music.playing or Global.music.stream != music:
+		Global.play_music(music)
 	selected_piece.deselect()
 	selected_piece = null

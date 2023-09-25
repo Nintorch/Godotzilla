@@ -23,6 +23,7 @@ func use(type: GameCharacter.Attack) -> void:
 			else:
 				parent.animation_player.play("Punch2")
 			parent.get_sfx("GodzillaPunch").play()
+
 		GameCharacter.Attack.KICK:
 			variation = !variation
 			if variation:
@@ -30,7 +31,7 @@ func use(type: GameCharacter.Attack) -> void:
 			else:
 				parent.animation_player.play("Kick2")
 			parent.get_sfx("GodzillaPunch").play()
-				
+
 func _on_animation_finished(anim_name: String) -> void:
 	match anim_name:
 		"Punch1", "Punch2":

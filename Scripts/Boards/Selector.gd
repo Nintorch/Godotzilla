@@ -19,11 +19,7 @@ var old_pos: Vector2
 var playing_levels: Array[int] = []
 
 func _ready():
-	# Set the position to the nearest cell
-	var pos: Vector2i = position / 32
-	position = pos * 32
-	position.x += 16
-	position.y += 9 if pos.x % 2 == 1 else 25
+	position = map_to_tilemap(position)
 	old_pos = Vector2(position)
 
 func _process(delta: float):
@@ -50,10 +46,12 @@ func is_stopped():
 func stop():
 	speed.x = 0
 	speed.y = 0
+	
+func map_to_tilemap(pos: Vector2, tm: TileMap = tilemap) -> Vector2:
+	return tm.map_to_local(tm.local_to_map(pos)) - Vector2(0, 7)
 
 func adjust_pos():
-	position.x = old_pos.x + speed.x * 16
-	position.y = old_pos.y + speed.y * 16
+	position = map_to_tilemap(position)
 	old_pos = Vector2(position)
 	
 	if board.selected_piece:
@@ -99,12 +97,7 @@ func next_hex():
 			stop()
 	
 func get_cell_pos(pos: Vector2) -> Vector2i:
-	var res: Vector2i = pos / 32
-	if pos.x < 0:
-		res.x = -1
-	if pos.y < 0:
-		res.y = -1
-	return res
+	return tilemap.local_to_map(pos)
 	
 func cell_from_pos(pos: Vector2i) -> Vector2i:
 	return tilemap.get_cell_atlas_coords(1, pos)

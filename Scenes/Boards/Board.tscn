@@ -61,15 +61,14 @@ layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array(0, 65536, 0, 65536, 65536, 0, 131072, 65536, 0, 65537, 65536, 0, 131073, 65536, 0, 196609, 65536, 0, 262145, 65536, 0, 2, 65536, 0, 65538, 65536, 0, 196610, 65536, 0, 262146, 65536, 0, 131074, 131072, 0, 65539, 65536, 0, 131075, 65536, 0, 262147, 262144, 0, 327683, 262144, 0, 65540, 65536, 0, 196612, 65536, 0, 327684, 65536, 0, 327685, 196608, 0, 262149, 131072, 0, 262150, 196608, 0, 196614, 65536, 0, 327686, 196608, 0, 262148, 131072, 0, 131076, 131072, 0, 131077, 131072, 0, 196613, 65536, 0)
 
 [node name="Board Pieces" type="Node2D" parent="Board/TileMap"]
-position = Vector2(-16, 0)
 
 [node name="Godzilla" parent="Board/TileMap/Board Pieces" instance=ExtResource("6_yu6su")]
-position = Vector2(96, 56)
+position = Vector2(80, 56)
 scale = Vector2(-1, 1)
 piece_type = 1
 
 [node name="Godzilla2" parent="Board/TileMap/Board Pieces" instance=ExtResource("6_yu6su")]
-position = Vector2(32, 24)
+position = Vector2(16, 24)
 
 [node name="Selector" parent="Board/TileMap" instance=ExtResource("4_73gdn")]
 position = Vector2(16, 24)

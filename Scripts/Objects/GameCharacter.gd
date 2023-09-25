@@ -20,6 +20,7 @@ enum State {
 }
 
 enum Attack {
+	# Attacks that are common for ground characters
 	PUNCH,
 	KICK,
 	
@@ -34,16 +35,19 @@ var state = State.LEVEL_INTRO
 var character = GameCharacter.Type.GODZILLA
 var move_speed = 0.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var hp = 6 * 8 # 6 bars
+var hp = 6 * 8  # 6 bars
 var level = 1
 var direction = 1
 
 var body: AnimatedSprite2D
 var animation_player: AnimationPlayer
 
+# This is done so the bosses and players use the same script
+# and allowing to play as bosses and test their attacks.
 enum Inputs {
 	XINPUT, YINPUT, B, A, START, SELECT,
-	COUNT,
+	
+	COUNT,  # Not an input action but just a constant
 }
 
 var inputs := []
@@ -51,14 +55,18 @@ var inputs_pressed := []
 var has_input := true
 const INPUT_ACTIONS = [["Left", "Right"], ["Up", "Down"], "B", "A", "Start", "Select"]
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# We don't set the player reference to the current character
+	# in case if it doesn't have input (it's most likely a boss).
 	if has_input:
 		Global.player = self
 	
-	for i in Inputs.COUNT:
-		inputs.append(0)
-		inputs_pressed.append(0)
+	inputs.resize(Inputs.COUNT)
+	inputs_pressed.resize(Inputs.COUNT)
+	
+	# Several default values
+	move_speed = 1 * 60
+	position.x = -40
 	
 	# GameCharacter-specific setup
 	var skin: Node2D
@@ -83,11 +91,6 @@ func _ready() -> void:
 	body = $Skin/Body
 	animation_player = $Skin/AnimationPlayer
 	
-	move_speed = 1 * 60
-	
-	if position.x == 0:
-		position.x = -40
-		
 	for i in states_list:
 		var enable = i == states_list[state]
 		i.set_process(enable)
@@ -99,18 +102,19 @@ func _ready() -> void:
 			i.state_entered()
 		
 func _physics_process(delta: float) -> void:
-	if state != State.LEVEL_INTRO \
-		and position.x <= Global.camera.limit_left + 16 and velocity.x < 0:
+	# The character should come from outside the camera from the left side
+	# of the screen, so we shouldn't limit the position unless the player
+	# got control of the character.
+	if state != State.LEVEL_INTRO and velocity.x < 0 \
+		and position.x <= Global.camera.limit_left + 16:
 		position.x = Global.camera.limit_left + 16
 		velocity.x = 0
-				
+
 	if not is_on_floor():
 		velocity.y += gravity * delta
-				
+
 	move_and_slide()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	process_input()
 	get_life_bar().target_value = hp

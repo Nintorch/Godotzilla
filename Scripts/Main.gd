@@ -7,7 +7,7 @@ func _ready() -> void:
 	Global.music = $Music
 	$CurrentScene.add_child(initial_scene.instantiate())
 	
-	$Fade/Fader.size = Global.get_content_size()
+	on_widescreen_change()
 	$Fade/Fader.modulate.a = 0
 	
 	scene_changed()
@@ -29,3 +29,6 @@ func scene_changed() -> void:
 			Global.get_content_size().x) / 2
 	else:
 		$CurrentScene.position.x = 0
+		
+func on_widescreen_change() -> void:
+	$Fade/Fader.size = Global.get_content_size()

@@ -8,6 +8,7 @@ const PIECE_STEPS = [
 	2, # Godzilla
 	4, # Mothra
 ]
+const FRAME_COUNT = 3  # White piece and 2 colored walking sprites
 
 var tilemap: TileMap
 var selector
@@ -29,9 +30,7 @@ func _ready() -> void:
 	selector = $"../../Selector"
 	
 	# Adjust position
-	var pos = (position / 32).round()
-	position = pos * 32
-	position.y += -7 if int(pos.x) % 2 == 1 else 9
+	position = selector.map_to_tilemap(position, tilemap)
 	init_pos = position
 	
 	steps = PIECE_STEPS[piece_character]
@@ -45,16 +44,18 @@ func _process(_delta: float) -> void:
 		global_position = selector.global_position
 
 func update_frame() -> void:
-	var value = (piece_character + 1) * 3 + piece_frame
+	# + 1 to skip the top row of the spritesheet (non-character sprites for boards)
+	var value = (piece_character + 1) * FRAME_COUNT + piece_frame
 	if value < (hframes * vframes):
 		frame = value
+	
+	# Face the left direction if it's a boss
 	scale.x = 1 if piece_type == 0 else -1
 
 func get_cell_pos() -> Vector2i:
 	if Engine.is_editor_hint():
 		return Vector2i.ZERO
-	var pos = position - tilemap.position
-	return selector.get_cell_pos(pos)
+	return selector.get_cell_pos(position)
 
 func hide_cell_below() -> void:
 	if Engine.is_editor_hint():
@@ -70,25 +71,32 @@ func show_cell_below() -> void:
 
 func select() -> void:
 	selected = true
+	
 	piece_frame = 1
 	update_frame()
+	
 	selector.visible = false
 	show_cell_below()
 	
 func deselect() -> void:
 	selected = false
+	
 	piece_frame = 0
 	update_frame()
+	
 	selector.visible = true
 	selector.reset_playing_levels()
+	
 	position = init_pos
 	hide_cell_below()
 	
 func prepare_start() -> void:
 	init_pos = position
 	selected = false
+	
 	piece_frame = 0
 	update_frame()
+	
 	hide_cell_below()
 	
 func is_player() -> bool:
