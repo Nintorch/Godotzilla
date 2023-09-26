@@ -29,7 +29,7 @@ func _process(delta: float) -> void:
 		target_value = max_value
 		value = max_value
 
-	if int(value) != target_value:
+	if value != target_value:
 		value = move_toward(value, target_value, speed * delta)
 		match style:
 			Style.STYLE1:

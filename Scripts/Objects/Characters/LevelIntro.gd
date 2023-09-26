@@ -19,10 +19,7 @@ func _process(delta: float) -> void:
 		parent.body.frame = int(move_state.walk_frame)
 		
 		if not Global.music.playing:
-			timer += delta
-			const step_delay = 0.5
-			if timer > step_delay:
-				timer -= step_delay
+			if Engine.get_physics_frames() % 30 == 0:
 				sfx_step.play()
 			
 	if parent.position.x > 64:

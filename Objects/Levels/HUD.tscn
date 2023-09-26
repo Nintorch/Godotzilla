@@ -19,7 +19,7 @@ color = Color(0, 0, 0, 1)
 position = Vector2(8, 24)
 
 [node name="CharacterName" type="Label" parent="PlayerCharacter"]
-offset_right = 150.0
+offset_right = 104.0
 offset_bottom = 8.0
 theme_override_fonts/font = ExtResource("1_jnlnu")
 text = "player"
@@ -51,6 +51,16 @@ offset_right = 137.0
 offset_bottom = 24.0
 width = 6
 color2 = Color(0.709804, 0.188235, 0.12549, 1)
+
+[node name="ScoreMeter" type="Label" parent="PlayerCharacter"]
+offset_left = 104.0
+offset_right = 152.0
+offset_bottom = 8.0
+theme_override_fonts/font = ExtResource("1_jnlnu")
+text = "0"
+label_settings = SubResource("LabelSettings_ke5ce")
+horizontal_alignment = 2
+uppercase = true
 
 [node name="Level" type="Label" parent="PlayerCharacter"]
 offset_left = 168.0

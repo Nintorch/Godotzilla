@@ -18,6 +18,15 @@ func state_init() -> void:
 func _process(delta: float) -> void:
 	move(delta)
 	
+	# Attacks
+	match parent.character:
+		GameCharacter.Type.GODZILLA:
+			common_ground_attacks()
+			if parent.animation_player.current_animation == "Crouch" \
+				and parent.inputs_pressed[GameCharacter.Inputs.B]:
+					parent.use_attack(GameCharacter.Attack.TAIL_WHIP)
+	
+func common_ground_attacks() -> void:
 	if parent.inputs_pressed[GameCharacter.Inputs.A]:
 		parent.use_attack(GameCharacter.Attack.PUNCH)
 	if parent.animation_player.current_animation != "Crouch" \

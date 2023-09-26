@@ -15,6 +15,7 @@ var selector
 
 var init_pos
 var piece_frame := 0
+var walk_frame := 0.0
 var tile_below := Vector2i(-1, -1)
 var selected = false
 var steps := 0
@@ -39,9 +40,19 @@ func _ready() -> void:
 	await get_tree().process_frame
 	hide_cell_below()
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if selected:
 		global_position = selector.global_position
+		
+		match piece_character:
+			GameCharacter.Type.GODZILLA:
+				if not selector.is_stopped():
+					# Switch frame every 0.2 of a second
+					walk_frame += delta / 0.2
+					if walk_frame >= 2:
+						walk_frame -= 2
+					piece_frame = 1 + walk_frame
+					update_frame()
 
 func update_frame() -> void:
 	# + 1 to skip the top row of the spritesheet (non-character sprites for boards)
@@ -73,6 +84,7 @@ func select() -> void:
 	selected = true
 	
 	piece_frame = 1
+	walk_frame = 0.0
 	update_frame()
 	
 	selector.visible = false

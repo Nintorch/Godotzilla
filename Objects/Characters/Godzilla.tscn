@@ -1,11 +1,13 @@
-[gd_scene load_steps=43 format=3 uid="uid://m84defn1thau"]
+[gd_scene load_steps=54 format=3 uid="uid://m84defn1thau"]
 
 [ext_resource type="Texture2D" uid="uid://c3qwhre32yggp" path="res://Sprites/Characters/Godzilla/walk_body.png" id="1_3sn8y"]
 [ext_resource type="Texture2D" uid="uid://c8vjp0lgjim3x" path="res://Sprites/Characters/Godzilla/crouch.png" id="1_7wdfd"]
+[ext_resource type="Texture2D" uid="uid://c7slof73fr1l6" path="res://Sprites/Characters/Godzilla/hurt.png" id="2_0y6ho"]
 [ext_resource type="Texture2D" uid="uid://huytihc5bj4n" path="res://Sprites/Characters/Godzilla/walk_head.png" id="2_rmc0n"]
 [ext_resource type="Texture2D" uid="uid://dr7cjajoy0wya" path="res://Sprites/Characters/Godzilla/kick1.png" id="2_s7teb"]
 [ext_resource type="Texture2D" uid="uid://bhjsxj2v3ms7" path="res://Sprites/Characters/Godzilla/punch1.png" id="3_64613"]
 [ext_resource type="Texture2D" uid="uid://b3aqq06ew63k8" path="res://Sprites/Characters/Godzilla/kick2.png" id="3_vxmse"]
+[ext_resource type="Texture2D" uid="uid://bsu6rokyd5rmu" path="res://Sprites/Characters/Godzilla/tail_whip.png" id="4_3ah1i"]
 [ext_resource type="Texture2D" uid="uid://cp7yo85faut6q" path="res://Sprites/Characters/Godzilla/punch2.png" id="4_7jbwm"]
 
 [sub_resource type="GDScript" id="GDScript_5gjb6"]
@@ -36,6 +38,22 @@ func _on_animation_changed(old_name: StringName, new_name: StringName) -> void:
 	collision.position.y = -0.5 + (55 - collision.shape.size.y) / 2
 "
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_jjucf"]
+atlas = ExtResource("2_0y6ho")
+region = Rect2(0, 0, 84, 71)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7oqp"]
+atlas = ExtResource("2_0y6ho")
+region = Rect2(84, 0, 84, 71)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aj42x"]
+atlas = ExtResource("2_0y6ho")
+region = Rect2(168, 0, 84, 71)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l424g"]
+atlas = ExtResource("2_0y6ho")
+region = Rect2(252, 0, 84, 71)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_gjs8t"]
 atlas = ExtResource("2_s7teb")
 region = Rect2(0, 0, 86, 67)
@@ -51,6 +69,18 @@ region = Rect2(0, 0, 86, 67)
 [sub_resource type="AtlasTexture" id="AtlasTexture_mgkah"]
 atlas = ExtResource("3_vxmse")
 region = Rect2(86, 0, 86, 67)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tq1te"]
+atlas = ExtResource("4_3ah1i")
+region = Rect2(0, 0, 93, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u63gd"]
+atlas = ExtResource("4_3ah1i")
+region = Rect2(93, 0, 93, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6wexl"]
+atlas = ExtResource("4_3ah1i")
+region = Rect2(186, 0, 93, 53)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_831hn"]
 atlas = ExtResource("1_3sn8y")
@@ -96,6 +126,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_jjucf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u7oqp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aj42x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l424g")
+}],
+"loop": true,
+"name": &"Hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_gjs8t")
 }, {
 "duration": 1.0,
@@ -114,6 +161,20 @@ animations = [{
 }],
 "loop": true,
 "name": &"Kick2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tq1te")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u63gd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6wexl")
+}],
+"loop": true,
+"name": &"TailWhip",
 "speed": 5.0
 }, {
 "frames": [{
@@ -550,6 +611,18 @@ tracks/5/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Body:frame")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_nf0ex"]
 resource_name = "Walk"
@@ -578,14 +651,122 @@ tracks/1/keys = {
 "values": [&"Walk"]
 }
 
+[sub_resource type="Animation" id="Animation_57mnw"]
+resource_name = "TailWhip"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"TailWhip"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body/Head:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(27, -8)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_l466n"]
+resource_name = "Hurt"
+length = 0.6
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Hurt"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body/Head:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2.5, -15)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_m5kek"]
 _data = {
 "Crouch": SubResource("Animation_gbymh"),
+"Hurt": SubResource("Animation_l466n"),
 "Kick1": SubResource("Animation_pvo27"),
 "Kick2": SubResource("Animation_lycjq"),
 "Punch1": SubResource("Animation_nvyyh"),
 "Punch2": SubResource("Animation_kl1fp"),
 "RESET": SubResource("Animation_r5asl"),
+"TailWhip": SubResource("Animation_57mnw"),
 "Walk": SubResource("Animation_nf0ex")
 }
 

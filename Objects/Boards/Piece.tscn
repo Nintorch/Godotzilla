@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://wmgv6kcqcri0" path="res://Sprites/BoardSprites.png" id="1_vlmlk"]
 [ext_resource type="Script" path="res://Scripts/Objects/Boards/Piece.gd" id="2_f5xfm"]
 
-[node name="Godzilla" type="Sprite2D"]
+[node name="Piece" type="Sprite2D"]
 position = Vector2(0, 9)
 texture = ExtResource("1_vlmlk")
 hframes = 3

@@ -12,8 +12,11 @@ func _process(delta: float) -> void:
 
 func use(type: GameCharacter.Attack) -> void:
 	parent.set_state(GameCharacter.State.ATTACK)
-	parent.animation_player.play("RESET")
-	await get_tree().process_frame
+	
+	match type:
+		GameCharacter.Attack.PUNCH, GameCharacter.Attack.KICK:
+			parent.animation_player.play("RESET")
+			await get_tree().process_frame
 	
 	match type:
 		GameCharacter.Attack.PUNCH:
@@ -22,7 +25,7 @@ func use(type: GameCharacter.Attack) -> void:
 				parent.animation_player.play("Punch1")
 			else:
 				parent.animation_player.play("Punch2")
-			parent.get_sfx("GodzillaPunch").play()
+			parent.get_sfx("Punch").play()
 
 		GameCharacter.Attack.KICK:
 			variation = !variation
@@ -30,7 +33,10 @@ func use(type: GameCharacter.Attack) -> void:
 				parent.animation_player.play("Kick1")
 			else:
 				parent.animation_player.play("Kick2")
-			parent.get_sfx("GodzillaPunch").play()
+			parent.get_sfx("Punch").play()
+			
+		GameCharacter.Attack.TAIL_WHIP:
+			parent.animation_player.play("TailWhip")
 
 func _on_animation_finished(anim_name: String) -> void:
 	match anim_name:
@@ -40,4 +46,11 @@ func _on_animation_finished(anim_name: String) -> void:
 		"Kick1", "Kick2":
 			move_state.walk_frame = 0
 			parent.animation_player.play("RESET")
+			parent.set_state(GameCharacter.State.MOVE)
+		"TailWhip":
+			move_state.walk_frame = 0
+			if parent.inputs[GameCharacter.Inputs.YINPUT] > 0:
+				parent.animation_player.play("Crouch")
+			else:
+				parent.animation_player.play("RESET")
 			parent.set_state(GameCharacter.State.MOVE)

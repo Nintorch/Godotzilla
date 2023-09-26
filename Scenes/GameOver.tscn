@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://chlit8t7aajq7"]
+
+[ext_resource type="Script" path="res://Scripts/GameOver.gd" id="1_43hv7"]
+[ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="1_u30ip"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1gnhd"]
+line_spacing = 0.0
+
+[node name="GameOver" type="Node2D"]
+script = ExtResource("1_43hv7")
+
+[node name="CharacterName" type="Label" parent="."]
+offset_left = 88.0
+offset_top = 112.0
+offset_right = 160.0
+offset_bottom = 120.0
+theme_override_fonts/font = ExtResource("1_u30ip")
+text = "game  over"
+label_settings = SubResource("LabelSettings_1gnhd")
+horizontal_alignment = 1
+uppercase = true

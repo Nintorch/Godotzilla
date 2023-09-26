@@ -16,6 +16,8 @@ const CharacterNames: Array[String] = [
 enum State {
 	MOVE,
 	LEVEL_INTRO,
+	HURT,
+	DEAD,
 	ATTACK,
 }
 
@@ -25,8 +27,8 @@ enum Attack {
 	KICK,
 	
 	# Godzilla attacks
-	HEAT_BEAM,
 	TAIL_WHIP,
+	HEAT_BEAM,
 }
 
 @onready var states_list: Array[Node] = $States.get_children()
@@ -35,7 +37,6 @@ var state = State.LEVEL_INTRO
 var character = GameCharacter.Type.GODZILLA
 var move_speed = 0.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var hp = 6 * 8  # 6 bars
 var level = 1
 var direction = 1
 
@@ -110,15 +111,21 @@ func _physics_process(delta: float) -> void:
 		position.x = Global.camera.limit_left + 16
 		velocity.x = 0
 
-	if not is_on_floor():
+	if state != State.DEAD and not is_on_floor():
 		velocity.y += gravity * delta
 
 	move_and_slide()
 
 func _process(_delta: float) -> void:
 	process_input()
-	get_life_bar().target_value = hp
-	Global.level.get_HUD().set_player_level(level)
+	set_level(level)
+	
+	if Engine.get_physics_frames() % 20 == 0 \
+		and get_power_bar().target_value < get_power_bar().max_value:
+		get_power_bar().target_value += 1.0
+		
+	if get_life_bar().value <= 0:
+		set_state(State.DEAD)
 	
 func process_input() -> void:
 	if has_input:
@@ -156,6 +163,37 @@ func get_power_bar():
 	
 func get_life_bar():
 	return Global.level.get_HUD().get_node("PlayerCharacter/Life")
+	
+func set_level(value: int) -> void:
+	if not has_input:
+		return
+	level = value
+	var level_str = str(level)
+	if level_str.length() < 2:
+		level_str = "0" + level_str
+	Global.level.get_HUD().get_node("PlayerCharacter/Level").text = "level " + level_str
+	
+# TODO: damage time
+func damage(amount: int, hurt_anim := true) -> void:
+	if not is_hurtable():
+		return
+	get_life_bar().target_value -= amount
+	if get_life_bar().target_value <= 0:
+		get_life_bar().target_value = 0
+	if hurt_anim:
+		set_state(State.HURT)
+		
+func is_hurtable() -> bool:
+	match state:
+		State.LEVEL_INTRO, State.HURT, State.DEAD:
+			return false
+	return true
+		
+func use_power(amount: int) -> bool:
+	if get_power_bar().target_value < amount:
+		return false
+	get_power_bar().target_value -= amount
+	return true
 	
 func get_sfx(sfx_name: String) -> AudioStreamPlayer:
 	return get_node("SFX/" + sfx_name)
