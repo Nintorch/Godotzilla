@@ -9,7 +9,9 @@ var walk_frames = 0
 var walk_frame_speed = 0
 
 var jumping = false
-var jump_speed = -2 * 60
+
+# -1.99 is a bit more close to the original game than -2...
+const JUMP_SPEED = -1.99 * 60
 
 func state_init() -> void:
 	walk_frames = parent.body.sprite_frames.get_frame_count("Walk")
@@ -48,7 +50,7 @@ func move(delta: float):
 	var up_down = parent.inputs[GameCharacter.Inputs.YINPUT]
 	
 	if parent.is_on_floor() and up_down < 0:
-		parent.velocity.y = jump_speed
+		parent.velocity.y = JUMP_SPEED
 		jumping = true
 	
 	if not parent.is_on_floor() and jumping:

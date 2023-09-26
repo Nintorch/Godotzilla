@@ -79,6 +79,7 @@ func hide_cell_below() -> void:
 	
 func show_cell_below() -> void:
 	tilemap.set_cell(1, get_cell_pos(), 0, tile_below)
+	tile_below = Vector2i(-1, -1)
 
 func select() -> void:
 	selected = true
@@ -110,6 +111,12 @@ func prepare_start() -> void:
 	update_frame()
 	
 	hide_cell_below()
+	
+# Called after prepare_start()
+func remove() -> void:
+	selector.visible = true
+	show_cell_below()
+	queue_free()
 	
 func is_player() -> bool:
 	return piece_type == 0

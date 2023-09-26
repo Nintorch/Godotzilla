@@ -64,11 +64,6 @@ layer_1/tile_data = PackedInt32Array(0, 65536, 0, 65536, 65536, 0, 131072, 65536
 [node name="Board Pieces" type="Node2D" parent="Board/TileMap"]
 
 [node name="Godzilla" parent="Board/TileMap/Board Pieces" instance=ExtResource("6_yu6su")]
-position = Vector2(80, 56)
-scale = Vector2(-1, 1)
-piece_type = 1
-
-[node name="Godzilla2" parent="Board/TileMap/Board Pieces" instance=ExtResource("6_yu6su")]
 position = Vector2(16, 24)
 
 [node name="Selector" parent="Board/TileMap" instance=ExtResource("4_73gdn")]

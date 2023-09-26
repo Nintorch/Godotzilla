@@ -155,5 +155,20 @@ func returned() -> void:
 	Global.fade_in()
 	if not Global.music.playing or Global.music.stream != music:
 		Global.play_music(music)
-	selected_piece.deselect()
-	selected_piece = null
+	if selected_piece:
+		selected_piece.deselect()
+		selected_piece = null
+
+func get_player_pieces() -> Array[Node2D]:
+	var ret: Array[Node2D] = []
+	for p in board_pieces:
+		if p.is_player():
+			ret.append(p)
+	return ret
+	
+func get_boss_pieces() -> Array[Node2D]:
+	var ret: Array[Node2D] = []
+	for p in board_pieces:
+		if not p.is_player():
+			ret.append(p)
+	return ret

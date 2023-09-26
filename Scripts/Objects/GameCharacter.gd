@@ -152,7 +152,7 @@ func set_state(new_state: State) -> void:
 	old_state_node.disable()
 	new_state_node.enable()
 	new_state_node.state_entered()
-		
+	
 	state = new_state
 	
 func use_attack(type: Attack):
@@ -173,14 +173,15 @@ func set_level(value: int) -> void:
 		level_str = "0" + level_str
 	Global.level.get_HUD().get_node("PlayerCharacter/Level").text = "level " + level_str
 	
-# TODO: damage time
-func damage(amount: int, hurt_anim := true) -> void:
+# time is in seconds
+func damage(amount: int, time := 0.6) -> void:
 	if not is_hurtable():
 		return
 	get_life_bar().target_value -= amount
 	if get_life_bar().target_value <= 0:
 		get_life_bar().target_value = 0
-	if hurt_anim:
+	if time > 0.0:
+		$States/Hurt.hurt_time = time
 		set_state(State.HURT)
 		
 func is_hurtable() -> bool:
