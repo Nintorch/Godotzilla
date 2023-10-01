@@ -11,6 +11,7 @@ func _ready() -> void:
 	Global.board.queue_free()
 	
 func _process(delta: float) -> void:
+	# TODO: better action pressed checking
 	if Input.is_anything_pressed():
 		finish()
 	

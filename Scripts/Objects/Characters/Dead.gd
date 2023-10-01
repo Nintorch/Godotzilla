@@ -1,7 +1,5 @@
 extends "res://Scripts/Objects/Characters/State.gd"
 
-const Explosion = preload("res://Objects/Explosion.tscn")
-
 func state_entered() -> void:
 	Global.play_music(preload("res://Audio/Soundtrack/PlayerDeath.ogg"))
 	parent.collision_mask = 0
@@ -27,6 +25,6 @@ func state_entered() -> void:
 	
 func _process(delta: float) -> void:
 	if Engine.get_physics_frames() % 5 == 0:
-		var explosion = Explosion.instantiate()
+		var explosion = Explosion.new()
 		explosion.global_position = parent.global_position
 		add_child(explosion)

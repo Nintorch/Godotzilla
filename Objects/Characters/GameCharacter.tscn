@@ -42,11 +42,15 @@ script = ExtResource("5_gtijs")
 [node name="SFX" type="Node" parent="."]
 
 [node name="Step" type="AudioStreamPlayer" parent="SFX"]
+bus = &"SFX"
 
 [node name="Roar" type="AudioStreamPlayer" parent="SFX"]
+bus = &"SFX"
 
 [node name="Punch" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("7_340gx")
+bus = &"SFX"
 
 [node name="Hurt" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("8_byldf")
+bus = &"SFX"

@@ -30,11 +30,6 @@ script = ExtResource("1_t4bq6")
 board_name = ""
 levels = Array[PackedScene]([ExtResource("2_dqcpd"), ExtResource("2_dqcpd")])
 
-[node name="Timer" type="Timer" parent="."]
-process_mode = 3
-wait_time = 2.0
-autostart = true
-
 [node name="BoardName" type="Node2D" parent="."]
 
 [node name="Label" type="Label" parent="BoardName"]

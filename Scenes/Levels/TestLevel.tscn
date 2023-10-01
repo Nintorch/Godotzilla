@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c0ixfjb2bb5p5" path="res://Sprites/Levels/TestLevel/sky.png" id="2_pf85l"]
 [ext_resource type="Texture2D" uid="uid://d3vfgcp31ia42" path="res://Sprites/Levels/TestLevel/hills.png" id="3_jpb5c"]
 [ext_resource type="PackedScene" uid="uid://cx8rkmxhgw3oc" path="res://Objects/Levels/Floor.tscn" id="4_sgkst"]
-[ext_resource type="PackedScene" uid="uid://bdedrxocj46sr" path="res://Objects/Levels/GameCharacter.tscn" id="5_w2dec"]
+[ext_resource type="PackedScene" uid="uid://bdedrxocj46sr" path="res://Objects/Characters/GameCharacter.tscn" id="5_w2dec"]
 [ext_resource type="PackedScene" uid="uid://bono4mu6juvo8" path="res://Objects/Levels/HUD.tscn" id="6_txm6d"]
 
 [node name="Level" type="Node2D"]

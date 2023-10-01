@@ -34,12 +34,13 @@ func _ready():
 		board.visible = false
 		board.process_mode = Node.PROCESS_MODE_DISABLED
 		Global.fade_in()
+		await Global.fade_end
 		
-		# Wait until the timer ends and fade out
-		await $Timer.timeout
+		# Show the board name for some time
+		await get_tree().create_timer(2).timeout
+		
+		# ..and then fade out and show the board
 		Global.fade_out()
-		
-		# Wait until the fade out ends and show the board
 		await Global.fade_end
 		
 	$BoardName.visible = false
@@ -131,15 +132,13 @@ func boss_hp_str(hp: float) -> String:
 func start_playing() -> void:
 	get_tree().paused = true
 	
-	$Timer.start(0.5)
-	await $Timer.timeout
+	await get_tree().create_timer(0.5).timeout
 	
 	Global.music_fade_out()
 	Global.fade_out()
 	await Global.fade_end
 	
-	$Timer.start(0.5)
-	await $Timer.timeout
+	await get_tree().create_timer(0.5).timeout
 	
 	get_tree().paused = false
 	Global.current_character = selected_piece.piece_character
@@ -149,8 +148,7 @@ func start_playing() -> void:
 	
 # TODO: Boss' steps
 func returned() -> void:
-	$Timer.start(0.5)
-	await $Timer.timeout
+	await get_tree().create_timer(0.5).timeout
 	
 	Global.fade_in()
 	if not Global.music.playing or Global.music.stream != music:

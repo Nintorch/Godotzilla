@@ -38,7 +38,7 @@ func use_widescreen(flag: bool) -> void:
 	if flag:
 		size.x = ProjectSettings.get_setting("display/window/size/viewport_width_widescreen")
 	get_tree().get_root().content_scale_size = size
-	emit_signal("widescreen_changed")
+	widescreen_changed.emit()
 	
 func get_content_size() -> Vector2i:
 	return get_tree().get_root().content_scale_size

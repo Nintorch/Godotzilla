@@ -34,11 +34,12 @@ enum Attack {
 @onready var states_list: Array[Node] = $States.get_children()
 var state = State.LEVEL_INTRO
 
-var character = GameCharacter.Type.GODZILLA
-var move_speed = 0.0
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var level = 1
-var direction = 1
+var character := GameCharacter.Type.GODZILLA
+var move_speed := 0.0
+var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
+var level := 1
+var direction := 1
+var score := 0
 
 var body: AnimatedSprite2D
 var animation_player: AnimationPlayer
@@ -51,9 +52,12 @@ enum Inputs {
 	COUNT,  # Not an input action but just a constant
 }
 
+# Check if the character can be controlled by the player,
+# if not, then that's probably not the player character and therefore
+# cannot change any player's HUD properties.
+var has_input := true
 var inputs := []
 var inputs_pressed := []
-var has_input := true
 const INPUT_ACTIONS = [["Left", "Right"], ["Up", "Down"], "B", "A", "Start", "Select"]
 
 func _ready() -> void:
@@ -76,6 +80,7 @@ func _ready() -> void:
 			skin = preload("res://Objects/Characters/Godzilla.tscn").instantiate()
 			get_sfx("Step").stream = load("res://Audio/SFX/GodzillaStep.ogg")
 			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.wav")
+			
 			# We set the character-specific position so when the character
 			# walks in a sudden frame change won't happen
 			# (walk_frame is set to 0 when the characters gets control)
@@ -93,14 +98,12 @@ func _ready() -> void:
 	animation_player = $Skin/AnimationPlayer
 	
 	for i in states_list:
-		var enable = i == states_list[state]
-		i.set_process(enable)
-		i.set_physics_process(enable)
-		i.set_process_input(enable)
-		
 		i.state_init()
-		if enable:
+		if i == states_list[state]:
+			i.enable()
 			i.state_entered()
+		else:
+			i.disable()
 		
 func _physics_process(delta: float) -> void:
 	# The character should come from outside the camera from the left side
@@ -171,7 +174,8 @@ func set_level(value: int) -> void:
 	var level_str = str(level)
 	if level_str.length() < 2:
 		level_str = "0" + level_str
-	Global.level.get_HUD().get_node("PlayerCharacter/Level").text = "level " + level_str
+	Global.level.get_HUD().get_node("PlayerCharacter/Level").text = \
+		"level " + level_str
 	
 # time is in seconds
 func damage(amount: int, time := 0.6) -> void:
@@ -195,6 +199,14 @@ func use_power(amount: int) -> bool:
 		return false
 	get_power_bar().target_value -= amount
 	return true
+	
+# Pass 0 to update the score meter
+func add_score(amount: int) -> void:
+	var score_meter: Label = \
+		Global.level.get_HUD().get_node("PlayerCharacter/ScoreMeter")
+	score += amount
+	if has_input:
+		score_meter.text = str(score)
 	
 func get_sfx(sfx_name: String) -> AudioStreamPlayer:
 	return get_node("SFX/" + sfx_name)

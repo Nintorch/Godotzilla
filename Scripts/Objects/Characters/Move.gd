@@ -10,12 +10,14 @@ var walk_frame_speed = 0
 
 var jumping = false
 
-# -1.99 is a bit more close to the original game than -2...
-const JUMP_SPEED = -1.99 * 60
+const JUMP_SPEED = -2 * 60
 
 func state_init() -> void:
 	walk_frames = parent.body.sprite_frames.get_frame_count("Walk")
-	walk_frame_speed = 9
+	
+	match parent.character:
+		GameCharacter.Type.GODZILLA:
+			walk_frame_speed = 9
 
 func _process(delta: float) -> void:
 	move(delta)

@@ -34,3 +34,4 @@ uppercase = true
 [node name="MenuBip" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("4_us2g2")
+bus = &"SFX"

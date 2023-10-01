@@ -1,8 +1,15 @@
+class_name Explosion
 extends Sprite2D
+
+# TODO: make this script-only object
 
 var velocity: Vector2
 
 func _ready() -> void:
+	texture = preload("res://Sprites/explosion.png")
+	hframes = 2
+	vframes = 1
+	
 	# From -2 to 2
 	velocity = Vector2(-2 + randi() % 5, -2 + randi() % 5) * 60
 
