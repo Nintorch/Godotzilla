@@ -10,9 +10,17 @@ script/source = "extends \"res://Scripts/Menu.gd\"
 
 func menu_select(id: int) -> void:
 	match id:
-		2:
+		0: # New Game
+			main_menu.change_scene(preload(\"res://Scenes/Boards/Board.tscn\"))
+		2: # Settings
 			main_menu.set_menu($\"../Settings\")
-		3:
+		3: # Exit
+			get_tree().paused = true
+			Global.fade_out()
+			
+			await Global.fade_end
+			await get_tree().create_timer(0.25).timeout
+			
 			get_tree().quit()
 "
 
@@ -105,7 +113,7 @@ func menu_process(_delta: float) -> void:
 				update_music_volume()
 				
 func update_sfx_volume() -> void:
-	$OptSFXVolume.text = \"sfx volume: \" + str(sfx_volume)
+	$OptSFXVolume.text = \"sfx volume:   \" + str(sfx_volume)
 	AudioServer.set_bus_volume_db(1, (sfx_volume - 100) * 0.5)
 	sfx_test.bus = \"SFX\"
 	sfx_test.play()
@@ -144,27 +152,27 @@ uppercase = true
 
 [node name="OptPassword" type="Label" parent="MenuMain"]
 offset_left = 72.0
-offset_top = 96.0
-offset_right = 136.0
-offset_bottom = 107.0
+offset_top = 104.0
+offset_right = 184.0
+offset_bottom = 115.0
 theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "pass word game"
 uppercase = true
 
 [node name="OptSettings" type="Label" parent="MenuMain"]
 offset_left = 72.0
-offset_top = 112.0
+offset_top = 128.0
 offset_right = 184.0
-offset_bottom = 123.0
+offset_bottom = 139.0
 theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "settings"
 uppercase = true
 
 [node name="OptExit" type="Label" parent="MenuMain"]
 offset_left = 72.0
-offset_top = 128.0
+offset_top = 152.0
 offset_right = 184.0
-offset_bottom = 139.0
+offset_bottom = 163.0
 theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "exit"
 uppercase = true
@@ -184,18 +192,18 @@ uppercase = true
 
 [node name="OptSount" type="Label" parent="Settings"]
 offset_left = 72.0
-offset_top = 96.0
-offset_right = 136.0
-offset_bottom = 107.0
+offset_top = 104.0
+offset_right = 176.0
+offset_bottom = 115.0
 theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "sound options"
 uppercase = true
 
 [node name="OptControls" type="Label" parent="Settings"]
 offset_left = 72.0
-offset_top = 112.0
+offset_top = 128.0
 offset_right = 184.0
-offset_bottom = 123.0
+offset_bottom = 139.0
 theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "controls
 "
@@ -203,41 +211,45 @@ uppercase = true
 
 [node name="OptExit" type="Label" parent="Settings"]
 offset_left = 72.0
-offset_top = 128.0
+offset_top = 152.0
 offset_right = 184.0
-offset_bottom = 139.0
+offset_bottom = 163.0
 theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "exit"
 uppercase = true
 
 [node name="VideoSettings" type="Node2D" parent="."]
 visible = false
-position = Vector2(72, 128)
 script = SubResource("GDScript_y3lhy")
 
 [node name="OptResolution" type="Label" parent="VideoSettings"]
-offset_top = -48.0
-offset_right = 104.0
-offset_bottom = -37.0
+offset_left = 72.0
+offset_top = 80.0
+offset_right = 184.0
+offset_bottom = 91.0
 theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "resolution: x1"
 uppercase = true
 
 [node name="OptWidescreen" type="Label" parent="VideoSettings"]
-offset_top = -32.0
-offset_right = 112.0
-offset_bottom = -21.0
+offset_left = 72.0
+offset_top = 104.0
+offset_right = 200.0
+offset_bottom = 115.0
 theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "wide screen: off"
 uppercase = true
+metadata/_edit_use_anchors_ = true
 
 [node name="OptExit" type="Label" parent="VideoSettings"]
-offset_top = -16.0
-offset_right = 112.0
-offset_bottom = -5.0
+offset_left = 72.0
+offset_top = 128.0
+offset_right = 184.0
+offset_bottom = 139.0
 theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "exit"
 uppercase = true
+metadata/_edit_use_anchors_ = true
 
 [node name="SoundSettings" type="Node2D" parent="."]
 visible = false
@@ -249,23 +261,23 @@ offset_top = 80.0
 offset_right = 184.0
 offset_bottom = 91.0
 theme_override_fonts/font = ExtResource("1_8aeeb")
-text = "sfx volume: 100"
+text = "sfx volume:   100"
 uppercase = true
 
 [node name="OptMusicVolume" type="Label" parent="SoundSettings"]
 offset_left = 72.0
-offset_top = 96.0
-offset_right = 192.0
-offset_bottom = 107.0
+offset_top = 104.0
+offset_right = 208.0
+offset_bottom = 115.0
 theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "music volume: 100"
 uppercase = true
 
 [node name="OptExit" type="Label" parent="SoundSettings"]
 offset_left = 72.0
-offset_top = 112.0
+offset_top = 128.0
 offset_right = 184.0
-offset_bottom = 123.0
+offset_bottom = 139.0
 theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "exit"
 uppercase = true

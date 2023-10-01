@@ -17,15 +17,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if selector.visible:
 		if Input.is_action_just_pressed("Down"):
-			selector_option += 1
-			if selector_option >= current_menu.options.size():
-				selector_option = 0
+			selector_option = min(selector_option + 1, \
+				current_menu.options.size() - 1)
 			move_selector(selector_option)
 			
 		if Input.is_action_just_pressed("Up"):
-			selector_option -= 1
-			if selector_option < 0:
-				selector_option = current_menu.options.size() - 1
+			selector_option = max(selector_option - 1, 0)
 			move_selector(selector_option)
 		
 	if Input.is_action_just_pressed("B") \
@@ -61,6 +58,16 @@ func get_current_options() -> Array[Control]:
 			options.append(c)
 	return options
 	
-func move_selector(option: int) -> void:		
+func move_selector(option: int) -> void:
 	var control_option = current_menu.options[option]
 	selector.global_position = control_option.global_position + Vector2(-16, 0)
+	
+func change_scene(scene: PackedScene) -> void:
+	get_tree().paused = true
+	
+	Global.fade_out()
+	await Global.fade_end
+	await get_tree().create_timer(0.5).timeout
+	
+	get_tree().paused = false
+	Global.change_scene(scene)

@@ -30,7 +30,7 @@ func _process(delta: float) -> void:
 		next_level()
 		
 	if Input.is_action_just_pressed("Select"):
-		Global.player.damage(6 * 8)
+		Global.player.damage(4, 0.2)
 	if Input.is_action_just_pressed("Start"):
 		Global.player.add_score(20)
 	
