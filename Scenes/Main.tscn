@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://du38sf8ro3elu"]
 
 [ext_resource type="Script" path="res://Scripts/Main.gd" id="1_csd2w"]
-[ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/TestLevel.tscn" id="2_x0b2l"]
+[ext_resource type="PackedScene" uid="uid://b07xr3gduwdt5" path="res://Scenes/MainMenu.tscn" id="2_k4nph"]
 
 [sub_resource type="Animation" id="Animation_xmtka"]
 resource_name = "FadeIn"
@@ -54,7 +54,7 @@ _data = {
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_csd2w")
-initial_scene = ExtResource("2_x0b2l")
+initial_scene = ExtResource("2_k4nph")
 
 [node name="CurrentScene" type="Node2D" parent="."]
 

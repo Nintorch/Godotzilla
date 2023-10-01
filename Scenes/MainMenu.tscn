@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://b07xr3gduwdt5"]
+[gd_scene load_steps=8 format=3 uid="uid://b07xr3gduwdt5"]
 
 [ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1_3sdl0"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="1_8aeeb"]
+[ext_resource type="AudioStream" uid="uid://cmyl7fsh4kab4" path="res://Audio/SFX/MenuBip.ogg" id="3_2sb5j"]
 
 [sub_resource type="GDScript" id="GDScript_rj6av"]
 resource_name = "MainMenu"
@@ -23,6 +24,8 @@ func menu_select(id: int) -> void:
 	match id:
 		0:
 			main_menu.set_menu($\"../VideoSettings\")
+		1:
+			main_menu.set_menu($\"../SoundSettings\")
 		3:
 			main_menu.set_menu($\"../MenuMain\")
 "
@@ -44,15 +47,12 @@ func menu_process(_delta: float) -> void:
 	match main_menu.selector_option:
 		0:
 			if Input.is_action_just_pressed(\"Left\"):
-				current_resolution -= 1
-				if current_resolution < 0:
-					current_resolution = 0
+				current_resolution = max(current_resolution - 1, 0)
 				update_resolution()
 				
 			if Input.is_action_just_pressed(\"Right\"):
-				current_resolution += 1
-				if current_resolution >= resolutions.size() - 1:
-					current_resolution = resolutions.size() - 1
+				current_resolution = min(current_resolution + 1, \\
+					resolutions.size() - 1)
 				update_resolution()
 		1:
 			if Input.is_action_just_pressed(\"Left\"):
@@ -75,6 +75,50 @@ func update_resolution() -> void:
 		$OptResolution.text = \"resolution: x\" + str(resolutions[current_resolution])
 		
 	get_window().set_size(Global.get_content_size() * resolutions[current_resolution])
+"
+
+[sub_resource type="GDScript" id="GDScript_otbp2"]
+resource_name = "SoundSettings"
+script/source = "extends \"res://Scripts/Menu.gd\"
+
+var sfx_volume := 100
+var music_volume := 100
+@onready var sfx_test: AudioStreamPlayer = $SFXTest
+
+func menu_process(_delta: float) -> void:
+	match main_menu.selector_option:
+		0:
+			if Input.is_action_just_pressed(\"Left\"):
+				sfx_volume = max(sfx_volume - 10, 0)
+				update_sfx_volume()
+				
+			if Input.is_action_just_pressed(\"Right\"):
+				sfx_volume = min(sfx_volume + 10, 100)
+				update_sfx_volume()
+		1:
+			if Input.is_action_just_pressed(\"Left\"):
+				music_volume = max(music_volume - 10, 0)
+				update_music_volume()
+				
+			if Input.is_action_just_pressed(\"Right\"):
+				music_volume = min(music_volume + 10, 100)
+				update_music_volume()
+				
+func update_sfx_volume() -> void:
+	$OptSFXVolume.text = \"sfx volume: \" + str(sfx_volume)
+	AudioServer.set_bus_volume_db(1, (sfx_volume - 100) * 0.5)
+	sfx_test.bus = \"SFX\"
+	sfx_test.play()
+	
+func update_music_volume() -> void:
+	$OptMusicVolume.text = \"music volume: \" + str(music_volume)
+	AudioServer.set_bus_volume_db(2, (music_volume - 100) * 0.5)
+	sfx_test.bus = \"Music\"
+	sfx_test.play()
+
+func menu_select(id: int) -> void:
+	if id == 2:
+		main_menu.set_menu($\"../Settings\")
 "
 
 [node name="MainMenu" type="Node2D"]
@@ -194,3 +238,37 @@ offset_bottom = -5.0
 theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "exit"
 uppercase = true
+
+[node name="SoundSettings" type="Node2D" parent="."]
+visible = false
+script = SubResource("GDScript_otbp2")
+
+[node name="OptSFXVolume" type="Label" parent="SoundSettings"]
+offset_left = 72.0
+offset_top = 80.0
+offset_right = 184.0
+offset_bottom = 91.0
+theme_override_fonts/font = ExtResource("1_8aeeb")
+text = "sfx volume: 100"
+uppercase = true
+
+[node name="OptMusicVolume" type="Label" parent="SoundSettings"]
+offset_left = 72.0
+offset_top = 96.0
+offset_right = 192.0
+offset_bottom = 107.0
+theme_override_fonts/font = ExtResource("1_8aeeb")
+text = "music volume: 100"
+uppercase = true
+
+[node name="OptExit" type="Label" parent="SoundSettings"]
+offset_left = 72.0
+offset_top = 112.0
+offset_right = 184.0
+offset_bottom = 123.0
+theme_override_fonts/font = ExtResource("1_8aeeb")
+text = "exit"
+uppercase = true
+
+[node name="SFXTest" type="AudioStreamPlayer" parent="SoundSettings"]
+stream = ExtResource("3_2sb5j")
