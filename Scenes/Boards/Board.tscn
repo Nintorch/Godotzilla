@@ -27,7 +27,6 @@ sources/0 = SubResource("TileSetAtlasSource_wxb3r")
 
 [node name="Board" type="Node2D"]
 script = ExtResource("1_t4bq6")
-board_name = ""
 levels = Array[PackedScene]([ExtResource("2_dqcpd"), ExtResource("2_dqcpd")])
 
 [node name="BoardName" type="Node2D" parent="."]

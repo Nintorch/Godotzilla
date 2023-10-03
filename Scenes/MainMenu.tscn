@@ -17,9 +17,10 @@ func menu_select(id: int) -> void:
 			main_menu.set_menu($\"../Settings\")
 		3: # Exit
 			get_tree().paused = true
-			Global.fade_out()
 			
+			Global.fade_out()
 			await Global.fade_end
+			
 			await get_tree().create_timer(0.25).timeout
 			
 			get_tree().quit()
@@ -49,13 +50,12 @@ var resolutions := [1, 2, 3, 4, -1]
 var current_resolution := 2
 
 func menu_select(id: int) -> void:
-	match id:
-		2:
-			main_menu.set_menu($\"../Settings\")
+	if id == 2:
+		main_menu.set_menu($\"../Settings\")
 
 func menu_process(_delta: float) -> void:
 	match main_menu.selector_option:
-		0:
+		0: # Resolution
 			if Input.is_action_just_pressed(\"Left\"):
 				current_resolution = max(current_resolution - 1, 0)
 				update_resolution()
@@ -64,7 +64,7 @@ func menu_process(_delta: float) -> void:
 				current_resolution = min(current_resolution + 1, \\
 					resolutions.size() - 1)
 				update_resolution()
-		1:
+		1: # Wide screen
 			if Input.is_action_just_pressed(\"Left\"):
 				$OptWidescreen.text = \"wide screen: off\"
 				Global.use_widescreen(false)
@@ -97,7 +97,7 @@ var music_volume := 100
 
 func menu_process(_delta: float) -> void:
 	match main_menu.selector_option:
-		0:
+		0: # SFX volume
 			if Input.is_action_just_pressed(\"Left\"):
 				sfx_volume = max(sfx_volume - 10, 0)
 				update_sfx_volume()
@@ -105,7 +105,7 @@ func menu_process(_delta: float) -> void:
 			if Input.is_action_just_pressed(\"Right\"):
 				sfx_volume = min(sfx_volume + 10, 100)
 				update_sfx_volume()
-		1:
+		1: # Music volume
 			if Input.is_action_just_pressed(\"Left\"):
 				music_volume = max(music_volume - 10, 0)
 				update_music_volume()
