@@ -8,6 +8,12 @@ func _ready() -> void:
 	for c in get_children():
 		if c.name.begins_with("Opt"):
 			options.append(c)
+			
+func menu_enter() -> void:
+	pass
+	
+func menu_exit() -> void:
+	pass
 
 func menu_select(_id: int) -> void:
 	pass

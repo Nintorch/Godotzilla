@@ -7,13 +7,10 @@ var selector_option := 0
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Color.BLACK)
-		
-	current_menu = $MenuMain
-	move_selector(0)
-	enable_menu(current_menu, true)
-	
+	Global.hide_fade()
+	set_menu($MenuMain)
 	Global.play_music(preload("res://Audio/Soundtrack/MainMenu.ogg"))
-	
+
 func _process(delta: float) -> void:
 	if selector.visible:
 		if Input.is_action_just_pressed("Down"):
@@ -34,14 +31,15 @@ func _process(delta: float) -> void:
 	
 func enable_menu(menu: Node2D, flag: bool) -> void:
 	menu.visible = flag
-	menu.set_process(flag)
-	menu.set_physics_process(flag)
-	menu.set_process_input(flag)
 
 func set_menu(menu: Node2D) -> void:
-	enable_menu(current_menu, false)
+	if current_menu:
+		enable_menu(current_menu, false)
+		current_menu.menu_exit()
+		
 	current_menu = menu
 	enable_menu(current_menu, true)
+	current_menu.menu_enter()
 	
 	if current_menu.options.size() > 0:
 		selector.visible = true

@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcqw43w8eilwf"]
+
+[ext_resource type="Texture2D" uid="uid://b0k23sbm3154y" path="res://Sprites/TitleScreen.png" id="1_nksky"]
+[ext_resource type="Script" path="res://Scripts/TitleScreen.gd" id="1_pfn82"]
+[ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="2_0bcny"]
+
+[node name="TitleScreen" type="Node2D"]
+script = ExtResource("1_pfn82")
+
+[node name="FlashTimer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+autostart = true
+
+[node name="BeforeFlash" type="Node2D" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="BeforeFlash"]
+offset_top = 48.0
+offset_right = 256.0
+offset_bottom = 184.0
+color = Color(0.423529, 0.027451, 0, 1)
+
+[node name="GodzillaSilhouette" type="Sprite2D" parent="BeforeFlash"]
+position = Vector2(0, 48)
+texture = ExtResource("1_nksky")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 256, 136)
+
+[node name="AfterFlash" type="Node2D" parent="."]
+
+[node name="ColorRect2" type="ColorRect" parent="AfterFlash"]
+offset_top = 48.0
+offset_right = 256.0
+offset_bottom = 184.0
+color = Color(0.678431, 0.678431, 0.678431, 1)
+
+[node name="Godzilla" type="Sprite2D" parent="AfterFlash"]
+position = Vector2(0, 48)
+texture = ExtResource("1_nksky")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 136, 256, 136)
+
+[node name="OriginalCopyrights" type="Sprite2D" parent="AfterFlash"]
+position = Vector2(16, 192)
+texture = ExtResource("1_nksky")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 272, 256, 24)
+
+[node name="Godotzilla" type="Label" parent="AfterFlash"]
+offset_left = 40.0
+offset_top = 24.0
+offset_right = 216.0
+offset_bottom = 35.0
+theme_override_fonts/font = ExtResource("2_0bcny")
+text = "powered by godotzilla"
+horizontal_alignment = 1
+uppercase = true
+
+[connection signal="timeout" from="FlashTimer" to="." method="_on_flash_timer_timeout"]

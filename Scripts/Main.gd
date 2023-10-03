@@ -14,13 +14,31 @@ func _ready() -> void:
 	
 	scene_changed()
 
-func fade_out() -> void:
+func fade_out(color := Global.FADE_BLACK) -> void:
+	Global.fading = true
+	match color:
+		Global.FADE_BLACK:
+			$Fade/Fader.color = Color.BLACK
+		Global.FADE_WHITE:
+			$Fade/Fader.color = Color.WHITE
+			
 	$Fade/AnimationPlayer.play_backwards("FadeIn")
 	
-func fade_in() -> void:
+func fade_in(color := Global.FADE_BLACK) -> void:
+	Global.fading = true
+	match color:
+		Global.FADE_BLACK:
+			$Fade/Fader.color = Color.BLACK
+		Global.FADE_WHITE:
+			$Fade/Fader.color = Color.WHITE
+			
 	$Fade/AnimationPlayer.play("FadeIn")
+	
+func hide_fade() -> void:
+	$Fade/Fader.modulate.a = 0
 
 func _on_animation_finished(_anim_name: StringName) -> void:
+	Global.fading = false
 	Global.fade_end.emit()
 	
 func scene_changed() -> void:

@@ -1,6 +1,9 @@
 extends Node
 
+const INPUT_PATH = "user://input.cfg"
+
 var main: Node2D
+var fading := false # set in Main.gd
 
 var music: AudioStreamPlayer
 var player: GameCharacter
@@ -16,8 +19,19 @@ var current_character: int
 signal widescreen_changed
 signal fade_end
 
+const ACTIONS = [
+	"Up", "Down", "Left", "Right",
+	"B", "A", "Select", "Start"
+]
+
+enum {
+	FADE_BLACK,
+	FADE_WHITE,
+}
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	load_input_mapping()
 	
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("FullScreen"):
@@ -26,6 +40,10 @@ func _process(_delta: float) -> void:
 			window.mode = Window.MODE_FULLSCREEN
 		else:
 			window.mode = Window.MODE_WINDOWED
+			
+	if Input.is_action_just_pressed("ResetControls"):
+		InputMap.load_from_project_settings()
+		DirAccess.remove_absolute(INPUT_PATH)
 			
 func get_default_resolution() -> Vector2i:
 	return Vector2i(
@@ -58,11 +76,14 @@ func change_scene(scene: PackedScene, free = true) -> void:
 func get_scene_node() -> Node:
 	return main.get_node("CurrentScene").get_child(0)
 	
-func fade_out() -> void:
-	main.fade_out()
+func fade_out(color := FADE_BLACK) -> void:
+	main.fade_out(color)
 	
-func fade_in() -> void:
-	main.fade_in()
+func fade_in(color := FADE_BLACK) -> void:
+	main.fade_in(color)
+	
+func hide_fade() -> void:
+	main.hide_fade()
 
 func get_next_level() -> PackedScene:
 	if playing_levels.size() == 0:
@@ -90,3 +111,17 @@ func music_fade_in() -> void:
 	var tween = create_tween()
 	music.volume_db = -80
 	tween.tween_property(music, "volume_db", 0, 0.5)
+
+func load_input_mapping() -> void:
+	var file = ConfigFile.new()
+	if file.load("user://input.cfg") != OK:
+		return
+	for action in ACTIONS:
+		InputMap.action_erase_events(action)
+		InputMap.action_add_event(action, file.get_value("Input", action))
+
+func is_any_action_just_pressed() -> bool:
+	for action in ACTIONS:
+		if Input.is_action_just_pressed(action):
+			return true
+	return false
