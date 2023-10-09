@@ -12,7 +12,6 @@ enum CameraMode {
 }
 
 var camera_mode = CameraMode.NORMAL
-var timer = 0
 
 func _ready() -> void:
 	Global.level = self
@@ -20,10 +19,11 @@ func _ready() -> void:
 	Global.widescreen_changed.connect(on_widescreen_change)
 	RenderingServer.set_default_clear_color(bg_color)
 	
+	player.setup(Global.current_character)
+	
 	Global.fade_in()
 	
 func _process(delta: float) -> void:
-	timer += delta
 	process_camera()
 	
 	if player.position.x > camera.limit_right - 10:

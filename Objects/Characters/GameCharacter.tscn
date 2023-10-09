@@ -13,7 +13,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_arxb8"]
 size = Vector2(20, 55)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="GameCharacter" type="CharacterBody2D"]
 script = ExtResource("1_clvtk")
 
 [node name="Skin" parent="." instance=ExtResource("1_swkt0")]

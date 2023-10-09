@@ -50,10 +50,7 @@ func _process(delta: float) -> void:
 					move_password_selector(1)
 				END_POS:
 					var current_password := get_password_text()
-					if current_password == "":
-						leave()
-						return
-					elif current_password in passwords:
+					if current_password in passwords:
 						passwords[current_password].call()
 					# Unknown password - pass word error
 					else:
@@ -76,6 +73,10 @@ func _process(delta: float) -> void:
 					password[selector_position] = letter
 					update_password_text()
 					move_password_selector(1)
+		
+		if Input.is_action_just_pressed("Start"):
+			leave()
+			return
 
 func prepare() -> void:
 	if not input_letters.text.ends_with(' '):

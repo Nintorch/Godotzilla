@@ -31,7 +31,12 @@ enum Attack {
 	HEAT_BEAM,
 }
 
+@export var is_player := true
+
 @onready var states_list: Array[Node] = $States.get_children()
+var power_bar: Control
+var life_bar: Control
+
 var state = State.LEVEL_INTRO
 
 var character := GameCharacter.Type.GODZILLA
@@ -61,19 +66,26 @@ var inputs_pressed := []
 const INPUT_ACTIONS = [["Left", "Right"], ["Up", "Down"], "B", "A", "Start", "Select"]
 
 func _ready() -> void:
-	# We don't set the player reference to the current character
-	# in case if it doesn't have input (it's most likely a boss).
-	if has_input:
+	if is_player:
 		Global.player = self
+		position.x = -40
 	
 	inputs.resize(Inputs.COUNT)
 	inputs_pressed.resize(Inputs.COUNT)
 	
 	# Several default values
 	move_speed = 1 * 60
-	position.x = -40
 	
+# Don't forget to call this function on level setup
+func setup(character: GameCharacter.Type) -> void:
+	if is_player:
+		if not power_bar:
+			power_bar = Global.level.get_HUD().get_node("PlayerCharacter/Power")
+		if not life_bar:
+			life_bar = Global.level.get_HUD().get_node("PlayerCharacter/Life")
+			
 	# GameCharacter-specific setup
+	self.character = character
 	var skin: Node2D
 	match character:
 		GameCharacter.Type.GODZILLA:
@@ -84,7 +96,8 @@ func _ready() -> void:
 			# We set the character-specific position so when the character
 			# walks in a sudden frame change won't happen
 			# (walk_frame is set to 0 when the characters gets control)
-			position.x = -35
+			if is_player:
+				position.x = -35
 			
 	# Setup for all characters
 	var prev_skin = $Skin
@@ -124,10 +137,10 @@ func _process(_delta: float) -> void:
 	set_level(level)
 	
 	if Engine.get_physics_frames() % 20 == 0 \
-		and get_power_bar().target_value < get_power_bar().max_value:
-		get_power_bar().target_value += 1.0
+		and power_bar.target_value < power_bar.max_value:
+		power_bar.target_value += 1.0
 		
-	if get_life_bar().value <= 0:
+	if life_bar.value <= 0:
 		set_state(State.DEAD)
 	
 func process_input() -> void:
@@ -160,15 +173,9 @@ func set_state(new_state: State) -> void:
 	
 func use_attack(type: Attack):
 	$States/Attack.use(type)
-
-func get_power_bar():
-	return Global.level.get_HUD().get_node("PlayerCharacter/Power")
-	
-func get_life_bar():
-	return Global.level.get_HUD().get_node("PlayerCharacter/Life")
 	
 func set_level(value: int) -> void:
-	if not has_input:
+	if not is_player:
 		return
 	level = value
 	var level_str = str(level)
@@ -181,23 +188,20 @@ func set_level(value: int) -> void:
 func damage(amount: int, time := 0.6) -> void:
 	if not is_hurtable():
 		return
-	get_life_bar().target_value -= amount
-	if get_life_bar().target_value <= 0:
-		get_life_bar().target_value = 0
+	life_bar.target_value -= amount
+	if life_bar.target_value <= 0:
+		life_bar.target_value = 0
 	if time > 0.0:
 		$States/Hurt.hurt_time = time
 		set_state(State.HURT)
 		
 func is_hurtable() -> bool:
-	match state:
-		State.LEVEL_INTRO, State.HURT, State.DEAD:
-			return false
-	return true
+	return state not in [State.LEVEL_INTRO, State.HURT, State.DEAD]
 		
 func use_power(amount: int) -> bool:
-	if get_power_bar().target_value < amount:
+	if power_bar.target_value < amount:
 		return false
-	get_power_bar().target_value -= amount
+	power_bar.target_value -= amount
 	return true
 	
 # Pass 0 to update the score meter
@@ -205,7 +209,7 @@ func add_score(amount: int) -> void:
 	var score_meter: Label = \
 		Global.level.get_HUD().get_node("PlayerCharacter/ScoreMeter")
 	score += amount
-	if has_input:
+	if is_player:
 		score_meter.text = str(score)
 	
 func get_sfx(sfx_name: String) -> AudioStreamPlayer:
