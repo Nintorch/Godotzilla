@@ -161,12 +161,6 @@ func move_input_selector() -> void:
 		(8 if input_selector_position.x >= letters_count_line / 2 else 0)
 	input_selector.position.y = input_selector_position.y * 24
 	
-func move_to_button(button: Control) -> void:
-	input_selector.position = button.position
-
-func get_box(button: Control) -> Rect2:
-	return Rect2(button.position, button.size)
-	
 func update_password_text() -> void:
 	var string := "".join(password)
 	var result := ""
