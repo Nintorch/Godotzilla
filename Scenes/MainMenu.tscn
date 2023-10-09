@@ -13,11 +13,14 @@ func menu_select(id: int) -> void:
 	match id:
 		0: # New Game
 			main_menu.change_scene(preload(\"res://Scenes/Boards/Board.tscn\"))
+		1: # Pass word game
+			main_menu.change_scene(preload(\"res://Scenes/PassWordGame.tscn\"))
 		2: # Settings
 			main_menu.set_menu($\"../Settings\")
 		3: # Exit
 			get_tree().paused = true
 			
+			Global.music_fade_out()
 			Global.fade_out()
 			await Global.fade_end
 			
@@ -151,6 +154,10 @@ func menu_enter() -> void:
 
 func _input(event: InputEvent) -> void:
 	if main_menu.current_menu == self:
+		if event is InputEventKey and event.keycode == KEY_ESCAPE:
+			exit()
+			return
+		
 		if event is InputEventKey \\
 			and not event.is_echo() and event.is_pressed():
 			process_input(event)
@@ -163,18 +170,21 @@ func next_input() -> void:
 	if current_input >= ACTIONS.size():
 		save_mapping()
 		Global.load_input_mapping()
-		await get_tree().process_frame
-		await get_tree().process_frame
-		main_menu.set_menu($\"../Settings\")
+		exit()
 		return
 	update_text()
-	
+		
 func update_current_action(event: InputEvent) -> void:
 	mapping[current_input] = event
 	
 func process_input(event: InputEvent) -> void:
 	update_current_action(event)
 	next_input()
+	
+func exit() -> void:
+		await get_tree().process_frame
+		await get_tree().process_frame
+		main_menu.set_menu($\"../Settings\")
 
 func save_mapping() -> void:
 	var file = ConfigFile.new()
@@ -355,5 +365,14 @@ offset_right = 256.0
 offset_bottom = 75.0
 theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "press button up"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="CancelText" type="Label" parent="Controls"]
+offset_top = 176.0
+offset_right = 256.0
+offset_bottom = 187.0
+theme_override_fonts/font = ExtResource("1_8aeeb")
+text = "press escape to exit this menu"
 horizontal_alignment = 1
 uppercase = true

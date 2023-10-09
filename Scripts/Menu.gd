@@ -4,14 +4,11 @@ extends Node2D
 var options: Array[Control]
 
 func _ready() -> void:
-	options = []
-	for c in get_children():
-		if c.name.begins_with("Opt"):
-			options.append(c)
-			
+	options.assign(get_children().filter(func(c): return c.name.begins_with("Opt")))
+
 func menu_enter() -> void:
 	pass
-	
+
 func menu_exit() -> void:
 	pass
 

@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var initial_scene: PackedScene
+@export var initial_scene: PackedScene = preload("res://Scenes/TitleScreen.tscn")
 
 func _ready() -> void:
 	Global.main = self

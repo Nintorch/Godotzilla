@@ -158,15 +158,13 @@ func returned() -> void:
 		selected_piece = null
 
 func get_player_pieces() -> Array[Node2D]:
+	# The result of filter cannot be returned because it's Array[Node]
+	# but the call to assign can convert to Array[Node2D]
 	var ret: Array[Node2D] = []
-	for p in board_pieces:
-		if p.is_player():
-			ret.append(p)
+	ret.assign(board_pieces.filter(func(p): return p.is_player()))
 	return ret
 	
 func get_boss_pieces() -> Array[Node2D]:
 	var ret: Array[Node2D] = []
-	for p in board_pieces:
-		if not p.is_player():
-			ret.append(p)
+	ret.assign(board_pieces.filter(func(p): return not p.is_player()))
 	return ret

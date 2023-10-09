@@ -8,7 +8,7 @@ func _ready() -> void:
 	$AfterFlash.visible = false
 	
 func _process(delta: float) -> void:
-	if Global.is_any_action_just_pressed():
+	if Global.any_action_button_pressed():
 		if not $AfterFlash.visible:
 			do_flash()
 		else:

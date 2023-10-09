@@ -49,13 +49,6 @@ func set_menu(menu: Node2D) -> void:
 		# Hide the selector in case if the menu doesn't have options 
 		selector.visible = false
 	
-func get_current_options() -> Array[Control]:
-	var options: Array[Control] = []
-	for c in current_menu.get_children():
-		if c.name.begins_with("Opt"):
-			options.append(c)
-	return options
-	
 func move_selector(option: int) -> void:
 	var control_option = current_menu.options[option]
 	selector.global_position = control_option.global_position + Vector2(-16, 0)

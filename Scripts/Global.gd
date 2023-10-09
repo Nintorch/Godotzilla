@@ -34,17 +34,10 @@ func _ready() -> void:
 	load_input_mapping()
 	
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("FullScreen"):
-		var window = get_tree().get_root()
-		if window.mode != Window.MODE_FULLSCREEN:
-			window.mode = Window.MODE_FULLSCREEN
-		else:
-			window.mode = Window.MODE_WINDOWED
-			
 	if Input.is_action_just_pressed("ResetControls"):
 		InputMap.load_from_project_settings()
 		DirAccess.remove_absolute(INPUT_PATH)
-			
+
 func get_default_resolution() -> Vector2i:
 	return Vector2i(
 		ProjectSettings.get_setting("display/window/size/viewport_width"),
@@ -120,8 +113,8 @@ func load_input_mapping() -> void:
 		InputMap.action_erase_events(action)
 		InputMap.action_add_event(action, file.get_value("Input", action))
 
-func is_any_action_just_pressed() -> bool:
-	for action in ACTIONS:
+func any_action_button_pressed() -> bool:
+	for action in ["B", "A", "Select", "Start"]:
 		if Input.is_action_just_pressed(action):
 			return true
 	return false
