@@ -17,3 +17,12 @@ Default input map is from keyboard to "NES controller" is:
 - Space - Select
 
 And all the input actions are accurate to the original game.
+
+## Credits
+- Nintorch - main developer of the framework
+- FreKay Planet - sprite rips of Mothra
+- Cioss - NES controller sprite for "Controls" menu
+- Toho & Compile - "Godzilla: Monster of Monsters" NES game
+- Nintendo - Nintendo Entertainment System (NES)
+
+This project is not affiliated with nor endorsed by Toho, Compile or Nintendo. It's a fan-made non-profit project made for fun.
