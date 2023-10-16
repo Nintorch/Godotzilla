@@ -37,6 +37,7 @@ enum Attack {
 
 @onready var collision: CollisionShape2D = $Collision
 @onready var states_list: Array[Node] = $States.get_children()
+@onready var health: Node = $Health
 
 var power_bar: Control
 var life_bar: Control
@@ -69,6 +70,9 @@ var inputs := []
 var inputs_pressed := []
 const INPUT_ACTIONS = [["Left", "Right"], ["Up", "Down"], "B", "A", "Start", "Select"]
 
+# TODO: change the amount of bars of power and life based on the character level
+# same with health component hp
+
 func _ready() -> void:
 	if is_player:
 		Global.player = self
@@ -80,6 +84,8 @@ func _ready() -> void:
 	
 	# Several default values
 	move_speed = 1 * 60
+			
+	await Global.get_current_scene().ready
 	
 	if is_player:
 		var hud = Global.get_current_scene().get_HUD()
@@ -90,7 +96,8 @@ func _ready() -> void:
 		if not level_node:
 			level_node = hud.get_node("PlayerCharacter/Level")
 			
-	await Global.get_current_scene().ready
+		health.hp = life_bar.max_value
+		health.hp_max = life_bar.max_value
 	
 	# GameCharacter-specific setup	
 	var skin: Node2D
@@ -165,15 +172,12 @@ func _process(_delta: float) -> void:
 	if Engine.get_physics_frames() % 20 == 0 \
 		and power_bar.target_value < power_bar.max_value:
 		power_bar.target_value += 1.0
-		
-	if life_bar.value <= 0:
-		set_state(State.DEAD)
 	
 func process_input() -> void:
 	if has_input:
 		inputs[Inputs.XINPUT] = Input.get_axis(INPUT_ACTIONS[0][0], INPUT_ACTIONS[0][1])
 		inputs[Inputs.YINPUT] = Input.get_axis(INPUT_ACTIONS[1][0], INPUT_ACTIONS[1][1])
-					
+		
 		inputs_pressed[Inputs.XINPUT] = int(Input.is_action_just_pressed("Right")) \
 			- int(Input.is_action_just_pressed("Left"))
 		inputs_pressed[Inputs.YINPUT] = int(Input.is_action_just_pressed("Down")) \
@@ -208,17 +212,6 @@ func set_level(value: int) -> void:
 	if level_str.length() < 2:
 		level_str = "0" + level_str
 	level_node.text = "level " + level_str
-	
-# time is in seconds
-func damage(amount: int, time := 0.6) -> void:
-	if not is_hurtable():
-		return
-	life_bar.target_value -= amount
-	if life_bar.target_value <= 0:
-		life_bar.target_value = 0
-	if time > 0.0:
-		$States/Hurt.hurt_time = time
-		set_state(State.HURT)
 		
 func is_hurtable() -> bool:
 	return state not in [State.LEVEL_INTRO, State.HURT, State.DEAD]
@@ -253,3 +246,18 @@ func is_flying() -> bool:
 func set_collision(size: Vector2, offset: Vector2) -> void:
 	collision.shape.size = size
 	collision.position = offset
+
+func _on_health_damaged(amount: float, hurt_time: float) -> void:
+	life_bar.target_value -= amount
+	if hurt_time < 0:
+		hurt_time = 0.6
+	if hurt_time > 0:
+		$States/Hurt.hurt_time = hurt_time
+		set_state(State.HURT)
+
+func _on_health_dead() -> void:
+	life_bar.target_value = 0
+	set_state(State.DEAD)
+
+func _on_health_healed(amount: float) -> void:
+	life_bar.target_value += amount

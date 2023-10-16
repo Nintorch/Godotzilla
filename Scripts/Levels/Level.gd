@@ -23,7 +23,7 @@ func _ready() -> void:
 	Global.widescreen_changed.connect(on_widescreen_change)
 	RenderingServer.set_default_clear_color(bg_color)
 	
-	current_character = GameCharacter.Type.MOTHRA
+	current_character = GameCharacter.Type.GODZILLA
 	player.character = current_character
 	
 	Global.fade_in()
@@ -33,9 +33,6 @@ func _process(_delta: float) -> void:
 	
 	if player.position.x > camera.limit_right - 10:
 		next_level()
-		
-	if Input.is_action_just_pressed("Start"):
-		Global.player.damage(4)
 	
 func intro_ended() -> void:
 	if not Global.music.playing:
