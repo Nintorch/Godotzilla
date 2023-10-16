@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=3 uid="uid://jnprrhsi16ey"]
+
+[ext_resource type="Script" path="res://Scripts/Levels/Level.gd" id="1_kceot"]
+[ext_resource type="Texture2D" uid="uid://c0ixfjb2bb5p5" path="res://Sprites/Levels/TestLevel/sky.png" id="2_2uy5h"]
+[ext_resource type="Texture2D" uid="uid://d3vfgcp31ia42" path="res://Sprites/Levels/TestLevel/hills.png" id="3_auugl"]
+[ext_resource type="PackedScene" uid="uid://cx8rkmxhgw3oc" path="res://Objects/Levels/Floor.tscn" id="4_tmjpl"]
+[ext_resource type="PackedScene" uid="uid://bdedrxocj46sr" path="res://Objects/Characters/GameCharacter.tscn" id="5_vpd3j"]
+[ext_resource type="PackedScene" uid="uid://bono4mu6juvo8" path="res://Objects/HUD.tscn" id="6_tpxf7"]
+[ext_resource type="AudioStream" uid="uid://b7wpmues1eqmq" path="res://Audio/SFX/Pause.ogg" id="7_lsfko"]
+[ext_resource type="Script" path="res://Scripts/Pause.gd" id="8_bcojv"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_kceot")
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(56, 120)
+limit_left = 0
+limit_top = 0
+limit_right = 500
+limit_bottom = 240
+
+[node name="Background" type="ParallaxBackground" parent="."]
+
+[node name="Sky" type="ParallaxLayer" parent="Background"]
+motion_scale = Vector2(0, 0)
+
+[node name="TextureRect" type="TextureRect" parent="Background/Sky"]
+offset_top = 48.0
+offset_right = 256.0
+offset_bottom = 99.0
+texture = ExtResource("2_2uy5h")
+
+[node name="Mountains" type="ParallaxLayer" parent="Background"]
+motion_scale = Vector2(0.7, 0)
+
+[node name="TextureRect" type="TextureRect" parent="Background/Mountains"]
+offset_top = 160.0
+offset_right = 1000.0
+offset_bottom = 200.0
+texture = ExtResource("3_auugl")
+stretch_mode = 1
+
+[node name="Floor" parent="." instance=ExtResource("4_tmjpl")]
+offset_top = 208.0
+offset_bottom = 240.0
+
+[node name="Player" parent="." instance=ExtResource("5_vpd3j")]
+position = Vector2(53, 181)
+
+[node name="HUD" parent="." instance=ExtResource("6_tpxf7")]
+
+[node name="Pause" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("7_lsfko")
+script = ExtResource("8_bcojv")

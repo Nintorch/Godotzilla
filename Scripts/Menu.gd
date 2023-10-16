@@ -4,7 +4,7 @@ extends Node2D
 var options: Array[Control]
 
 func _ready() -> void:
-	options.assign(get_children().filter(func(c): return c.name.begins_with("Opt")))
+	options.assign(get_children().filter(func(c): return c.is_in_group("option")))
 
 func menu_enter() -> void:
 	pass
@@ -13,7 +13,4 @@ func menu_exit() -> void:
 	pass
 
 func menu_select(_id: int) -> void:
-	pass
-
-func menu_process(_delta: float) -> void:
 	pass

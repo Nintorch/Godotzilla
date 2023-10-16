@@ -12,7 +12,7 @@ script/source = "extends \"res://Scripts/Menu.gd\"
 func menu_select(id: int) -> void:
 	match id:
 		0: # New Game
-			main_menu.change_scene(preload(\"res://Scenes/Boards/Board.tscn\"))
+			main_menu.change_scene(preload(\"res://Scenes/Boards/BaseBoard.tscn\"))
 		1: # Pass word game
 			main_menu.change_scene(preload(\"res://Scenes/PassWordGame.tscn\"))
 		2: # Settings
@@ -56,7 +56,7 @@ func menu_select(id: int) -> void:
 	if id == 2:
 		main_menu.set_menu($\"../Settings\")
 
-func menu_process(_delta: float) -> void:
+func _process(_delta: float) -> void:
 	match main_menu.selector_option:
 		0: # Resolution
 			if Input.is_action_just_pressed(\"Left\"):
@@ -69,23 +69,23 @@ func menu_process(_delta: float) -> void:
 				update_resolution()
 		1: # Wide screen
 			if Input.is_action_just_pressed(\"Left\"):
-				$OptWidescreen.text = \"wide screen: off\"
+				$Widescreen.text = \"wide screen: off\"
 				Global.use_widescreen(false)
 				update_resolution()
 				
 			if Input.is_action_just_pressed(\"Right\"):
-				$OptWidescreen.text = \"wide screen: on\"
+				$Widescreen.text = \"wide screen: on\"
 				Global.use_widescreen(true)
 				update_resolution()
 
 func update_resolution() -> void:
 	if resolutions[current_resolution] == -1:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-		$OptResolution.text = \"resolution: full screen\"
+		$Resolution.text = \"resolution: full screen\"
 		return
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		$OptResolution.text = \"resolution: x\" + str(resolutions[current_resolution])
+		$Resolution.text = \"resolution: x\" + str(resolutions[current_resolution])
 		
 	get_window().set_size(Global.get_content_size() * resolutions[current_resolution])
 "
@@ -98,7 +98,7 @@ script/source = "extends \"res://Scripts/Menu.gd\"
 var sfx_volume := 100
 var music_volume := 100
 
-func menu_process(_delta: float) -> void:
+func _process(_delta: float) -> void:
 	match main_menu.selector_option:
 		0: # SFX volume
 			if Input.is_action_just_pressed(\"Left\"):
@@ -118,13 +118,13 @@ func menu_process(_delta: float) -> void:
 				update_music_volume()
 				
 func update_sfx_volume() -> void:
-	$OptSFXVolume.text = \"sfx volume:   \" + str(sfx_volume)
+	$SFXVolume.text = \"sfx volume:   \" + str(sfx_volume)
 	AudioServer.set_bus_volume_db(1, (sfx_volume - 100) * 0.8)
 	sfx_test.bus = \"SFX\"
 	sfx_test.play()
 	
 func update_music_volume() -> void:
-	$OptMusicVolume.text = \"music volume: \" + str(music_volume)
+	$MusicVolume.text = \"music volume: \" + str(music_volume)
 	AudioServer.set_bus_volume_db(2, (music_volume - 100) * 0.8)
 	sfx_test.bus = \"Music\"
 	sfx_test.play()
@@ -148,19 +148,18 @@ var mapping: Array[InputEvent] = []
 func menu_enter() -> void:
 	current_input = 0
 	update_text()
-	mapping = []
-	for i in ACTIONS.size():
-		mapping.append(null)
+	
+	mapping.resize(ACTIONS.size())
+	mapping.fill(null)
 
 func _input(event: InputEvent) -> void:
-	if main_menu.current_menu == self:
-		if event is InputEventKey and event.keycode == KEY_ESCAPE:
-			exit()
-			return
+	if event is InputEventKey and event.keycode == KEY_ESCAPE:
+		exit()
+		return
 		
-		if event is InputEventKey \\
-			and not event.is_echo() and event.is_pressed():
-			process_input(event)
+	if event is InputEventKey \\
+		and not event.is_echo() and event.is_pressed():
+		process_input(event)
 			
 func update_text() -> void:
 	current_button.text = \"press button \" + ACTIONS[current_input]
@@ -182,9 +181,9 @@ func process_input(event: InputEvent) -> void:
 	next_input()
 	
 func exit() -> void:
-		await get_tree().process_frame
-		await get_tree().process_frame
-		main_menu.set_menu($\"../Settings\")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	main_menu.set_menu($\"../Settings\")
 
 func save_mapping() -> void:
 	var file = ConfigFile.new()
@@ -201,11 +200,10 @@ offset_right = 8.0
 offset_bottom = 8.0
 color = Color(0.709804, 0.192157, 0.12549, 1)
 
-[node name="MenuMain" type="Node2D" parent="."]
-visible = false
+[node name="MenuMain" type="Node2D" parent="." groups=["menu"]]
 script = SubResource("GDScript_rj6av")
 
-[node name="OptNewGame" type="Label" parent="MenuMain"]
+[node name="NewGame" type="Label" parent="MenuMain" groups=["option"]]
 offset_left = 72.0
 offset_top = 80.0
 offset_right = 136.0
@@ -214,7 +212,7 @@ theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "new game"
 uppercase = true
 
-[node name="OptPassword" type="Label" parent="MenuMain"]
+[node name="Password" type="Label" parent="MenuMain" groups=["option"]]
 offset_left = 72.0
 offset_top = 104.0
 offset_right = 184.0
@@ -223,7 +221,7 @@ theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "pass word game"
 uppercase = true
 
-[node name="OptSettings" type="Label" parent="MenuMain"]
+[node name="Settings" type="Label" parent="MenuMain" groups=["option"]]
 offset_left = 72.0
 offset_top = 128.0
 offset_right = 184.0
@@ -232,7 +230,7 @@ theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "settings"
 uppercase = true
 
-[node name="OptExit" type="Label" parent="MenuMain"]
+[node name="Exit" type="Label" parent="MenuMain" groups=["option"]]
 offset_left = 72.0
 offset_top = 152.0
 offset_right = 184.0
@@ -241,11 +239,11 @@ theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "exit"
 uppercase = true
 
-[node name="Settings" type="Node2D" parent="."]
+[node name="Settings" type="Node2D" parent="." groups=["menu"]]
 visible = false
 script = SubResource("GDScript_l65hy")
 
-[node name="OptVideo" type="Label" parent="Settings"]
+[node name="Video" type="Label" parent="Settings" groups=["option"]]
 offset_left = 72.0
 offset_top = 80.0
 offset_right = 136.0
@@ -254,7 +252,7 @@ theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "video options"
 uppercase = true
 
-[node name="OptSount" type="Label" parent="Settings"]
+[node name="Sount" type="Label" parent="Settings" groups=["option"]]
 offset_left = 72.0
 offset_top = 104.0
 offset_right = 176.0
@@ -263,7 +261,7 @@ theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "sound options"
 uppercase = true
 
-[node name="OptControls" type="Label" parent="Settings"]
+[node name="Controls" type="Label" parent="Settings" groups=["option"]]
 offset_left = 72.0
 offset_top = 128.0
 offset_right = 184.0
@@ -273,7 +271,7 @@ text = "controls
 "
 uppercase = true
 
-[node name="OptExit" type="Label" parent="Settings"]
+[node name="Exit" type="Label" parent="Settings" groups=["option"]]
 offset_left = 72.0
 offset_top = 152.0
 offset_right = 184.0
@@ -282,11 +280,11 @@ theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "exit"
 uppercase = true
 
-[node name="VideoSettings" type="Node2D" parent="."]
+[node name="VideoSettings" type="Node2D" parent="." groups=["menu"]]
 visible = false
 script = SubResource("GDScript_y3lhy")
 
-[node name="OptResolution" type="Label" parent="VideoSettings"]
+[node name="Resolution" type="Label" parent="VideoSettings" groups=["option"]]
 offset_left = 72.0
 offset_top = 80.0
 offset_right = 184.0
@@ -295,7 +293,7 @@ theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "resolution: x1"
 uppercase = true
 
-[node name="OptWidescreen" type="Label" parent="VideoSettings"]
+[node name="Widescreen" type="Label" parent="VideoSettings" groups=["option"]]
 offset_left = 72.0
 offset_top = 104.0
 offset_right = 200.0
@@ -305,7 +303,7 @@ text = "wide screen: off"
 uppercase = true
 metadata/_edit_use_anchors_ = true
 
-[node name="OptExit" type="Label" parent="VideoSettings"]
+[node name="Exit" type="Label" parent="VideoSettings" groups=["option"]]
 offset_left = 72.0
 offset_top = 128.0
 offset_right = 184.0
@@ -315,11 +313,11 @@ text = "exit"
 uppercase = true
 metadata/_edit_use_anchors_ = true
 
-[node name="SoundSettings" type="Node2D" parent="."]
+[node name="SoundSettings" type="Node2D" parent="." groups=["menu"]]
 visible = false
 script = SubResource("GDScript_otbp2")
 
-[node name="OptSFXVolume" type="Label" parent="SoundSettings"]
+[node name="SFXVolume" type="Label" parent="SoundSettings" groups=["option"]]
 offset_left = 72.0
 offset_top = 80.0
 offset_right = 184.0
@@ -328,7 +326,7 @@ theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "sfx volume:   100"
 uppercase = true
 
-[node name="OptMusicVolume" type="Label" parent="SoundSettings"]
+[node name="MusicVolume" type="Label" parent="SoundSettings" groups=["option"]]
 offset_left = 72.0
 offset_top = 104.0
 offset_right = 208.0
@@ -337,7 +335,7 @@ theme_override_fonts/font = ExtResource("1_8aeeb")
 text = "music volume: 100"
 uppercase = true
 
-[node name="OptExit" type="Label" parent="SoundSettings"]
+[node name="Exit" type="Label" parent="SoundSettings" groups=["option"]]
 offset_left = 72.0
 offset_top = 128.0
 offset_right = 184.0
@@ -349,7 +347,7 @@ uppercase = true
 [node name="SFXTest" type="AudioStreamPlayer" parent="SoundSettings"]
 stream = ExtResource("3_2sb5j")
 
-[node name="Controls" type="Node2D" parent="."]
+[node name="Controls" type="Node2D" parent="." groups=["menu"]]
 visible = false
 script = SubResource("GDScript_ygalj")
 

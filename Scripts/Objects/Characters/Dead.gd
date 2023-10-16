@@ -23,7 +23,7 @@ func state_entered() -> void:
 		Global.change_scene_node(Global.board)
 		Global.board.returned()
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Engine.get_physics_frames() % 5 == 0:
 		var explosion = Explosion.new()
 		explosion.global_position = parent.global_position

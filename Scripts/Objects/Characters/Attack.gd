@@ -1,10 +1,11 @@
 extends "res://Scripts/Objects/Characters/State.gd"
 
-@onready var move_state = $"../Move"
+var move_state: Node
 var current_attack = GameCharacter.Attack
 var variation = 0
 
 func state_init() -> void:
+	move_state = parent.states_list[parent.move_state]
 	parent.animation_player.connect("animation_finished", _on_animation_finished)
 
 func _process(delta: float) -> void:
@@ -42,15 +43,15 @@ func _on_animation_finished(anim_name: String) -> void:
 	match anim_name:
 		"Punch1", "Punch2":
 			parent.animation_player.play("RESET")
-			parent.set_state(GameCharacter.State.MOVE)
+			parent.set_state(GameCharacter.State.WALK)
 		"Kick1", "Kick2":
 			move_state.walk_frame = 0
 			parent.animation_player.play("RESET")
-			parent.set_state(GameCharacter.State.MOVE)
+			parent.set_state(GameCharacter.State.WALK)
 		"TailWhip":
 			move_state.walk_frame = 0
 			if parent.inputs[GameCharacter.Inputs.YINPUT] > 0:
 				parent.animation_player.play("Crouch")
 			else:
 				parent.animation_player.play("RESET")
-			parent.set_state(GameCharacter.State.MOVE)
+			parent.set_state(GameCharacter.State.WALK)

@@ -8,7 +8,9 @@ extends Node2D
 @onready var message_window: NinePatchRect = $Board/CanvasLayer/MessageWindow
 @onready var selector: Sprite2D = $Board/TileMap/Selector
 
-@onready var board_pieces = $"Board/TileMap/Board Pieces".get_children()
+@onready var board_pieces: Array[Node] = \
+	$"Board/TileMap/Board Pieces".get_children()
+	
 # The actual playable board, the node that has this script
 # also includes the board name.
 @onready var board: Node2D = $Board
@@ -23,14 +25,12 @@ func _ready():
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	build_outline()
 	
-	Global.characters.append(GameCharacter.Type.GODZILLA)
-	Global.planet_levels = levels
-	
 	if board_name:
 		# Show the board name and hide the actual board for now
 		$BoardName/Label.text = board_name
 		$BoardName/Label.position = Global.get_default_resolution() / 2 \
 			- Vector2i($BoardName/Label.size) / 2
+			
 		board.visible = false
 		board.process_mode = Node.PROCESS_MODE_DISABLED
 		Global.fade_in()
@@ -66,7 +66,10 @@ func _process(_delta: float):
 				adjust_message_pos()
 			else:
 				selected_piece.prepare_start()
-				Global.playing_levels = selector.playing_levels
+				Global.playing_levels.assign(
+					selector.playing_levels.map(func(x): return levels[x])
+					)
+					
 				menubip.play()
 				start_playing()
 			
@@ -77,8 +80,9 @@ func _process(_delta: float):
 			message_window.disappear()
 			
 		if Input.is_action_just_pressed("Start"):
-			# Not checking if the piece is a play on purpose
 			if not selected_piece and get_current_piece():
+				# We don't check if it's a boss on purpose
+				# (to be accurate to the original game)
 				message_window.appear("Then press button A.")
 			elif selected_piece:
 				message_window.appear("If\nfinished moving, press button A.")
@@ -141,15 +145,18 @@ func start_playing() -> void:
 	await get_tree().create_timer(0.5).timeout
 	
 	get_tree().paused = false
-	Global.current_character = selected_piece.piece_character
+	
+	var level := Global.get_next_level()
+	level.current_character = selected_piece.piece_character
 	# We don't free the board scene so we can later return to it,
 	# hence the second false argument.
-	Global.change_scene(Global.get_next_level(), false)
+	Global.change_scene(level, false)
 	
 # TODO: Boss' steps
 func returned() -> void:
 	await get_tree().create_timer(0.5).timeout
 	
+	message_window.make_hide()
 	Global.fade_in()
 	if not Global.music.playing or Global.music.stream != music:
 		Global.play_music(music)

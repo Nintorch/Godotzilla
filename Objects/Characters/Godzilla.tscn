@@ -13,12 +13,12 @@
 [sub_resource type="GDScript" id="GDScript_5gjb6"]
 script/source = "extends Node2D
 
+@onready var parent: GameCharacter = get_parent()
 @onready var offset_y = $Body/Head.position.y
 @onready var body = $Body
 @onready var head = $Body/Head
-@onready var collision: CollisionShape2D = get_node(\"../MainCollision\")
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if body.animation == \"Walk\":
 		if body.frame == 2 or body.frame == 6:
 			head.position.y = offset_y + 1
@@ -28,13 +28,12 @@ func _process(delta: float) -> void:
 		if head.animation == \"Walk\":
 			head.frame = body.frame
 
-func _on_animation_changed(old_name: StringName, new_name: StringName) -> void:
-	match new_name:
-		\"Crouch\":
-			collision.shape.size.y = 40
-		_:
-			collision.shape.size.y = 55
-	collision.position.y = -0.5 + (55 - collision.shape.size.y) / 2
+func _on_animation_started(anim_name: StringName) -> void:
+	var size := 56
+	if anim_name == \"Crouch\":
+		size = 40
+	parent.set_collision(Vector2(20, size),
+		Vector2(0, -1 + (56 - size) / 2))
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jjucf"]
@@ -775,4 +774,4 @@ libraries = {
 "": SubResource("AnimationLibrary_m5kek")
 }
 
-[connection signal="animation_changed" from="AnimationPlayer" to="." method="_on_animation_changed"]
+[connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_started"]

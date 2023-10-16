@@ -1,15 +1,15 @@
 [gd_scene load_steps=10 format=3 uid="uid://d2do8ilhab482"]
 
-[ext_resource type="Script" path="res://Scripts/Boards/Board.gd" id="1_t4bq6"]
-[ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/TestLevel.tscn" id="2_dqcpd"]
-[ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Sprites/Levels/TestLevel/board.png" id="3_iq2cy"]
-[ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="3_pdgfq"]
-[ext_resource type="PackedScene" uid="uid://dtc8wqm5nbty2" path="res://Objects/Boards/Selector.tscn" id="4_73gdn"]
-[ext_resource type="PackedScene" uid="uid://bn3se1dw6cfhu" path="res://Objects/Boards/MessageWindow.tscn" id="5_v40o1"]
-[ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="6_yu6su"]
+[ext_resource type="Script" path="res://Scripts/Boards/Board.gd" id="1_qudp1"]
+[ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/BaseLevel.tscn" id="2_yter6"]
+[ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="3_2wbjf"]
+[ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Sprites/Levels/TestLevel/board.png" id="4_yatfn"]
+[ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="5_5kcnc"]
+[ext_resource type="PackedScene" uid="uid://dtc8wqm5nbty2" path="res://Objects/Boards/Selector.tscn" id="6_ysf6o"]
+[ext_resource type="PackedScene" uid="uid://bn3se1dw6cfhu" path="res://Objects/Boards/MessageWindow.tscn" id="7_hcaag"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wxb3r"]
-texture = ExtResource("3_iq2cy")
+texture = ExtResource("4_yatfn")
 texture_region_size = Vector2i(48, 34)
 use_texture_padding = false
 0:0/0 = 0
@@ -26,15 +26,15 @@ tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_wxb3r")
 
 [node name="Board" type="Node2D"]
-script = ExtResource("1_t4bq6")
-levels = Array[PackedScene]([ExtResource("2_dqcpd"), ExtResource("2_dqcpd")])
+script = ExtResource("1_qudp1")
+levels = Array[PackedScene]([ExtResource("2_yter6"), ExtResource("2_yter6")])
 
 [node name="BoardName" type="Node2D" parent="."]
 
 [node name="Label" type="Label" parent="BoardName"]
-offset_right = 72.0
+offset_right = 120.0
 offset_bottom = 11.0
-theme_override_fonts/font = ExtResource("3_pdgfq")
+theme_override_fonts/font = ExtResource("3_2wbjf")
 text = "board name here"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -57,10 +57,10 @@ layer_1/tile_data = PackedInt32Array(0, 65536, 0, 65536, 65536, 0, 131072, 65536
 
 [node name="Board Pieces" type="Node2D" parent="Board/TileMap"]
 
-[node name="Godzilla" parent="Board/TileMap/Board Pieces" instance=ExtResource("6_yu6su")]
+[node name="Godzilla" parent="Board/TileMap/Board Pieces" instance=ExtResource("5_5kcnc")]
 position = Vector2(16, 24)
 
-[node name="Selector" parent="Board/TileMap" instance=ExtResource("4_73gdn")]
+[node name="Selector" parent="Board/TileMap" instance=ExtResource("6_ysf6o")]
 position = Vector2(16, 24)
 
 [node name="Camera2D" type="Camera2D" parent="Board/TileMap/Selector"]
@@ -76,7 +76,7 @@ editor_draw_limits = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Board"]
 
-[node name="MessageWindow" parent="Board/CanvasLayer" instance=ExtResource("5_v40o1")]
+[node name="MessageWindow" parent="Board/CanvasLayer" instance=ExtResource("7_hcaag")]
 visible = false
 offset_left = 16.0
 offset_top = 136.0

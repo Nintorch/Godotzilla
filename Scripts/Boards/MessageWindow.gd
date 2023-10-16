@@ -18,7 +18,7 @@ var timer = 0.0
 var next_text = ""
 
 func _ready():
-	size.y = window_size.y
+	size = Vector2(0, window_size.y)
 	visible = false
 	text.visible = false
 	text.horizontal_alignment = alignment_horizontal
@@ -53,9 +53,7 @@ func _process(delta: float):
 				state = State.APPEARING
 				timer = 0
 			else:
-				visible = false
-				state = State.HIDDEN
-				timer = 0
+				make_hide()
 	
 func appear(message: String, enable_sound = true, req_size: Vector2i = default_window_size):
 	window_size = req_size
@@ -68,6 +66,8 @@ func appear(message: String, enable_sound = true, req_size: Vector2i = default_w
 		return
 	elif state == State.APPEARING or state == State.DISAPPEARING:
 		return
+	else:
+		size = Vector2(0, window_size.y)
 		
 	self.text.text = message
 	self.text.visible = false
@@ -80,10 +80,16 @@ func appear(message: String, enable_sound = true, req_size: Vector2i = default_w
 	if enable_sound:
 		$MenuBip.play()
 	
-func disappear():
+func disappear() -> void:
 	if state == State.SHOWN:
 		text.visible = false
 		state = State.DISAPPEARING
+		
+func make_hide() -> void:
+	visible = false
+	state = State.HIDDEN
+	size = Vector2(0, window_size.y)
+	timer = 0
 		
 func get_text() -> String:
 	return $Text.text

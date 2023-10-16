@@ -7,13 +7,15 @@ func _ready():
 	Global.widescreen_changed.connect(adapt_to_content_size)
 	
 	adapt_to_content_size()
-	$PlayerCharacter/CharacterName.text = Global.player.get_character_name()
 	if boss:
 		$BgRect.size.y = 72
 		$BossCharacter.visible = true
 	else:
 		$BgRect.size.y = 48
 		$BossCharacter.visible = false
+		
+	await Global.get_current_scene().ready
+	$PlayerCharacter/CharacterName.text = Global.player.get_character_name()
 		
 func adapt_to_content_size():
 	$BgRect.size.x = Global.get_content_size().x

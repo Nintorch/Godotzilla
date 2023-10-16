@@ -13,7 +13,8 @@ var jumping = false
 const JUMP_SPEED = -2 * 60
 
 func state_init() -> void:
-	walk_frames = parent.body.sprite_frames.get_frame_count("Walk")
+	if not parent.is_flying():
+		walk_frames = parent.body.sprite_frames.get_frame_count("Walk")
 	
 	match parent.character:
 		GameCharacter.Type.GODZILLA:
@@ -36,7 +37,7 @@ func common_ground_attacks() -> void:
 	if parent.animation_player.current_animation != "Crouch" \
 		and parent.inputs_pressed[GameCharacter.Inputs.B]:
 			parent.use_attack(GameCharacter.Attack.KICK)
-	
+
 func move(delta: float):
 	var direction = parent.inputs[GameCharacter.Inputs.XINPUT]
 	if direction:
@@ -71,3 +72,6 @@ func move(delta: float):
 		if up_down <= 0 and parent.animation_player.current_animation == "Crouch":
 			parent.animation_player.play("RESET")
 			walk_frame = 0
+
+func reset() -> void:
+	walk_frame = 0

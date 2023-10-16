@@ -14,7 +14,8 @@ const CharacterNames: Array[String] = [
 # States in "States" node of the player should be
 # in the same order as in here.
 enum State {
-	MOVE,
+	WALK,
+	FLY,
 	LEVEL_INTRO,
 	HURT,
 	DEAD,
@@ -28,16 +29,21 @@ enum Attack {
 	
 	# Godzilla attacks
 	TAIL_WHIP,
-	HEAT_BEAM,
+	HEAT_BEAM, # TODO
 }
 
 @export var is_player := true
+@export var enable_intro := true
 
+@onready var collision: CollisionShape2D = $Collision
 @onready var states_list: Array[Node] = $States.get_children()
+
 var power_bar: Control
 var life_bar: Control
+var level_node: Label
 
-var state = State.LEVEL_INTRO
+var state := State.LEVEL_INTRO
+var move_state := State.WALK
 
 var character := GameCharacter.Type.GODZILLA
 var move_speed := 0.0
@@ -53,8 +59,6 @@ var animation_player: AnimationPlayer
 # and allowing to play as bosses and test their attacks.
 enum Inputs {
 	XINPUT, YINPUT, B, A, START, SELECT,
-	
-	COUNT,  # Not an input action but just a constant
 }
 
 # Check if the character can be controlled by the player,
@@ -68,36 +72,49 @@ const INPUT_ACTIONS = [["Left", "Right"], ["Up", "Down"], "B", "A", "Start", "Se
 func _ready() -> void:
 	if is_player:
 		Global.player = self
-		position.x = -40
+		if enable_intro:
+			position.x = -40
 	
-	inputs.resize(Inputs.COUNT)
-	inputs_pressed.resize(Inputs.COUNT)
+	inputs.resize(Inputs.size())
+	inputs_pressed.resize(Inputs.size())
 	
 	# Several default values
 	move_speed = 1 * 60
 	
-# Don't forget to call this function on level setup
-func setup(character: GameCharacter.Type) -> void:
 	if is_player:
+		var hud = Global.get_current_scene().get_HUD()
 		if not power_bar:
-			power_bar = Global.level.get_HUD().get_node("PlayerCharacter/Power")
+			power_bar = hud.get_node("PlayerCharacter/Power")
 		if not life_bar:
-			life_bar = Global.level.get_HUD().get_node("PlayerCharacter/Life")
+			life_bar = hud.get_node("PlayerCharacter/Life")
+		if not level_node:
+			level_node = hud.get_node("PlayerCharacter/Level")
 			
-	# GameCharacter-specific setup
-	self.character = character
+	await Global.get_current_scene().ready
+	
+	# GameCharacter-specific setup	
 	var skin: Node2D
 	match character:
 		GameCharacter.Type.GODZILLA:
 			skin = preload("res://Objects/Characters/Godzilla.tscn").instantiate()
 			get_sfx("Step").stream = load("res://Audio/SFX/GodzillaStep.ogg")
 			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.wav")
+			move_state = State.WALK
 			
 			# We set the character-specific position so when the character
 			# walks in a sudden frame change won't happen
 			# (walk_frame is set to 0 when the characters gets control)
-			if is_player:
+			if is_player and enable_intro:
 				position.x = -35
+		
+		GameCharacter.Type.MOTHRA:
+			skin = preload("res://Objects/Characters/Mothra.tscn").instantiate()
+			get_sfx("Step").stream = load("res://Audio/SFX/GodzillaStep.ogg")
+			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.wav")
+			move_state = State.FLY
+			position.y -= 40
+			move_speed = 2 * 60
+			set_collision(Vector2(36, 14), Vector2(-4, 1))
 			
 	# Setup for all characters
 	var prev_skin = $Skin
@@ -109,6 +126,15 @@ func setup(character: GameCharacter.Type) -> void:
 	
 	body = $Skin/Body
 	animation_player = $Skin/AnimationPlayer
+	move_child(collision, -1)
+	
+	if is_flying():
+		animation_player.play("Idle")
+	
+	if not enable_intro:
+		state = move_state
+		if is_player:
+			Global.get_current_scene().intro_ended()
 	
 	for i in states_list:
 		i.state_init()
@@ -127,7 +153,7 @@ func _physics_process(delta: float) -> void:
 		position.x = Global.camera.limit_left + 16
 		velocity.x = 0
 
-	if state != State.DEAD and not is_on_floor():
+	if state != State.DEAD and not is_on_floor() and not is_flying():
 		velocity.y += gravity * delta
 
 	move_and_slide()
@@ -153,7 +179,7 @@ func process_input() -> void:
 		inputs_pressed[Inputs.YINPUT] = int(Input.is_action_just_pressed("Down")) \
 			- int(Input.is_action_just_pressed("Up"))
 			
-		for i in range(Inputs.B, Inputs.COUNT):
+		for i in range(Inputs.B, Inputs.size()):
 			inputs[i] = Input.is_action_pressed(INPUT_ACTIONS[i])
 			inputs_pressed[i] = Input.is_action_just_pressed(INPUT_ACTIONS[i])
 
@@ -181,8 +207,7 @@ func set_level(value: int) -> void:
 	var level_str = str(level)
 	if level_str.length() < 2:
 		level_str = "0" + level_str
-	Global.level.get_HUD().get_node("PlayerCharacter/Level").text = \
-		"level " + level_str
+	level_node.text = "level " + level_str
 	
 # time is in seconds
 func damage(amount: int, time := 0.6) -> void:
@@ -206,8 +231,12 @@ func use_power(amount: int) -> bool:
 	
 # Pass 0 to update the score meter
 func add_score(amount: int) -> void:
+	if not is_player:
+		return
+
 	var score_meter: Label = \
-		Global.level.get_HUD().get_node("PlayerCharacter/ScoreMeter")
+		Global.get_current_scene().\
+		get_HUD().get_node("PlayerCharacter/ScoreMeter")
 	score += amount
 	if is_player:
 		score_meter.text = str(score)
@@ -217,3 +246,10 @@ func get_sfx(sfx_name: String) -> AudioStreamPlayer:
 	
 func get_character_name() -> String:
 	return CharacterNames[character]
+	
+func is_flying() -> bool:
+	return character == Type.MOTHRA
+	
+func set_collision(size: Vector2, offset: Vector2) -> void:
+	collision.shape.size = size
+	collision.position = offset

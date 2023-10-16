@@ -8,10 +8,15 @@ var selector_option := 0
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	Global.hide_fade()
+	
+	# Disable every menu when starting up
+	for menu: Node2D in get_children().filter(func(x): return x.is_in_group("menu")):
+		enable_menu(menu, false)
+	
 	set_menu($MenuMain)
 	Global.play_music(preload("res://Audio/Soundtrack/MainMenu.ogg"))
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if selector.visible:
 		if Input.is_action_just_pressed("Down"):
 			selector_option = min(selector_option + 1, \
@@ -26,11 +31,12 @@ func _process(delta: float) -> void:
 		or Input.is_action_just_pressed("A") \
 		or Input.is_action_just_pressed("Start"):
 			current_menu.menu_select(selector_option)
-			
-	current_menu.menu_process(delta)
 	
 func enable_menu(menu: Node2D, flag: bool) -> void:
 	menu.visible = flag
+	menu.set_process(flag)
+	menu.set_physics_process(flag)
+	menu.set_process_input(flag)
 
 func set_menu(menu: Node2D) -> void:
 	if current_menu:

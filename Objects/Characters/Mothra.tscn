@@ -1,0 +1,184 @@
+[gd_scene load_steps=17 format=3 uid="uid://cqrpbxce3xquu"]
+
+[ext_resource type="Texture2D" uid="uid://nhpib3frkqrg" path="res://Sprites/Characters/Mothra/hurt.png" id="1_64xd3"]
+[ext_resource type="Texture2D" uid="uid://dh0gtj20jut25" path="res://Sprites/Characters/Mothra/idle.png" id="1_f6h4m"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0xxw"]
+atlas = ExtResource("1_64xd3")
+region = Rect2(0, 0, 54, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_llcnn"]
+atlas = ExtResource("1_64xd3")
+region = Rect2(54, 0, 54, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fpgvc"]
+atlas = ExtResource("1_64xd3")
+region = Rect2(108, 0, 54, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ktwgh"]
+atlas = ExtResource("1_64xd3")
+region = Rect2(162, 0, 54, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pj7eg"]
+atlas = ExtResource("1_64xd3")
+region = Rect2(216, 0, 54, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t68ms"]
+atlas = ExtResource("1_64xd3")
+region = Rect2(270, 0, 54, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iqicc"]
+atlas = ExtResource("1_f6h4m")
+region = Rect2(0, 0, 54, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rt780"]
+atlas = ExtResource("1_f6h4m")
+region = Rect2(54, 0, 54, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k0g7u"]
+atlas = ExtResource("1_f6h4m")
+region = Rect2(108, 0, 54, 76)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ihex8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w0xxw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_llcnn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fpgvc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ktwgh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pj7eg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t68ms")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iqicc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rt780")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k0g7u")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_bsg1t"]
+resource_name = "Idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_5r2jb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_6mr3k"]
+resource_name = "Hurt"
+length = 0.7
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"hurt"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n42rb"]
+_data = {
+"Hurt": SubResource("Animation_6mr3k"),
+"Idle": SubResource("Animation_bsg1t"),
+"RESET": SubResource("Animation_5r2jb")
+}
+
+[node name="Mothra" type="Node2D"]
+
+[node name="Body" type="AnimatedSprite2D" parent="."]
+position = Vector2(-12, -28)
+sprite_frames = SubResource("SpriteFrames_ihex8")
+animation = &"hurt"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_n42rb")
+}
