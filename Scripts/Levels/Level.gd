@@ -15,7 +15,7 @@ enum CameraMode {
 }
 
 var camera_mode = CameraMode.NORMAL
-var current_character: int
+var current_character: int # set in Board.gd
 var camera_x_old: float
 
 func _ready() -> void:

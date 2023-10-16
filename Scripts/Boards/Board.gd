@@ -128,7 +128,7 @@ func show_boss_info(piece) -> void:
 		message_window.appear(text, true, size)
 		
 func boss_hp_str(hp: float) -> String:
-	var s = str(snappedf(hp, 0.1))
+	var s := str(snappedf(hp, 0.1))
 	if fmod(hp, 1) == 0:
 		s += ".0"
 	return s

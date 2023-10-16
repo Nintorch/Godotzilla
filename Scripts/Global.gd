@@ -13,6 +13,7 @@ var playing_levels: Array[PackedScene] = []
 
 signal widescreen_changed
 signal fade_end
+signal scene_changed(from: Node, to: Node)
 
 const ACTIONS = [
 	"Up", "Down", "Left", "Right",
@@ -75,11 +76,13 @@ func any_action_button_pressed() -> bool:
 func change_scene_node(node: Node, free = true) -> void:
 	var curscene_parent = main.get_node("CurrentScene")
 	var curscene = curscene_parent.get_child(0)
+	
 	curscene_parent.remove_child(curscene)
 	if free:
 		curscene.queue_free()
 	curscene_parent.add_child(node)
-	main.scene_changed()
+	
+	scene_changed.emit(curscene, node)
 	
 func change_scene(scene: PackedScene, free = true) -> void:
 	change_scene_node(scene.instantiate(), free)

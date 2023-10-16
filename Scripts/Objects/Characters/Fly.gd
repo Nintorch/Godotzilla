@@ -11,8 +11,8 @@ func _physics_process(delta: float) -> void:
 	if Global.get_current_scene().is_camera_moving():
 		xspeed = 1 * 60
 	
-	parent.velocity.x = int(Input.get_axis("Left", "Right")) * xspeed
-	parent.velocity.y = int(Input.get_axis("Up", "Down")) * parent.move_speed
+	parent.velocity.x = roundi(parent.inputs[parent.Inputs.XINPUT]) * xspeed
+	parent.velocity.y = roundi(parent.inputs[parent.Inputs.YINPUT]) * parent.move_speed
 	
 	floor_checking.position.y = parent.velocity.y * delta
 	

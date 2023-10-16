@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 enum Type {
 	GODZILLA,
-	MOTHRA, # To be added
+	MOTHRA,
 }
 
 const CharacterNames: Array[String] = [
@@ -12,7 +12,7 @@ const CharacterNames: Array[String] = [
 ]
 
 # States in "States" node of the player should be
-# in the same order as in here.
+# in the same order as here.
 enum State {
 	WALK,
 	FLY,
@@ -103,7 +103,8 @@ func _ready() -> void:
 	var skin: Node2D
 	match character:
 		GameCharacter.Type.GODZILLA:
-			skin = preload("res://Objects/Characters/Godzilla.tscn").instantiate()
+			# Skin is already Godzilla, so we just move it above everything else
+			move_child($Skin, -1)
 			get_sfx("Step").stream = load("res://Audio/SFX/GodzillaStep.ogg")
 			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.wav")
 			move_state = State.WALK
@@ -124,12 +125,13 @@ func _ready() -> void:
 			set_collision(Vector2(36, 14), Vector2(-4, 1))
 			
 	# Setup for all characters
-	var prev_skin = $Skin
-	remove_child(prev_skin)
-	prev_skin.queue_free()
-	
-	skin.name = "Skin"
-	add_child(skin)
+	if skin:
+		var prev_skin = $Skin
+		remove_child(prev_skin)
+		prev_skin.queue_free()
+		
+		skin.name = "Skin"
+		add_child(skin)
 	
 	body = $Skin/Body
 	animation_player = $Skin/AnimationPlayer

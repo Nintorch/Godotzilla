@@ -4,7 +4,6 @@ extends NinePatchRect
 @export var alignment_horizontal = HORIZONTAL_ALIGNMENT_LEFT
 @export var alignment_vertical = VERTICAL_ALIGNMENT_TOP
 @onready var text: Label = $Text
-var default_window_size = Vector2i(window_size)
 
 enum State {
 	HIDDEN,
@@ -13,8 +12,8 @@ enum State {
 	DISAPPEARING,
 }
 
+var default_window_size = Vector2i(window_size)
 var state = State.HIDDEN
-var timer = 0.0
 var next_text = ""
 
 func _ready():
@@ -24,37 +23,30 @@ func _ready():
 	text.horizontal_alignment = alignment_horizontal
 	text.vertical_alignment = alignment_vertical
 
-func _process(delta: float):
+func _physics_process(delta: float) -> void:
 	if state == State.APPEARING:
-		timer += delta
-		if timer * 60 > 1:
-			timer -= 1.0 / 60
-			if visible:
-				size.x += 16
-			else:
-				visible = true
+		if visible:
+			size.x += 16
+		else:
+			visible = true
 			
-			if size.x >= window_size.x:
-				state = State.SHOWN
-				text.visible = true
-				timer = 0
+		if size.x >= window_size.x:
+			state = State.SHOWN
+			text.visible = true
 				
 	elif state == State.DISAPPEARING:
-		timer += delta
-		if timer * 60 > 1:
-			timer -= 1.0 / 60
-			if size.x > 16:
-				size.x -= 16
-			elif next_text:
-				text.text = next_text
-				text.size.x = window_size.x - 8
-				text.size.y = window_size.y - 16
-				next_text = ""
-				state = State.APPEARING
-				timer = 0
-			else:
-				make_hide()
+		if size.x > 16:
+			size.x -= 16
+		elif next_text:
+			text.text = next_text
+			text.size.x = window_size.x - 8
+			text.size.y = window_size.y - 16
+			next_text = ""
+			state = State.APPEARING
+		else:
+			make_hide()
 	
+# TODO: check req_size
 func appear(message: String, enable_sound = true, req_size: Vector2i = default_window_size):
 	window_size = req_size
 	
@@ -89,7 +81,6 @@ func make_hide() -> void:
 	visible = false
 	state = State.HIDDEN
 	size = Vector2(0, window_size.y)
-	timer = 0
 		
 func get_text() -> String:
 	return $Text.text
