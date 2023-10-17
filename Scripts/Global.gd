@@ -7,9 +7,8 @@ var fading := false # set in Main.gd
 
 var music: AudioStreamPlayer
 var player: GameCharacter
-var board
-var camera: Camera2D
 var playing_levels: Array[PackedScene] = []
+var board
 
 signal widescreen_changed
 signal fade_end

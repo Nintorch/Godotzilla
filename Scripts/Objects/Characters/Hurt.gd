@@ -26,4 +26,4 @@ func _on_timeout() -> void:
 		return
 	parent.animation_player.play("RESET")
 	move_state.reset()
-	parent.set_state(parent.move_state)
+	parent.state = parent.move_state

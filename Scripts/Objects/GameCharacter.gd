@@ -37,13 +37,13 @@ enum Attack {
 
 @onready var collision: CollisionShape2D = $Collision
 @onready var states_list: Array[Node] = $States.get_children()
-@onready var health: Node = $Health
+@onready var health: Node = $HealthComponent
 
 var power_bar: Control
 var life_bar: Control
 var level_node: Label
 
-var state := State.LEVEL_INTRO
+var state := State.LEVEL_INTRO: set = set_state
 var move_state := State.WALK
 
 var character := GameCharacter.Type.GODZILLA
@@ -162,8 +162,8 @@ func _physics_process(delta: float) -> void:
 	# of the screen, so we shouldn't limit the position unless the player
 	# got control of the character.
 	if state != State.LEVEL_INTRO and velocity.x < 0 \
-		and position.x <= Global.camera.limit_left + 16:
-		position.x = Global.camera.limit_left + 16
+		and position.x <= get_viewport().get_camera_2d().limit_left + 16:
+		position.x = get_viewport().get_camera_2d().limit_left + 16
 		velocity.x = 0
 
 	if state != State.DEAD and not is_on_floor() and not is_flying():
@@ -254,11 +254,11 @@ func _on_health_damaged(amount: float, hurt_time: float) -> void:
 		hurt_time = 0.6
 	if hurt_time > 0:
 		$States/Hurt.hurt_time = hurt_time
-		set_state(State.HURT)
+		state = State.HURT
 
 func _on_health_dead() -> void:
 	life_bar.target_value = 0
-	set_state(State.DEAD)
+	state = State.DEAD
 
 func _on_health_healed(amount: float) -> void:
 	life_bar.target_value += amount

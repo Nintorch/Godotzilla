@@ -12,7 +12,7 @@ func _process(delta: float) -> void:
 	move_state.move(delta)
 
 func use(type: GameCharacter.Attack) -> void:
-	parent.set_state(GameCharacter.State.ATTACK)
+	parent.state = GameCharacter.State.ATTACK
 	
 	match type:
 		GameCharacter.Attack.PUNCH, GameCharacter.Attack.KICK:
@@ -43,15 +43,15 @@ func _on_animation_finished(anim_name: String) -> void:
 	match anim_name:
 		"Punch1", "Punch2":
 			parent.animation_player.play("RESET")
-			parent.set_state(GameCharacter.State.WALK)
+			parent.state = GameCharacter.State.WALK
 		"Kick1", "Kick2":
 			move_state.walk_frame = 0
 			parent.animation_player.play("RESET")
-			parent.set_state(GameCharacter.State.WALK)
+			parent.state = GameCharacter.State.WALK
 		"TailWhip":
 			move_state.walk_frame = 0
 			if parent.inputs[GameCharacter.Inputs.YINPUT] > 0:
 				parent.animation_player.play("Crouch")
 			else:
 				parent.animation_player.play("RESET")
-			parent.set_state(GameCharacter.State.WALK)
+			parent.state = GameCharacter.State.WALK

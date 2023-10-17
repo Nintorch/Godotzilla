@@ -19,7 +19,6 @@ var current_character: int # set in Board.gd
 var camera_x_old: float
 
 func _ready() -> void:
-	Global.camera = camera
 	Global.widescreen_changed.connect(on_widescreen_change)
 	RenderingServer.set_default_clear_color(bg_color)
 	

@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
 				sfx_step.play()
 			
 	if parent.position.x > target_x:
-		parent.set_state(parent.move_state)
+		parent.state = parent.move_state
 		parent.velocity = Vector2(0,0)
 		move_state.reset()
 		parent.body.frame = 0

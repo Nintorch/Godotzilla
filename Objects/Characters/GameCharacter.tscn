@@ -27,7 +27,7 @@ script = ExtResource("1_clvtk")
 position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_yw7jv")
 
-[node name="Health" parent="." instance=ExtResource("3_bws3y")]
+[node name="HealthComponent" parent="." instance=ExtResource("3_bws3y")]
 
 [node name="MothraFloorChecking" type="Area2D" parent="."]
 visible = false
@@ -72,6 +72,6 @@ bus = &"SFX"
 stream = ExtResource("8_byldf")
 bus = &"SFX"
 
-[connection signal="damaged" from="Health" to="." method="_on_health_damaged"]
-[connection signal="dead" from="Health" to="." method="_on_health_dead"]
-[connection signal="healed" from="Health" to="." method="_on_health_healed"]
+[connection signal="damaged" from="HealthComponent" to="." method="_on_health_damaged"]
+[connection signal="dead" from="HealthComponent" to="." method="_on_health_dead"]
+[connection signal="healed" from="HealthComponent" to="." method="_on_health_healed"]
