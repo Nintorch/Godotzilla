@@ -33,6 +33,9 @@ func _process(_delta: float) -> void:
 	
 	if player.position.x > camera.limit_right - 10:
 		next_level()
+		
+	if Input.is_action_just_pressed("Start"):
+		player.health.damage(8)
 	
 func intro_ended() -> void:
 	if not Global.music.playing:

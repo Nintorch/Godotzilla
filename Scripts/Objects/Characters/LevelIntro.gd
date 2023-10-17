@@ -14,7 +14,7 @@ func state_init() -> void:
 	if parent.character == GameCharacter.Type.MOTHRA:
 		target_x = 80
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	parent.velocity.x = parent.move_speed
 	
 	if not parent.is_flying():

@@ -1,15 +1,14 @@
 extends Node2D
 
-@export var music: AudioStream = preload("res://Audio/Soundtrack/Earth.ogg")
 @export var board_name := "The Earth"
+@export var music: AudioStream = preload("res://Audio/Soundtrack/Earth.ogg")
 @export var levels: Array[PackedScene]
 
 @onready var tilemap: TileMap = $Board/TileMap
 @onready var message_window: NinePatchRect = $Board/CanvasLayer/MessageWindow
 @onready var selector: Sprite2D = $Board/TileMap/Selector
 
-@onready var board_pieces: Array[Node] = \
-	$"Board/TileMap/Board Pieces".get_children()
+@onready var board_pieces: Array[Node2D]
 	
 # The actual playable board, the node that has this script
 # also includes the board name.
@@ -21,6 +20,7 @@ var selected_piece: Node = null
 
 func _ready():
 	Global.board = self
+	board_pieces.assign($"Board/TileMap/Board Pieces".get_children())
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	build_outline()
@@ -33,6 +33,7 @@ func _ready():
 			
 		board.visible = false
 		board.process_mode = Node.PROCESS_MODE_DISABLED
+		
 		Global.fade_in()
 		await Global.fade_end
 		
@@ -43,8 +44,8 @@ func _ready():
 		Global.fade_out()
 		await Global.fade_end
 		
-	$BoardName.visible = false
 	Global.fade_in()
+	$BoardName.visible = false
 	board.visible = true
 	board.process_mode = Node.PROCESS_MODE_INHERIT
 	Global.play_music(music)
@@ -106,6 +107,8 @@ func build_outline():
 			print("Warning: Icon moved from TileMap layer 0 to layer 1")
 			tilemap.set_cell(1, cell, 0, cell_id)
 			
+	tilemap.clear_layer(0)
+			
 	for cell in tilemap.get_used_cells(1):
 		tilemap.set_cell(0, cell, 0, Vector2i(0, 0))
 
@@ -146,11 +149,11 @@ func start_playing() -> void:
 	
 	get_tree().paused = false
 	
-	var level := Global.get_next_level()
+	var level := Global.get_next_level().instantiate()
 	level.current_character = selected_piece.piece_character
 	# We don't free the board scene so we can later return to it,
 	# hence the second false argument.
-	Global.change_scene(level, false)
+	Global.change_scene_node(level, false)
 	
 # TODO: Boss' steps
 func returned() -> void:
@@ -165,13 +168,7 @@ func returned() -> void:
 		selected_piece = null
 
 func get_player_pieces() -> Array[Node2D]:
-	# The result of filter cannot be returned because it's Array[Node]
-	# but the call to assign can convert to Array[Node2D]
-	var ret: Array[Node2D] = []
-	ret.assign(board_pieces.filter(func(p): return p.is_player()))
-	return ret
+	return board_pieces.filter(func(p): return p.is_player())
 	
 func get_boss_pieces() -> Array[Node2D]:
-	var ret: Array[Node2D] = []
-	ret.assign(board_pieces.filter(func(p): return not p.is_player()))
-	return ret
+	return board_pieces.filter(func(p): return not p.is_player())

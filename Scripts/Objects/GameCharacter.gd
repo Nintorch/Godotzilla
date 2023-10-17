@@ -154,6 +154,10 @@ func _ready() -> void:
 			i.disable()
 		
 func _physics_process(delta: float) -> void:
+	if Engine.get_physics_frames() % 20 == 0 \
+		and power_bar.target_value < power_bar.max_value:
+		power_bar.target_value += 1.0
+		
 	# The character should come from outside the camera from the left side
 	# of the screen, so we shouldn't limit the position unless the player
 	# got control of the character.
@@ -169,11 +173,6 @@ func _physics_process(delta: float) -> void:
 
 func _process(_delta: float) -> void:
 	process_input()
-	set_level(level)
-	
-	if Engine.get_physics_frames() % 20 == 0 \
-		and power_bar.target_value < power_bar.max_value:
-		power_bar.target_value += 1.0
 	
 func process_input() -> void:
 	if has_input:
@@ -215,9 +214,6 @@ func set_level(value: int) -> void:
 		level_str = "0" + level_str
 	level_node.text = "level " + level_str
 		
-func is_hurtable() -> bool:
-	return state not in [State.LEVEL_INTRO, State.HURT, State.DEAD]
-		
 func use_power(amount: int) -> bool:
 	if power_bar.target_value < amount:
 		return false
@@ -248,6 +244,9 @@ func is_flying() -> bool:
 func set_collision(size: Vector2, offset: Vector2) -> void:
 	collision.shape.size = size
 	collision.position = offset
+	
+func is_hurtable() -> bool:
+	return state not in [State.LEVEL_INTRO, State.HURT, State.DEAD]
 
 func _on_health_damaged(amount: float, hurt_time: float) -> void:
 	life_bar.target_value -= amount

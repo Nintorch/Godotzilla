@@ -12,18 +12,20 @@ func state_entered() -> void:
 	await Global.fade_end
 	get_tree().paused = false
 	
-	Global.board.board_pieces.erase(Global.board.selected_piece)
-	Global.board.selected_piece.remove()
-	Global.board.selected_piece = null
-	# TODO: if there are other playable characters left on the board,
-	# go back to the board and remove the current character piece.
-	if Global.board.get_player_pieces().size() == 0:
-		Global.change_scene(preload("res://Scenes/GameOver.tscn"))
+	if Global.board:
+		Global.board.board_pieces.erase(Global.board.selected_piece)
+		Global.board.selected_piece.remove()
+		Global.board.selected_piece = null
+		
+		if Global.board.get_player_pieces().size() == 0:
+			Global.change_scene(preload("res://Scenes/GameOver.tscn"))
+		else:
+			Global.change_scene_node(Global.board)
+			Global.board.returned()
 	else:
-		Global.change_scene_node(Global.board)
-		Global.board.returned()
+		Global.change_scene(preload("res://Scenes/GameOver.tscn"))
 	
-func _process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if Engine.get_physics_frames() % 5 == 0:
 		var explosion = Explosion.new()
 		explosion.global_position = parent.global_position

@@ -159,14 +159,6 @@ func move_input_selector() -> void:
 		(8 if input_selector_position.x >= alphabet[0].length() / 2 else 0)
 	input_selector.position.y = input_selector_position.y * 24
 	
-func update_password_text() -> void:
-	var string := "".join(password)
-	var result := ""
-	for i in range(0, 40, 10):
-		result += string.substr(i, 10) + \
-			("  " if i % 20 == 0 else '\n')
-	password_node.text = result
-	
 func move_password_selector(pos: int) -> void:
 	selector_position = clampi(selector_position + pos, 0, 40-1)
 	
@@ -174,12 +166,22 @@ func move_password_selector(pos: int) -> void:
 	var posy := selector_position / 20
 	password_selector.position.x = posx * 8 + (16 if posx >= 10 else 0)
 	password_selector.position.y = posy * 24
+	
+func update_password_text() -> void:
+	var string := "".join(password)
+	var result := ""
+	for i in range(0, 40, 10):
+		result += string.substr(i, 10) + \
+			("  " if i % 20 == 0 else '\n')
+	password_node.text = result
 
 func get_password_text() -> String:
 	# Password is only stripped on the right side on purpose
 	return "".join(password).rstrip(' ')
-	
-# Password actions below
+
+##########################
+# Password actions below #
+##########################
 
 # Just a test password
 func pw_test() -> void:

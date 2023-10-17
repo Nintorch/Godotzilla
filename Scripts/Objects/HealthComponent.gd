@@ -7,14 +7,16 @@ extends Node
 var died := false
 
 signal damaged(amount: float, hurt_time: float)
-signal healed(amount: float)
 signal dead
+signal healed(amount: float)
 
 # TODO: invincibility time
 
 # Returns true if the object died (hp reached 0)
 func damage(amount: float, hurt_time: float = -1) -> bool:
-	if amount <= 0:
+	if amount <= 0 \
+		or (get_parent().has_method("is_hurtable")
+		and not get_parent().is_hurtable()):
 		return false
 	elif died:
 		return true

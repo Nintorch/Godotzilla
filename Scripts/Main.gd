@@ -10,9 +10,8 @@ func _ready() -> void:
 	Global.widescreen_changed.connect(_on_widescreen_change)
 	Global.scene_changed.connect(_scene_changed)
 	
+	hide_fade()
 	_on_widescreen_change()
-	$Fade/Fader.modulate.a = 0
-	
 	_scene_changed(null, null)
 	
 func set_fade_color(color) -> void:
@@ -45,13 +44,17 @@ func _scene_changed(_from: Node, _to: Node) -> void:
 func _on_widescreen_change() -> void:
 	$Fade/Fader.size = Global.get_content_size()
 	
+	if not Global.get_current_scene() is Node2D:
+		return
+	
+	var curscene: Node2D = Global.get_current_scene() as Node2D
 	if not get_viewport().get_camera_2d():
-		$CurrentScene.position.x = (Global.get_content_size().x - \
+		curscene.position.x = (Global.get_content_size().x - \
 			Global.get_default_resolution().x) / 2
 		return
 		
 	if get_viewport().get_camera_2d().limit_right <= Global.get_content_size().x:
-		$CurrentScene.position.x = (get_viewport().get_camera_2d().limit_right - \
+		curscene.position.x = (get_viewport().get_camera_2d().limit_right - \
 			Global.get_content_size().x) / 2
 	else:
-		$CurrentScene.position.x = 0
+		curscene.position.x = 0
