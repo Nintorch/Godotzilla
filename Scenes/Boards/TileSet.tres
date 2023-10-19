@@ -1,9 +1,9 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dqxp8rxkj8qxc"]
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://ssw1p4ldc5kg"]
 
-[ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Sprites/Levels/TestLevel/board.png" id="1_3pm41"]
+[ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Sprites/Levels/TestLevel/board.png" id="1_q83ba"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wxb3r"]
-texture = ExtResource("1_3pm41")
+texture = ExtResource("1_q83ba")
 texture_region_size = Vector2i(48, 34)
 use_texture_padding = false
 0:0/0 = 0

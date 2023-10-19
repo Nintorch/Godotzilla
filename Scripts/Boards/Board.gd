@@ -11,6 +11,8 @@ extends Node2D
 @export var levels: Array[PackedScene]
 @export var next_board: PackedScene
 
+@export var tileset: Texture
+
 @onready var tilemap: TileMap = $Board/TileMap
 @onready var message_window: NinePatchRect = $Board/GUI/MessageWindow
 @onready var selector: Sprite2D = $Board/TileMap/Selector
@@ -29,6 +31,7 @@ func _ready():
 	board_pieces.assign($"Board/TileMap/Board Pieces".get_children())
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)
+	update_tileset()
 	build_outline()
 	
 	if board_name:
@@ -99,6 +102,10 @@ func _process(_delta: float):
 			
 		if message_window.visible and Input.is_action_just_pressed("B"):
 			message_window.disappear()
+			
+func update_tileset() -> void:
+	tilemap.tile_set = tilemap.tile_set.duplicate(true)
+	tilemap.tile_set.get_source(0).texture = tileset
 		
 func adjust_message_pos():
 	if selector.position.y > 120:
