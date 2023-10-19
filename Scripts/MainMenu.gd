@@ -10,7 +10,7 @@ func _ready() -> void:
 	Global.hide_fade()
 	
 	# Disable every menu when starting up
-	for menu: Node2D in get_children().filter(func(x): return x.is_in_group("menu")):
+	for menu in get_children().filter(func(x): return x.is_in_group("menu")):
 		enable_menu(menu, false)
 	
 	set_menu($MenuMain)

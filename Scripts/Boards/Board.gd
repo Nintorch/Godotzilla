@@ -1,22 +1,28 @@
 extends Node2D
 
-@export var board_name := "The Earth"
-@export var music: AudioStream = preload("res://Audio/Soundtrack/Earth.ogg")
+@export var board_name: String = "Template"
+@export var music: AudioStream
+## If true, a player's current save will be changed when this
+## scene starts
+@export var use_in_saves := true
+## The array of levels
+## Check out get_level_id(tile: Vector2i) -> int in Selector.gd
+## to get the level ID for a cell in the tilemap
 @export var levels: Array[PackedScene]
+@export var next_board: PackedScene
 
 @onready var tilemap: TileMap = $Board/TileMap
-@onready var message_window: NinePatchRect = $Board/CanvasLayer/MessageWindow
+@onready var message_window: NinePatchRect = $Board/GUI/MessageWindow
 @onready var selector: Sprite2D = $Board/TileMap/Selector
-
-@onready var board_pieces: Array[Node2D]
 	
 # The actual playable board, the node that has this script
 # also includes the board name.
 @onready var board: Node2D = $Board
 
-@onready var menubip: AudioStreamPlayer = $Board/CanvasLayer/MessageWindow/MenuBip
+@onready var menubip: AudioStreamPlayer = $Board/GUI/MessageWindow/MenuBip
 
 var selected_piece: Node = null
+var board_pieces: Array[Node2D]
 
 func _ready():
 	Global.board = self

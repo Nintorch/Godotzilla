@@ -1,33 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://d2do8ilhab482"]
+[gd_scene load_steps=7 format=3 uid="uid://d2do8ilhab482"]
 
 [ext_resource type="Script" path="res://Scripts/Boards/Board.gd" id="1_qudp1"]
-[ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/BaseLevel.tscn" id="2_yter6"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="3_2wbjf"]
-[ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Sprites/Levels/TestLevel/board.png" id="4_yatfn"]
+[ext_resource type="TileSet" uid="uid://dqxp8rxkj8qxc" path="res://Scenes/Boards/TileSet.tres" id="3_34po6"]
 [ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="5_5kcnc"]
 [ext_resource type="PackedScene" uid="uid://dtc8wqm5nbty2" path="res://Objects/Boards/Selector.tscn" id="6_ysf6o"]
 [ext_resource type="PackedScene" uid="uid://bn3se1dw6cfhu" path="res://Objects/Boards/MessageWindow.tscn" id="7_hcaag"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wxb3r"]
-texture = ExtResource("4_yatfn")
-texture_region_size = Vector2i(48, 34)
-use_texture_padding = false
-0:0/0 = 0
-1:0/0 = 0
-2:0/0 = 0
-3:0/0 = 0
-4:0/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_g03wr"]
-tile_shape = 2
-tile_layout = 1
-tile_offset_axis = 1
-tile_size = Vector2i(32, 32)
-sources/0 = SubResource("TileSetAtlasSource_wxb3r")
-
 [node name="Board" type="Node2D"]
 script = ExtResource("1_qudp1")
-levels = Array[PackedScene]([ExtResource("2_yter6"), ExtResource("2_yter6")])
 
 [node name="BoardName" type="Node2D" parent="."]
 
@@ -44,7 +25,7 @@ uppercase = true
 
 [node name="TileMap" type="TileMap" parent="Board"]
 position = Vector2(16, 8)
-tile_set = SubResource("TileSet_g03wr")
+tile_set = ExtResource("3_34po6")
 format = 2
 layer_0/name = "Board Outline"
 layer_1/name = "Icons"
@@ -53,7 +34,7 @@ layer_1/modulate = Color(1, 1, 1, 1)
 layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 0
-layer_1/tile_data = PackedInt32Array(0, 65536, 0, 65536, 65536, 0, 131072, 65536, 0, 65537, 65536, 0, 131073, 65536, 0, 196609, 65536, 0, 262145, 65536, 0, 2, 65536, 0, 65538, 65536, 0, 196610, 65536, 0, 262146, 65536, 0, 131074, 131072, 0, 65539, 65536, 0, 131075, 65536, 0, 262147, 262144, 0, 327683, 262144, 0, 65540, 65536, 0, 196612, 65536, 0, 327684, 65536, 0, 327685, 196608, 0, 262149, 131072, 0, 262150, 196608, 0, 196614, 65536, 0, 327686, 196608, 0, 262148, 131072, 0, 131076, 131072, 0, 131077, 131072, 0, 196613, 65536, 0)
+layer_1/tile_data = PackedInt32Array(65537, 65536, 0, 65536, 65536, 0, 0, 65536, 0, 131072, 65536, 0, 131073, 65536, 0, 196609, 65536, 0, 131074, 65536, 0, 65538, 65536, 0, 196610, 65536, 0, 131075, 65536, 0, 196611, 65536, 0, 262147, 65536, 0, 262145, 65536, 0, 262146, 65536, 0, 196608, 65536, 0)
 
 [node name="Board Pieces" type="Node2D" parent="Board/TileMap"]
 
@@ -74,9 +55,9 @@ drag_top_margin = 0.1
 drag_bottom_margin = 0.1
 editor_draw_limits = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="Board"]
+[node name="GUI" type="CanvasLayer" parent="Board"]
 
-[node name="MessageWindow" parent="Board/CanvasLayer" instance=ExtResource("7_hcaag")]
+[node name="MessageWindow" parent="Board/GUI" instance=ExtResource("7_hcaag")]
 visible = false
 offset_left = 16.0
 offset_top = 136.0

@@ -1,0 +1,24 @@
+[gd_scene load_steps=7 format=3 uid="uid://blo8x6bqjbe1w"]
+
+[ext_resource type="PackedScene" uid="uid://d2do8ilhab482" path="res://Scenes/Boards/BaseBoard.tscn" id="1_swyd4"]
+[ext_resource type="AudioStream" uid="uid://ij42lx3rq1l1" path="res://Audio/Soundtrack/Earth.ogg" id="2_qcs5w"]
+[ext_resource type="PackedScene" uid="uid://dhm8bcemuwqfo" path="res://Scenes/Levels/Wilderness.tscn" id="2_sgm5j"]
+[ext_resource type="PackedScene" uid="uid://bdbahbhfgy3yt" path="res://Scenes/Boards/TransitionLevel.tscn" id="4_8ykux"]
+[ext_resource type="PackedScene" uid="uid://slv0bn0tcyna" path="res://Scenes/Boards/Jupiter.tscn" id="4_rf5mg"]
+[ext_resource type="TileSet" uid="uid://bkikgdr7gd6ru" path="res://Scenes/Boards/TileSet_TheEarth.tres" id="6_0edke"]
+
+[node name="Board" instance=ExtResource("1_swyd4")]
+board_name = "The Earth"
+music = ExtResource("2_qcs5w")
+levels = Array[PackedScene]([ExtResource("2_sgm5j"), ExtResource("2_sgm5j"), ExtResource("4_8ykux"), ExtResource("2_sgm5j")])
+next_board = ExtResource("4_rf5mg")
+
+[node name="TileMap" parent="Board" index="0"]
+tile_set = ExtResource("6_0edke")
+layer_1/tile_data = PackedInt32Array(65537, 65536, 0, 65536, 65536, 0, 0, 65536, 0, 131072, 65536, 0, 131073, 65536, 0, 196609, 65536, 0, 131074, 131072, 0, 65538, 65536, 0, 196610, 65536, 0, 262147, 262144, 0, 262146, 65536, 0, 262145, 65536, 0, 327683, 262144, 0, 327684, 65536, 0, 262148, 131072, 0, 262149, 131072, 0, 327685, 196608, 0, 196613, 65536, 0, 196612, 65536, 0, 131076, 131072, 0, 65540, 65536, 0, 2, 65536, 0, 65539, 65536, 0, 131077, 131072, 0, 196614, 65536, 0, 262150, 196608, 0, 327686, 196608, 0, 131075, 65536, 0)
+
+[node name="Godzilla" parent="Board/TileMap/Board Pieces" index="0"]
+position = Vector2(208, 120)
+
+[node name="Selector" parent="Board/TileMap" index="1"]
+position = Vector2(208, 120)

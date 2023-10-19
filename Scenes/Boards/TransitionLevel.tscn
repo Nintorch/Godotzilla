@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=3 uid="uid://bdbahbhfgy3yt"]
+
+[ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/BaseLevel.tscn" id="1_sxqx2"]
+[ext_resource type="Script" path="res://Scripts/Levels/TransitionLevel.gd" id="2_n0ki5"]
+[ext_resource type="AudioStream" uid="uid://bv5227ls5ejej" path="res://Audio/Soundtrack/PassWordGame.ogg" id="2_y8tv1"]
+
+[sub_resource type="Gradient" id="Gradient_v0rqx"]
+offsets = PackedFloat32Array(0.708154, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.344076, 0.344076, 0.344076, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kd1v6"]
+gradient = SubResource("Gradient_v0rqx")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+
+[node name="Level" instance=ExtResource("1_sxqx2")]
+script = ExtResource("2_n0ki5")
+music = ExtResource("2_y8tv1")
+
+[node name="Floor" parent="." index="2"]
+texture = SubResource("GradientTexture2D_kd1v6")

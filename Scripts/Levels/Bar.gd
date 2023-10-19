@@ -58,7 +58,7 @@ func _process(delta: float) -> void:
 				$Style2/BarColor.size.x = (value / max_value) * $Style2/BarBG.size.x
 
 func update_style() -> void:
-	for s: Control in get_children().filter(
+	for s in get_children().filter(
 		func(x): return x.is_in_group("bar_style")):
 		s.visible = false
 	

@@ -43,7 +43,8 @@ func get_default_resolution() -> Vector2i:
 func use_widescreen(flag: bool) -> void:
 	var size = get_default_resolution()
 	if flag:
-		size.x = ProjectSettings.get_setting("display/window/size/viewport_width_widescreen")
+		size.x = ProjectSettings.get_setting(
+			"display/window/size/viewport_width_widescreen")
 	get_tree().get_root().content_scale_size = size
 	widescreen_changed.emit()
 	
@@ -69,6 +70,8 @@ func any_action_button_pressed() -> bool:
 			return true
 	return false
 
+func get_boards() -> Array[BoardDescription]:
+	return main.boards
 	
 ##region Scene changing
 

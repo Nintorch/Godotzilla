@@ -8,7 +8,7 @@ enum MovementStyle {
 @export var movement_style = MovementStyle.OUTSIDE_CELLS
 
 @onready var tilemap: TileMap = get_parent()
-@onready var message_window = $"../../CanvasLayer/MessageWindow"
+@onready var message_window = $"../../GUI/MessageWindow"
 @onready var board = $"../../.."
 
 # Speed (in pixels per frame for 60 fps)
