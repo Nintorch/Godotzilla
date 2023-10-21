@@ -27,6 +27,7 @@ func _process(delta: float):
 		next_hex()
 	else:
 		var yoffset = 32 if not speed.x else 16
+		# TODO: don't run into other pieces
 		if speed.y > 0 and position.y > old_pos.y + yoffset - speed.y:
 			adjust_pos()
 			next_hex()

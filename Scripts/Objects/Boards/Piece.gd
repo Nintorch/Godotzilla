@@ -1,14 +1,32 @@
 @tool
 extends Sprite2D
 
-@export var piece_character := GameCharacter.Type.GODZILLA
-@export_enum("Player", "Boss") var piece_type := 0
-
-const PIECE_STEPS = [
+const PIECE_STEPS := [
 	2, # Godzilla
 	4, # Mothra
 ]
-const FRAME_COUNT = 3  # White piece and 2 colored walking sprites
+const FRAME_COUNT := 3  # White piece and 2 colored walking sprites
+const FRAME_SPEED := [
+	0.13, # Godzilla
+	0.2, # Mothra
+]
+
+@export var piece_character := GameCharacter.Type.GODZILLA:
+	set(value):
+		piece_character = value
+		update_frame()
+		queue_redraw()
+@export_enum("Player", "Boss") var piece_type := 0:
+	set(value):
+		piece_type = value
+		update_frame()
+		queue_redraw()
+## Only works if it's a boss, otherwise loaded from the current save.
+## If there's no current save, then it's 1.
+@export var level := 1
+
+# "Board Pieces" node
+@onready var parent = get_parent()
 
 var tilemap: TileMap
 var selector
@@ -21,8 +39,11 @@ var steps := 0
 var walk_frame := 0.0
 var walk_anim := 0
 
-var character_name := GameCharacter.CharacterNames[piece_character]
-var hp := 0.0
+var character_data = {
+	hp = 0.0,
+	bars = 0,
+	xp = 0,
+}
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
@@ -36,6 +57,9 @@ func _ready() -> void:
 	init_pos = position
 	
 	steps = PIECE_STEPS[piece_character]
+	character_data.bars = \
+		GameCharacter.calculate_bar_count(piece_character, level)
+	character_data.hp = character_data.bars * 8
 	update_frame()
 	
 	await get_tree().process_frame
@@ -51,7 +75,7 @@ func _process(delta: float) -> void:
 		if walk_anim == 0 and not selector.is_stopped() \
 			or walk_anim == 1:
 				# Switch frame every 0.2 of a second
-				walk_frame += delta / 0.13
+				walk_frame += delta / FRAME_SPEED[piece_character]
 				if walk_frame >= 2:
 					walk_frame -= 2
 				piece_frame = 1 + walk_frame
@@ -93,6 +117,8 @@ func select() -> void:
 	
 	selector.visible = false
 	show_cell_below()
+	# Move this piece above all other pieces
+	parent.move_child(self, -1)
 	
 func deselect() -> void:
 	selected = false

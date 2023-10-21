@@ -6,5 +6,5 @@
 [node name="Selector" type="Sprite2D"]
 texture = ExtResource("1_hejr5")
 hframes = 3
-vframes = 2
+vframes = 3
 script = ExtResource("2_4q06p")

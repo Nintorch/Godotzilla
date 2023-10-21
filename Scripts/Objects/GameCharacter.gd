@@ -6,11 +6,6 @@ enum Type {
 	MOTHRA,
 }
 
-const CharacterNames: Array[String] = [
-	"Godzilla",
-	"Mothra",
-]
-
 # States in "States" node of the player should be
 # in the same order as here.
 enum State {
@@ -32,6 +27,16 @@ enum Attack {
 	HEAT_BEAM, # TODO
 }
 
+const CHARACTER_NAMES: Array[String] = [
+	"Godzilla",
+	"Mothra",
+]
+
+const BaseBarCount: Array[int] = [
+	6, # Godzilla
+	8, # Mothra
+]
+
 @export var is_player := true
 @export var enable_intro := true
 
@@ -42,8 +47,9 @@ enum Attack {
 var power_bar: Control
 var life_bar: Control
 var level_node: Label
+var board_piece: Node2D # Set in Board.gd
 
-var state := State.LEVEL_INTRO: set = set_state
+var state := State.LEVEL_INTRO: set = _set_state
 var move_state := State.WALK
 
 var character := GameCharacter.Type.GODZILLA
@@ -73,6 +79,11 @@ const INPUT_ACTIONS = [["Left", "Right"], ["Up", "Down"], "B", "A", "Start", "Se
 # TODO: change the amount of bars of power and life based on the character level
 # same with health component hp
 
+# TODO: save bars as variable and skip everything bar-related if are no bars
+# save power as variable
+
+signal intro_ended
+
 func _ready() -> void:
 	if is_player:
 		Global.player = self
@@ -96,9 +107,8 @@ func _ready() -> void:
 		if not level_node:
 			level_node = hud.get_node("PlayerCharacter/Level")
 			
-		health.hp = life_bar.max_value
-		health.hp_max = life_bar.max_value
-	
+	load_state()
+		
 	# GameCharacter-specific setup	
 	var skin: Node2D
 	match character:
@@ -143,7 +153,7 @@ func _ready() -> void:
 	if not enable_intro:
 		state = move_state
 		if is_player:
-			Global.get_current_scene().intro_ended()
+			intro_ended.emit()
 	
 	for i in states_list:
 		i.state_init()
@@ -173,6 +183,20 @@ func _physics_process(delta: float) -> void:
 
 func _process(_delta: float) -> void:
 	process_input()
+
+func _set_state(new_state: State) -> void:
+	if state == new_state:
+		return
+	
+	var old_state_node = states_list[state]
+	var new_state_node = states_list[new_state]
+	
+	old_state_node.state_exited()
+	old_state_node.disable()
+	new_state_node.enable()
+	new_state_node.state_entered()
+	
+	state = new_state
 	
 func process_input() -> void:
 	if has_input:
@@ -187,21 +211,8 @@ func process_input() -> void:
 		for i in range(Inputs.B, Inputs.size()):
 			inputs[i] = Input.is_action_pressed(INPUT_ACTIONS[i])
 			inputs_pressed[i] = Input.is_action_just_pressed(INPUT_ACTIONS[i])
-
-func set_state(new_state: State) -> void:
-	if state == new_state:
-		return
 	
-	var old_state_node = states_list[state]
-	var new_state_node = states_list[new_state]
-	
-	old_state_node.state_exited()
-	old_state_node.disable()
-	new_state_node.enable()
-	new_state_node.state_entered()
-	
-	state = new_state
-	
+# TODO: attack component
 func use_attack(type: Attack):
 	$States/Attack.use(type)
 	
@@ -213,6 +224,15 @@ func set_level(value: int) -> void:
 	if level_str.length() < 2:
 		level_str = "0" + level_str
 	level_node.text = "level " + level_str
+	
+	var bars = calculate_bar_count(character, level)
+	var bar_value = bars * 8
+	power_bar.width = bars
+	power_bar.target_value = bar_value
+	life_bar.width = bars
+	life_bar.target_value = bar_value
+	health.hp = bar_value
+	health.hp_max = bar_value
 		
 func use_power(amount: int) -> bool:
 	if power_bar.target_value < amount:
@@ -236,7 +256,7 @@ func get_sfx(sfx_name: String) -> AudioStreamPlayer:
 	return get_node("SFX/" + sfx_name)
 	
 func get_character_name() -> String:
-	return CharacterNames[character]
+	return CHARACTER_NAMES[character]
 	
 func is_flying() -> bool:
 	return character == Type.MOTHRA
@@ -262,3 +282,27 @@ func _on_health_dead() -> void:
 
 func _on_health_healed(amount: float) -> void:
 	life_bar.target_value += amount
+	
+func load_state() -> void:
+	var data = board_piece.character_data
+	health.hp = data.hp
+	health.hp_max = data.bars * 8
+	
+	power_bar.width = data.bars
+	life_bar.width = data.bars
+	life_bar.initial_value = data.hp
+	
+	score = Global.board.player_score
+	add_score(0)
+	set_level(board_piece.level)
+	
+	# TODO: xp
+	
+func save_state() -> void:
+	board_piece.character_data.hp = health.hp
+	board_piece.character_data.bars = power_bar.width
+	board_piece.level = level
+	Global.board.player_score = score
+
+static func calculate_bar_count(character: GameCharacter.Type, level: int) -> int:
+	return BaseBarCount[character] + level - 1

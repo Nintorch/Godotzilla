@@ -15,15 +15,25 @@ enum CameraMode {
 }
 
 var camera_mode = CameraMode.NORMAL
-var current_character: int # set in Board.gd
 var camera_x_old: float
+
+# These are set in Board.gd and in next_level()
+var data = {
+	current_character = 0,
+	board_piece = null,
+}
 
 func _ready() -> void:
 	Global.widescreen_changed.connect(on_widescreen_change)
 	RenderingServer.set_default_clear_color(bg_color)
 	
-	current_character = GameCharacter.Type.GODZILLA
-	player.character = current_character
+	player.character = data.current_character
+	player.board_piece = data.board_piece
+	
+	player.intro_ended.connect(func():
+		if not Global.music.playing:
+			Global.play_music(music)
+		)
 	
 	Global.fade_in()
 	
@@ -31,14 +41,12 @@ func _process(_delta: float) -> void:
 	process_camera()
 	
 	if player.position.x > camera.limit_right - 10:
+		player.save_state()
 		next_level()
 		
 	if Input.is_action_just_pressed("Start"):
 		player.health.damage(8)
-	
-func intro_ended() -> void:
-	if not Global.music.playing:
-		Global.play_music(music)
+		player.add_score(20)
 
 func process_camera() -> void:
 	camera_x_old = camera.position.x
@@ -80,6 +88,7 @@ func next_level() -> void:
 	get_tree().paused = false
 	
 	if level:
+		level.data = data
 		Global.change_scene_node(level)
 	else:
 		Global.change_scene_node(Global.board)

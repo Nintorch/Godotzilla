@@ -26,6 +26,8 @@ extends Node2D
 var selected_piece: Node = null
 var board_pieces: Array[Node2D]
 
+var player_score := 0
+
 func _ready():
 	Global.board = self
 	board_pieces.assign($"Board/TileMap/Board Pieces".get_children())
@@ -132,7 +134,7 @@ func get_current_piece() -> Node:
 	return null
 	
 func show_boss_info(piece) -> void:
-		var text = GameCharacter.CharacterNames[piece.piece_character] + " - "
+		var text = GameCharacter.CHARACTER_NAMES[piece.piece_character] + " - "
 		var size = Vector2i(message_window.default_window_size)
 		var hp_text = boss_hp_str(piece.hp)
 		
@@ -163,7 +165,10 @@ func start_playing() -> void:
 	get_tree().paused = false
 	
 	var level := Global.get_next_level().instantiate()
-	level.current_character = selected_piece.piece_character
+	level.data = {
+		current_character = selected_piece.piece_character,
+		board_piece = selected_piece,
+	}
 	# We don't free the board scene so we can later return to it,
 	# hence the second false argument.
 	Global.change_scene_node(level, false)

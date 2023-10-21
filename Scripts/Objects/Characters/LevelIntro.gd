@@ -34,4 +34,4 @@ func _physics_process(delta: float) -> void:
 		parent.body.frame = 0
 		if not Global.music.playing:
 			sfx_roar.play()
-		Global.get_current_scene().intro_ended()
+		parent.intro_ended.emit()
