@@ -118,6 +118,7 @@ func _ready() -> void:
 			get_sfx("Step").stream = load("res://Audio/SFX/GodzillaStep.ogg")
 			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.wav")
 			move_state = State.WALK
+			set_collision(Vector2(20, 56), Vector2(0, -1))
 			
 			# We set the character-specific position so when the character
 			# walks in a sudden frame change won't happen
@@ -133,6 +134,9 @@ func _ready() -> void:
 			position.y -= 40
 			move_speed = 2 * 60
 			set_collision(Vector2(36, 14), Vector2(-4, 1))
+			
+			if is_player and enable_intro:
+				position.x = -37
 			
 	# Setup for all characters
 	if skin:
@@ -217,7 +221,7 @@ func use_attack(type: Attack):
 	$States/Attack.use(type)
 	
 func set_level(value: int) -> void:
-	if not is_player:
+	if not is_player or level == value:
 		return
 	level = value
 	var level_str = str(level)
@@ -285,6 +289,7 @@ func _on_health_healed(amount: float) -> void:
 	
 func load_state() -> void:
 	var data = board_piece.character_data
+	set_level(board_piece.level)
 	health.hp = data.hp
 	health.hp_max = data.bars * 8
 	
@@ -294,7 +299,6 @@ func load_state() -> void:
 	
 	score = Global.board.player_score
 	add_score(0)
-	set_level(board_piece.level)
 	
 	# TODO: xp
 	

@@ -19,7 +19,3 @@ music = ExtResource("2_y8tv1")
 
 [node name="Floor" parent="." index="2"]
 texture = SubResource("GradientTexture2D_kd1v6")
-
-[node name="Player" parent="." index="3"]
-is_player = null
-enable_intro = null
