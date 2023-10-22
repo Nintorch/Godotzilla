@@ -29,10 +29,10 @@ func _process(_delta: float) -> void:
 		DirAccess.remove_absolute(INPUT_PATH)
 		
 	if Input.is_action_just_pressed("FullScreen"):
-		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
+		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		else:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 
 func get_default_resolution() -> Vector2i:
 	return Vector2i(
@@ -47,6 +47,13 @@ func use_widescreen(flag: bool) -> void:
 			"display/window/size/viewport_width_widescreen")
 	get_tree().get_root().content_scale_size = size
 	widescreen_changed.emit()
+	
+func use_fullscreen(flag: bool) -> void:
+	const FULLSCREEN = DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
+	if flag and DisplayServer.window_get_mode() != FULLSCREEN:
+		DisplayServer.window_set_mode(FULLSCREEN)
+	elif not flag and DisplayServer.window_get_mode() == FULLSCREEN:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	
 func get_content_size() -> Vector2i:
 	return get_tree().get_root().content_scale_size

@@ -12,4 +12,5 @@ extends "res://Scripts/Menu.gd"
 
 # TODO: save system
 
+@export var initial_board: PackedScene
 @export var boards: Array[BoardDescription]

@@ -9,8 +9,8 @@
 [node name="Board" instance=ExtResource("1_swyd4")]
 board_name = "The Earth"
 music = ExtResource("2_qcs5w")
-levels = Array[PackedScene]([ExtResource("2_sgm5j"), ExtResource("2_sgm5j"), ExtResource("4_8ykux"), ExtResource("2_sgm5j")])
 next_board = ExtResource("4_rf5mg")
+levels = Array[PackedScene]([ExtResource("2_sgm5j"), ExtResource("2_sgm5j"), ExtResource("4_8ykux"), ExtResource("2_sgm5j")])
 
 [node name="TileMap" parent="Board" index="0"]
 layer_1/tile_data = PackedInt32Array(65537, 65536, 0, 65536, 65536, 0, 0, 65536, 0, 131072, 65536, 0, 131073, 65536, 0, 196609, 65536, 0, 131074, 131072, 0, 65538, 65536, 0, 196610, 65536, 0, 131075, 65536, 0, 262147, 262144, 0, 262145, 65536, 0, 262146, 65536, 0, 327683, 262144, 0, 327684, 65536, 0, 262148, 131072, 0, 262149, 131072, 0, 327685, 196608, 0, 196613, 65536, 0, 196612, 65536, 0, 131076, 131072, 0, 65540, 65536, 0, 2, 65536, 0, 65539, 65536, 0, 131077, 131072, 0, 196614, 65536, 0, 262150, 196608, 0, 327686, 196608, 0)

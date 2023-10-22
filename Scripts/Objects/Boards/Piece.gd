@@ -51,6 +51,7 @@ func _ready() -> void:
 		
 	tilemap = $"../.."
 	selector = $"../../Selector"
+	process_priority = 1
 	
 	# Adjust position
 	position = selector.map_to_tilemap(position, tilemap)

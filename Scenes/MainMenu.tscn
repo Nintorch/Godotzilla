@@ -15,7 +15,8 @@ script/source = "extends \"res://Scripts/Menu.gd\"
 func menu_select(id: int) -> void:
 	match id:
 		0: # New Game
-			main_menu.change_scene(preload(\"res://Scenes/Boards/BaseBoard.tscn\"))
+			var board = $\"../Saves\".initial_board
+			main_menu.change_scene(board)
 		1: # Pass word game
 			main_menu.change_scene(preload(\"res://Scenes/PassWordGame.tscn\"))
 		2: # Settings
@@ -57,7 +58,7 @@ resource_name = "VideoSettings"
 script/source = "extends \"res://Scripts/Menu.gd\"
 
 # -1 == full screen
-var resolutions := [1, 2, 3, 4, -1]
+const RESOLUTIONS := [1, 2, 3, 4, -1]
 var current_resolution := 2
 
 func menu_select(id: int) -> void:
@@ -73,7 +74,7 @@ func _process(_delta: float) -> void:
 				
 			if Input.is_action_just_pressed(\"Right\"):
 				current_resolution = min(current_resolution + 1, \\
-					resolutions.size() - 1)
+					RESOLUTIONS.size() - 1)
 				update_resolution()
 		1: # Wide screen
 			if Input.is_action_just_pressed(\"Left\"):
@@ -87,15 +88,15 @@ func _process(_delta: float) -> void:
 				update_resolution()
 
 func update_resolution() -> void:
-	if resolutions[current_resolution] == -1:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	if RESOLUTIONS[current_resolution] == -1:
+		Global.use_fullscreen(true)
 		$Resolution.text = \"resolution: full screen\"
 		return
 	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		$Resolution.text = \"resolution: x\" + str(resolutions[current_resolution])
+		Global.use_fullscreen(false)
+		$Resolution.text = \"resolution: x\" + str(RESOLUTIONS[current_resolution])
 		
-	get_window().set_size(Global.get_content_size() * resolutions[current_resolution])
+	get_window().set_size(Global.get_content_size() * RESOLUTIONS[current_resolution])
 "
 
 [sub_resource type="GDScript" id="GDScript_otbp2"]
@@ -249,6 +250,7 @@ uppercase = true
 
 [node name="Saves" type="Node2D" parent="."]
 script = ExtResource("3_re61q")
+initial_board = ExtResource("4_48mf5")
 boards = Array[ExtResource("5_o8n6q")]([SubResource("Resource_2kygw")])
 
 [node name="Settings" type="Node2D" parent="." groups=["menu"]]

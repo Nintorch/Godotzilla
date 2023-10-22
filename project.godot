@@ -29,6 +29,7 @@ gdscript/warnings/integer_division=0
 
 window/size/viewport_width=256
 window/size/viewport_height=240
+window/size/resizable=false
 window/size/window_width_override=768
 window/size/window_height_override=720
 window/stretch/mode="viewport"

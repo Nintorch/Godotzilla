@@ -8,14 +8,17 @@
 [node name="Board" instance=ExtResource("1_vt5a8")]
 board_name = "Jupiter"
 music = ExtResource("2_pb4ic")
-levels = Array[PackedScene]([ExtResource("3_2e2no")])
 tileset = ExtResource("4_ylq5q")
+levels = Array[PackedScene]([ExtResource("3_2e2no")])
 
 [node name="TileMap" parent="Board" index="0"]
 layer_1/tile_data = PackedInt32Array(196609, 65536, 0, 131074, 65536, 0, 196610, 65536, 0, 196611, 65536, 0, 262147, 65536, 0, 262145, 65536, 0, 262146, 65536, 0, 196608, 65536, 0, 262144, 65536, 0, 327681, 65536, 0, 196612, 65536, 0, 262148, 65536, 0, 131076, 65536, 0, 196613, 65536, 0, 262149, 65536, 0, 327685, 65536, 0, 196614, 65536, 0, 262150, 65536, 0, 262151, 65536, 0, 196615, 65536, 0, 131080, 65536, 0, 196616, 65536, 0, 262152, 65536, 0, 327689, 65536, 0, 262153, 65536, 0, 196617, 65536, 0, 131082, 65536, 0, 196618, 65536, 0, 262154, 65536, 0, 131081, 65536, 0)
 
 [node name="Godzilla" parent="Board/TileMap/Board Pieces" index="0"]
 position = Vector2(16, 152)
+
+[node name="Mothra" parent="Board/TileMap/Board Pieces" index="1"]
+position = Vector2(48, 168)
 
 [node name="Selector" parent="Board/TileMap" index="1"]
 position = Vector2(16, 152)

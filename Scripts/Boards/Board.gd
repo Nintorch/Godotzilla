@@ -2,16 +2,15 @@ extends Node2D
 
 @export var board_name: String = "Template"
 @export var music: AudioStream
+@export var tileset: Texture
 ## If true, a player's current save will be changed when this
 ## scene starts
 @export var use_in_saves := true
+@export var next_board: PackedScene
 ## The array of levels
 ## Check out get_level_id(tile: Vector2i) -> int in Selector.gd
 ## to get the level ID for a cell in the tilemap
 @export var levels: Array[PackedScene]
-@export var next_board: PackedScene
-
-@export var tileset: Texture
 
 @onready var tilemap: TileMap = $Board/TileMap
 @onready var message_window: NinePatchRect = $Board/GUI/MessageWindow
@@ -33,7 +32,7 @@ func _ready():
 	board_pieces.assign($"Board/TileMap/Board Pieces".get_children())
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)
-	update_tileset()
+	tilemap.tile_set.get_source(0).texture = tileset
 	build_outline()
 	
 	if board_name:
@@ -104,10 +103,6 @@ func _process(_delta: float):
 			
 		if message_window.visible and Input.is_action_just_pressed("B"):
 			message_window.disappear()
-			
-func update_tileset() -> void:
-	tilemap.tile_set = tilemap.tile_set.duplicate(true)
-	tilemap.tile_set.get_source(0).texture = tileset
 		
 func adjust_message_pos():
 	if selector.position.y > 120:
