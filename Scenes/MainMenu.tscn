@@ -3,10 +3,10 @@
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="1_8aeeb"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/MainMenu.gd" id="1_08s74"]
 [ext_resource type="AudioStream" uid="uid://cmyl7fsh4kab4" path="res://Audio/SFX/MenuBip.ogg" id="3_2sb5j"]
-[ext_resource type="Script" path="res://Scenes/Saves.gd" id="3_re61q"]
+[ext_resource type="Script" path="res://Scripts/MainMenu/Saves.gd" id="3_xxi2q"]
 [ext_resource type="Texture2D" uid="uid://dewcb08w13bxc" path="res://Sprites/controller.png" id="4_2rj4v"]
 [ext_resource type="PackedScene" uid="uid://blo8x6bqjbe1w" path="res://Scenes/Boards/TheEarth.tscn" id="4_48mf5"]
-[ext_resource type="Script" path="res://Scripts/BoardDescription.gd" id="5_o8n6q"]
+[ext_resource type="Script" path="res://Scripts/Boards/BoardDescription.gd" id="5_agy4f"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/VideoSettings.gd" id="6_pqf7j"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/SoundSettings.gd" id="7_1ou66"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/Controls.gd" id="9_v87nr"]
@@ -37,7 +37,7 @@ func menu_select(id: int) -> void:
 "
 
 [sub_resource type="Resource" id="Resource_2kygw"]
-script = ExtResource("5_o8n6q")
+script = ExtResource("5_agy4f")
 name = "The Earth"
 scene = ExtResource("4_48mf5")
 
@@ -104,9 +104,9 @@ text = "exit"
 uppercase = true
 
 [node name="Saves" type="Node2D" parent="."]
-script = ExtResource("3_re61q")
+script = ExtResource("3_xxi2q")
 initial_board = ExtResource("4_48mf5")
-boards = Array[ExtResource("5_o8n6q")]([SubResource("Resource_2kygw")])
+boards = Array[ExtResource("5_agy4f")]([SubResource("Resource_2kygw")])
 
 [node name="Settings" type="Node2D" parent="." groups=["menu"]]
 visible = false

@@ -288,6 +288,9 @@ func _on_health_healed(amount: float) -> void:
 	life_bar.target_value += amount
 	
 func load_state() -> void:
+	if not board_piece:
+		return
+		
 	var data = board_piece.character_data
 	set_level(board_piece.level)
 	health.hp = data.hp
