@@ -1,4 +1,4 @@
-extends "res://Scripts/Menu.gd"
+extends "res://Scripts/MainMenu/Menu.gd"
 
 # Explanation of the save system:
 # When the player gets on a board (using a save ofc)

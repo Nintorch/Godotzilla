@@ -7,6 +7,14 @@ func _ready() -> void:
 	$BeforeFlash.visible = true
 	$AfterFlash.visible = false
 	
+	if Global.is_widescreen():
+		var color_rects: Array[ColorRect] = \
+			[$BeforeFlash/ColorRect, $AfterFlash/ColorRect2]
+		for cr in color_rects:
+			cr.size.x = Global.get_content_size().x
+			cr.position.x = \
+				-(Global.get_content_size().x - Global.get_default_resolution().x) / 2
+	
 func _process(_delta: float) -> void:
 	if Global.any_action_button_pressed():
 		if not $AfterFlash.visible:

@@ -33,7 +33,7 @@ window/size/resizable=false
 window/size/window_width_override=768
 window/size/window_height_override=720
 window/stretch/mode="viewport"
-window/size/viewport_width_widescreen=424
+window/size/viewport_width_widescreen=427
 
 [dotnet]
 

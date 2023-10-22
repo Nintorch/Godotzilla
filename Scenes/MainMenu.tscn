@@ -1,16 +1,19 @@
 [gd_scene load_steps=14 format=3 uid="uid://b07xr3gduwdt5"]
 
-[ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1_3sdl0"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="1_8aeeb"]
+[ext_resource type="Script" path="res://Scripts/MainMenu/MainMenu.gd" id="1_08s74"]
 [ext_resource type="AudioStream" uid="uid://cmyl7fsh4kab4" path="res://Audio/SFX/MenuBip.ogg" id="3_2sb5j"]
 [ext_resource type="Script" path="res://Scenes/Saves.gd" id="3_re61q"]
 [ext_resource type="Texture2D" uid="uid://dewcb08w13bxc" path="res://Sprites/controller.png" id="4_2rj4v"]
 [ext_resource type="PackedScene" uid="uid://blo8x6bqjbe1w" path="res://Scenes/Boards/TheEarth.tscn" id="4_48mf5"]
 [ext_resource type="Script" path="res://Scripts/BoardDescription.gd" id="5_o8n6q"]
+[ext_resource type="Script" path="res://Scripts/MainMenu/VideoSettings.gd" id="6_pqf7j"]
+[ext_resource type="Script" path="res://Scripts/MainMenu/SoundSettings.gd" id="7_1ou66"]
+[ext_resource type="Script" path="res://Scripts/MainMenu/Controls.gd" id="9_v87nr"]
 
 [sub_resource type="GDScript" id="GDScript_rj6av"]
 resource_name = "MainMenu"
-script/source = "extends \"res://Scripts/Menu.gd\"
+script/source = "extends \"res://Scripts/MainMenu/Menu.gd\"
 
 func menu_select(id: int) -> void:
 	match id:
@@ -40,7 +43,7 @@ scene = ExtResource("4_48mf5")
 
 [sub_resource type="GDScript" id="GDScript_l65hy"]
 resource_name = "SettingsMenu"
-script/source = "extends \"res://Scripts/Menu.gd\"
+script/source = "extends \"res://Scripts/MainMenu/Menu.gd\"
 
 func menu_select(id: int) -> void:
 	var menus: Array[Node2D] = [
@@ -53,156 +56,8 @@ func menu_select(id: int) -> void:
 	main_menu.set_menu(menus[id])
 "
 
-[sub_resource type="GDScript" id="GDScript_y3lhy"]
-resource_name = "VideoSettings"
-script/source = "extends \"res://Scripts/Menu.gd\"
-
-# -1 == full screen
-const RESOLUTIONS := [1, 2, 3, 4, -1]
-var current_resolution := 2
-
-func menu_select(id: int) -> void:
-	if id == 2:
-		main_menu.set_menu($\"../Settings\")
-
-func _process(_delta: float) -> void:
-	match main_menu.selector_option:
-		0: # Resolution
-			if Input.is_action_just_pressed(\"Left\"):
-				current_resolution = max(current_resolution - 1, 0)
-				update_resolution()
-				
-			if Input.is_action_just_pressed(\"Right\"):
-				current_resolution = min(current_resolution + 1, \\
-					RESOLUTIONS.size() - 1)
-				update_resolution()
-		1: # Wide screen
-			if Input.is_action_just_pressed(\"Left\"):
-				$Widescreen.text = \"wide screen: off\"
-				Global.use_widescreen(false)
-				update_resolution()
-				
-			if Input.is_action_just_pressed(\"Right\"):
-				$Widescreen.text = \"wide screen: on\"
-				Global.use_widescreen(true)
-				update_resolution()
-
-func update_resolution() -> void:
-	if RESOLUTIONS[current_resolution] == -1:
-		Global.use_fullscreen(true)
-		$Resolution.text = \"resolution: full screen\"
-		return
-	else:
-		Global.use_fullscreen(false)
-		$Resolution.text = \"resolution: x\" + str(RESOLUTIONS[current_resolution])
-		
-	get_window().set_size(Global.get_content_size() * RESOLUTIONS[current_resolution])
-"
-
-[sub_resource type="GDScript" id="GDScript_otbp2"]
-resource_name = "SoundSettings"
-script/source = "extends \"res://Scripts/Menu.gd\"
-
-@onready var sfx_test: AudioStreamPlayer = $SFXTest
-var sfx_volume := 100
-var music_volume := 100
-
-func _process(_delta: float) -> void:
-	match main_menu.selector_option:
-		0: # SFX volume
-			if Input.is_action_just_pressed(\"Left\"):
-				sfx_volume = max(sfx_volume - 10, 0)
-				update_sfx_volume()
-				
-			if Input.is_action_just_pressed(\"Right\"):
-				sfx_volume = min(sfx_volume + 10, 100)
-				update_sfx_volume()
-		1: # Music volume
-			if Input.is_action_just_pressed(\"Left\"):
-				music_volume = max(music_volume - 10, 0)
-				update_music_volume()
-				
-			if Input.is_action_just_pressed(\"Right\"):
-				music_volume = min(music_volume + 10, 100)
-				update_music_volume()
-				
-func update_sfx_volume() -> void:
-	$SFXVolume.text = \"sfx volume:   \" + str(sfx_volume)
-	AudioServer.set_bus_volume_db(1, (sfx_volume - 100) * 0.8)
-	sfx_test.bus = \"SFX\"
-	sfx_test.play()
-	
-func update_music_volume() -> void:
-	$MusicVolume.text = \"music volume: \" + str(music_volume)
-	AudioServer.set_bus_volume_db(2, (music_volume - 100) * 0.8)
-	sfx_test.bus = \"Music\"
-	sfx_test.play()
-
-func menu_select(id: int) -> void:
-	if id == 2:
-		main_menu.set_menu($\"../Settings\")
-"
-
-[sub_resource type="GDScript" id="GDScript_ygalj"]
-resource_name = "Controls"
-script/source = "extends \"res://Scripts/Menu.gd\"
-
-const ACTIONS = Global.ACTIONS
-const SECTION = \"Input\"
-
-@onready var current_button: Label = $CurrentButton
-var current_input := 0
-var mapping: Array[InputEvent] = []
-
-func menu_enter() -> void:
-	current_input = 0
-	update_text()
-	
-	mapping.resize(ACTIONS.size())
-	mapping.fill(null)
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventKey and event.keycode == KEY_ESCAPE:
-		exit()
-		return
-		
-	if event is InputEventKey \\
-		and not event.is_echo() and event.is_pressed():
-		process_input(event)
-			
-func update_text() -> void:
-	current_button.text = \"press button \" + ACTIONS[current_input]
-	
-func next_input() -> void:
-	current_input += 1
-	if current_input >= ACTIONS.size():
-		save_mapping()
-		Global.load_input_mapping()
-		exit()
-		return
-	update_text()
-		
-func update_current_action(event: InputEvent) -> void:
-	mapping[current_input] = event
-	
-func process_input(event: InputEvent) -> void:
-	update_current_action(event)
-	next_input()
-	
-func exit() -> void:
-	await get_tree().process_frame
-	await get_tree().process_frame
-	main_menu.set_menu($\"../Settings\")
-
-func save_mapping() -> void:
-	var file = ConfigFile.new()
-	for i in ACTIONS.size():
-		file.set_value(SECTION, ACTIONS[i], mapping[i])
-	file.save(Global.INPUT_PATH)
-"
-
 [node name="MainMenu" type="Node2D"]
-script = ExtResource("1_3sdl0")
+script = ExtResource("1_08s74")
 
 [node name="Selector" type="ColorRect" parent="."]
 offset_right = 8.0
@@ -296,7 +151,7 @@ uppercase = true
 
 [node name="VideoSettings" type="Node2D" parent="." groups=["menu"]]
 visible = false
-script = SubResource("GDScript_y3lhy")
+script = ExtResource("6_pqf7j")
 
 [node name="Resolution" type="Label" parent="VideoSettings" groups=["option"]]
 offset_left = 72.0
@@ -329,7 +184,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="SoundSettings" type="Node2D" parent="." groups=["menu"]]
 visible = false
-script = SubResource("GDScript_otbp2")
+script = ExtResource("7_1ou66")
 
 [node name="SFXVolume" type="Label" parent="SoundSettings" groups=["option"]]
 offset_left = 72.0
@@ -363,7 +218,7 @@ stream = ExtResource("3_2sb5j")
 
 [node name="Controls" type="Node2D" parent="." groups=["menu"]]
 visible = false
-script = SubResource("GDScript_ygalj")
+script = ExtResource("9_v87nr")
 
 [node name="Controller" type="Sprite2D" parent="Controls"]
 position = Vector2(128, 120)
