@@ -23,13 +23,10 @@ extends Node2D
 @onready var menubip: AudioStreamPlayer = $Board/GUI/MessageWindow/MenuBip
 
 var selected_piece: Node = null
-var board_pieces: Array[Node2D]
-
 var player_score := 0
 
 func _ready():
 	Global.board = self
-	board_pieces.assign($"Board/TileMap/Board Pieces".get_children())
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	tilemap.tile_set.get_source(0).texture = tileset
@@ -121,9 +118,17 @@ func build_outline():
 			
 	for cell in tilemap.get_used_cells(1):
 		tilemap.set_cell(0, cell, 0, Vector2i(0, 0))
+		
+func get_board_pieces() -> Array[Node2D]:
+	var board_pieces: Array[Node2D]
+	board_pieces.assign(
+		$"Board/TileMap/Board Pieces".get_children().filter(func(x):
+			return not x.removed
+			))
+	return board_pieces
 
 func get_current_piece() -> Node:
-	for p in board_pieces:
+	for p in get_board_pieces():
 		if p.get_cell_pos() == selector.get_cell_pos(selector.old_pos):
 			return p
 	return null
@@ -181,7 +186,7 @@ func returned() -> void:
 		selected_piece = null
 
 func get_player_pieces() -> Array[Node2D]:
-	return board_pieces.filter(func(p): return p.is_player())
+	return get_board_pieces().filter(func(p): return p.is_player())
 	
 func get_boss_pieces() -> Array[Node2D]:
-	return board_pieces.filter(func(p): return not p.is_player())
+	return get_board_pieces().filter(func(p): return not p.is_player())

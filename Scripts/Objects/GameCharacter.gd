@@ -306,6 +306,8 @@ func load_state() -> void:
 	# TODO: xp
 	
 func save_state() -> void:
+	if not board_piece:
+		return
 	board_piece.character_data.hp = health.hp
 	board_piece.character_data.bars = power_bar.width
 	board_piece.level = level

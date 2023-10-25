@@ -39,6 +39,8 @@ var steps := 0
 var walk_frame := 0.0
 var walk_anim := 0
 
+var removed := false
+
 var character_data = {
 	hp = 0.0,
 	bars = 0,
@@ -142,11 +144,13 @@ func prepare_start() -> void:
 	
 	hide_cell_below()
 	
-# Called after prepare_start()
 func remove() -> void:
+	if Global.board.selected_piece == self:
+		Global.board.selected_piece = null
 	selector.visible = true
 	show_cell_below()
 	queue_free()
+	removed = true
 	
 func is_player() -> bool:
 	return piece_type == 0
