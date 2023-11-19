@@ -1,20 +1,28 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://ssw1p4ldc5kg"]
+[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://ssw1p4ldc5kg"]
 
 [ext_resource type="Texture2D" uid="uid://dhod63htftwaw" path="res://Sprites/EditorBoard.png" id="1_86gfs"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wxb3r"]
+resource_name = "Outline"
 texture = ExtResource("1_86gfs")
 texture_region_size = Vector2i(48, 34)
 use_texture_padding = false
 0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5xk1u"]
+resource_name = "Icons"
+texture = ExtResource("1_86gfs")
+margins = Vector2i(48, 0)
+texture_region_size = Vector2i(48, 32)
+0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
 3:0/0 = 0
-4:0/0 = 0
 0:1/0 = 0
 1:1/0 = 0
 2:1/0 = 0
 3:1/0 = 0
+4:0/0 = 0
 4:1/0 = 0
 
 [resource]
@@ -23,3 +31,4 @@ tile_layout = 1
 tile_offset_axis = 1
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_wxb3r")
+sources/1 = SubResource("TileSetAtlasSource_5xk1u")

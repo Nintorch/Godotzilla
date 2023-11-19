@@ -1,0 +1,101 @@
+[gd_scene load_steps=16 format=3 uid="uid://twku26u8n2dy"]
+
+[ext_resource type="Texture2D" uid="uid://bg00wrudw7pi5" path="res://Sprites/Characters/Godzilla/heat_beam.png" id="1_g23gd"]
+[ext_resource type="Script" path="res://Scripts/Objects/Characters/GodzillaHeatBeam.gd" id="2_opyea"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6fyik"]
+atlas = ExtResource("1_g23gd")
+region = Rect2(0, 0, 8, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qnjl5"]
+atlas = ExtResource("1_g23gd")
+region = Rect2(8, 0, 8, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kkxxx"]
+atlas = ExtResource("1_g23gd")
+region = Rect2(16, 0, 8, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uxhgt"]
+atlas = ExtResource("1_g23gd")
+region = Rect2(24, 0, 8, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idptu"]
+atlas = ExtResource("1_g23gd")
+region = Rect2(32, 0, 8, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v6y3n"]
+atlas = ExtResource("1_g23gd")
+region = Rect2(40, 0, 8, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dh71v"]
+atlas = ExtResource("1_g23gd")
+region = Rect2(48, 0, 8, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a56w3"]
+atlas = ExtResource("1_g23gd")
+region = Rect2(56, 0, 8, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1dpt6"]
+atlas = ExtResource("1_g23gd")
+region = Rect2(64, 0, 8, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gy76j"]
+atlas = ExtResource("1_g23gd")
+region = Rect2(72, 0, 8, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_frcu0"]
+atlas = ExtResource("1_g23gd")
+region = Rect2(80, 0, 8, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fqku5"]
+atlas = ExtResource("1_g23gd")
+region = Rect2(88, 0, 8, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5qopn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6fyik")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qnjl5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kkxxx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uxhgt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idptu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v6y3n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dh71v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a56w3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1dpt6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gy76j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_frcu0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fqku5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="GodzillaHeatBeam" type="AnimatedSprite2D"]
+position = Vector2(0, 22)
+sprite_frames = SubResource("SpriteFrames_5qopn")
+script = ExtResource("2_opyea")

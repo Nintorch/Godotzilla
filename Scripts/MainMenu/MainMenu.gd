@@ -13,7 +13,7 @@ func _ready() -> void:
 	for menu in get_children().filter(func(x): return x.is_in_group("menu")):
 		enable_menu(menu, false)
 	
-	set_menu($MenuMain)
+	set_menu(%MenuMain)
 	Global.play_music(preload("res://Audio/Soundtrack/MainMenu.ogg"))
 
 func _process(_delta: float) -> void:

@@ -34,7 +34,8 @@ func next_input() -> void:
 	current_input += 1
 	if current_input >= ACTIONS.size():
 		save_mapping()
-		Global.load_input_mapping()
+		var file = Global.load_settings_file()
+		load_mapping(file)
 		exit()
 		return
 	update_text()
@@ -49,7 +50,7 @@ func process_input(event: InputEvent) -> void:
 func exit() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
-	main_menu.set_menu($"../Settings")
+	main_menu.set_menu(%Settings)
 
 func save_mapping() -> void:
 	var file = Global.load_settings_file()

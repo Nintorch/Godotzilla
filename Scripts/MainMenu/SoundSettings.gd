@@ -19,7 +19,7 @@ func _ready():
 
 func menu_select(id: int) -> void:
 	if id == 2:
-		main_menu.set_menu($"../Settings")
+		main_menu.set_menu(%Settings)
 		
 func menu_exit() -> void:
 	save_sound_settings()

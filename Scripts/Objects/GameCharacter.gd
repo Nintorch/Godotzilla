@@ -24,7 +24,11 @@ enum Attack {
 	
 	# Godzilla attacks
 	TAIL_WHIP,
-	HEAT_BEAM, # TODO
+	HEAT_BEAM,
+	
+	# Mothra attacks
+	EYE_BEAM,
+	WING_ATTACK,
 }
 
 const CHARACTER_NAMES: Array[String] = [
@@ -41,6 +45,7 @@ const BaseBarCount: Array[int] = [
 @export var enable_intro := true
 
 @onready var collision: CollisionShape2D = $Collision
+# TODO: reusable state machine
 @onready var states_list: Array[Node] = $States.get_children()
 @onready var health: Node = $HealthComponent
 
@@ -63,14 +68,11 @@ var body: AnimatedSprite2D
 var animation_player: AnimationPlayer
 
 # This is done so the bosses and players use the same script
-# and allowing to play as bosses and test their attacks.
+# and allow to play as bosses and test their attacks.
 enum Inputs {
 	XINPUT, YINPUT, B, A, START, SELECT,
 }
 
-# Check if the character can be controlled by the player,
-# if not, then that's probably not the player character and therefore
-# cannot change any player's HUD properties.
 var has_input := true
 var inputs := []
 var inputs_pressed := []
@@ -300,7 +302,7 @@ func load_state() -> void:
 	life_bar.width = data.bars
 	life_bar.initial_value = data.hp
 	
-	score = Global.board.player_score
+	score = Global.board.board_data.player_score
 	add_score(0)
 	
 	# TODO: xp
@@ -308,10 +310,12 @@ func load_state() -> void:
 func save_state() -> void:
 	if not board_piece:
 		return
+		
 	board_piece.character_data.hp = health.hp
 	board_piece.character_data.bars = power_bar.width
 	board_piece.level = level
-	Global.board.player_score = score
+	Global.board.board_data.player_score = score
+	Global.board.board_data.player_level[board_piece] = level
 
 static func calculate_bar_count(character: GameCharacter.Type, level: int) -> int:
 	return BaseBarCount[character] + level - 1

@@ -18,7 +18,7 @@ func _ready():
 	$Widescreen.text = "wide screen: " + \
 		("on" if file.get_value(SECTION, "widescreen", false) else "off")
 	current_resolution = file.get_value(SECTION, "resolution", 2)
-	update_resolution()
+	update_resolution_text()
 		
 func menu_exit() -> void:
 	save_video_settings()
@@ -49,14 +49,20 @@ func _process(_delta: float) -> void:
 				Global.use_widescreen(true)
 				update_resolution()
 
+func update_resolution_text() -> void:
+	if RESOLUTIONS[current_resolution] == -1:
+		$Resolution.text = "resolution: full screen"
+	else:
+		$Resolution.text = "resolution: x" + str(RESOLUTIONS[current_resolution])
+
 func update_resolution() -> void:
+	update_resolution_text()
+	
 	if RESOLUTIONS[current_resolution] == -1:
 		Global.use_fullscreen(true)
-		$Resolution.text = "resolution: full screen"
 		return
 	else:
 		Global.use_fullscreen(false)
-		$Resolution.text = "resolution: x" + str(RESOLUTIONS[current_resolution])
 		
 	get_window().set_size(Global.get_content_size() * RESOLUTIONS[current_resolution])
 	

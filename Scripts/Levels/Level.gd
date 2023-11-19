@@ -19,7 +19,7 @@ var camera_x_old: float
 
 # These are set in Board.gd and in next_level()
 var data = {
-	current_character = 0,
+	current_character = GameCharacter.Type.GODZILLA,
 	board_piece = null,
 }
 
@@ -43,10 +43,6 @@ func _process(_delta: float) -> void:
 	if player.position.x > camera.limit_right - 10:
 		player.save_state()
 		next_level()
-		
-	if Input.is_action_just_pressed("Start"):
-		player.health.damage(8)
-		player.add_score(20)
 
 func process_camera() -> void:
 	camera_x_old = camera.position.x

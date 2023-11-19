@@ -23,13 +23,17 @@ extends Node2D
 @onready var menubip: AudioStreamPlayer = $Board/GUI/MessageWindow/MenuBip
 
 var selected_piece: Node = null
-var player_score := 0
+var board_data = {
+	player_score = 0.0,
+	player_level = {}, # [GameCharacter.Type] -> int
+}
 
 func _ready():
 	Global.board = self
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	tilemap.tile_set.get_source(0).texture = tileset
+	tilemap.tile_set.get_source(1).texture = tileset
 	build_outline()
 	
 	if board_name:
@@ -134,16 +138,16 @@ func get_current_piece() -> Node:
 	return null
 	
 func show_boss_info(piece) -> void:
-		var text = GameCharacter.CHARACTER_NAMES[piece.piece_character] + " - "
-		var size = Vector2i(message_window.default_window_size)
-		var hp_text = boss_hp_str(piece.hp)
+	var text = GameCharacter.CHARACTER_NAMES[piece.piece_character] + " - "
+	var size = Vector2i(message_window.default_window_size)
+	var hp_text = boss_hp_str(piece.character_data.hp / 8)
+	
+	if text.length() >= (size.x - 16) / 8:
+		size.x = (text.length() + 1) * 8
 		
-		if text.length() >= (size.x - 16) / 8:
-			size.x = (text.length() + 1) * 8
-			
-		var space_count = (size.x - 16) / 8 - hp_text.length()
-		text += "life\n" + " ".repeat(space_count) + hp_text
-		message_window.appear(text, true, size)
+	var space_count = (size.x - 16) / 8 - hp_text.length()
+	text += "life\n" + " ".repeat(space_count) + hp_text
+	message_window.appear(text, true, size)
 		
 func boss_hp_str(hp: float) -> String:
 	var s := str(snappedf(hp, 0.1))

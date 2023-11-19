@@ -58,11 +58,6 @@ func _ready() -> void:
 	# Adjust position
 	position = selector.map_to_tilemap(position, tilemap)
 	init_pos = position
-	
-	steps = PIECE_STEPS[piece_character]
-	character_data.bars = \
-		GameCharacter.calculate_bar_count(piece_character, level)
-	character_data.hp = character_data.bars * 8
 	update_frame()
 	
 	await get_tree().process_frame
@@ -70,6 +65,14 @@ func _ready() -> void:
 	
 	if piece_character == GameCharacter.Type.MOTHRA:
 		walk_anim = 1
+	
+	var player_level = Global.get_current_scene().board_data.player_level
+	if piece_character in player_level:
+		level = player_level[piece_character]
+	steps = PIECE_STEPS[piece_character]
+	character_data.bars = \
+		GameCharacter.calculate_bar_count(piece_character, level)
+	character_data.hp = character_data.bars * 8
 
 func _process(delta: float) -> void:
 	if selected:
@@ -108,7 +111,7 @@ func hide_cell_below() -> void:
 	tilemap.erase_cell(1, get_cell_pos())
 	
 func show_cell_below() -> void:
-	tilemap.set_cell(1, get_cell_pos(), 0, tile_below)
+	tilemap.set_cell(1, get_cell_pos(), 1, tile_below)
 	tile_below = Vector2i(-1, -1)
 
 func select() -> void:
