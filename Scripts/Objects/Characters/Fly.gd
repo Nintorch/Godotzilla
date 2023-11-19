@@ -13,11 +13,13 @@ func _physics_process(delta: float) -> void:
 	move(delta)
 		
 func _process(delta):
-	if parent.inputs_pressed[parent.Inputs.A] and attack_timer.is_stopped():
-		parent.use_attack(GameCharacter.Attack.EYE_BEAM)
-		attack_timer.start(0.2)
+	if (parent.inputs_pressed[parent.Inputs.A]
+		or parent.inputs_pressed[parent.Inputs.B]) \
+		and attack_timer.is_stopped():
+			parent.use_attack(GameCharacter.Attack.EYE_BEAM)
+			attack_timer.start(0.2)
 	
-	if parent.inputs_pressed[parent.Inputs.START] and parent.use_power(2 * 8):
+	if parent.inputs_pressed[parent.Inputs.START]:
 		parent.use_attack(GameCharacter.Attack.WING_ATTACK)
 
 func move(delta) -> void:
@@ -25,8 +27,8 @@ func move(delta) -> void:
 	if Global.get_current_scene().is_camera_moving():
 		xspeed = 1 * 60
 	
-	parent.velocity.x = roundi(parent.inputs[parent.Inputs.XINPUT]) * xspeed
-	parent.velocity.y = roundi(parent.inputs[parent.Inputs.YINPUT]) * parent.move_speed
+	parent.velocity.x = parent.inputs[parent.Inputs.XINPUT] * xspeed
+	parent.velocity.y = parent.inputs[parent.Inputs.YINPUT] * parent.move_speed
 	
 	floor_checking.position.y = parent.velocity.y * delta
 	

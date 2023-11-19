@@ -70,18 +70,26 @@ func use(type: GameCharacter.Attack) -> void:
 			particle.player = parent
 			particle.setup(particle.Type.EYE_BEAM)
 			particle.global_position = \
-				parent.global_position + Vector2(20 * parent.scale.x, 0)
+				parent.global_position + Vector2(20 * parent.scale.x, -2)
 			parent.state = parent.move_state
 			
 		GameCharacter.Attack.WING_ATTACK:
-			for i in 6:
+			var power = mini(parent.get_power(), 2 * 8)
+			var times: int = power / 2.6
+			if times == 0:
+				parent.state = parent.move_state
+				return
+			parent.use_power(power)
+			
+			for i in times:
 				var particle = MothraParticle.instantiate()
 				Global.get_current_scene().add_child(particle)
 				particle.player = parent
 				particle.setup(particle.Type.WING)
 				particle.global_position = parent.global_position
-				parent.state = parent.move_state
 				await get_tree().create_timer(0.2).timeout
+				
+			parent.state = parent.move_state
 				
 func create_heat_beam() -> void:
 	var heat_beams: Array[AnimatedSprite2D]

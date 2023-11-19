@@ -120,7 +120,7 @@ func _ready() -> void:
 			# Skin is already Godzilla, so we just move it above everything else
 			move_child($Skin, -1)
 			get_sfx("Step").stream = load("res://Audio/SFX/GodzillaStep.ogg")
-			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.wav")
+			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.ogg")
 			move_state = State.WALK
 			set_collision(Vector2(20, 56), Vector2(0, -1))
 			
@@ -132,8 +132,8 @@ func _ready() -> void:
 		
 		GameCharacter.Type.MOTHRA:
 			skin = preload("res://Objects/Characters/Mothra.tscn").instantiate()
-			get_sfx("Step").stream = load("res://Audio/SFX/GodzillaStep.ogg")
-			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.wav")
+			get_sfx("Step").stream = load("res://Audio/SFX/MothraStep.ogg")
+			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.ogg")
 			move_state = State.FLY
 			position.y -= 40
 			move_speed = 2 * 60
@@ -179,7 +179,7 @@ func _physics_process(delta: float) -> void:
 	# The character should come from outside the camera from the left side
 	# of the screen, so we shouldn't limit the position unless the player
 	# got control of the character.
-	if state != State.LEVEL_INTRO and velocity.x < 0 \
+	if velocity.x < 0 \
 		and position.x <= get_viewport().get_camera_2d().limit_left + 16:
 		position.x = get_viewport().get_camera_2d().limit_left + 16
 		velocity.x = 0
@@ -188,8 +188,8 @@ func _physics_process(delta: float) -> void:
 		velocity.y += gravity * delta
 
 	move_and_slide()
-	save_position.pop_front()
-	save_position.append(Vector2(global_position))
+	save_position.pop_back()
+	save_position.insert(0, Vector2(global_position))
 
 func _process(_delta: float) -> void:
 	process_input()
@@ -210,8 +210,8 @@ func _set_state(new_state: State) -> void:
 	
 func process_input() -> void:
 	if has_input:
-		inputs[Inputs.XINPUT] = Input.get_axis(INPUT_ACTIONS[0][0], INPUT_ACTIONS[0][1])
-		inputs[Inputs.YINPUT] = Input.get_axis(INPUT_ACTIONS[1][0], INPUT_ACTIONS[1][1])
+		inputs[Inputs.XINPUT] = roundi(Input.get_axis(INPUT_ACTIONS[0][0], INPUT_ACTIONS[0][1]))
+		inputs[Inputs.YINPUT] = roundi(Input.get_axis(INPUT_ACTIONS[1][0], INPUT_ACTIONS[1][1]))
 		
 		inputs_pressed[Inputs.XINPUT] = int(Input.is_action_just_pressed("Right")) \
 			- int(Input.is_action_just_pressed("Left"))
@@ -298,6 +298,9 @@ func _on_health_healed(amount: float) -> void:
 	
 func load_state() -> void:
 	if not board_piece:
+		var bars = calculate_bar_count(character, level)
+		power_bar.width = bars
+		life_bar.width = bars
 		return
 		
 	var data = board_piece.character_data

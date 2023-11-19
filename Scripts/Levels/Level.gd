@@ -19,7 +19,7 @@ var camera_x_old: float
 
 # These are set in Board.gd and in next_level()
 var data = {
-	current_character = GameCharacter.Type.GODZILLA,
+	current_character = GameCharacter.Type.MOTHRA,
 	board_piece = null,
 }
 

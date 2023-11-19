@@ -16,7 +16,7 @@ func start() -> void:
 	destroy_timer.start()
 	
 func _physics_process(delta):
-	global_position.y = player.save_position[60 - 1 - id].y
+	global_position.y = player.save_position[id].y
 	
 func _on_timer_timeout():
 	if animation == "default":
