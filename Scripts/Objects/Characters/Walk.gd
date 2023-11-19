@@ -30,6 +30,9 @@ func _process(delta: float) -> void:
 			if parent.animation_player.current_animation == "Crouch" \
 				and parent.inputs_pressed[GameCharacter.Inputs.B]:
 					parent.use_attack(GameCharacter.Attack.TAIL_WHIP)
+			if parent.inputs_pressed[GameCharacter.Inputs.START] \
+				and parent.get_power() >= 6 * 8:
+				parent.use_attack(GameCharacter.Attack.HEAT_BEAM)
 	
 func common_ground_attacks() -> void:
 	if parent.inputs_pressed[GameCharacter.Inputs.A]:
@@ -71,7 +74,6 @@ func move(delta: float):
 		
 		if up_down <= 0 and parent.animation_player.current_animation == "Crouch":
 			parent.animation_player.play("RESET")
-			walk_frame = 0
 
 func reset() -> void:
 	walk_frame = 0

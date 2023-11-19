@@ -31,4 +31,5 @@ position = Vector2(53, 181)
 [node name="Pause" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("7_lsfko")
+bus = &"SFX"
 script = ExtResource("6_xgjei")

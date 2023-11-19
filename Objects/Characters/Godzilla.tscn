@@ -1,8 +1,9 @@
-[gd_scene load_steps=54 format=3 uid="uid://m84defn1thau"]
+[gd_scene load_steps=64 format=3 uid="uid://m84defn1thau"]
 
 [ext_resource type="Texture2D" uid="uid://c3qwhre32yggp" path="res://Sprites/Characters/Godzilla/walk_body.png" id="1_3sn8y"]
 [ext_resource type="Texture2D" uid="uid://c8vjp0lgjim3x" path="res://Sprites/Characters/Godzilla/crouch.png" id="1_7wdfd"]
 [ext_resource type="Texture2D" uid="uid://c7slof73fr1l6" path="res://Sprites/Characters/Godzilla/hurt.png" id="2_0y6ho"]
+[ext_resource type="Texture2D" uid="uid://drtem8jbie2f0" path="res://Sprites/Characters/Godzilla/heat_beaming.png" id="2_pgjrr"]
 [ext_resource type="Texture2D" uid="uid://huytihc5bj4n" path="res://Sprites/Characters/Godzilla/walk_head.png" id="2_rmc0n"]
 [ext_resource type="Texture2D" uid="uid://dr7cjajoy0wya" path="res://Sprites/Characters/Godzilla/kick1.png" id="2_s7teb"]
 [ext_resource type="Texture2D" uid="uid://bhjsxj2v3ms7" path="res://Sprites/Characters/Godzilla/punch1.png" id="3_64613"]
@@ -35,6 +36,30 @@ func _on_animation_started(anim_name: StringName) -> void:
 	parent.set_collision(Vector2(20, size),
 		Vector2(0, -1 + (56 - size) / 2))
 "
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r5110"]
+atlas = ExtResource("2_pgjrr")
+region = Rect2(0, 0, 80, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_64h63"]
+atlas = ExtResource("2_pgjrr")
+region = Rect2(80, 0, 80, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rdw2p"]
+atlas = ExtResource("2_pgjrr")
+region = Rect2(160, 0, 80, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1bl32"]
+atlas = ExtResource("2_pgjrr")
+region = Rect2(240, 0, 80, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cljg1"]
+atlas = ExtResource("2_pgjrr")
+region = Rect2(320, 0, 80, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bl620"]
+atlas = ExtResource("2_pgjrr")
+region = Rect2(400, 0, 80, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jjucf"]
 atlas = ExtResource("2_0y6ho")
@@ -120,6 +145,29 @@ animations = [{
 }],
 "loop": true,
 "name": &"Crouch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r5110")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_64h63")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rdw2p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1bl32")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cljg1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bl620")
+}],
+"loop": true,
+"name": &"HeatBeam",
 "speed": 5.0
 }, {
 "frames": [{
@@ -743,9 +791,174 @@ tracks/1/keys = {
 "values": [&"Walk"]
 }
 
+[sub_resource type="Animation" id="Animation_1eids"]
+resource_name = "HeatBeam1"
+length = 0.1
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"HeatBeam"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(4.5, -14.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body/Head:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_qafyb"]
+resource_name = "HeatBeam2"
+length = 0.1
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"HeatBeam"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(4.5, -14.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body/Head:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_r8s0h"]
+resource_name = "HeatBeam3"
+length = 0.1
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"HeatBeam"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(4.5, -14.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body/Head:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 5]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_m5kek"]
 _data = {
 "Crouch": SubResource("Animation_gbymh"),
+"HeatBeam1": SubResource("Animation_1eids"),
+"HeatBeam2": SubResource("Animation_qafyb"),
+"HeatBeam3": SubResource("Animation_r8s0h"),
 "Hurt": SubResource("Animation_l466n"),
 "Kick1": SubResource("Animation_pvo27"),
 "Kick2": SubResource("Animation_lycjq"),
@@ -763,6 +976,7 @@ script = SubResource("GDScript_5gjb6")
 position = Vector2(-16.5, 8.5)
 sprite_frames = SubResource("SpriteFrames_lp8b5")
 animation = &"Walk"
+frame = 1
 
 [node name="Head" type="AnimatedSprite2D" parent="Body"]
 position = Vector2(17, -32)

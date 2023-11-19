@@ -63,6 +63,7 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var level := 1
 var direction := 1
 var score := 0
+var save_position: Array[Vector2]
 
 var body: AnimatedSprite2D
 var animation_player: AnimationPlayer
@@ -94,6 +95,7 @@ func _ready() -> void:
 	
 	inputs.resize(Inputs.size())
 	inputs_pressed.resize(Inputs.size())
+	save_position.resize(60)
 	
 	# Several default values
 	move_speed = 1 * 60
@@ -186,6 +188,8 @@ func _physics_process(delta: float) -> void:
 		velocity.y += gravity * delta
 
 	move_and_slide()
+	save_position.pop_front()
+	save_position.append(Vector2(global_position))
 
 func _process(_delta: float) -> void:
 	process_input()
@@ -241,10 +245,13 @@ func set_level(value: int) -> void:
 	health.hp_max = bar_value
 		
 func use_power(amount: int) -> bool:
-	if power_bar.target_value < amount:
+	if get_power() < amount:
 		return false
 	power_bar.target_value -= amount
 	return true
+	
+func get_power() -> int:
+	return power_bar.target_value
 	
 # Pass 0 to update the score meter
 func add_score(amount: int) -> void:
