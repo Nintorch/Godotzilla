@@ -18,6 +18,8 @@ var old_pos: Vector2
 
 var playing_levels: Array[int] = []
 
+signal piece_collision(piece: Sprite2D)
+
 func _ready():
 	position = map_to_tilemap(position)
 	old_pos = Vector2(position)
@@ -71,6 +73,8 @@ func next_hex():
 	# absolute yspeed 2
 	speed.y = roundi(diry) if dirx else roundi(diry * 2)
 	
+	var next_piece := get_next_cell_piece()
+	
 	# Stop if no input
 	if not diry:
 		stop()
@@ -78,6 +82,9 @@ func next_hex():
 			and message_window.state == message_window.State.SHOWN \
 			and message_window.get_text() == "Unable to advance farther.":
 			message_window.disappear()
+	elif board.selected_piece and next_piece:
+		piece_collision.emit(next_piece)
+		stop()
 	# Too many steps
 	elif board.selected_piece and playing_levels.size() >= board.selected_piece.steps:
 		if get_next_cell().x >= 0 and not message_window.visible:
@@ -122,3 +129,9 @@ func reset_playing_levels() -> void:
 
 func get_level_id(tile: Vector2i) -> int:
 	return tile.x + tile.y * 5 - 1
+	
+func get_next_cell_piece() -> Sprite2D:
+	for p in board.get_board_pieces():
+		if p.get_cell_pos() == get_next_cell_pos():
+			return p
+	return null

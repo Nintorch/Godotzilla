@@ -109,7 +109,7 @@ func adjust_message_pos():
 	if selector.position.y > 120:
 		message_window.position.y = 16
 	else:
-		message_window.position.y = 136
+		message_window.position.y = 144
 
 func build_outline():
 	for cell in tilemap.get_used_cells(0):
@@ -194,3 +194,9 @@ func get_player_pieces() -> Array[Node2D]:
 	
 func get_boss_pieces() -> Array[Node2D]:
 	return get_board_pieces().filter(func(p): return not p.is_player())
+
+func _on_selector_piece_collision(piece):
+	if piece.is_player() and not message_window.visible:
+		message_window.appear("Unable to advance because a "
+			+ "monster is blocking the way.")
+		adjust_message_pos()

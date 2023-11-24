@@ -70,3 +70,5 @@ offset_left = 16.0
 offset_top = 136.0
 offset_right = 48.0
 offset_bottom = 168.0
+
+[connection signal="piece_collision" from="Board/TileMap/Selector" to="." method="_on_selector_piece_collision"]

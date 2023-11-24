@@ -1,6 +1,6 @@
 extends NinePatchRect
 
-@export var window_size = Vector2i(96, 72)
+@export var window_size = Vector2i(96, 64)
 @export var alignment_horizontal = HORIZONTAL_ALIGNMENT_LEFT
 @export var alignment_vertical = VERTICAL_ALIGNMENT_TOP
 @onready var text: Label = $Text
