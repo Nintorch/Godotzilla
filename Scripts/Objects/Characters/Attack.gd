@@ -57,7 +57,7 @@ func use(type: GameCharacter.Attack) -> void:
 				parent.animation_player.play(anim[0])
 				if anim[0] == "HeatBeam3":
 					create_heat_beam()
-				await get_tree().create_timer(anim[1]).timeout
+				await get_tree().create_timer(anim[1], false).timeout
 				
 			move_state.walk_frame = 0
 			parent.animation_player.play("RESET")
@@ -87,25 +87,25 @@ func use(type: GameCharacter.Attack) -> void:
 				particle.player = parent
 				particle.setup(particle.Type.WING)
 				particle.global_position = parent.global_position
-				await get_tree().create_timer(0.2).timeout
+				await get_tree().create_timer(0.2, false).timeout
 				
 			parent.state = parent.move_state
 				
 func create_heat_beam() -> void:
 	var heat_beams: Array[AnimatedSprite2D]
-	parent.use_power(6 * 8)
+	# parent.use_power(6 * 8)
 	
 	for i in 12:
 		var particle = GodzillaHeatBeam.instantiate()
 		particle.setup(i)
-		particle.position = Vector2(28, 0) + Vector2(8, 0) * i
+		particle.position = Vector2(26, 0) + Vector2(8, 0) * i
 		particle.player = parent
 		parent.add_child(particle)
 		heat_beams.append(particle)
 		
 	for i in 12:
 		heat_beams[i].start()
-		await get_tree().create_timer(0.01).timeout
+		await get_tree().create_timer(0.01, false).timeout
 
 func _on_animation_finished(anim_name: String) -> void:
 	match anim_name:

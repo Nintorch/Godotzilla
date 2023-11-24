@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/Levels/HUD.gd" id="1_no1ya"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="2_doi0m"]
-[ext_resource type="PackedScene" uid="uid://nbd34bkxryjd" path="res://Objects/Levels/Bar.tscn" id="3_y64wl"]
+[ext_resource type="PackedScene" uid="uid://nbd34bkxryjd" path="res://Objects/Bar.tscn" id="3_y64wl"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ke5ce"]
 line_spacing = 0.0
@@ -54,7 +54,7 @@ width = 6
 color2 = Color(0.709804, 0.188235, 0.12549, 1)
 
 [node name="ScoreMeter" type="Label" parent="PlayerCharacter"]
-offset_left = 104.0
+offset_left = 88.0
 offset_right = 152.0
 offset_bottom = 8.0
 theme_override_fonts/font = ExtResource("2_doi0m")

@@ -24,12 +24,12 @@ func set_fade_color(color) -> void:
 func fade_out(color := Global.FADE_BLACK) -> void:
 	Global.fading = true
 	set_fade_color(color)
-	$Fade/AnimationPlayer.play_backwards("FadeIn")
+	$Fade/FadePlayer.play_backwards("FadeIn")
 	
 func fade_in(color := Global.FADE_BLACK) -> void:
 	Global.fading = true
 	set_fade_color(color)
-	$Fade/AnimationPlayer.play("FadeIn")
+	$Fade/FadePlayer.play("FadeIn")
 	
 func hide_fade() -> void:
 	$Fade/Fader.modulate.a = 0

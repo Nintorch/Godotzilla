@@ -3,19 +3,19 @@
 [ext_resource type="Texture2D" uid="uid://di5yqmheu2g18" path="res://Sprites/Characters/Mothra/particles.png" id="1_ok31u"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/MothraParticle.gd" id="2_v1kq8"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_o8mod"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5tse6"]
 atlas = ExtResource("1_ok31u")
-region = Rect2(0, 11, 7, 6)
+region = Rect2(0, 12, 9, 8)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cllh0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_akx7u"]
 atlas = ExtResource("1_ok31u")
-region = Rect2(0, 23, 47, 13)
+region = Rect2(0, 24, 48, 13)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_8dfex"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_o8mod")
+"texture": SubResource("AtlasTexture_5tse6")
 }],
 "loop": true,
 "name": &"EyeBeam",
@@ -23,7 +23,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_cllh0")
+"texture": SubResource("AtlasTexture_akx7u")
 }],
 "loop": true,
 "name": &"Wing",

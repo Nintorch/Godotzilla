@@ -185,8 +185,8 @@ animations = [{
 }]
 
 [node name="GodzillaHeatBeam" type="AnimatedSprite2D"]
-position = Vector2(0, 22)
 sprite_frames = SubResource("SpriteFrames_5qopn")
+offset = Vector2(0, 1)
 script = ExtResource("2_opyea")
 
 [node name="FlashTimer" type="Timer" parent="."]
