@@ -189,7 +189,7 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	save_position.pop_back()
-	save_position.insert(0, Vector2(global_position))
+	save_position.insert(0, Vector2(position))
 
 func _process(_delta: float) -> void:
 	process_input()

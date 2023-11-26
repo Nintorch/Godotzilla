@@ -10,9 +10,8 @@ enum Type {
 
 var velocity := Vector2()
 var type: Type
-var player: GameCharacter
 
-func setup(type: Type):
+func setup(type: Type, player: GameCharacter):
 	self.type = type
 	match type:
 		Type.EYE_BEAM:

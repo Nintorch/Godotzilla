@@ -67,8 +67,7 @@ func use(type: GameCharacter.Attack) -> void:
 		GameCharacter.Attack.EYE_BEAM:
 			var particle = MothraParticle.instantiate()
 			Global.get_current_scene().add_child(particle)
-			particle.player = parent
-			particle.setup(particle.Type.EYE_BEAM)
+			particle.setup(particle.Type.EYE_BEAM, parent)
 			particle.global_position = \
 				parent.global_position + Vector2(20 * parent.scale.x, -2)
 			parent.state = parent.move_state
@@ -81,13 +80,13 @@ func use(type: GameCharacter.Attack) -> void:
 				return
 			parent.use_power(power)
 			
+			wing_attack_sfx()
 			for i in times:
 				var particle = MothraParticle.instantiate()
 				Global.get_current_scene().add_child(particle)
-				particle.player = parent
-				particle.setup(particle.Type.WING)
+				particle.setup(particle.Type.WING, parent)
 				particle.global_position = parent.global_position
-				await get_tree().create_timer(0.2, false).timeout
+				await get_tree().create_timer(0.15, false).timeout
 				
 			parent.state = parent.move_state
 				
@@ -97,15 +96,19 @@ func create_heat_beam() -> void:
 	
 	for i in 12:
 		var particle = GodzillaHeatBeam.instantiate()
-		particle.setup(i)
+		particle.setup(i, parent)
 		particle.position = Vector2(26, 0) + Vector2(8, 0) * i
-		particle.player = parent
 		parent.add_child(particle)
 		heat_beams.append(particle)
 		
 	for i in 12:
 		heat_beams[i].start()
 		await get_tree().create_timer(0.01, false).timeout
+		
+func wing_attack_sfx() -> void:
+	for i in 3:
+		parent.get_sfx("Step").play()
+		await get_tree().create_timer(0.25, false).timeout
 
 func _on_animation_finished(anim_name: String) -> void:
 	match anim_name:

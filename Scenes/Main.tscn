@@ -56,7 +56,7 @@ _data = {
 script = ExtResource("1_csd2w")
 initial_scene = ExtResource("2_oa20t")
 
-[node name="CurrentScene" type="Node" parent="."]
+[node name="CurrentScene" type="Node2D" parent="."]
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 process_mode = 3

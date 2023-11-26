@@ -19,7 +19,7 @@ var camera_x_old: float
 
 # These are set in Board.gd and in next_level()
 var data = {
-	current_character = GameCharacter.Type.GODZILLA,
+	current_character = GameCharacter.Type.MOTHRA,
 	board_piece = null,
 }
 
@@ -72,7 +72,13 @@ func next_level() -> void:
 		if level.music != music:
 			Global.music_fade_out()
 	else:
-		if Global.board.music != music:
+		# If we're just debugging the game,
+		# don't show an error and just fade out
+		if not Global.board:
+			get_tree().paused = true
+			Global.fade_out()
+			return
+		elif Global.board.music != music:
 			Global.music_fade_out()
 	# level: Node
 		

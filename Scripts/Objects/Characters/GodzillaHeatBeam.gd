@@ -6,17 +6,18 @@ extends AnimatedSprite2D
 var player: GameCharacter
 var id := 0
 
-func setup(id: int):
+func setup(id: int, player: GameCharacter):
 	frame = id
 	self.id = id
 	visible = false
+	self.player = player
 	
 func start() -> void:
 	visible = true
 	destroy_timer.start()
 	
 func _physics_process(delta):
-	global_position.y = player.save_position[id].y - id
+	position.y = player.save_position[id].y - id - player.position.y
 	
 func _on_timer_timeout():
 	if animation == "default":
