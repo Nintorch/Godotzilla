@@ -3,21 +3,27 @@ extends "res://Scripts/Objects/Characters/State.gd"
 var move_state: Node
 var sfx_step: AudioStreamPlayer
 var sfx_roar: AudioStreamPlayer
-var timer = -0.05 # a small offset for step sounds
-var target_x := 64
 
-const STEP_SFX_PARAMS = [
-	[30, 5], # Godzilla
-	[20, 0], # Mothra
+const CHARACTER_PARAMS = [
+	{
+		step_sfx_period = 30,
+		step_sfx_start = 10,
+		target_x = 64,
+	},
+	{
+		step_sfx_period = 15,
+		step_sfx_start = 20,
+		target_x = 80,
+	},
 ]
+
+var current_params
 
 func state_init() -> void:
 	sfx_step = parent.get_sfx("Step")
 	sfx_roar = parent.get_sfx("Roar")
 	move_state = parent.states_list[parent.move_state]
-		
-	if parent.character == GameCharacter.Type.MOTHRA:
-		target_x = 80
+	current_params = CHARACTER_PARAMS[parent.character]
 
 func _physics_process(delta: float) -> void:
 	parent.velocity.x = parent.move_speed
@@ -29,11 +35,11 @@ func _physics_process(delta: float) -> void:
 		parent.body.frame = int(move_state.walk_frame)
 		
 	if not Global.music.playing:
-		var param = STEP_SFX_PARAMS[parent.character]
-		if Engine.get_physics_frames() % 30 == 5:
-			sfx_step.play()
+		if Engine.get_physics_frames() >= current_params.step_sfx_start \
+			and Engine.get_physics_frames() % current_params.step_sfx_period == 0:
+				sfx_step.play()
 			
-	if parent.position.x > target_x:
+	if parent.position.x > current_params.target_x:
 		parent.state = parent.move_state
 		parent.velocity = Vector2(0,0)
 		move_state.reset()

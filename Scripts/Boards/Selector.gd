@@ -29,7 +29,6 @@ func _process(delta: float):
 		next_hex()
 	else:
 		var yoffset = 32 if not speed.x else 16
-		# TODO: don't run into other pieces
 		if speed.y > 0 and position.y > old_pos.y + yoffset - speed.y:
 			adjust_pos()
 			next_hex()
@@ -63,15 +62,17 @@ func adjust_pos():
 func next_hex():
 	var dirx = Input.get_axis("Left", "Right")
 	var diry = Input.get_axis("Up", "Down")
+	dirx = signf(dirx) if absf(dirx) > 0.1 else 0
+	diry = signf(diry) if absf(diry) > 0.1 else 0
 	
 	# Basically, if the player wants to move horizontally and vertically,
 	# set xspeed to horizontal direction * 2 (-2 if left and 2 if right),
 	# otherwise the player shouldn't move (only horizontal moves are not allowed)
-	speed.x = roundi(dirx * 2) if diry else 0
+	speed.x = dirx * 2 if diry else 0
 	# If the player wants to move diagonally, set yspeed to vertical direction,
 	# (-1 if up and 1 is down), otherwise we move only vertically with
 	# absolute yspeed 2
-	speed.y = roundi(diry) if dirx else roundi(diry * 2)
+	speed.y = diry if dirx else diry * 2
 	
 	var next_piece := get_next_cell_piece()
 	

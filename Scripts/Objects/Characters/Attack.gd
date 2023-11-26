@@ -93,7 +93,7 @@ func use(type: GameCharacter.Attack) -> void:
 				
 func create_heat_beam() -> void:
 	var heat_beams: Array[AnimatedSprite2D]
-	# parent.use_power(6 * 8)
+	parent.use_power(6 * 8)
 	
 	for i in 12:
 		var particle = GodzillaHeatBeam.instantiate()

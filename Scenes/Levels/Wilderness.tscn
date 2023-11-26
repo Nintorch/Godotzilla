@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dhm8bcemuwqfo"]
 
 [ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/BaseLevel.tscn" id="1_oi33v"]
-[ext_resource type="Texture2D" uid="uid://c0ixfjb2bb5p5" path="res://Sprites/Levels/TestLevel/sky.png" id="2_x7phj"]
+[ext_resource type="PackedScene" uid="uid://bliqsom52mx1p" path="res://Objects/Levels/Sky.tscn" id="2_pfc3w"]
 [ext_resource type="Texture2D" uid="uid://d3vfgcp31ia42" path="res://Sprites/Levels/TestLevel/hills.png" id="3_s66fs"]
 
 [node name="Level" instance=ExtResource("1_oi33v")]
@@ -9,11 +9,7 @@
 [node name="Sky" type="ParallaxLayer" parent="Background" index="0"]
 motion_scale = Vector2(0, 0)
 
-[node name="TextureRect" type="TextureRect" parent="Background/Sky" index="0"]
-offset_top = 48.0
-offset_right = 256.0
-offset_bottom = 99.0
-texture = ExtResource("2_x7phj")
+[node name="Sky" parent="Background/Sky" index="0" instance=ExtResource("2_pfc3w")]
 
 [node name="Hills" type="ParallaxLayer" parent="Background" index="1"]
 motion_scale = Vector2(0.7, 1)

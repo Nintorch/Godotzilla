@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bliqsom52mx1p"]
+
+[ext_resource type="Texture2D" uid="uid://c0ixfjb2bb5p5" path="res://Sprites/Levels/TestLevel/sky.png" id="1_ugp5p"]
+[ext_resource type="Script" path="res://Scripts/Levels/Sky.gd" id="2_q44nc"]
+
+[node name="Sky" type="TextureRect"]
+offset_top = 48.0
+offset_right = 427.0
+offset_bottom = 99.0
+texture = ExtResource("1_ugp5p")
+script = ExtResource("2_q44nc")
