@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://cqlhofm4kl4y"]
+
+[ext_resource type="Script" path="res://Scripts/Credits.gd" id="1_21yi6"]
+[ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="2_vqk51"]
+[ext_resource type="AudioStream" uid="uid://dwuk6juor16ja" path="res://Audio/Soundtrack/SaturnTheme.ogg" id="3_fqq1g"]
+
+[node name="Credits" type="Node2D"]
+script = ExtResource("1_21yi6")
+music = ExtResource("3_fqq1g")
+texts = Array[String](["GODOTZILLA CREDITS", "[color=yellow]MAIN PROGRAMMER[/color]
+
+NINTORCH", "[color=yellow]SPRITES[/color]
+
+COMPILE
+CIOSS", "[color=yellow]ORIGINAL GAME BY[/color]
+
+COMPILE
+TOHO", "[color=yellow]NINTENDO ENTERTAINMENT SYSTEM[/color]
+
+NINTENDO"])
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+offset_right = 128.0
+offset_bottom = 128.0
+
+[node name="TextNode" type="RichTextLabel" parent="CenterContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("2_vqk51")
+bbcode_enabled = true
+text = "[color=yellow]HELLO WORLD"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Continue" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 216.0
+offset_right = 224.0
+offset_bottom = 226.0
+theme_override_fonts/font = ExtResource("2_vqk51")
+text = "PRESS ANY KEY  TO CONTINUE"

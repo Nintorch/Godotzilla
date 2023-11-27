@@ -91,17 +91,18 @@ func use(type: GameCharacter.Attack) -> void:
 			parent.state = parent.move_state
 				
 func create_heat_beam() -> void:
+	const HEAT_BEAM_COUNT := 12
 	var heat_beams: Array[AnimatedSprite2D]
 	parent.use_power(6 * 8)
 	
-	for i in 12:
+	for i in HEAT_BEAM_COUNT:
 		var particle = GodzillaHeatBeam.instantiate()
 		particle.setup(i, parent)
 		particle.position = Vector2(26, 0) + Vector2(8, 0) * i
 		parent.add_child(particle)
 		heat_beams.append(particle)
 		
-	for i in 12:
+	for i in HEAT_BEAM_COUNT:
 		heat_beams[i].start()
 		await get_tree().create_timer(0.01, false).timeout
 		

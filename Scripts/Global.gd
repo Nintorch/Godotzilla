@@ -112,6 +112,9 @@ func change_scene_node(node: Node, free = true) -> void:
 func change_scene(scene: PackedScene, free = true) -> void:
 	change_scene_node(scene.instantiate(), free)
 	
+func get_initial_scene() -> PackedScene:
+	return main.initial_scene
+	
 func get_current_scene() -> Node:
 	return main.get_node("CurrentScene").get_child(0)
 	
