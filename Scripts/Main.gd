@@ -14,7 +14,7 @@ func _ready() -> void:
 	_on_widescreen_change()
 	_scene_changed(null, null)
 	
-func set_fade_color(color) -> void:
+func set_fade_color(color := Global.FADE_BLACK) -> void:
 	match color:
 		Global.FADE_BLACK:
 			$Fade/Fader.color = Color.BLACK

@@ -25,8 +25,8 @@ func state_entered() -> void:
 	else:
 		Global.change_scene(preload("res://Scenes/GameOver.tscn"))
 	
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if Engine.get_physics_frames() % 5 == 0:
-		var explosion = Explosion.new()
+		var explosion := Explosion.new()
 		explosion.global_position = parent.global_position
 		add_child(explosion)

@@ -82,7 +82,7 @@ func use(type: GameCharacter.Attack) -> void:
 			
 			wing_attack_sfx()
 			for i in times:
-				var particle = MothraParticle.instantiate()
+				var particle := MothraParticle.instantiate()
 				Global.get_current_scene().add_child(particle)
 				particle.setup(particle.Type.WING, parent)
 				particle.global_position = parent.global_position
@@ -92,11 +92,11 @@ func use(type: GameCharacter.Attack) -> void:
 				
 func create_heat_beam() -> void:
 	const HEAT_BEAM_COUNT := 12
-	var heat_beams: Array[AnimatedSprite2D]
+	var heat_beams: Array[AnimatedSprite2D] = []
 	parent.use_power(6 * 8)
 	
 	for i in HEAT_BEAM_COUNT:
-		var particle = GodzillaHeatBeam.instantiate()
+		var particle := GodzillaHeatBeam.instantiate()
 		particle.setup(i, parent)
 		particle.position = Vector2(26, 0) + Vector2(8, 0) * i
 		parent.add_child(particle)

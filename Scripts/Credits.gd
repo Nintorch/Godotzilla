@@ -16,7 +16,7 @@ func _ready() -> void:
 	display_text()
 	Global.fade_in()
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not Global.fading:
 		if Global.any_action_button_pressed():
 			next_text()
@@ -24,7 +24,7 @@ func _process(delta: float) -> void:
 			exit()
 
 func display_text() -> void:
-	var text = "[center]%s[/center]" % texts[current_text]
+	var text := "[center]%s[/center]" % texts[current_text]
 	text_node.text = text
 	
 func next_text() -> void:

@@ -103,7 +103,7 @@ func _ready() -> void:
 	await Global.get_current_scene().ready
 	
 	if is_player:
-		var hud = Global.get_current_scene().get_HUD()
+		var hud: CanvasLayer = Global.get_current_scene().get_HUD()
 		if not power_bar:
 			power_bar = hud.get_node("PlayerCharacter/Power")
 		if not life_bar:
@@ -144,7 +144,7 @@ func _ready() -> void:
 			
 	# Setup for all characters
 	if skin:
-		var prev_skin = $Skin
+		var prev_skin: Node2D = $Skin
 		remove_child(prev_skin)
 		prev_skin.queue_free()
 		
@@ -198,8 +198,8 @@ func _set_state(new_state: State) -> void:
 	if state == new_state:
 		return
 	
-	var old_state_node = states_list[state]
-	var new_state_node = states_list[new_state]
+	var old_state_node := states_list[state]
+	var new_state_node := states_list[new_state]
 	
 	old_state_node.state_exited()
 	old_state_node.disable()
@@ -223,20 +223,20 @@ func process_input() -> void:
 			inputs_pressed[i] = Input.is_action_just_pressed(INPUT_ACTIONS[i])
 	
 # TODO: attack component
-func use_attack(type: Attack):
+func use_attack(type: Attack) -> void:
 	$States/Attack.use(type)
 	
 func set_level(value: int) -> void:
 	if not is_player or level == value:
 		return
 	level = value
-	var level_str = str(level)
+	var level_str := str(level)
 	if level_str.length() < 2:
 		level_str = "0" + level_str
 	level_node.text = "level " + level_str
 	
-	var bars = calculate_bar_count(character, level)
-	var bar_value = bars * 8
+	var bars := GameCharacter.calculate_bar_count(character, level)
+	var bar_value := bars * 8
 	power_bar.width = bars
 	power_bar.target_value = bar_value
 	life_bar.width = bars
@@ -298,12 +298,12 @@ func _on_health_healed(amount: float) -> void:
 	
 func load_state() -> void:
 	if not board_piece:
-		var bars = calculate_bar_count(character, level)
+		var bars := GameCharacter.calculate_bar_count(character, level)
 		power_bar.width = bars
 		life_bar.width = bars
 		return
 		
-	var data = board_piece.character_data
+	var data: Dictionary = board_piece.character_data
 	set_level(board_piece.level)
 	health.hp = data.hp
 	health.hp_max = data.bars * 8
@@ -327,5 +327,5 @@ func save_state() -> void:
 	Global.board.board_data.player_score = score
 	Global.board.board_data.player_level[board_piece] = level
 
-static func calculate_bar_count(character: GameCharacter.Type, level: int) -> int:
-	return BaseBarCount[character] + level - 1
+static func calculate_bar_count(char_id: GameCharacter.Type, char_level: int) -> int:
+	return BaseBarCount[char_id] + char_level - 1

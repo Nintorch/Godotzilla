@@ -23,6 +23,7 @@ Global="*res://Scripts/Global.gd"
 [debug]
 
 settings/stdout/verbose_stdout=true
+gdscript/warnings/untyped_declaration=1
 gdscript/warnings/integer_division=0
 
 [display]
@@ -108,5 +109,4 @@ Exit={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-renderer/rendering_method="mobile"
 2d/snap/snap_2d_vertices_to_pixel=true

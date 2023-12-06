@@ -79,12 +79,12 @@ func prepare() -> void:
 	alphabet = input_letters.text.split('\n')
 	
 	# Letter count on one alphabet line
-	var letters_count_line = alphabet[0].length()
+	var letters_count_line := alphabet[0].length()
 	var result_string := ""
 	
 	# Spacing between the letters
 	for i in alphabet.size():
-		var line = alphabet[i].split()
+		var line := alphabet[i].split()
 		if line.size() >= letters_count_line / 2:
 			line[letters_count_line / 2 - 1] += ' '
 		result_string += " ".join(line) + '\n'
@@ -142,13 +142,13 @@ func input_selector_process() -> void:
 				
 			# If moved vertically and ended up on last line
 			if input_selector_position.y == 3 and move.y != 0:
-				var special_positions = [
+				var special_positions := [
 					[LEFT_POS.x, RIGHT_POS.x],
 					[RIGHT_POS.x, END_POS.x],
 					[END_POS.x, alphabet[0].length()]
 				]
 				
-				for pos in special_positions:
+				for pos: Array[int] in special_positions:
 					if input_selector_position.x in range(pos[0], pos[1]):
 						input_selector_position.x = pos[0]
 						

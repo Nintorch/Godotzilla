@@ -126,8 +126,8 @@ func build_outline():
 func get_board_pieces() -> Array[Node2D]:
 	var board_pieces: Array[Node2D]
 	board_pieces.assign(
-		$"Board/TileMap/Board Pieces".get_children().filter(func(x):
-			return not x.removed
+		$"Board/TileMap/Board Pieces".get_children().filter(func(x: Node2D):
+			return not x.is_queued_for_deletion()
 			))
 	return board_pieces
 

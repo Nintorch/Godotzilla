@@ -9,7 +9,7 @@ const MUSIC_BUS = 2
 var sfx_volume := 100
 var music_volume := 100
 
-func _ready():
+func _ready() -> void:
 	super._ready()
 	var file = Global.load_settings_file()
 	sfx_volume = file.get_value(SECTION, "sfx", 100)

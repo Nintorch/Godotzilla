@@ -22,7 +22,7 @@ func _process(delta):
 	if parent.inputs_pressed[parent.Inputs.START]:
 		parent.use_attack(GameCharacter.Attack.WING_ATTACK)
 
-func move(delta) -> void:
+func move(delta: float) -> void:
 	var xspeed = 2 * 60
 	if Global.get_current_scene().is_camera_moving():
 		xspeed = 1 * 60

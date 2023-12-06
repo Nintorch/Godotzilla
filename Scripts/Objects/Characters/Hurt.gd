@@ -1,6 +1,6 @@
 extends "res://Scripts/Objects/Characters/State.gd"
 
-@onready var timer = Timer.new()
+@onready var timer := Timer.new()
 var hurt_time := 0.0
 var move_state: Node
 

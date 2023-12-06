@@ -4,7 +4,8 @@ extends Node2D
 var options: Array[Control]
 
 func _ready() -> void:
-	options.assign(get_children().filter(func(c): return c.is_in_group("option")))
+	options.assign(get_children().filter(func(c: Node) -> bool:
+		return c.is_in_group("option")))
 
 func menu_enter() -> void:
 	pass

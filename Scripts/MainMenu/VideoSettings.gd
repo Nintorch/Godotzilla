@@ -5,16 +5,16 @@ const SECTION = "Video"
 const RESOLUTIONS = [1, 2, 3, 4, -1]
 var current_resolution := 2
 
-func _ready():
+func _ready() -> void:
 	super._ready()
-	Global.fullscreen_changed.connect(func(flag: bool):
+	Global.fullscreen_changed.connect(func(flag: bool) -> void:
 		if flag:
 			$Resolution.text = "resolution: full screen"
 		else:
 			update_resolution()
 		)
 		
-	var file = Global.load_settings_file()
+	var file := Global.load_settings_file()
 	$Widescreen.text = "wide screen: " + \
 		("on" if file.get_value(SECTION, "widescreen", false) else "off")
 	current_resolution = file.get_value(SECTION, "resolution", 2)
@@ -67,15 +67,15 @@ func update_resolution() -> void:
 	get_window().set_size(Global.get_content_size() * RESOLUTIONS[current_resolution])
 	
 func save_video_settings() -> void:
-	var file = Global.load_settings_file()
+	var file := Global.load_settings_file()
 	file.set_value(SECTION, "widescreen", Global.is_widescreen())
 	file.set_value(SECTION, "fullscreen", Global.is_fullscreen())
 	file.set_value(SECTION, "resolution", current_resolution)
 	Global.save_settings_file(file)
 	
 static func load_video_settings(file: ConfigFile) -> void:
-	var resolution = file.get_value("Video", "resolution", 2)
-	var window = Global.get_window()
+	var resolution: int = file.get_value("Video", "resolution", 2)
+	var window := Global.get_window()
 	
 	Global.use_widescreen(file.get_value("Video", "widescreen", false))
 	Global.use_fullscreen(file.get_value("Video", "fullscreen", false))
