@@ -83,14 +83,15 @@ func next_hex():
 			and message_window.state == message_window.State.SHOWN \
 			and message_window.get_text() == "Unable to advance farther.":
 			message_window.disappear()
-	elif board.selected_piece and next_piece:
-		piece_collision.emit(next_piece)
-		stop()
 	# Too many steps
 	elif board.selected_piece and playing_levels.size() >= board.selected_piece.steps:
 		if get_next_cell().x >= 0 and not message_window.visible:
 			message_window.appear("Unable to advance farther.", false)
 			board.adjust_message_pos()
+		stop()
+	# Piece collision
+	elif board.selected_piece and next_piece:
+		piece_collision.emit(next_piece)
 		stop()
 	# Stop if next cell is empty
 	elif movement_style == MovementStyle.ONLY_INSIDE_CELLS and get_next_cell().x < 0 \

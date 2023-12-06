@@ -120,6 +120,8 @@ func select() -> void:
 	update_frame()
 	
 	selector.visible = false
+	# Just in case, but mostly for bosses
+	selector.global_position = global_position
 	show_cell_below()
 	# Move this piece above all other pieces
 	parent.move_child(self, -1)

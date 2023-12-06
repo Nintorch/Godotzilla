@@ -8,11 +8,12 @@ func _ready() -> void:
 	$CurrentScene.add_child(initial_scene.instantiate())
 	
 	Global.widescreen_changed.connect(_on_widescreen_change)
-	Global.scene_changed.connect(_scene_changed)
+	Global.scene_changed.connect(func(from: Node, to: Node) -> void:
+		_on_widescreen_change()
+		)
 	
 	hide_fade()
 	_on_widescreen_change()
-	_scene_changed(null, null)
 	
 func set_fade_color(color := Global.FADE_BLACK) -> void:
 	match color:
@@ -37,9 +38,6 @@ func hide_fade() -> void:
 func _on_animation_finished(_anim_name: StringName) -> void:
 	Global.fading = false
 	Global.fade_end.emit()
-	
-func _scene_changed(_from: Node, _to: Node) -> void:
-	_on_widescreen_change()
 
 func _on_widescreen_change() -> void:
 	$Fade/Fader.size = Global.get_content_size()

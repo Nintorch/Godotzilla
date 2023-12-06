@@ -12,11 +12,13 @@
 script = ExtResource("1_qudp1")
 tileset = ExtResource("4_yatfn")
 
-[node name="BoardName" type="Node2D" parent="."]
+[node name="BoardName" type="CenterContainer" parent="."]
+visible = false
+offset_right = 256.0
+offset_bottom = 240.0
 
 [node name="Label" type="Label" parent="BoardName"]
-offset_right = 120.0
-offset_bottom = 11.0
+layout_mode = 2
 theme_override_fonts/font = ExtResource("3_2wbjf")
 text = "board name here"
 horizontal_alignment = 1

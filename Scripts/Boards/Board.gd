@@ -38,9 +38,9 @@ func _ready():
 	
 	if board_name:
 		# Show the board name and hide the actual board for now
+		$BoardName.visible = true
+		$BoardName.size = Global.get_default_resolution()
 		$BoardName/Label.text = board_name
-		$BoardName/Label.position = Global.get_default_resolution() / 2 \
-			- Vector2i($BoardName/Label.size) / 2
 			
 		board.visible = false
 		board.process_mode = Node.PROCESS_MODE_DISABLED
@@ -198,5 +198,5 @@ func get_boss_pieces() -> Array[Node2D]:
 func _on_selector_piece_collision(piece):
 	if piece.is_player() and not message_window.visible:
 		message_window.appear("Unable to advance because a "
-			+ "monster is blocking the way.")
+			+ "monster is blocking the way.", false)
 		adjust_message_pos()
