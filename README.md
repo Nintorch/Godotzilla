@@ -22,7 +22,8 @@ And all the input actions are accurate to the original game.
 - Nintorch - main developer of the framework
 - FreKay Planet - sprite rips of Mothra
 - Cioss - NES controller sprite for "Controls" menu
-- Toho & Compile - "Godzilla: Monster of Monsters" NES game
-- Nintendo - Nintendo Entertainment System (NES)
+- "Godzilla: Monster of Monsters" NES game © Toho Co., Ltd. & Compile
+- Godzilla and related characters © Toho Co., Ltd.
+- Nintendo Entertainment System (NES) © Nintendo
 
 This project is not affiliated with nor endorsed by Toho, Compile or Nintendo. It's a fan-made non-profit project made for fun.
