@@ -3,6 +3,7 @@ extends NinePatchRect
 @export var window_size = Vector2i(96, 64)
 @export var alignment_horizontal = HORIZONTAL_ALIGNMENT_LEFT
 @export var alignment_vertical = VERTICAL_ALIGNMENT_TOP
+
 @onready var text: Label = $Text
 
 enum State {
@@ -14,7 +15,8 @@ enum State {
 
 var default_window_size = Vector2i(window_size)
 var state = State.HIDDEN
-var next_text = ""
+
+signal appearing_finished(prev_state: State)
 
 func _ready():
 	size = Vector2(0, window_size.y)
@@ -22,60 +24,52 @@ func _ready():
 	text.visible = false
 	text.horizontal_alignment = alignment_horizontal
 	text.vertical_alignment = alignment_vertical
-
-func _physics_process(delta: float) -> void:
-	if state == State.APPEARING:
-		if visible:
-			size.x += 16
-		else:
-			visible = true
-			
-		if size.x >= window_size.x:
-			state = State.SHOWN
-			text.visible = true
-				
-	elif state == State.DISAPPEARING:
-		if size.x > 16:
-			size.x -= 16
-		elif next_text:
-			text.text = next_text
-			text.size.x = window_size.x - 8
-			text.size.y = window_size.y - 16
-			next_text = ""
-			state = State.APPEARING
-		else:
-			make_hide()
 	
-# TODO: check req_size
-func appear(message: String, enable_sound = true, req_size: Vector2i = default_window_size):
+func appear(message: String, enable_sound := true, req_size: Vector2i = default_window_size):
+	if state == State.APPEARING or state == State.DISAPPEARING:
+		return
+	
 	window_size = req_size
 	
 	if state == State.SHOWN:
-		next_text = message
 		disappear()
-		if enable_sound:
-			$MenuBip.play()
-		return
-	elif state == State.APPEARING or state == State.DISAPPEARING:
-		return
-	else:
-		size = Vector2(0, window_size.y)
+		await appearing_finished
+	
+	size = Vector2(0, window_size.y)
 		
 	self.text.text = message
 	self.text.visible = false
 	self.text.size.x = window_size.x - 8
 	self.text.size.y = window_size.y - 16
 	
-	visible = false
+	visible = true
 	state = State.APPEARING
+	size.x = 0
+	
+	var tween := create_tween()
+	tween.tween_property(self, "size:x", req_size.x, get_tween_seconds(req_size.x))
+	tween.finished.connect(func():
+		text.visible = true
+		state = State.SHOWN
+		appearing_finished.emit(State.APPEARING)
+		)
 	
 	if enable_sound:
 		$MenuBip.play()
 	
 func disappear() -> void:
-	if state == State.SHOWN:
-		text.visible = false
-		state = State.DISAPPEARING
+	if state != State.SHOWN:
+		return
+	
+	text.visible = false
+	state = State.DISAPPEARING
+	
+	var tween := create_tween()
+	tween.tween_property(self, "size:x", 0, get_tween_seconds(size.x))
+	tween.finished.connect(func():
+		make_hide()
+		appearing_finished.emit(State.DISAPPEARING)
+		)
 		
 func make_hide() -> void:
 	visible = false
@@ -84,3 +78,6 @@ func make_hide() -> void:
 		
 func get_text() -> String:
 	return $Text.text
+
+func get_tween_seconds(pixel_width: int) -> float:
+	return pixel_width / 16.0 / 60.0
