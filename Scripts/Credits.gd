@@ -10,7 +10,7 @@ var current_text := 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Color.BLACK)
-	$CenterContainer.size = Vector2(Global.get_content_size())
+	$CenterContainer.size = Vector2(Global.get_default_resolution())
 	
 	Global.play_music(music)
 	display_text()
@@ -47,4 +47,4 @@ func exit() -> void:
 	await get_tree().create_timer(0.5).timeout
 	get_tree().paused = false
 	Global.hide_fade()
-	Global.change_scene(Global.get_initial_scene())
+	Global.change_scene(preload("res://Scenes/TitleScreen.tscn"))

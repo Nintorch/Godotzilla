@@ -7,7 +7,7 @@
 [node name="Credits" type="Node2D"]
 script = ExtResource("1_21yi6")
 music = ExtResource("3_fqq1g")
-texts = Array[String](["GODOTZILLA CREDITS", "[color=yellow]MAIN PROGRAMMER[/color]
+texts = Array[String](["GODOTZILLA CREDITS", "[color=yellow]PROGRAMMER[/color]
 
 NINTORCH", "[color=yellow]SPRITES[/color]
 
@@ -15,9 +15,10 @@ COMPILE
 CIOSS", "[color=yellow]ORIGINAL GAME BY[/color]
 
 COMPILE
-TOHO", "[color=yellow]NINTENDO ENTERTAINMENT SYSTEM[/color]
-
-NINTENDO"])
+TOHO", "GODZILLA AND RELATED
+CHARACTERS
+COPYRIGHT BY TOHO CO., LTD.", "NINTENDO ENTERTAINMENT SYSTEM
+COPYRIGHT BY NINTENDO", "THANK YOU FOR PLAYING"])
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 offset_right = 128.0
