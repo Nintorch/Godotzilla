@@ -131,7 +131,7 @@ func get_board_pieces() -> Array[Node2D]:
 			))
 	return board_pieces
 
-func get_current_piece() -> Node:
+func get_current_piece() -> Node2D:
 	for p in get_board_pieces():
 		if p.get_cell_pos() == selector.get_cell_pos(selector.old_pos):
 			return p

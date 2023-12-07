@@ -12,80 +12,52 @@ enum MovementStyle {
 @onready var board = $"../../.."
 
 # Speed (in pixels per frame for 60 fps)
-var speed: Vector2i = Vector2i(0, 0)
+var speed: Vector2i = Vector2i()
+var next_speed := Vector2i()
 # Current cell position in pixels
 var old_pos: Vector2
 
 var playing_levels: Array[int] = []
 
 signal piece_collision(piece: Sprite2D)
+signal stopped
 
-func _ready():
+func _ready() -> void:
 	position = map_to_tilemap(position)
 	old_pos = Vector2(position)
 
-func _process(delta: float):
-	if is_stopped():
-		next_hex()
-	else:
-		var yoffset = 32 if not speed.x else 16
-		if speed.y > 0 and position.y > old_pos.y + yoffset - speed.y:
-			adjust_pos()
-			next_hex()
-		if speed.y < 0 and position.y < old_pos.y - yoffset - speed.y:
-			adjust_pos()
-			next_hex()
+func _process(delta: float) -> void:
+	var dirx = Input.get_axis("Left", "Right")
+	var diry = Input.get_axis("Up", "Down")
+	move(dirx, diry)
 			
-	position.x += speed.x * 60 * delta
-	position.y += speed.y * 60 * delta
+	update_movement(delta)
 	
 	if not is_stopped() and message_window.visible:
 		message_window.disappear()
-			
-func is_stopped():
-	return speed == Vector2i.ZERO
-
-func stop():
-	speed.x = 0
-	speed.y = 0
-	
-func map_to_tilemap(pos: Vector2, tm: TileMap = tilemap) -> Vector2:
-	return tm.map_to_local(tm.local_to_map(pos)) - Vector2(0, 7)
-
-func adjust_pos():
-	position = map_to_tilemap(position)
-	old_pos = Vector2(position)
-	
-	if board.selected_piece:
-		playing_levels.append(get_level_id(get_current_cell()))
-	
-func next_hex():
-	var dirx = Input.get_axis("Left", "Right")
-	var diry = Input.get_axis("Up", "Down")
-	dirx = signf(dirx) if absf(dirx) > 0.1 else 0
-	diry = signf(diry) if absf(diry) > 0.1 else 0
-	
-	# Basically, if the player wants to move horizontally and vertically,
-	# set xspeed to horizontal direction * 2 (-2 if left and 2 if right),
-	# otherwise the player shouldn't move (only horizontal moves are not allowed)
-	speed.x = dirx * 2 if diry else 0
-	# If the player wants to move diagonally, set yspeed to vertical direction,
-	# (-1 if up and 1 is down), otherwise we move only vertically with
-	# absolute yspeed 2
-	speed.y = diry if dirx else diry * 2
-	
+		
+# Request movement in the direction of (dirx, diry) vector
+func move(dirx: float, diry: float) -> void:
+	dirx = signf(dirx) if absf(dirx) > 0.1 else 0.0
+	diry = signf(diry) if absf(diry) > 0.1 else 0.0
+	next_speed = Vector2i(
+		# Basically, if the player wants to move horizontally and vertically,
+		# set xspeed to horizontal direction * 2 (-2 if left and 2 if right),
+		# otherwise the player shouldn't move (only horizontal moves are not allowed)
+		(dirx * 2 if diry else 0),
+		# If the player wants to move diagonally, set yspeed to vertical direction,
+		# (-1 if up and 1 is down), otherwise we move only vertically with
+		# absolute yspeed 2
+		(diry if dirx else diry * 2)
+		)
+		
+# When the movement should be stopped
+func stop_conditions() -> void:
 	var next_piece := get_next_cell_piece()
 	
-	# Stop if no input
-	if not diry:
-		stop()
-		if board.selected_piece \
-			and message_window.state == message_window.State.SHOWN \
-			and message_window.get_text() == "Unable to advance farther.":
-			message_window.disappear()
 	# Too many steps
-	elif board.selected_piece and playing_levels.size() >= board.selected_piece.steps:
-		if get_next_cell().x >= 0 and not message_window.visible:
+	if board.selected_piece and playing_levels.size() >= board.selected_piece.steps:
+		if next_cell_exists() and not message_window.visible:
 			message_window.appear("Unable to advance farther.", false)
 			board.adjust_message_pos()
 		stop()
@@ -93,34 +65,89 @@ func next_hex():
 	elif board.selected_piece and next_piece:
 		piece_collision.emit(next_piece)
 		stop()
-	# Stop if next cell is empty
-	elif movement_style == MovementStyle.ONLY_INSIDE_CELLS and get_next_cell().x < 0 \
-		or board.selected_piece and get_next_cell().x < 0:
-		stop()
-	# Stop if next cell is outside the camera limits
+	# Next cell is empty
+	elif not next_cell_exists() and \
+		(movement_style == MovementStyle.ONLY_INSIDE_CELLS or board.selected_piece):
+			stop()
+	# Next cell is outside the camera limits
 	elif movement_style == MovementStyle.OUTSIDE_CELLS:
-		var next_cell = get_next_cell_pos()
+		var next_cell := get_next_cell_pos()
 		var xlimit: int = $Camera2D.limit_right / 32 - 2
 		var ylimit: int = $Camera2D.limit_bottom / 32 - 2
 		if next_cell.x < 0 or next_cell.y < next_cell.x % 2 \
 			or next_cell.x > xlimit or next_cell.y > ylimit:
 			stop()
 	
+func update_movement(delta: float) -> void:
+	if is_stopped():
+		# If is stopped and movement is requested, move
+		speed = next_speed
+		# but be aware of things that should stop the movement
+		if not is_stopped():
+			stop_conditions()
+		elif board.selected_piece \
+			and message_window.state == message_window.State.SHOWN \
+			and message_window.get_text() == "Unable to advance farther.":
+				message_window.disappear()
+		# Save the current cell position
+		old_pos = Vector2(position)
+	else:
+		# If we're moving and got onto the next hex
+		var yoffset := 32 if not speed.x else 16
+		if (speed.y > 0 and position.y > old_pos.y + yoffset - speed.y) \
+			or (speed.y < 0 and position.y < old_pos.y - yoffset - speed.y):
+				# Save the current cell position
+				old_pos = Vector2(position)
+				# If we're moving in different direction than
+				# the current requested move, stop and move in
+				# the requested direction
+				if next_speed != speed:
+					stop()
+					speed = next_speed
+				
+				# Save the level from the current hex
+				if board.selected_piece:
+					playing_levels.append(get_level_id(get_current_cell()))
+				
+				# If we're still requesting for movement, be aware
+				# of things that should stop the movement
+				if next_speed != Vector2i.ZERO:
+					stop_conditions()
+			
+	position.x += speed.x * 60 * delta
+	position.y += speed.y * 60 * delta
+	
+func is_stopped() -> bool:
+	return speed == Vector2i.ZERO
+
+func stop() -> void:
+	speed = Vector2i.ZERO
+	next_speed = Vector2i.ZERO
+	position = map_to_tilemap(position)
+	stopped.emit()
+	
+# Snap coords to tilemap cells
+func map_to_tilemap(pos: Vector2, tm: TileMap = tilemap) -> Vector2:
+	return tm.map_to_local(tm.local_to_map(pos)) - Vector2(0, 7)
+	
+# Convert local coords into tilemap cell coords
 func get_cell_pos(pos: Vector2) -> Vector2i:
 	return tilemap.local_to_map(pos)
 	
+# Get cell from the position
 func cell_from_pos(pos: Vector2i) -> Vector2i:
 	return tilemap.get_cell_atlas_coords(1, pos)
 	
-func cell_exists(pos: Vector2i) -> Vector2i:
-	return tilemap.get_cell_atlas_coords(0, pos)
+# Check if a cell exists
+func cell_exists(pos: Vector2i) -> bool:
+	return tilemap.get_cell_atlas_coords(0, pos).x >= 0
 	
 func get_next_cell_pos() -> Vector2i:
-	var next_pos = Vector2(old_pos)
+	var next_pos := Vector2(old_pos)
 	next_pos += Vector2(speed) * 16
 	return get_cell_pos(next_pos)
 
-func get_next_cell() -> Vector2i:
+func next_cell_exists() -> bool:
 	return cell_exists(get_next_cell_pos())
 	
 func get_current_cell() -> Vector2i:
@@ -132,6 +159,7 @@ func reset_playing_levels() -> void:
 func get_level_id(tile: Vector2i) -> int:
 	return tile.x + tile.y * 5 - 1
 	
+# Get the piece (if exists) from the next cell
 func get_next_cell_piece() -> Sprite2D:
 	for p in board.get_board_pieces():
 		if p.get_cell_pos() == get_next_cell_pos():

@@ -68,15 +68,12 @@ func get_next_level() -> PackedScene:
 	return playing_levels.pop_front()
 
 func any_action_button_pressed() -> bool:
-	for action in ["B", "A", "Select", "Start"]:
+	for action: String in ["B", "A", "Select", "Start"]:
 		if Input.is_action_just_pressed(action):
 			return true
 	return false
 
-func get_boards() -> Array[BoardDescription]:
-	return main.boards
-	
-##region Save files
+#region Save files
 
 func load_game_settings() -> void:
 	var file = load_settings_file()
@@ -94,9 +91,9 @@ func load_settings_file() -> ConfigFile:
 func save_settings_file(file: ConfigFile) -> void:
 	file.save(SETTINGS_PATH)
 	
-##endregion
+#endregion
 	
-##region Scene changing
+#region Scene changing
 
 func change_scene_node(node: Node, free = true) -> void:
 	var curscene_parent = main.get_node("CurrentScene")
@@ -118,9 +115,9 @@ func get_initial_scene() -> PackedScene:
 func get_current_scene() -> Node:
 	return main.get_node("CurrentScene").get_child(0)
 	
-##endregion
+#endregion
 	
-##region Fading
+#region Fading
 
 enum {
 	FADE_BLACK,
@@ -136,9 +133,9 @@ func fade_in(color := FADE_BLACK) -> void:
 func hide_fade() -> void:
 	main.hide_fade()
 	
-##endregion
+#endregion
 
-##region Music
+#region Music
 
 func play_music(stream: AudioStream) -> void:
 	if music.playing:
@@ -162,4 +159,4 @@ func music_fade_in() -> void:
 	music.volume_db = -80
 	tween.tween_property(music, "volume_db", 0, 0.5)
 	
-##endregion
+#endregion

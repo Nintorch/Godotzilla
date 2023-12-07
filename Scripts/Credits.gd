@@ -47,4 +47,4 @@ func exit() -> void:
 	await get_tree().create_timer(0.5).timeout
 	get_tree().paused = false
 	Global.hide_fade()
-	Global.change_scene(preload("res://Scenes/TitleScreen.tscn"))
+	Global.change_scene(Global.get_initial_scene())
