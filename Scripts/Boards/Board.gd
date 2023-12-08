@@ -5,17 +5,18 @@ extends Node2D
 @export var music: AudioStream
 @export var tileset: Texture
 @export var next_board: PackedScene
+@export var allow_boss_movement := true
 
-@export_category("Saves")
 ## If true, a player's current save will be changed when this
 ## scene starts
+@export_category("Saves")
 @export var use_in_saves := true
 @export var board_id := "template"
 
-@export_category("Levels")
 ## The array of levels
 ## Check out get_level_id(tile: Vector2i) -> int in Selector.gd
 ## to get the level ID for a cell in the tilemap
+@export_category("Levels")
 @export var levels: Array[PackedScene]
 
 @onready var tilemap: TileMap = $Board/TileMap
@@ -192,20 +193,21 @@ func returned() -> void:
 		selected_piece.deselect()
 		selected_piece = null
 		
-	selector.hide()
-	selector.ignore_player_input = true
-	var selector_pos_saved := selector.position
-	
-	await Global.fade_end
-	
-	move_boss()
-	
-	await Global.fade_end
-	Global.fade_in()
-	
-	selector.position = selector_pos_saved
-	selector.show()
-	selector.ignore_player_input = false
+	if allow_boss_movement:
+		selector.hide()
+		selector.ignore_player_input = true
+		var selector_pos_saved := selector.position
+		
+		await Global.fade_end
+		
+		move_boss()
+		
+		await Global.fade_end
+		Global.fade_in()
+		
+		selector.position = selector_pos_saved
+		selector.show()
+		selector.ignore_player_input = false
 	
 func move_boss() -> void:
 	# No bosses to move
@@ -213,6 +215,14 @@ func move_boss() -> void:
 		return
 	
 	var boss_piece: Node2D = get_boss_pieces().pick_random()
+	
+	# Don't include other boss pieces in the navigation path
+	# (by usign an alternative tile without navigation region)
+	for p: Node2D in get_boss_pieces():
+		if p != boss_piece:
+			var pos = p.get_cell_pos()
+			tilemap.set_cell(0, pos, 0, Vector2i(0, 0), 1)
+		
 	var player_piece: Node2D = get_closest_player(boss_piece)
 	await get_tree().create_timer(0.5).timeout
 	boss_piece.select()
@@ -222,6 +232,11 @@ func move_boss() -> void:
 	nav_agent.target_position = player_piece.global_position
 	nav_agent.get_next_path_position() # Build the navigation path
 	var path := convert_navigation_path(nav_agent.get_current_navigation_path())
+	
+	for p: Node2D in get_boss_pieces():
+		if p != boss_piece:
+			var pos = p.get_cell_pos()
+			tilemap.set_cell(0, pos, 0, Vector2i(0, 0))
 	
 	for i in boss_piece.steps:
 		if i >= path.size():
@@ -261,8 +276,9 @@ func convert_navigation_path(path: PackedVector2Array) -> PackedVector2Array:
 	var result := PackedVector2Array()
 	for point: Vector2 in path:
 		var pos: Vector2 = selector.map_to_tilemap(tilemap.to_local(point))
-		if (result.size() > 0 and result[-1] != pos) or result.size() == 0:
-			result.append(pos)
+		if (result.size() > 0 and result[-1] != pos or result.size() == 0) \
+			and selector.cell_exists(selector.get_cell_pos(pos)):
+				result.append(pos)
 	# We don't want the boss to move to its position
 	result.remove_at(0)
 	return result

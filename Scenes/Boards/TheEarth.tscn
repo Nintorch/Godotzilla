@@ -20,3 +20,13 @@ layer_1/tile_data = PackedInt32Array(65537, 1, 0, 65536, 1, 0, 0, 1, 0, 131072, 
 position = Vector2(208, 121)
 scale = Vector2(-1, 1)
 piece_type = 1
+
+[node name="Piece2" parent="Board/TileMap/Board Pieces" index="3" instance=ExtResource("6_vncvx")]
+position = Vector2(208, 184)
+scale = Vector2(-1, 1)
+frame = 6
+piece_character = 1
+piece_type = 1
+
+[node name="Selector" parent="Board/TileMap" index="1"]
+movement_style = 1

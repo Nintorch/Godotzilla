@@ -12,3 +12,5 @@ frame = 3
 script = ExtResource("2_f5xfm")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+avoidance_mask = 2

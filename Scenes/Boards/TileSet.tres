@@ -14,8 +14,10 @@ resource_name = "Outline"
 texture = ExtResource("1_86gfs")
 texture_region_size = Vector2i(48, 34)
 use_texture_padding = false
+0:0/next_alternative_id = 3
 0:0/0 = 0
 0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_7uh4s")
+0:0/1 = 1
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5xk1u"]
 resource_name = "Icons"
