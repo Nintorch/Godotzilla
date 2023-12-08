@@ -193,7 +193,7 @@ func returned() -> void:
 		selected_piece.deselect()
 		selected_piece = null
 		
-	if allow_boss_movement:
+	if allow_boss_movement and get_boss_pieces().size() > 0:
 		selector.hide()
 		selector.ignore_player_input = true
 		var selector_pos_saved := selector.position
@@ -210,10 +210,6 @@ func returned() -> void:
 		selector.ignore_player_input = false
 	
 func move_boss() -> void:
-	# No bosses to move
-	if get_boss_pieces().size() == 0:
-		return
-	
 	var boss_piece: Node2D = get_boss_pieces().pick_random()
 	
 	# Don't include other boss pieces in the navigation path

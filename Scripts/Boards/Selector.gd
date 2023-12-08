@@ -5,7 +5,7 @@ enum MovementStyle {
 	ONLY_INSIDE_CELLS,
 }
 
-@export var movement_style = MovementStyle.OUTSIDE_CELLS
+@export var movement_style := MovementStyle.OUTSIDE_CELLS
 
 @onready var tilemap: TileMap = get_parent()
 @onready var message_window = $"../../GUI/MessageWindow"

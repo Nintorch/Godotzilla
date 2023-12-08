@@ -2,10 +2,10 @@
 
 [ext_resource type="Texture2D" uid="uid://dhod63htftwaw" path="res://Sprites/EditorBoard.png" id="1_86gfs"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_7uh4s"]
-vertices = PackedVector2Array(-16, 0, -25, -9, -16, -16, -8, -9, -8, 6, -19, 15, -25, 8, 16, -1, 23, 9, 16, 16, 7, 8, 6, -9, 18, -18, 25, -10, 5, -22, 4, 20, -7, 20, -7, -22)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 0, 4), PackedInt32Array(7, 8, 9, 10, 11), PackedInt32Array(12, 13, 7, 11), PackedInt32Array(14, 11, 10, 15, 16, 4, 3, 17)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-6.61459, -21.7336, -7.87451, -8.50447, -16, -16, -24.5685, -9.44941, -16, 0, -24.5685, 7.8745, -19.2138, 14.8041, -8.18949, 5.66964, -6.61459, 20.1587, 4.40973, 20.4737, 6.61459, 7.8745, 16, 16, 22.9936, 8.81945, 16, -0.944942, 24.5685, -10.3944, 17.9539, -18.2689, 5.66964, -8.50447, 5.03968, -21.7336)])
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_kpots"]
+vertices = PackedVector2Array(-16, -1, -21, -7, -16, -13, -11, -8, -8, 7, 16, 0, 22, 6, 16, 12, 10, 7, -16, 12, -22, 7, 16, -13, 21, -9, 11, -9, 6, 16, -6, 16, 6, -16, -7, -16)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(9, 10, 0, 4), PackedInt32Array(11, 12, 5, 13), PackedInt32Array(8, 14, 15, 4, 3), PackedInt32Array(16, 13, 5, 8, 3, 17)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-6.71751, -16, 6.01041, -16, 10.6066, -9.19239, 16, -12.7279, 20.8597, -8.83884, 16, 0, 22.2739, 6.01041, 16, 12.3744, 10.2531, 7.42462, 6.36396, 16, -6.36396, 16, -8.48528, 7.42462, -16, 12.3744, -21.5668, 7.07107, -16, -1.41422, -20.8596, -7.42462, -16, -12.7279, -10.6066, -8.48528)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 agent_radius = 0.0
 
@@ -16,7 +16,7 @@ texture_region_size = Vector2i(48, 34)
 use_texture_padding = false
 0:0/next_alternative_id = 3
 0:0/0 = 0
-0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_7uh4s")
+0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_kpots")
 0:0/1 = 1
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5xk1u"]
