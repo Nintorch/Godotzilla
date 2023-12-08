@@ -85,8 +85,13 @@ func _process(_delta: float):
 			else:
 				selected_piece.prepare_start()
 				Global.playing_levels.assign(
-					selector.playing_levels.map(func(x): return levels[x])
-					)
+					selector.playing_levels.map(func(x):
+						if x >= levels.size():
+							return null
+						return levels[x]
+						))
+				if Global.playing_levels.find(null) >= 0:
+					Global.playing_levels.clear()
 					
 				start_playing()
 			
@@ -161,6 +166,11 @@ func boss_hp_str(hp: float) -> String:
 	return s
 	
 func start_playing() -> void:
+	if Global.playing_levels.size() == 0:
+		selected_piece.deselect()
+		selected_piece = null
+		return
+		
 	get_tree().paused = true
 	
 	await get_tree().create_timer(0.5).timeout

@@ -160,7 +160,7 @@ func reset_playing_levels() -> void:
 	playing_levels.clear()
 
 func get_level_id(tile: Vector2i) -> int:
-	return tile.x + tile.y * 5 - 1
+	return tile.x + tile.y * 5
 	
 # Get the piece (if exists) from the next cell
 func get_next_cell_piece() -> Sprite2D:
