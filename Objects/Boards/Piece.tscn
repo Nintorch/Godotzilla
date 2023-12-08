@@ -10,3 +10,5 @@ hframes = 3
 vframes = 3
 frame = 3
 script = ExtResource("2_f5xfm")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]

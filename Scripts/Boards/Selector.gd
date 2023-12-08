@@ -17,6 +17,8 @@ var next_speed := Vector2i()
 # Current cell position in pixels
 var old_pos: Vector2
 
+var ignore_player_input := false
+
 var playing_levels: Array[int] = []
 
 signal piece_collision(piece: Sprite2D)
@@ -27,9 +29,10 @@ func _ready() -> void:
 	old_pos = Vector2(position)
 
 func _process(delta: float) -> void:
-	var dirx = Input.get_axis("Left", "Right")
-	var diry = Input.get_axis("Up", "Down")
-	move(dirx, diry)
+	if not ignore_player_input:
+		var dirx = Input.get_axis("Left", "Right")
+		var diry = Input.get_axis("Up", "Down")
+		move(dirx, diry)
 			
 	update_movement(delta)
 	
@@ -80,6 +83,8 @@ func stop_conditions() -> void:
 	
 func update_movement(delta: float) -> void:
 	if is_stopped():
+		# Save the current cell position
+		old_pos = Vector2(position)
 		# If is stopped and movement is requested, move
 		speed = next_speed
 		# but be aware of things that should stop the movement
@@ -89,8 +94,6 @@ func update_movement(delta: float) -> void:
 			and message_window.state == message_window.State.SHOWN \
 			and message_window.get_text() == "Unable to advance farther.":
 				message_window.disappear()
-		# Save the current cell position
-		old_pos = Vector2(position)
 	else:
 		# If we're moving and got onto the next hex
 		var yoffset := 32 if not speed.x else 16

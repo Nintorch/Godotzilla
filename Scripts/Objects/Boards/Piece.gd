@@ -126,6 +126,8 @@ func select() -> void:
 	# Move this piece above all other pieces
 	parent.move_child(self, -1)
 	
+	Global.board.menubip.play()
+	
 func deselect() -> void:
 	selected = false
 	
@@ -147,6 +149,8 @@ func prepare_start() -> void:
 	
 	hide_cell_below()
 	
+	Global.board.menubip.play()
+	
 func remove() -> void:
 	if Global.board.selected_piece == self:
 		Global.board.selected_piece = null
@@ -156,3 +160,6 @@ func remove() -> void:
 	
 func is_player() -> bool:
 	return piece_type == 0
+	
+func get_nav_agent() -> NavigationAgent2D:
+	return $NavigationAgent2D
