@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdrpwa8gyr6lc"]
+
+[ext_resource type="Script" path="res://Scripts/Objects/PowerComponent.gd" id="1_hohs7"]
+
+[node name="PowerComponent" type="Node"]
+script = ExtResource("1_hohs7")

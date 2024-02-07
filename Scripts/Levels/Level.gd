@@ -19,7 +19,7 @@ var camera_x_old: float
 
 # These are set in Board.gd and in next_level()
 var data = {
-	current_character = GameCharacter.Type.MOTHRA,
+	current_character = GameCharacter.Type.GODZILLA,
 	board_piece = null,
 }
 
@@ -28,21 +28,49 @@ func _ready() -> void:
 	RenderingServer.set_default_clear_color(bg_color)
 	
 	player.character = data.current_character
-	player.board_piece = data.board_piece
 	
 	player.intro_ended.connect(func():
 		if not Global.music.playing:
 			Global.play_music(music)
 		)
+		
+	if get_HUD():
+		var life_bar = get_HUD().get_node("PlayerCharacter/Life")
+		var power_bar = get_HUD().get_node("PlayerCharacter/Power")
+		life_bar.width = player.health.max_value / 8
+		life_bar.max_value = player.health.max_value
+		
+		power_bar.width = player.power.max_value / 8
+		power_bar.max_value = player.power.max_value
+		
+		player.life_amount_changed.connect(func(new_value: float):
+			life_bar.target_value = new_value
+			)
+			
+		player.level_amount_changed.connect(next_player_level)
 	
 	Global.fade_in()
 	
 func _process(_delta: float) -> void:
 	process_camera()
 	
+	if get_HUD():
+		var power_bar = get_HUD().get_node("PlayerCharacter/Power")
+		power_bar.target_value = player.power.value
+	
 	if player.position.x > camera.limit_right - 10:
-		player.save_state()
+		var board_piece = data.board_piece
+		if board_piece:
+			player.save_state(board_piece.character_data)
+			board_piece.level = board_piece.character_data.level
+			
+			Global.board.board_data.player_score = player.score
+			Global.board.board_data.player_level[board_piece] = player.level
+		
 		next_level()
+	
+	if Input.is_action_just_pressed("B"):
+		player.set_level(2)
 
 func process_camera() -> void:
 	camera_x_old = camera.position.x
@@ -63,6 +91,24 @@ func on_widescreen_change() -> void:
 		
 func get_HUD():
 	return $HUD
+	
+func next_player_level(new_value: int, new_bar_count: int):
+	if not get_HUD():
+		return
+		
+	var life_bar = get_HUD().get_node("PlayerCharacter/Life")
+	var power_bar = get_HUD().get_node("PlayerCharacter/Power")
+	life_bar.width = new_bar_count
+	life_bar.max_value = new_bar_count * 8
+
+	power_bar.width = new_bar_count
+	power_bar.max_value = new_bar_count * 8
+	
+	var level_node = get_HUD().get_node("PlayerCharacter/Level")
+	var level_str := str(new_value)
+	if level_str.length() < 2:
+		level_str = "0" + level_str
+	level_node.text = "level " + level_str
 	
 func next_level() -> void:
 	# level: PackedScene

@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://bdedrxocj46sr"]
+[gd_scene load_steps=15 format=3 uid="uid://bdedrxocj46sr"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/GameCharacter.gd" id="1_clvtk"]
 [ext_resource type="PackedScene" uid="uid://m84defn1thau" path="res://Objects/Characters/Godzilla.tscn" id="1_swkt0"]
 [ext_resource type="PackedScene" uid="uid://camascwoory5h" path="res://Objects/HealthComponent.tscn" id="3_bws3y"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/Walk.gd" id="3_r4s32"]
+[ext_resource type="PackedScene" uid="uid://bdrpwa8gyr6lc" path="res://Objects/PowerComponent.tscn" id="4_434eu"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/Fly.gd" id="4_amfr8"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/LevelIntro.gd" id="4_n3l83"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/Attack.gd" id="5_gtijs"]
@@ -28,6 +29,8 @@ position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_yw7jv")
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_bws3y")]
+
+[node name="PowerComponent" parent="." instance=ExtResource("4_434eu")]
 
 [node name="MothraFloorChecking" type="Area2D" parent="."]
 visible = false

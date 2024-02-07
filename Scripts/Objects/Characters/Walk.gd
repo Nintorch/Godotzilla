@@ -31,7 +31,7 @@ func _process(delta: float) -> void:
 				and parent.inputs_pressed[GameCharacter.Inputs.B]:
 					parent.use_attack(GameCharacter.Attack.TAIL_WHIP)
 			if parent.inputs_pressed[GameCharacter.Inputs.START] \
-				and parent.get_power() >= 6 * 8:
+				and parent.power.value >= 6 * 8:
 				parent.use_attack(GameCharacter.Attack.HEAT_BEAM)
 	
 func common_ground_attacks() -> void:

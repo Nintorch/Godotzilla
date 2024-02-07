@@ -43,6 +43,7 @@ var character_data = {
 	hp = 0.0,
 	bars = 0,
 	xp = 0,
+	level = 0,
 }
 
 func _ready() -> void:

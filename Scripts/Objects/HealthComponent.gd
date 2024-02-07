@@ -1,8 +1,8 @@
 extends Node
 
 ## Health points
-@export var hp := 10.0
-@export var hp_max := 10.0
+@export var value := 10.0
+@export var max_value := 10.0
 
 var died := false
 
@@ -12,7 +12,7 @@ signal healed(amount: float)
 
 # TODO: invincibility time
 
-# Returns true if the object died (hp reached 0)
+# Returns true if the object died (value reached 0)
 func damage(amount: float, hurt_time: float = -1) -> bool:
 	if amount <= 0 \
 		or (get_parent().has_method("is_hurtable")
@@ -21,8 +21,8 @@ func damage(amount: float, hurt_time: float = -1) -> bool:
 	elif died:
 		return true
 		
-	hp = maxf(hp - amount, 0)
-	if hp > 0:
+	value = maxf(value - amount, 0)
+	if value > 0:
 		damaged.emit(amount, hurt_time)
 		return true
 	else:
@@ -31,13 +31,13 @@ func damage(amount: float, hurt_time: float = -1) -> bool:
 		return false
 		
 func heal(amount: float) -> void:
-	if amount <= 0 or hp >= hp_max or died:
+	if amount <= 0 or value >= max_value or died:
 		return
 		
-	if hp + amount <= hp_max:
-		hp += amount
+	if value + amount <= max_value:
+		value += amount
 		healed.emit(amount)
 	else:
-		var old_hp = hp
-		hp = hp_max
-		healed.emit(hp_max - old_hp)
+		var old_value = value
+		value = max_value
+		healed.emit(max_value - old_value)

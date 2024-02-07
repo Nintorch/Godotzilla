@@ -78,7 +78,7 @@ func use(type: GameCharacter.Attack) -> void:
 			if times == 0:
 				parent.state = parent.move_state
 				return
-			parent.use_power(power)
+			parent.power.use(power)
 			
 			wing_attack_sfx()
 			for i in times:
@@ -93,7 +93,7 @@ func use(type: GameCharacter.Attack) -> void:
 func create_heat_beam() -> void:
 	const HEAT_BEAM_COUNT := 12
 	var heat_beams: Array[AnimatedSprite2D] = []
-	parent.use_power(6 * 8)
+	parent.power.use(6 * 8)
 	
 	for i in HEAT_BEAM_COUNT:
 		var particle := GodzillaHeatBeam.instantiate()

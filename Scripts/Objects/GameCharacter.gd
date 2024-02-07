@@ -48,11 +48,7 @@ const BaseBarCount: Array[int] = [
 # TODO: reusable state machine
 @onready var states_list: Array[Node] = $States.get_children()
 @onready var health: Node = $HealthComponent
-
-var power_bar: Control
-var life_bar: Control
-var level_node: Label
-var board_piece: Node2D # Set in Board.gd
+@onready var power: Node = $PowerComponent
 
 var state := State.LEVEL_INTRO: set = _set_state
 var move_state := State.WALK
@@ -62,6 +58,7 @@ var move_speed := 0.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var level := 1
 var direction := 1
+# TODO: move score to Global singleton
 var score := 0
 var save_position: Array[Vector2]
 
@@ -79,13 +76,9 @@ var inputs := []
 var inputs_pressed := []
 const INPUT_ACTIONS = [["Left", "Right"], ["Up", "Down"], "B", "A", "Start", "Select"]
 
-# TODO: change the amount of bars of power and life based on the character level
-# same with health component hp
-
-# TODO: save bars as variable and skip everything bar-related if are no bars
-# save power as variable
-
 signal intro_ended
+signal life_amount_changed(new_value: float)
+signal level_amount_changed(new_value: int, new_bar_count: int)
 
 func _ready() -> void:
 	if is_player:
@@ -99,19 +92,9 @@ func _ready() -> void:
 	
 	# Several default values
 	move_speed = 1 * 60
+	load_state()
 			
 	await Global.get_current_scene().ready
-	
-	if is_player:
-		var hud: CanvasLayer = Global.get_current_scene().get_HUD()
-		if not power_bar:
-			power_bar = hud.get_node("PlayerCharacter/Power")
-		if not life_bar:
-			life_bar = hud.get_node("PlayerCharacter/Life")
-		if not level_node:
-			level_node = hud.get_node("PlayerCharacter/Level")
-			
-	load_state()
 		
 	# GameCharacter-specific setup	
 	var skin: Node2D
@@ -172,10 +155,6 @@ func _ready() -> void:
 			i.disable()
 		
 func _physics_process(delta: float) -> void:
-	if Engine.get_physics_frames() % 20 == 0 \
-		and power_bar.target_value < power_bar.max_value:
-		power_bar.target_value += 1.0
-		
 	# The character should come from outside the camera from the left side
 	# of the screen, so we shouldn't limit the position unless the player
 	# got control of the character.
@@ -230,28 +209,16 @@ func set_level(value: int) -> void:
 	if not is_player or level == value:
 		return
 	level = value
-	var level_str := str(level)
-	if level_str.length() < 2:
-		level_str = "0" + level_str
-	level_node.text = "level " + level_str
 	
 	var bars := GameCharacter.calculate_bar_count(character, level)
 	var bar_value := bars * 8
-	power_bar.width = bars
-	power_bar.target_value = bar_value
-	life_bar.width = bars
-	life_bar.target_value = bar_value
-	health.hp = bar_value
-	health.hp_max = bar_value
-		
-func use_power(amount: int) -> bool:
-	if get_power() < amount:
-		return false
-	power_bar.target_value -= amount
-	return true
 	
-func get_power() -> int:
-	return power_bar.target_value
+	power.max_value = bar_value
+	power.value = bar_value
+	health.max_value = bar_value
+	health.value = bar_value
+	
+	level_amount_changed.emit(level, bars)
 	
 # Pass 0 to update the score meter
 func add_score(amount: int) -> void:
@@ -282,7 +249,7 @@ func is_hurtable() -> bool:
 	return state not in [State.LEVEL_INTRO, State.HURT, State.DEAD]
 
 func _on_health_damaged(amount: float, hurt_time: float) -> void:
-	life_bar.target_value -= amount
+	life_amount_changed.emit(health.value)
 	if hurt_time < 0:
 		hurt_time = 0.6
 	if hurt_time > 0:
@@ -290,42 +257,40 @@ func _on_health_damaged(amount: float, hurt_time: float) -> void:
 		state = State.HURT
 
 func _on_health_dead() -> void:
-	life_bar.target_value = 0
+	life_amount_changed.emit(0)
 	state = State.DEAD
 
 func _on_health_healed(amount: float) -> void:
-	life_bar.target_value += amount
+	life_amount_changed.emit(health.value)
 	
-func load_state() -> void:
-	if not board_piece:
-		var bars := GameCharacter.calculate_bar_count(character, level)
-		power_bar.width = bars
-		life_bar.width = bars
+func load_state(data: Dictionary = {}) -> void:
+	if data.is_empty():
+		var bar_value := GameCharacter.calculate_bar_count(character, level) * 8
+		power.max_value = bar_value
+		power.value = bar_value
+		health.max_value = bar_value
+		health.value = bar_value
 		return
 		
-	var data: Dictionary = board_piece.character_data
-	set_level(board_piece.level)
+	var bar_value: float = data.bars * 8
+	set_level(data.level)
 	health.hp = data.hp
-	health.hp_max = data.bars * 8
+	health.hp_max = bar_value
 	
-	power_bar.width = data.bars
-	life_bar.width = data.bars
-	life_bar.initial_value = data.hp
+	power.max_value = bar_value
+	power.value = bar_value
+	health.max_value = bar_value
+	health.value = bar_value
 	
 	score = Global.board.board_data.player_score
 	add_score(0)
 	
 	# TODO: xp
 	
-func save_state() -> void:
-	if not board_piece:
-		return
-		
-	board_piece.character_data.hp = health.hp
-	board_piece.character_data.bars = power_bar.width
-	board_piece.level = level
-	Global.board.board_data.player_score = score
-	Global.board.board_data.player_level[board_piece] = level
+func save_state(data: Dictionary) -> void:
+	data.hp = health.hp
+	data.bars = power.max_value / 8
+	data.level = level
 
 static func calculate_bar_count(char_id: GameCharacter.Type, char_level: int) -> int:
 	return BaseBarCount[char_id] + char_level - 1
