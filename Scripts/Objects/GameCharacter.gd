@@ -43,6 +43,9 @@ const BaseBarCount: Array[int] = [
 
 @export var is_player := true
 @export var enable_intro := true
+@export var enable_attacks := true
+## If true, the player's skin will face the movement direction
+@export var allow_direction_changing := false
 
 @onready var collision: CollisionShape2D = $Collision
 # TODO: reusable state machine
@@ -57,12 +60,19 @@ var character := GameCharacter.Type.GODZILLA
 var move_speed := 0.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var level := 1
-var direction := 1
 # TODO: move score to Global singleton
 var score := 0
 var save_position: Array[Vector2]
 
+var direction: int = 1:
+	set(value):
+		if value != 0:
+			if signi(value) != direction:
+				direction = signi(value)
+				scale.x = -1
+
 var body: AnimatedSprite2D
+var skin: Node2D
 var animation_player: AnimationPlayer
 
 # This is done so the bosses and players use the same script
@@ -97,7 +107,7 @@ func _ready() -> void:
 	await Global.get_current_scene().ready
 		
 	# GameCharacter-specific setup	
-	var skin: Node2D
+	var new_skin: Node2D
 	match character:
 		GameCharacter.Type.GODZILLA:
 			# Skin is already Godzilla, so we just move it above everything else
@@ -114,7 +124,7 @@ func _ready() -> void:
 				position.x = -35
 		
 		GameCharacter.Type.MOTHRA:
-			skin = preload("res://Objects/Characters/Mothra.tscn").instantiate()
+			new_skin = preload("res://Objects/Characters/Mothra.tscn").instantiate()
 			get_sfx("Step").stream = load("res://Audio/SFX/MothraStep.ogg")
 			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.ogg")
 			move_state = State.FLY
@@ -126,7 +136,7 @@ func _ready() -> void:
 				position.x = -37
 			
 	# Setup for all characters
-	if skin:
+	if new_skin:
 		var prev_skin: Node2D = $Skin
 		remove_child(prev_skin)
 		prev_skin.queue_free()
@@ -134,6 +144,7 @@ func _ready() -> void:
 		skin.name = "Skin"
 		add_child(skin)
 	
+	skin = $Skin
 	body = $Skin/Body
 	animation_player = $Skin/AnimationPlayer
 	move_child(collision, -1)
@@ -203,6 +214,8 @@ func process_input() -> void:
 	
 # TODO: attack component
 func use_attack(type: Attack) -> void:
+	if not enable_attacks:
+		return
 	$States/Attack.use(type)
 	
 func set_level(value: int) -> void:
@@ -274,13 +287,11 @@ func load_state(data: Dictionary = {}) -> void:
 		
 	var bar_value: float = data.bars * 8
 	set_level(data.level)
-	health.hp = data.hp
-	health.hp_max = bar_value
 	
+	health.max_value = bar_value
+	health.value = data.hp
 	power.max_value = bar_value
 	power.value = bar_value
-	health.max_value = bar_value
-	health.value = bar_value
 	
 	score = Global.board.board_data.player_score
 	add_score(0)
@@ -288,7 +299,7 @@ func load_state(data: Dictionary = {}) -> void:
 	# TODO: xp
 	
 func save_state(data: Dictionary) -> void:
-	data.hp = health.hp
+	data.hp = health.value
 	data.bars = power.max_value / 8
 	data.level = level
 

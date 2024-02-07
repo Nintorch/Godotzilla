@@ -13,9 +13,9 @@ func state_entered() -> void:
 	get_tree().paused = false
 	
 	if Global.board:
-		Global.board.board_pieces.erase(Global.board.selected_piece)
-		Global.board.selected_piece.remove()
-		Global.board.selected_piece = null
+		if Global.board.selected_piece:
+			Global.board.selected_piece.remove()
+			Global.board.selected_piece = null
 		
 		if Global.board.get_player_pieces().size() == 0:
 			Global.change_scene(preload("res://Scenes/GameOver.tscn"))
@@ -27,6 +27,4 @@ func state_entered() -> void:
 	
 func _physics_process(_delta: float) -> void:
 	if Engine.get_physics_frames() % 5 == 0:
-		var explosion := Explosion.new()
-		explosion.global_position = parent.global_position
-		add_child(explosion)
+		add_child(Explosion.new(parent.global_position))

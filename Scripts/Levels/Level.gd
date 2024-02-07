@@ -12,6 +12,7 @@ const CAMERA_OFFSET_X = 30
 
 enum CameraMode {
 	NORMAL,
+	TWO_SIDES,
 }
 
 var camera_mode = CameraMode.NORMAL
@@ -28,6 +29,8 @@ func _ready() -> void:
 	RenderingServer.set_default_clear_color(bg_color)
 	
 	player.character = data.current_character
+	if data.board_piece:
+		player.load_state(data.board_piece.character_data)
 	
 	player.intro_ended.connect(func():
 		if not Global.music.playing:
@@ -37,17 +40,18 @@ func _ready() -> void:
 	if get_HUD():
 		var life_bar = get_HUD().get_node("PlayerCharacter/Life")
 		var power_bar = get_HUD().get_node("PlayerCharacter/Power")
-		life_bar.width = player.health.max_value / 8
-		life_bar.max_value = player.health.max_value
 		
-		power_bar.width = player.power.max_value / 8
-		power_bar.max_value = player.power.max_value
+		update_player_level(player.level, player.health.max_value / 8)
+		
+		life_bar.initial_value = player.health.value
+		life_bar.target_value = player.health.value
+		life_bar.update_style()
 		
 		player.life_amount_changed.connect(func(new_value: float):
 			life_bar.target_value = new_value
 			)
 			
-		player.level_amount_changed.connect(next_player_level)
+		player.level_amount_changed.connect(update_player_level)
 	
 	Global.fade_in()
 	
@@ -68,9 +72,6 @@ func _process(_delta: float) -> void:
 			Global.board.board_data.player_level[board_piece] = player.level
 		
 		next_level()
-	
-	if Input.is_action_just_pressed("B"):
-		player.set_level(2)
 
 func process_camera() -> void:
 	camera_x_old = camera.position.x
@@ -81,6 +82,8 @@ func process_camera() -> void:
 				camera.position.x = clampf(player.position.x + CAMERA_OFFSET_X,
 					window_width_half, camera.limit_right - window_width_half)
 				camera.limit_left = max(camera.position.x - window_width_half, 0)
+		CameraMode.TWO_SIDES:
+			pass
 				
 func is_camera_moving() -> bool:
 	return camera_x_old < camera.position.x
@@ -92,7 +95,7 @@ func on_widescreen_change() -> void:
 func get_HUD():
 	return $HUD
 	
-func next_player_level(new_value: int, new_bar_count: int):
+func update_player_level(new_value: int, new_bar_count: int):
 	if not get_HUD():
 		return
 		

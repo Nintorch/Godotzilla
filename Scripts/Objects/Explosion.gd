@@ -5,6 +5,9 @@ extends Sprite2D
 
 var velocity: Vector2
 
+func _init(new_global_position: Vector2) -> void:
+	global_position = new_global_position
+
 func _ready() -> void:
 	texture = preload("res://Sprites/explosion.png")
 	hframes = 2

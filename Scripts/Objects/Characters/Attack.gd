@@ -10,6 +10,14 @@ var variation = 0
 func state_init() -> void:
 	move_state = parent.states_list[parent.move_state]
 	parent.animation_player.connect("animation_finished", _on_animation_finished)
+	
+var save_allow_direction_changing := false
+func state_entered() -> void:
+	save_allow_direction_changing = parent.allow_direction_changing
+	parent.allow_direction_changing = false
+
+func state_exited() -> void:
+	parent.allow_direction_changing = save_allow_direction_changing
 
 func _process(delta: float) -> void:
 	move_state.move(delta)
@@ -73,7 +81,7 @@ func use(type: GameCharacter.Attack) -> void:
 			parent.state = parent.move_state
 			
 		GameCharacter.Attack.WING_ATTACK:
-			var power = mini(parent.get_power(), 2 * 8)
+			var power = mini(parent.power.value, 2 * 8)
 			var times: int = power / 2.6
 			if times == 0:
 				parent.state = parent.move_state

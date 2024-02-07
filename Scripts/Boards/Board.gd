@@ -26,6 +26,7 @@ extends Node2D
 # The actual playable board, the node that has this script
 # also includes the board name.
 @onready var board: Node2D = $Board
+@onready var board_pieces: Node2D = $"Board/TileMap/Board Pieces"
 
 @onready var menubip: AudioStreamPlayer = $Board/GUI/MessageWindow/MenuBip
 

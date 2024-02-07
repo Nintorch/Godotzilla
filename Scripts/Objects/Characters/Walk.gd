@@ -45,9 +45,14 @@ func move(delta: float):
 	var direction = parent.inputs[GameCharacter.Inputs.XINPUT]
 	if direction:
 		parent.velocity.x = parent.move_speed * direction
+		
+		if parent.allow_direction_changing:
+			parent.direction = signf(direction)
+			
 		walk_frame = wrapf(
-			walk_frame + walk_frame_speed * delta * direction,
+			walk_frame + walk_frame_speed * delta * direction * parent.direction,
 			0, walk_frames)
+			
 		if parent.body.animation == "Walk":
 			parent.body.frame = int(walk_frame)
 	else:
