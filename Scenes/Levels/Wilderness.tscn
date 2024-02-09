@@ -20,6 +20,3 @@ offset_top = 160.0
 offset_right = 320.0
 offset_bottom = 200.0
 texture = ExtResource("3_s66fs")
-
-[node name="Player" parent="." index="3"]
-allow_direction_changing = true

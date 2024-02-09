@@ -44,7 +44,7 @@ const BaseBarCount: Array[int] = [
 @export var is_player := true
 @export var enable_intro := true
 @export var enable_attacks := true
-## If true, the player's skin will face the movement direction
+## If true, the player object will face the movement direction
 @export var allow_direction_changing := false
 
 @onready var collision: CollisionShape2D = $Collision
@@ -66,10 +66,9 @@ var save_position: Array[Vector2]
 
 var direction: int = 1:
 	set(value):
-		if value != 0:
-			if signi(value) != direction:
-				direction = signi(value)
-				scale.x = -1
+		if value != 0 && signi(value) != direction:
+			direction = signi(value)
+			scale.x = -1
 
 var body: AnimatedSprite2D
 var skin: Node2D

@@ -13,3 +13,6 @@ func use(amount: float) -> bool:
 		return false
 	value = maxf(value - amount, 0)
 	return true
+
+func add(amount: float) -> void:
+	value = minf(value + amount, max_value)

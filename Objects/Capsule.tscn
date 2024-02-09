@@ -1,0 +1,92 @@
+[gd_scene load_steps=9 format=3 uid="uid://hos7shkktc1k"]
+
+[ext_resource type="Texture2D" uid="uid://c1n8vhgw5br0w" path="res://Sprites/Objects/capsules.png" id="1_0f167"]
+[ext_resource type="Script" path="res://Scripts/Objects/Capsule.gd" id="2_74wkk"]
+[ext_resource type="AudioStream" uid="uid://btqycedtut0o6" path="res://Audio/SFX/Capsule.wav" id="3_eegh8"]
+
+[sub_resource type="Animation" id="Animation_c4ftu"]
+resource_name = "health"
+length = 0.24
+loop_mode = 1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.12),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_5m62m"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_um106"]
+resource_name = "power"
+length = 0.24
+loop_mode = 1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.12),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cxuko"]
+_data = {
+"RESET": SubResource("Animation_5m62m"),
+"health": SubResource("Animation_c4ftu"),
+"power": SubResource("Animation_um106")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4xqf8"]
+size = Vector2(8, 16)
+
+[node name="Capsule" type="Sprite2D"]
+texture = ExtResource("1_0f167")
+hframes = 4
+script = ExtResource("2_74wkk")
+
+[node name="SFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_eegh8")
+bus = &"SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_cxuko")
+}
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_4xqf8")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
