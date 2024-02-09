@@ -20,6 +20,7 @@ size = Vector2(20, 56)
 size = Vector2(36, 6)
 
 [node name="GameCharacter" type="CharacterBody2D"]
+collision_mask = 2
 script = ExtResource("1_clvtk")
 
 [node name="Skin" parent="." instance=ExtResource("1_swkt0")]

@@ -41,11 +41,21 @@ const BaseBarCount: Array[int] = [
 	8, # Mothra
 ]
 
+@export var character := GameCharacter.Type.GODZILLA
+
 @export var is_player := true
 @export var enable_intro := true
 @export var enable_attacks := true
 ## If true, the player object will face the movement direction
 @export var allow_direction_changing := false
+@export var block_level_end := false
+
+@export_enum("Right:1", "Left:-1")
+var direction: int = 1:
+	set(value):
+		if value != 0 && signi(value) != direction:
+			direction = signi(value)
+			scale.x = -1
 
 @onready var collision: CollisionShape2D = $Collision
 # TODO: reusable state machine
@@ -55,20 +65,12 @@ const BaseBarCount: Array[int] = [
 
 var state := State.LEVEL_INTRO: set = _set_state
 var move_state := State.WALK
-
-var character := GameCharacter.Type.GODZILLA
 var move_speed := 0.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var level := 1
 # TODO: move score to Global singleton
 var score := 0
 var save_position: Array[Vector2]
-
-var direction: int = 1:
-	set(value):
-		if value != 0 && signi(value) != direction:
-			direction = signi(value)
-			scale.x = -1
 
 var body: AnimatedSprite2D
 var skin: Node2D
@@ -90,13 +92,20 @@ signal life_amount_changed(new_value: float)
 signal level_amount_changed(new_value: int, new_bar_count: int)
 
 func _ready() -> void:
+	collision.shape = collision.shape.duplicate()
+	
 	if is_player:
 		Global.player = self
 		if enable_intro:
 			position.x = -40
+			
+	has_input = is_player
 	
 	inputs.resize(Inputs.size())
 	inputs_pressed.resize(Inputs.size())
+	setup_input(inputs)
+	setup_input(inputs_pressed)
+	
 	save_position.resize(60)
 	
 	# Several default values
@@ -140,8 +149,8 @@ func _ready() -> void:
 		remove_child(prev_skin)
 		prev_skin.queue_free()
 		
-		skin.name = "Skin"
-		add_child(skin)
+		new_skin.name = "Skin"
+		add_child(new_skin)
 	
 	skin = $Skin
 	body = $Skin/Body
@@ -169,8 +178,13 @@ func _physics_process(delta: float) -> void:
 	# of the screen, so we shouldn't limit the position unless the player
 	# got control of the character.
 	if velocity.x < 0 \
-		and position.x <= get_viewport().get_camera_2d().limit_left + 16:
+	and position.x <= get_viewport().get_camera_2d().limit_left + 16:
 		position.x = get_viewport().get_camera_2d().limit_left + 16
+		velocity.x = 0
+		
+	if block_level_end and velocity.x > 0 \
+	and position.x >= get_viewport().get_camera_2d().limit_right - 16:
+		position.x = get_viewport().get_camera_2d().limit_right - 16
 		velocity.x = 0
 
 	if state != State.DEAD and not is_on_floor() and not is_flying():
@@ -196,6 +210,12 @@ func _set_state(new_state: State) -> void:
 	new_state_node.state_entered()
 	
 	state = new_state
+	
+func setup_input(arr: Array) -> void:
+	arr[Inputs.XINPUT] = 0
+	arr[Inputs.YINPUT] = 0
+	for i in range(Inputs.B, Inputs.size()):
+		arr[i] = false
 	
 func process_input() -> void:
 	if has_input:

@@ -26,7 +26,8 @@ offset_bottom = 240.0
 [node name="Player" parent="." instance=ExtResource("5_vpd3j")]
 position = Vector2(53, 181)
 
-[node name="HUD" parent="." instance=ExtResource("4_cq3ox")]
+[node name="HUD" parent="." node_paths=PackedStringArray("player") instance=ExtResource("4_cq3ox")]
+player = NodePath("../Player")
 
 [node name="Pause" type="AudioStreamPlayer" parent="."]
 process_mode = 3

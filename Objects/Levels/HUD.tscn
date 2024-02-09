@@ -117,3 +117,10 @@ offset_left = 56.0
 offset_top = 16.0
 offset_right = 137.0
 offset_bottom = 24.0
+
+[node name="BgRect2" type="ColorRect" parent="BossCharacter"]
+offset_left = -8.0
+offset_top = 24.0
+offset_right = 248.0
+offset_bottom = 32.0
+color = Color(0, 0, 0, 1)

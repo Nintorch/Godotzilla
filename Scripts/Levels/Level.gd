@@ -3,6 +3,7 @@ extends Node2D
 
 @export var music: AudioStream = preload("res://Audio/Soundtrack/Earth.ogg")
 @export var bg_color = Color(0, 0, 0)
+@export var enable_level_end := true
 
 @onready var window_width_half = Global.get_content_size().x / 2
 @onready var camera: Camera2D = $Camera
@@ -37,32 +38,14 @@ func _ready() -> void:
 			Global.play_music(music)
 		)
 		
-	if get_HUD():
-		var life_bar = get_HUD().get_node("PlayerCharacter/Life")
-		var power_bar = get_HUD().get_node("PlayerCharacter/Power")
-		
-		update_player_level(player.level, player.health.max_value / 8)
-		
-		life_bar.initial_value = player.health.value
-		life_bar.target_value = player.health.value
-		life_bar.update_style()
-		
-		player.life_amount_changed.connect(func(new_value: float):
-			life_bar.target_value = new_value
-			)
-			
-		player.level_amount_changed.connect(update_player_level)
+	player.block_level_end = not enable_level_end
 	
 	Global.fade_in()
 	
 func _process(_delta: float) -> void:
 	process_camera()
 	
-	if get_HUD():
-		var power_bar = get_HUD().get_node("PlayerCharacter/Power")
-		power_bar.target_value = player.power.value
-	
-	if player.position.x > camera.limit_right - 10:
+	if enable_level_end and player.position.x > camera.limit_right - 10:
 		var board_piece = data.board_piece
 		if board_piece:
 			player.save_state(board_piece.character_data)
@@ -83,7 +66,7 @@ func process_camera() -> void:
 					window_width_half, camera.limit_right - window_width_half)
 				camera.limit_left = max(camera.position.x - window_width_half, 0)
 		CameraMode.TWO_SIDES:
-			pass
+			pass # TODO
 				
 func is_camera_moving() -> bool:
 	return camera_x_old < camera.position.x
@@ -94,24 +77,6 @@ func on_widescreen_change() -> void:
 		
 func get_HUD():
 	return $HUD
-	
-func update_player_level(new_value: int, new_bar_count: int):
-	if not get_HUD():
-		return
-		
-	var life_bar = get_HUD().get_node("PlayerCharacter/Life")
-	var power_bar = get_HUD().get_node("PlayerCharacter/Power")
-	life_bar.width = new_bar_count
-	life_bar.max_value = new_bar_count * 8
-
-	power_bar.width = new_bar_count
-	power_bar.max_value = new_bar_count * 8
-	
-	var level_node = get_HUD().get_node("PlayerCharacter/Level")
-	var level_str := str(new_value)
-	if level_str.length() < 2:
-		level_str = "0" + level_str
-	level_node.text = "level " + level_str
 	
 func next_level() -> void:
 	# level: PackedScene

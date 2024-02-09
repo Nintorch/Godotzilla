@@ -26,6 +26,7 @@ script = SubResource("GDScript_jtqjn")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(0, -200)
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(0, 216)
