@@ -18,6 +18,7 @@ enum CameraMode {
 
 var camera_mode = CameraMode.NORMAL
 var camera_x_old: float
+var camera_current_offset := 0
 
 # These are set in Board.gd and in next_level()
 var data = {
@@ -57,7 +58,7 @@ func _process(_delta: float) -> void:
 		next_level()
 
 func process_camera() -> void:
-	camera_x_old = camera.position.x
+	camera_x_old = camera.get_screen_center_position().x
 	match camera_mode:
 		CameraMode.NORMAL:
 			if camera.position.x < player.position.x + CAMERA_OFFSET_X \
@@ -66,10 +67,15 @@ func process_camera() -> void:
 					window_width_half, camera.limit_right - window_width_half)
 				camera.limit_left = max(camera.position.x - window_width_half, 0)
 		CameraMode.TWO_SIDES:
-			pass # TODO
+			camera_current_offset = move_toward(
+				camera_current_offset,
+				CAMERA_OFFSET_X * player.direction,
+				2
+			)
+			camera.position.x = player.position.x + camera_current_offset
 				
 func is_camera_moving() -> bool:
-	return camera_x_old < camera.position.x
+	return camera_x_old != camera.get_screen_center_position().x
 		
 func on_widescreen_change() -> void:
 	window_width_half = Global.get_content_size().x / 2

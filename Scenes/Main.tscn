@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://du38sf8ro3elu"]
+[gd_scene load_steps=6 format=3 uid="uid://du38sf8ro3elu"]
 
 [ext_resource type="Script" path="res://Scripts/Main.gd" id="1_csd2w"]
+[ext_resource type="PackedScene" uid="uid://dhm8bcemuwqfo" path="res://Scenes/Levels/Wilderness.tscn" id="2_7ubve"]
 
 [sub_resource type="Animation" id="Animation_xmtka"]
 resource_name = "FadeIn"
@@ -53,6 +54,7 @@ _data = {
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_csd2w")
+initial_scene = ExtResource("2_7ubve")
 
 [node name="CurrentScene" type="Node2D" parent="."]
 
