@@ -1,6 +1,6 @@
 extends "res://Scripts/Objects/Characters/State.gd"
 
-const YLIMIT = 120
+const YLIMIT = 72
 var floor_checking: Area2D
 var attack_timer := Timer.new()
 
@@ -35,12 +35,16 @@ func move(delta: float) -> void:
 	
 	floor_checking.position.y = parent.velocity.y * delta
 	
+	var ylimit := get_viewport().get_camera_2d().limit_top + YLIMIT
+	if Global.get_current_scene().has_node("HUD"):
+		ylimit += Global.get_current_scene().get_node("HUD").vertical_size
+	
 	if floor_checking.has_overlapping_bodies() and parent.velocity.y > 0:
 		parent.velocity.y = 0
-	elif (parent.position.y + parent.velocity.y * delta) < YLIMIT \
+	elif (parent.position.y + parent.velocity.y * delta) < ylimit \
 		and parent.velocity.y < 0:
 		parent.velocity.y = 0
-		parent.position.y = YLIMIT
+		parent.position.y = ylimit
 
 func reset() -> void:
 	parent.animation_player.play("Idle")

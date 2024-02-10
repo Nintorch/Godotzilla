@@ -4,6 +4,8 @@ extends CanvasLayer
 @export var boss: GameCharacter = null
 @export var boss_bar_color: Color
 
+var vertical_size := 0
+
 signal hud_update
 
 # Called when the node enters the scene tree for the first time.
@@ -13,10 +15,12 @@ func _ready():
 	
 	if is_instance_valid(boss):
 		$BgRect.size.y = 72
+		vertical_size = 80
 		$BossCharacter.visible = true
 		$BossCharacter/BgRect2.color = boss_bar_color
 	else:
 		$BgRect.size.y = 48
+		vertical_size = 48
 		$BossCharacter.visible = false
 		
 	await Global.get_current_scene().ready
