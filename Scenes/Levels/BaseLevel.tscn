@@ -3,9 +3,9 @@
 [ext_resource type="Script" path="res://Scripts/Levels/Level.gd" id="1_kceot"]
 [ext_resource type="PackedScene" uid="uid://bono4mu6juvo8" path="res://Objects/Levels/HUD.tscn" id="4_cq3ox"]
 [ext_resource type="PackedScene" uid="uid://cx8rkmxhgw3oc" path="res://Objects/Levels/Floor.tscn" id="4_tmjpl"]
+[ext_resource type="AudioStream" uid="uid://bgfupmtntcg8x" path="res://Audio/SFX/Pause.wav" id="5_ikype"]
 [ext_resource type="PackedScene" uid="uid://bdedrxocj46sr" path="res://Objects/Characters/GameCharacter.tscn" id="5_vpd3j"]
 [ext_resource type="Script" path="res://Scripts/Levels/Pause.gd" id="6_xgjei"]
-[ext_resource type="AudioStream" uid="uid://b7wpmues1eqmq" path="res://Audio/SFX/Pause.ogg" id="7_lsfko"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_kceot")
@@ -31,6 +31,6 @@ player = NodePath("../Player")
 
 [node name="Pause" type="AudioStreamPlayer" parent="."]
 process_mode = 3
-stream = ExtResource("7_lsfko")
+stream = ExtResource("5_ikype")
 bus = &"SFX"
 script = ExtResource("6_xgjei")

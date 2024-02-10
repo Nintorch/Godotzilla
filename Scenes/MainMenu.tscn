@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/Boards/BoardDescription.gd" id="5_msd77"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/VideoSettings.gd" id="6_hwtc4"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/SoundSettings.gd" id="7_b42dl"]
-[ext_resource type="AudioStream" uid="uid://cmyl7fsh4kab4" path="res://Audio/SFX/MenuBip.ogg" id="8_gompj"]
+[ext_resource type="AudioStream" uid="uid://bq6ov0bep762q" path="res://Audio/SFX/MenuBip.wav" id="8_lcd15"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/Controls.gd" id="9_gkxf3"]
 [ext_resource type="Texture2D" uid="uid://dewcb08w13bxc" path="res://Sprites/controller.png" id="10_ryf2o"]
 
@@ -231,7 +231,7 @@ text = "exit"
 uppercase = true
 
 [node name="SFXTest" type="AudioStreamPlayer" parent="SoundSettings"]
-stream = ExtResource("8_gompj")
+stream = ExtResource("8_lcd15")
 
 [node name="Controls" type="Node2D" parent="." groups=["menu"]]
 unique_name_in_owner = true

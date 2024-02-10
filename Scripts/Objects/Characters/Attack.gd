@@ -71,7 +71,7 @@ func use(type: GameCharacter.Attack) -> void:
 			parent.animation_player.play("RESET")
 			parent.state = parent.move_state
 			
-		# Mothra-specific attacks
+		# Mothra-specific attacks TODO: directions
 		GameCharacter.Attack.EYE_BEAM:
 			var particle = MothraParticle.instantiate()
 			Global.get_current_scene().add_child(particle)

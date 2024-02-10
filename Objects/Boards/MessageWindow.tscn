@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/Boards/MessageWindow.gd" id="1_4muex"]
 [ext_resource type="Texture2D" uid="uid://wmgv6kcqcri0" path="res://Sprites/BoardSprites.png" id="1_yr4n5"]
 [ext_resource type="FontFile" uid="uid://b4bp7sni8u0il" path="res://Sprites/font2.png" id="3_qerkx"]
-[ext_resource type="AudioStream" uid="uid://cmyl7fsh4kab4" path="res://Audio/SFX/MenuBip.ogg" id="4_us2g2"]
+[ext_resource type="AudioStream" uid="uid://bq6ov0bep762q" path="res://Audio/SFX/MenuBip.wav" id="4_y31a1"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qwev6"]
 line_spacing = 0.0
@@ -33,5 +33,5 @@ uppercase = true
 
 [node name="MenuBip" type="AudioStreamPlayer" parent="."]
 process_mode = 3
-stream = ExtResource("4_us2g2")
+stream = ExtResource("4_y31a1")
 bus = &"SFX"

@@ -120,8 +120,8 @@ func _ready() -> void:
 		GameCharacter.Type.GODZILLA:
 			# Skin is already Godzilla, so we just move it above everything else
 			move_child($Skin, -1)
-			get_sfx("Step").stream = load("res://Audio/SFX/GodzillaStep.ogg")
-			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.ogg")
+			get_sfx("Step").stream = load("res://Audio/SFX/GodzillaStep.wav")
+			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.wav")
 			move_state = State.WALK
 			set_collision(Vector2(20, 56), Vector2(0, -1))
 			
@@ -133,8 +133,8 @@ func _ready() -> void:
 		
 		GameCharacter.Type.MOTHRA:
 			new_skin = preload("res://Objects/Characters/Mothra.tscn").instantiate()
-			get_sfx("Step").stream = load("res://Audio/SFX/MothraStep.ogg")
-			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.ogg")
+			get_sfx("Step").stream = load("res://Audio/SFX/MothraStep.wav")
+			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.wav")
 			move_state = State.FLY
 			position.y -= 40
 			move_speed = 2 * 60

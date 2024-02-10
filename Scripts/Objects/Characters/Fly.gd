@@ -26,6 +26,8 @@ func move(delta: float) -> void:
 	var xspeed = 2 * 60
 	if Global.get_current_scene().is_camera_moving():
 		xspeed = 1 * 60
+		
+	# TODO: direction changing
 	
 	parent.velocity.x = parent.inputs[parent.Inputs.XINPUT] * xspeed
 	parent.velocity.y = parent.inputs[parent.Inputs.YINPUT] * parent.move_speed

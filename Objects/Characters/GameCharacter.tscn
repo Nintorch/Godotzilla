@@ -10,8 +10,8 @@
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/Attack.gd" id="5_gtijs"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/Hurt.gd" id="5_t6xgh"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/Dead.gd" id="6_b6u5i"]
-[ext_resource type="AudioStream" uid="uid://bxcocaujtojgk" path="res://Audio/SFX/CharPunch.ogg" id="7_340gx"]
-[ext_resource type="AudioStream" uid="uid://ckmlknccnvtcm" path="res://Audio/SFX/CharHurt.ogg" id="8_byldf"]
+[ext_resource type="AudioStream" uid="uid://deo2ts4xdwwce" path="res://Audio/SFX/CharPunch.wav" id="11_npbvd"]
+[ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="12_re2uk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yw7jv"]
 size = Vector2(20, 56)
@@ -69,11 +69,11 @@ bus = &"SFX"
 bus = &"SFX"
 
 [node name="Punch" type="AudioStreamPlayer" parent="SFX"]
-stream = ExtResource("7_340gx")
+stream = ExtResource("11_npbvd")
 bus = &"SFX"
 
 [node name="Hurt" type="AudioStreamPlayer" parent="SFX"]
-stream = ExtResource("8_byldf")
+stream = ExtResource("12_re2uk")
 bus = &"SFX"
 
 [connection signal="damaged" from="HealthComponent" to="." method="_on_health_damaged"]
