@@ -7,12 +7,14 @@ var sfx_roar: AudioStreamPlayer
 const CHARACTER_PARAMS = [
 	{
 		step_sfx_period = 30,
-		step_sfx_start = 10,
+		step_sfx_start = 15,
+		step_sfx_offset = 10,
 		target_x = 64,
 	},
 	{
 		step_sfx_period = 15,
 		step_sfx_start = 20,
+		step_sfx_offset = 0,
 		target_x = 80,
 	},
 ]
@@ -36,8 +38,9 @@ func _physics_process(delta: float) -> void:
 		
 	if not Global.music.playing:
 		if Engine.get_physics_frames() >= current_params.step_sfx_start \
-			and Engine.get_physics_frames() % current_params.step_sfx_period == 0:
-				sfx_step.play()
+		and Engine.get_physics_frames() % current_params.step_sfx_period \
+		== current_params.step_sfx_offset:
+			sfx_step.play()
 			
 	if parent.position.x > current_params.target_x:
 		parent.state = parent.move_state
