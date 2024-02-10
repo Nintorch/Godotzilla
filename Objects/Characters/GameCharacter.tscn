@@ -34,7 +34,8 @@ shape = SubResource("RectangleShape2D_yw7jv")
 [node name="PowerComponent" parent="." instance=ExtResource("4_434eu")]
 
 [node name="MothraFloorChecking" type="Area2D" parent="."]
-visible = false
+collision_layer = 4
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MothraFloorChecking"]
 position = Vector2(-4, 12)

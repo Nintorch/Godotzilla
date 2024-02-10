@@ -53,9 +53,9 @@ const BaseBarCount: Array[int] = [
 @export_enum("Right:1", "Left:-1")
 var direction: int = 1:
 	set(value):
-		if value != 0 && signi(value) != direction:
-			direction = signi(value)
-			scale.x = -1
+		direction = value
+		if is_instance_valid(skin) and value != 0:
+			skin.scale.x = value
 
 @onready var collision: CollisionShape2D = $Collision
 # TODO: reusable state machine
@@ -134,7 +134,7 @@ func _ready() -> void:
 		GameCharacter.Type.MOTHRA:
 			new_skin = preload("res://Objects/Characters/Mothra.tscn").instantiate()
 			get_sfx("Step").stream = load("res://Audio/SFX/MothraStep.wav")
-			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.wav")
+			get_sfx("Roar").stream = load("res://Audio/SFX/MothraRoar.wav")
 			move_state = State.FLY
 			position.y -= 40
 			move_speed = 2 * 60
@@ -153,6 +153,7 @@ func _ready() -> void:
 		add_child(new_skin)
 	
 	skin = $Skin
+	direction = direction
 	body = $Skin/Body
 	animation_player = $Skin/AnimationPlayer
 	move_child(collision, -1)

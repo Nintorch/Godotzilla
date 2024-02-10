@@ -13,12 +13,13 @@ var type: Type
 
 func setup(type: Type, player: GameCharacter):
 	self.type = type
+	scale.x = player.direction
 	match type:
 		Type.EYE_BEAM:
 			animation = "EyeBeam"
 			timer.start(0.3)
 			timer.timeout.connect(func(): queue_free())
-			velocity = Vector2(5 * player.scale.x * 60, 0)
+			velocity = Vector2(5 * player.direction * 60, 0)
 			
 		Type.WING:
 			animation = "Wing"
@@ -28,7 +29,7 @@ func setup(type: Type, player: GameCharacter):
 				animation_player.stop()
 				visible = true # Just in case
 				)
-			velocity = Vector2(randi_range(2, 10) * 0.1 * 60,
+			velocity = Vector2(randi_range(2, 10) * 0.1 * 60 * player.direction,
 							randi_range(6, 9) * 0.1 * 60)
 
 func _physics_process(delta):

@@ -27,10 +27,11 @@ func move(delta: float) -> void:
 	if Global.get_current_scene().is_camera_moving():
 		xspeed = 1 * 60
 		
-	# TODO: direction changing
-	
 	parent.velocity.x = parent.inputs[parent.Inputs.XINPUT] * xspeed
 	parent.velocity.y = parent.inputs[parent.Inputs.YINPUT] * parent.move_speed
+	
+	if parent.allow_direction_changing and parent.inputs[parent.Inputs.XINPUT] != 0:
+		parent.direction = parent.inputs[parent.Inputs.XINPUT]
 	
 	floor_checking.position.y = parent.velocity.y * delta
 	

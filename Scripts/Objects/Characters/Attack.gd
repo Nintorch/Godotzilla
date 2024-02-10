@@ -77,8 +77,9 @@ func use(type: GameCharacter.Attack) -> void:
 			Global.get_current_scene().add_child(particle)
 			particle.setup(particle.Type.EYE_BEAM, parent)
 			particle.global_position = \
-				parent.global_position + Vector2(20 * parent.scale.x, -2)
+				parent.global_position + Vector2(20 * parent.direction, -2)
 			parent.state = parent.move_state
+			parent.get_sfx("Step").play()
 			
 		GameCharacter.Attack.WING_ATTACK:
 			var power = mini(parent.power.value, 2 * 8)
@@ -88,7 +89,7 @@ func use(type: GameCharacter.Attack) -> void:
 				return
 			parent.power.use(power)
 			
-			wing_attack_sfx()
+			wing_attack_sfx(mini(3, times))
 			for i in times:
 				var particle := MothraParticle.instantiate()
 				Global.get_current_scene().add_child(particle)
@@ -114,8 +115,8 @@ func create_heat_beam() -> void:
 		heat_beams[i].start()
 		await get_tree().create_timer(0.01, false).timeout
 		
-func wing_attack_sfx() -> void:
-	for i in 3:
+func wing_attack_sfx(times: int) -> void:
+	for i in times:
 		parent.get_sfx("Step").play()
 		await get_tree().create_timer(0.25, false).timeout
 

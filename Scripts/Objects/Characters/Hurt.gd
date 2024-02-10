@@ -16,7 +16,7 @@ func state_entered() -> void:
 	parent.animation_player.play("Hurt")
 	
 	# -1 if facing right and 1 if facing left
-	parent.velocity.x = -parent.scale.x * parent.move_speed
+	parent.velocity.x = -parent.direction * parent.move_speed
 	parent.get_sfx("Hurt").play()
 	timer.start(hurt_time)
 
