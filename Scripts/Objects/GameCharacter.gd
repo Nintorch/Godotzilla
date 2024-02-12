@@ -114,16 +114,15 @@ func _ready() -> void:
 			
 	await Global.get_current_scene().ready
 		
-	# GameCharacter-specific setup	
-	var new_skin: Node2D
+	# GameCharacter-specific setup
 	match character:
 		GameCharacter.Type.GODZILLA:
-			# Skin is already Godzilla, so we just move it above everything else
-			move_child($Skin, -1)
+			change_skin(null)
+			set_collision(Vector2(20, 56), Vector2(0, -1))
+			
 			get_sfx("Step").stream = load("res://Audio/SFX/GodzillaStep.wav")
 			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.wav")
 			move_state = State.WALK
-			set_collision(Vector2(20, 56), Vector2(0, -1))
 			
 			# We set the character-specific position so when the character
 			# walks in a sudden frame change won't happen
@@ -132,27 +131,19 @@ func _ready() -> void:
 				position.x = -35
 		
 		GameCharacter.Type.MOTHRA:
-			new_skin = preload("res://Objects/Characters/Mothra.tscn").instantiate()
+			change_skin(preload("res://Objects/Characters/Mothra.tscn").instantiate())
+			set_collision(Vector2(36, 14), Vector2(-4, 1))
+			
 			get_sfx("Step").stream = load("res://Audio/SFX/MothraStep.wav")
 			get_sfx("Roar").stream = load("res://Audio/SFX/MothraRoar.wav")
 			move_state = State.FLY
 			position.y -= 40
 			move_speed = 2 * 60
-			set_collision(Vector2(36, 14), Vector2(-4, 1))
 			
 			if is_player and enable_intro:
 				position.x = -37
 			
 	# Setup for all characters
-	if new_skin:
-		var prev_skin: Node2D = $Skin
-		remove_child(prev_skin)
-		prev_skin.queue_free()
-		
-		new_skin.name = "Skin"
-		add_child(new_skin)
-	
-	skin = $Skin
 	direction = direction
 	body = $Skin/Body
 	animation_player = $Skin/AnimationPlayer
@@ -211,6 +202,19 @@ func _set_state(new_state: State) -> void:
 	new_state_node.state_entered()
 	
 	state = new_state
+	
+func change_skin(new_skin: Node2D) -> void:
+	if new_skin == null:
+		move_child($Skin, -1)
+		return
+		
+	var prev_skin: Node2D = $Skin
+	remove_child(prev_skin)
+	prev_skin.queue_free()
+	
+	new_skin.name = "Skin"
+	add_child(new_skin)
+	skin = new_skin
 	
 func setup_input(arr: Array) -> void:
 	arr[Inputs.XINPUT] = 0

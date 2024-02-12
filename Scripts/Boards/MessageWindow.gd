@@ -16,8 +16,6 @@ enum State {
 var default_window_size = Vector2i(window_size)
 var state = State.HIDDEN
 
-signal appearing_finished(prev_state: State)
-
 func _ready():
 	size = Vector2(0, window_size.y)
 	visible = false
@@ -32,8 +30,7 @@ func appear(message: String, enable_sound := true, req_size: Vector2i = default_
 	window_size = req_size
 	
 	if state == State.SHOWN:
-		disappear()
-		await appearing_finished
+		await disappear()
 	
 	size = Vector2(0, window_size.y)
 		
@@ -51,11 +48,12 @@ func appear(message: String, enable_sound := true, req_size: Vector2i = default_
 	tween.finished.connect(func():
 		text.visible = true
 		state = State.SHOWN
-		appearing_finished.emit(State.APPEARING)
 		)
 	
 	if enable_sound:
 		$MenuBip.play()
+		
+	await tween.finished
 	
 func disappear() -> void:
 	if state != State.SHOWN:
@@ -66,10 +64,8 @@ func disappear() -> void:
 	
 	var tween := create_tween()
 	tween.tween_property(self, "size:x", 0, get_tween_seconds(size.x))
-	tween.finished.connect(func():
-		make_hide()
-		appearing_finished.emit(State.DISAPPEARING)
-		)
+	tween.finished.connect(make_hide)
+	await tween.finished
 		
 func make_hide() -> void:
 	visible = false

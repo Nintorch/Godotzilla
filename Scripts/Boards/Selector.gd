@@ -23,6 +23,7 @@ var playing_levels: Array[int] = []
 
 signal piece_collision(piece: Sprite2D)
 signal stopped
+signal moved
 
 func _ready() -> void:
 	position = map_to_tilemap(position)
@@ -98,24 +99,25 @@ func update_movement(delta: float) -> void:
 		# If we're moving and got onto the next hex
 		var yoffset := 32 if not speed.x else 16
 		if (speed.y > 0 and position.y > old_pos.y + yoffset - speed.y) \
-			or (speed.y < 0 and position.y < old_pos.y - yoffset - speed.y):
-				# Save the current cell position
-				old_pos = Vector2(position)
-				# If we're moving in different direction than
-				# the current requested move, stop and move in
-				# the requested direction
-				if next_speed != speed:
-					stop()
-					speed = next_speed
+		or (speed.y < 0 and position.y < old_pos.y - yoffset - speed.y):
+			moved.emit()
+			# Save the current cell position
+			old_pos = Vector2(position)
+			# If we're moving in different direction than
+			# the current requested move, stop and move in
+			# the requested direction
+			if next_speed != speed:
+				stop()
+				speed = next_speed
+			
+			# Save the level from the current hex
+			if board.selected_piece:
+				playing_levels.append(get_level_id(get_current_cell()))
 				
-				# Save the level from the current hex
-				if board.selected_piece:
-					playing_levels.append(get_level_id(get_current_cell()))
-				
-				# If we're still requesting for movement, be aware
-				# of things that should stop the movement
-				if next_speed != Vector2i.ZERO:
-					stop_conditions()
+			# If we're still requesting for movement, be aware
+			# of things that should stop the movement
+			if next_speed != Vector2i.ZERO:
+				stop_conditions()
 			
 	position.x += speed.x * 60 * delta
 	position.y += speed.y * 60 * delta

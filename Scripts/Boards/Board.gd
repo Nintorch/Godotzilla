@@ -88,6 +88,7 @@ func _process(_delta: float):
 				Global.playing_levels.assign(
 					selector.playing_levels.map(func(x):
 						if x >= levels.size():
+							print("Level with id " + str(x) + " is out of bounds")
 							return null
 						return levels[x]
 						))
@@ -137,7 +138,7 @@ func build_outline():
 func get_board_pieces() -> Array[Node2D]:
 	var board_pieces: Array[Node2D]
 	board_pieces.assign(
-		$"Board/TileMap/Board Pieces".get_children().filter(func(x: Node2D):
+		%"Board Pieces".get_children().filter(func(x: Node2D):
 			return not x.is_queued_for_deletion()
 			))
 	return board_pieces
@@ -210,9 +211,7 @@ func returned() -> void:
 		var selector_pos_saved := selector.position
 		
 		await Global.fade_end
-		
-		move_boss()
-		
+		await move_boss()
 		await Global.fade_end
 		Global.fade_in()
 		
@@ -253,10 +252,7 @@ func move_boss() -> void:
 		var direction = path[i] - boss_piece.position
 		# Request movement
 		selector.move(direction.x, direction.y)
-		# Wait for a bit and stop requesting movement
-		# (if we don't do that the boss will continue moving
-		# in the direction we calculated above)
-		await get_tree().create_timer(0.1).timeout
+		await selector.moved
 		selector.move(0, 0)
 		# Wait until we get onto the next hex
 		await selector.stopped
