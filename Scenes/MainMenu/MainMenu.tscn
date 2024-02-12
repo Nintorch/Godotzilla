@@ -1,0 +1,152 @@
+[gd_scene load_steps=12 format=3 uid="uid://b8f5oi120p3iu"]
+
+[ext_resource type="PackedScene" uid="uid://bjcf4tfdeo6ta" path="res://Scenes/MainMenu/BaseMenu.tscn" id="1_0ctmj"]
+[ext_resource type="Script" path="res://Scripts/MainMenu/MainMenu.gd" id="1_tn6aw"]
+[ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="2_xjjqh"]
+[ext_resource type="Script" path="res://Scripts/MainMenu/Saves.gd" id="3_73kxb"]
+[ext_resource type="Script" path="res://Scripts/Boards/BoardDescription.gd" id="4_ncc0d"]
+[ext_resource type="PackedScene" uid="uid://bxtvwweer7x10" path="res://Scenes/MainMenu/VideoSettings.tscn" id="5_w2jg4"]
+[ext_resource type="PackedScene" uid="uid://dk6nkw1ue84ow" path="res://Scenes/MainMenu/SoundSettings.tscn" id="6_2krn8"]
+[ext_resource type="Script" path="res://Scripts/MainMenu/Controls.gd" id="7_2vwm8"]
+[ext_resource type="Texture2D" uid="uid://dewcb08w13bxc" path="res://Sprites/controller.png" id="8_6m6i1"]
+
+[sub_resource type="Resource" id="Resource_2kygw"]
+script = ExtResource("4_ncc0d")
+name = "The Earth"
+
+[sub_resource type="GDScript" id="GDScript_l65hy"]
+resource_name = "SettingsMenu"
+script/source = "extends \"res://Scripts/MainMenu/Menu.gd\"
+
+func menu_select(id: int) -> void:
+	var menus: Array[Node2D] = [
+		%VideoSettings,
+		%SoundSettings,
+		%Controls,
+		%MenuMain,
+	]
+	
+	main_menu.set_menu(menus[id])
+"
+
+[node name="MainMenu" instance=ExtResource("1_0ctmj")]
+script = ExtResource("1_tn6aw")
+
+[node name="NewGame" type="Label" parent="MenuMain" index="0" groups=["option"]]
+offset_left = 72.0
+offset_top = 80.0
+offset_right = 136.0
+offset_bottom = 91.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "new game"
+uppercase = true
+
+[node name="Password" type="Label" parent="MenuMain" index="1" groups=["option"]]
+offset_left = 72.0
+offset_top = 104.0
+offset_right = 184.0
+offset_bottom = 115.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "pass word game"
+uppercase = true
+
+[node name="Settings" type="Label" parent="MenuMain" index="2" groups=["option"]]
+offset_left = 72.0
+offset_top = 128.0
+offset_right = 184.0
+offset_bottom = 139.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "settings"
+uppercase = true
+
+[node name="Credits" type="Label" parent="MenuMain" index="3" groups=["option"]]
+offset_left = 72.0
+offset_top = 152.0
+offset_right = 184.0
+offset_bottom = 163.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "credits"
+uppercase = true
+
+[node name="Saves" type="Node2D" parent="." index="2" groups=["menu"]]
+unique_name_in_owner = true
+visible = false
+script = ExtResource("3_73kxb")
+boards = Array[ExtResource("4_ncc0d")]([SubResource("Resource_2kygw")])
+
+[node name="Settings" type="Node2D" parent="." index="3" groups=["menu"]]
+unique_name_in_owner = true
+visible = false
+script = SubResource("GDScript_l65hy")
+
+[node name="Video" type="Label" parent="Settings" index="0" groups=["option"]]
+offset_left = 72.0
+offset_top = 80.0
+offset_right = 136.0
+offset_bottom = 91.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "video options"
+uppercase = true
+
+[node name="Sound" type="Label" parent="Settings" index="1" groups=["option"]]
+offset_left = 72.0
+offset_top = 104.0
+offset_right = 176.0
+offset_bottom = 115.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "sound options"
+uppercase = true
+
+[node name="Controls" type="Label" parent="Settings" index="2" groups=["option"]]
+offset_left = 72.0
+offset_top = 128.0
+offset_right = 184.0
+offset_bottom = 139.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "controls
+"
+uppercase = true
+
+[node name="Exit" type="Label" parent="Settings" index="3" groups=["option"]]
+offset_left = 72.0
+offset_top = 152.0
+offset_right = 184.0
+offset_bottom = 163.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "exit"
+uppercase = true
+
+[node name="Controls" type="Node2D" parent="." index="4" groups=["menu"]]
+unique_name_in_owner = true
+visible = false
+script = ExtResource("7_2vwm8")
+
+[node name="Controller" type="Sprite2D" parent="Controls" index="0"]
+position = Vector2(128, 120)
+texture = ExtResource("8_6m6i1")
+offset = Vector2(0, 3)
+region_rect = Rect2(0, 0, 20, 20)
+
+[node name="CurrentButton" type="Label" parent="Controls" index="1"]
+offset_top = 64.0
+offset_right = 256.0
+offset_bottom = 75.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "press button up"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="CancelText" type="Label" parent="Controls" index="2"]
+offset_top = 176.0
+offset_right = 256.0
+offset_bottom = 187.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "press escape to exit this menu"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="SoundSettings" parent="." index="5" instance=ExtResource("6_2krn8")]
+unique_name_in_owner = true
+
+[node name="VideoSettings" parent="." index="6" instance=ExtResource("5_w2jg4")]
+unique_name_in_owner = true

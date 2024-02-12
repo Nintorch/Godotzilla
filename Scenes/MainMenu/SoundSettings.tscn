@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://dk6nkw1ue84ow"]
+
+[ext_resource type="Script" path="res://Scripts/MainMenu/SoundSettings.gd" id="1_pspne"]
+[ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="2_fls7i"]
+[ext_resource type="AudioStream" uid="uid://bq6ov0bep762q" path="res://Audio/SFX/MenuBip.wav" id="3_akdro"]
+
+[node name="SoundSettings" type="Node2D" groups=["menu"]]
+visible = false
+script = ExtResource("1_pspne")
+
+[node name="SFXVolume" type="Label" parent="." groups=["option"]]
+offset_left = 72.0
+offset_top = 80.0
+offset_right = 184.0
+offset_bottom = 91.0
+theme_override_fonts/font = ExtResource("2_fls7i")
+text = "sfx volume:   100"
+uppercase = true
+
+[node name="MusicVolume" type="Label" parent="." groups=["option"]]
+offset_left = 72.0
+offset_top = 104.0
+offset_right = 208.0
+offset_bottom = 115.0
+theme_override_fonts/font = ExtResource("2_fls7i")
+text = "music volume: 100"
+uppercase = true
+
+[node name="Exit" type="Label" parent="." groups=["option"]]
+offset_left = 72.0
+offset_top = 128.0
+offset_right = 184.0
+offset_bottom = 139.0
+theme_override_fonts/font = ExtResource("2_fls7i")
+text = "exit"
+uppercase = true
+
+[node name="SFXTest" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_akdro")

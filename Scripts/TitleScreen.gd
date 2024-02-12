@@ -45,4 +45,4 @@ func leave() -> void:
 		await get_tree().create_timer(0.5).timeout
 		
 		get_tree().paused = false
-		Global.change_scene(preload("res://Scenes/MainMenu.tscn"))
+		Global.change_scene(preload("res://Scenes/MainMenu/MainMenu.tscn"))

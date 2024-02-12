@@ -65,6 +65,7 @@ func use(type: GameCharacter.Attack) -> void:
 				parent.animation_player.play(anim[0])
 				if anim[0] == "HeatBeam3":
 					create_heat_beam()
+				# TODO: this interferes with pause menu
 				await get_tree().create_timer(anim[1], false).timeout
 				
 			move_state.walk_frame = 0

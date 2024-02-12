@@ -72,6 +72,12 @@ func any_action_button_pressed() -> bool:
 		if Input.is_action_just_pressed(action):
 			return true
 	return false
+	
+func accept_pause() -> void:
+	if not Global.fading and Input.is_action_just_pressed("Select"):
+		var pause = load("res://Scenes/MainMenu/PauseMenu.tscn").instantiate()
+		pause.return_scene = get_current_scene()
+		Global.change_scene_node(pause, false)
 
 #region Save files
 
@@ -158,5 +164,8 @@ func music_fade_in() -> void:
 	var tween = create_tween()
 	music.volume_db = -80
 	tween.tween_property(music, "volume_db", 0, 0.5)
+	
+func get_global_sfx(name: String) -> AudioStreamPlayer:
+	return main.get_node("GlobalSFX/" + name)
 	
 #endregion

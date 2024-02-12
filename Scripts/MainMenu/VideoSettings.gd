@@ -1,12 +1,20 @@
 class_name VideoSettings
 extends "res://Scripts/MainMenu/Menu.gd"
 
+@export var include_widescreen := true
+
 const SECTION = "Video"
 const RESOLUTIONS = [1, 2, 3, 4, -1]
 var current_resolution := 2
 
 func _ready() -> void:
 	super._ready()
+	
+	if not include_widescreen:
+		$Widescreen.queue_free()
+		options.remove_at(1)
+		$Exit.position.y -= 24
+		
 	Global.fullscreen_changed.connect(func(flag: bool) -> void:
 		if flag:
 			$Resolution.text = "resolution: full screen"
@@ -24,7 +32,7 @@ func menu_exit() -> void:
 	save_video_settings()
 
 func menu_select(id: int) -> void:
-	if id == 2:
+	if id == options.size() - 1:
 		main_menu.set_menu($"../Settings")
 
 func _process(_delta: float) -> void:
@@ -39,6 +47,9 @@ func _process(_delta: float) -> void:
 					RESOLUTIONS.size() - 1)
 				update_resolution()
 		1: # Wide screen
+			if not include_widescreen:
+				return
+			
 			if Input.is_action_just_pressed("Left"):
 				$Widescreen.text = "wide screen: off"
 				Global.use_widescreen(false)

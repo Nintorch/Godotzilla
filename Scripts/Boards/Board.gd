@@ -4,12 +4,15 @@ extends Node2D
 @export var board_name: String = "Template"
 @export var music: AudioStream
 @export var tileset: Texture
-@export var next_board: PackedScene
+## The scene the player will be sent to after completing this board
+@export var next_scene: PackedScene
+## If set, after the player makes their turn, one of the bosses
+## will also have their turn
 @export var allow_boss_movement := true
 
+@export_category("Saves")
 ## If true, a player's current save will be changed when this
 ## scene starts
-@export_category("Saves")
 @export var use_in_saves := true
 @export var board_id := "template"
 
@@ -70,52 +73,63 @@ func _ready():
 	Global.play_music(music)
 		
 func _process(_delta: float):
-	if board.visible and selector.is_stopped():
-		if Input.is_action_just_pressed("A"):
-			if not selected_piece:
-				var piece = get_current_piece()
-				if piece and piece.is_player():
-					piece.select()
-					selected_piece = piece
-					message_window.disappear()
-				elif piece and not piece.is_player():
-					show_boss_info(piece)
-				else:
-					message_window.appear("There is no monster here.")
-				adjust_message_pos()
+	if not board.visible:
+		return
+		
+	Global.accept_pause()
+	
+	if not selector.is_stopped():
+		return
+	
+	if Input.is_action_just_pressed("A"):
+		if not selected_piece:
+			# If no board pieces are selected
+			var piece = get_current_piece()
+			if piece and piece.is_player():
+				piece.select()
+				selected_piece = piece
+				message_window.disappear()
+			elif piece and not piece.is_player():
+				show_boss_info(piece)
 			else:
-				selected_piece.prepare_start()
-				Global.playing_levels.assign(
-					selector.playing_levels.map(func(x):
-						if x >= levels.size():
-							print("Level with id " + str(x) + " is out of bounds")
-							return null
-						return levels[x]
-						))
-				if Global.playing_levels.find(null) >= 0:
-					Global.playing_levels.clear()
-					
-				start_playing()
-			
-		if Input.is_action_just_pressed("B") and selected_piece:
-			menubip.play()
-			selected_piece.deselect()
-			selected_piece = null
-			message_window.disappear()
-			
-		if Input.is_action_just_pressed("Start"):
-			if not selected_piece and get_current_piece():
-				# We don't check if it's a boss on purpose
-				# (to be accurate to the original game)
-				message_window.appear("Then press button A.")
-			elif selected_piece:
-				message_window.appear("If\nfinished moving, press button A.")
-			else:
-				message_window.appear("Select\na monster to move.")
+				message_window.appear("There is no monster here.")
 			adjust_message_pos()
+		else:
+			# If a board piece is selected and A was pressed, start playing
+			selected_piece.prepare_start()
+			Global.playing_levels.assign(
+				selector.playing_levels.map(func(x):
+					if x >= levels.size():
+						print("Level with id " + str(x) + " is out of bounds")
+						return null
+					return levels[x]
+					))
+			if Global.playing_levels.find(null) >= 0:
+				Global.playing_levels.clear()
+				
+			start_playing()
+		
+	# Cancel the player's current move
+	if Input.is_action_just_pressed("B") and selected_piece:
+		menubip.play()
+		selected_piece.deselect()
+		selected_piece = null
+		message_window.disappear()
+		
+	# Mini board tutorial
+	if Input.is_action_just_pressed("Start"):
+		if not selected_piece and get_current_piece():
+			# We don't check if it's a boss on purpose
+			# (to be accurate to the original game)
+			message_window.appear("Then press button A.")
+		elif selected_piece:
+			message_window.appear("If\nfinished movig, press button A.")
+		else:
+			message_window.appear("Select\na monster to move.")
+		adjust_message_pos()
 			
-		if message_window.visible and Input.is_action_just_pressed("B"):
-			message_window.disappear()
+	if message_window.visible and Input.is_action_just_pressed("B"):
+		message_window.disappear()
 		
 func adjust_message_pos():
 	if selector.position.y > 120:

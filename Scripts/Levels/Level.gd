@@ -46,6 +46,8 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	process_camera()
 	
+	Global.accept_pause()
+	
 	if enable_level_end and player.position.x > camera.limit_right - 10:
 		var board_piece = data.board_piece
 		if board_piece:

@@ -8,12 +8,22 @@ var vertical_size := 0
 
 signal hud_update
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	Global.widescreen_changed.connect(adapt_to_content_size)
 	adapt_to_content_size()
 	
+	await Global.get_current_scene().ready
+	
+	if not is_instance_valid(player):
+		printerr("You must provide the player object to the HUD")
+		return
+		
+	setup_character_listener(player, $PlayerCharacter)
+	
+	# Setup the boss bars if there's a boss in the scene
 	if is_instance_valid(boss):
+		setup_character_listener(boss, $BossCharacter)
+		
 		$BgRect.size.y = 72
 		vertical_size = 80
 		$BossCharacter.visible = true
@@ -23,20 +33,14 @@ func _ready():
 		vertical_size = 48
 		$BossCharacter.visible = false
 		
-	await Global.get_current_scene().ready
-	if not is_instance_valid(player):
-		printerr("You must provide the player object to the HUD")
-		return
-		
-	setup_character_listener(player, $PlayerCharacter)
-	if is_instance_valid(boss):
-		setup_character_listener(boss, $BossCharacter)
-		
 func setup_character_listener(character: GameCharacter, group: Node2D) -> void:
+	# Set the character's name in the HUD
 	group.get_node("CharacterName").text = character.get_character_name()
 	
 	var life_bar = group.get_node("Life")
 	var power_bar = group.get_node("Power")
+	
+	# Initial life/power bars and/or level text setup
 	
 	update_character_level(character, group,
 		character.level, character.health.max_value / 8)
@@ -45,15 +49,18 @@ func setup_character_listener(character: GameCharacter, group: Node2D) -> void:
 	life_bar.target_value = character.health.value
 	life_bar.update_style()
 	
+	# Update the life bar whenever the character's HP changes
 	character.life_amount_changed.connect(func(new_value: float):
 		life_bar.target_value = new_value
 		)
 		
+	# Update the character level (life/power bars and/or level text)
 	character.level_amount_changed.connect(
 		func(new_value: int, new_bar_count: int):
 			update_character_level(character, group, new_value, new_bar_count)
 			)
 	
+	# Update the power bar (it's updated every frame)
 	hud_update.connect(func():
 		power_bar.target_value = character.power.value
 		)

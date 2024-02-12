@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://du38sf8ro3elu"]
+[gd_scene load_steps=6 format=3 uid="uid://du38sf8ro3elu"]
 
 [ext_resource type="Script" path="res://Scripts/Main.gd" id="1_csd2w"]
+[ext_resource type="AudioStream" uid="uid://bgfupmtntcg8x" path="res://Audio/SFX/Pause.wav" id="3_iol3x"]
 
 [sub_resource type="Animation" id="Animation_xmtka"]
 resource_name = "FadeIn"
@@ -73,5 +74,11 @@ color = Color(0, 0, 0, 1)
 libraries = {
 "": SubResource("AnimationLibrary_lb25u")
 }
+
+[node name="GlobalSFX" type="Node" parent="."]
+
+[node name="Pause" type="AudioStreamPlayer" parent="GlobalSFX"]
+stream = ExtResource("3_iol3x")
+bus = &"SFX"
 
 [connection signal="animation_finished" from="Fade/FadePlayer" to="." method="_on_animation_finished"]

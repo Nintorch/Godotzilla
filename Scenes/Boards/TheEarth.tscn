@@ -1,16 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://blo8x6bqjbe1w"]
+[gd_scene load_steps=6 format=3 uid="uid://blo8x6bqjbe1w"]
 
 [ext_resource type="PackedScene" uid="uid://d2do8ilhab482" path="res://Scenes/Boards/BaseBoard.tscn" id="1_swyd4"]
 [ext_resource type="AudioStream" uid="uid://ij42lx3rq1l1" path="res://Audio/Soundtrack/Earth.ogg" id="2_qcs5w"]
 [ext_resource type="PackedScene" uid="uid://dhm8bcemuwqfo" path="res://Scenes/Levels/Wilderness.tscn" id="2_sgm5j"]
-[ext_resource type="PackedScene" uid="uid://slv0bn0tcyna" path="res://Scenes/Boards/Jupiter.tscn" id="4_rf5mg"]
 [ext_resource type="PackedScene" uid="uid://bdbahbhfgy3yt" path="res://Scenes/Levels/TransitionLevel.tscn" id="5_vaw1m"]
 [ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="6_vncvx"]
 
 [node name="Board" instance=ExtResource("1_swyd4")]
 board_name = "The Earth"
 music = ExtResource("2_qcs5w")
-next_board = ExtResource("4_rf5mg")
 levels = Array[PackedScene]([ExtResource("2_sgm5j"), ExtResource("2_sgm5j"), ExtResource("5_vaw1m")])
 
 [node name="TileMap" parent="Board" index="0"]

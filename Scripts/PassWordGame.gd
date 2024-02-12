@@ -104,7 +104,7 @@ func leave() -> void:
 	get_tree().paused = false
 	await get_tree().create_timer(0.5).timeout
 	
-	Global.change_scene(preload("res://Scenes/MainMenu.tscn"))
+	Global.change_scene(preload("res://Scenes/MainMenu/MainMenu.tscn"))
 
 func input_selector_process() -> void:
 	const LEFT_REMAPS := {
