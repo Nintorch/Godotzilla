@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bjcf4tfdeo6ta" path="res://Scenes/MainMenu/BaseMenu.tscn" id="1_3ivqh"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/Saves.gd" id="2_2obmw"]
-[ext_resource type="Script" path="res://Scripts/MainMenu/PauseMenu.gd" id="2_6btfh"]
+[ext_resource type="Script" path="res://Scripts/MainMenu/PauseMenu.gd" id="2_pl6gi"]
 [ext_resource type="Script" path="res://Scripts/Boards/BoardDescription.gd" id="3_tofa1"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="4_vods2"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/Controls.gd" id="5_edns4"]
@@ -16,7 +16,11 @@ script/source = "extends \"res://Scripts/MainMenu/Menu.gd\"
 func menu_select(id: int) -> void:
 	match id:
 		0: # Continue
-			Global.change_scene_node(main_menu.return_scene, false)
+			main_menu.hide()
+			main_menu.process_mode = Node.PROCESS_MODE_DISABLED
+			Global.get_current_scene().show()
+			Global.pause_visible_objects.map(func(x): x.show())
+			get_tree().paused = false
 			
 			var sfx := Global.get_global_sfx(\"Pause\")
 			sfx.play()
@@ -59,7 +63,7 @@ func menu_select(id: int) -> void:
 "
 
 [node name="PauseMenu" instance=ExtResource("1_3ivqh")]
-script = ExtResource("2_6btfh")
+script = ExtResource("2_pl6gi")
 
 [node name="MenuMain" parent="." index="1"]
 script = SubResource("GDScript_mmqcn")

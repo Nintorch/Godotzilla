@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var initial_scene: PackedScene = preload("res://Scenes/TitleScreen.tscn")
+@onready var canvas_layer: CanvasLayer = $CanvasLayer
 
 func _ready() -> void:
 	Global.main = self
@@ -18,29 +19,29 @@ func _ready() -> void:
 func set_fade_color(color := Global.FADE_BLACK) -> void:
 	match color:
 		Global.FADE_BLACK:
-			$Fade/Fader.color = Color.BLACK
+			$CanvasLayer/Fader.color = Color.BLACK
 		Global.FADE_WHITE:
-			$Fade/Fader.color = Color.WHITE
+			$CanvasLayer/Fader.color = Color.WHITE
 
 func fade_out(color := Global.FADE_BLACK) -> void:
 	Global.fading = true
 	set_fade_color(color)
-	$Fade/FadePlayer.play_backwards("FadeIn")
+	$CanvasLayer/FadePlayer.play_backwards("FadeIn")
 	
 func fade_in(color := Global.FADE_BLACK) -> void:
 	Global.fading = true
 	set_fade_color(color)
-	$Fade/FadePlayer.play("FadeIn")
+	$CanvasLayer/FadePlayer.play("FadeIn")
 	
 func hide_fade() -> void:
-	$Fade/Fader.modulate.a = 0
+	$CanvasLayer/Fader.modulate.a = 0
 
 func _on_animation_finished(_anim_name: StringName) -> void:
 	Global.fading = false
 	Global.fade_end.emit()
 
 func _on_widescreen_change() -> void:
-	$Fade/Fader.size = Global.get_content_size()
+	$CanvasLayer/Fader.size = Global.get_content_size()
 	
 	if not Global.get_current_scene() is Node2D:
 		return

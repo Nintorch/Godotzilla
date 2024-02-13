@@ -61,24 +61,25 @@ script = ExtResource("1_csd2w")
 process_mode = 3
 bus = &"Music"
 
-[node name="Fade" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 process_mode = 3
 layer = 10
 
-[node name="Fader" type="ColorRect" parent="Fade"]
+[node name="Fader" type="ColorRect" parent="CanvasLayer"]
 offset_right = 40.0
 offset_bottom = 40.0
 color = Color(0, 0, 0, 1)
 
-[node name="FadePlayer" type="AnimationPlayer" parent="Fade"]
+[node name="FadePlayer" type="AnimationPlayer" parent="CanvasLayer"]
 libraries = {
 "": SubResource("AnimationLibrary_lb25u")
 }
 
 [node name="GlobalSFX" type="Node" parent="."]
+process_mode = 3
 
 [node name="Pause" type="AudioStreamPlayer" parent="GlobalSFX"]
 stream = ExtResource("3_iol3x")
 bus = &"SFX"
 
-[connection signal="animation_finished" from="Fade/FadePlayer" to="." method="_on_animation_finished"]
+[connection signal="animation_finished" from="CanvasLayer/FadePlayer" to="." method="_on_animation_finished"]

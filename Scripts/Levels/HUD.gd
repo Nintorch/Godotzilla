@@ -6,8 +6,6 @@ extends CanvasLayer
 
 var vertical_size := 0
 
-signal hud_update
-
 func _ready():
 	Global.widescreen_changed.connect(adapt_to_content_size)
 	adapt_to_content_size()
@@ -61,7 +59,7 @@ func setup_character_listener(character: GameCharacter, group: Node2D) -> void:
 			)
 	
 	# Update the power bar (it's updated every frame)
-	hud_update.connect(func():
+	get_tree().process_frame.connect(func():
 		power_bar.target_value = character.power.value
 		)
 		
@@ -83,9 +81,6 @@ func update_character_level(character: GameCharacter, group: Node2D,
 	if level_str.length() < 2:
 		level_str = "0" + level_str
 	level_node.text = "level " + level_str
-	
-func _process(delta: float) -> void:
-	hud_update.emit()
 		
 func adapt_to_content_size():
 	var width := Global.get_content_size().x

@@ -73,11 +73,29 @@ func any_action_button_pressed() -> bool:
 			return true
 	return false
 	
+var pause_visible_objects: Array[Node] = []
+	
 func accept_pause() -> void:
 	if not Global.fading and Input.is_action_just_pressed("Select"):
-		var pause = load("res://Scenes/MainMenu/PauseMenu.tscn").instantiate()
+		var pause = preload("res://Scenes/MainMenu/PauseMenu.tscn").instantiate()
 		pause.return_scene = get_current_scene()
-		Global.change_scene_node(pause, false)
+		
+		get_current_scene().hide()
+		pause_visible_objects = get_all_visible_children(get_current_scene())
+		pause_visible_objects.map(func(x): x.hide())
+		
+		main.canvas_layer.add_child(pause)
+		get_tree().paused = true
+		
+func get_all_visible_children(node: Node) -> Array[Node]:
+	var nodes: Array[Node] = []
+	for N in node.get_children():
+		if "visible" not in N or not N.visible:
+			continue
+		nodes.append(N)
+		if N.get_child_count() > 0:
+			nodes.append_array(get_all_visible_children(N))
+	return nodes
 
 #region Save files
 
@@ -118,7 +136,7 @@ func change_scene(scene: PackedScene, free = true) -> void:
 func get_initial_scene() -> PackedScene:
 	return main.initial_scene
 	
-func get_current_scene() -> Node:
+func get_current_scene() -> Node2D:
 	return main.get_node("CurrentScene").get_child(0)
 	
 #endregion

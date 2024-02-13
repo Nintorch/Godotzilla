@@ -1,35 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bjcf4tfdeo6ta"]
+[gd_scene load_steps=3 format=3 uid="uid://bjcf4tfdeo6ta"]
 
 [ext_resource type="Script" path="res://Scripts/MainMenu/BaseMenu.gd" id="1_5lji1"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="2_2t3ak"]
-
-[sub_resource type="GDScript" id="GDScript_rj6av"]
-resource_name = "MainMenu"
-script/source = "extends \"res://Scripts/MainMenu/Menu.gd\"
-
-func menu_select(id: int) -> void:
-	match id:
-		0: # New Game
-			# TODO: check this on export
-			var board = load(\"res://Scenes/Boards/TheEarth.tscn\")
-			main_menu.change_scene(board)
-		1: # Pass word game
-			main_menu.change_scene(preload(\"res://Scenes/PassWordGame.tscn\"))
-		2: # Settings
-			main_menu.set_menu(%Settings)
-		3: # Credits
-			main_menu.change_scene(preload(\"res://Scenes/Credits.tscn\"))
-		4: # Exit
-			get_tree().paused = true
-			
-			Global.music_fade_out()
-			Global.fade_out()
-			await Global.fade_end
-			
-			await get_tree().create_timer(0.25).timeout
-			
-			get_tree().quit()
-"
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_5lji1")
@@ -41,7 +13,6 @@ color = Color(0.709804, 0.192157, 0.12549, 1)
 
 [node name="MenuMain" type="Node2D" parent="." groups=["menu"]]
 unique_name_in_owner = true
-script = SubResource("GDScript_rj6av")
 
 [node name="Exit" type="Label" parent="MenuMain" groups=["option"]]
 offset_left = 72.0

@@ -7,7 +7,6 @@ var selector_option := 0
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Color.BLACK)
-	Global.hide_fade()
 	
 	# Disable every menu when starting up
 	for menu in get_children().filter(func(x): return x.is_in_group("menu")):

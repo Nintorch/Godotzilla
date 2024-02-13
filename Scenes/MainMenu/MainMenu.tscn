@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b8f5oi120p3iu"]
+[gd_scene load_steps=13 format=3 uid="uid://b8f5oi120p3iu"]
 
 [ext_resource type="PackedScene" uid="uid://bjcf4tfdeo6ta" path="res://Scenes/MainMenu/BaseMenu.tscn" id="1_0ctmj"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/MainMenu.gd" id="1_tn6aw"]
@@ -9,6 +9,32 @@
 [ext_resource type="PackedScene" uid="uid://dk6nkw1ue84ow" path="res://Scenes/MainMenu/SoundSettings.tscn" id="6_2krn8"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/Controls.gd" id="7_2vwm8"]
 [ext_resource type="Texture2D" uid="uid://dewcb08w13bxc" path="res://Sprites/controller.png" id="8_6m6i1"]
+
+[sub_resource type="GDScript" id="GDScript_46jxm"]
+script/source = "extends \"res://Scripts/MainMenu/Menu.gd\"
+
+func menu_select(id: int) -> void:
+	match id:
+		0: # New Game
+			# TODO: check this on export
+			main_menu.change_scene(preload(\"res://Scenes/Boards/TheEarth.tscn\"))
+		1: # Pass word game
+			main_menu.change_scene(preload(\"res://Scenes/PassWordGame.tscn\"))
+		2: # Settings
+			main_menu.set_menu(%Settings)
+		3: # Credits
+			main_menu.change_scene(preload(\"res://Scenes/Credits.tscn\"))
+		4: # Exit
+			get_tree().paused = true
+			
+			Global.music_fade_out()
+			Global.fade_out()
+			await Global.fade_end
+			
+			await get_tree().create_timer(0.25).timeout
+			
+			get_tree().quit()
+"
 
 [sub_resource type="Resource" id="Resource_2kygw"]
 script = ExtResource("4_ncc0d")
@@ -31,6 +57,9 @@ func menu_select(id: int) -> void:
 
 [node name="MainMenu" instance=ExtResource("1_0ctmj")]
 script = ExtResource("1_tn6aw")
+
+[node name="MenuMain" parent="." index="1"]
+script = SubResource("GDScript_46jxm")
 
 [node name="NewGame" type="Label" parent="MenuMain" index="0" groups=["option"]]
 offset_left = 72.0
