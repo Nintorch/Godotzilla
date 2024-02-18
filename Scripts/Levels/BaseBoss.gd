@@ -2,6 +2,10 @@ extends Level
 
 @onready var boss: GameCharacter = $Boss
 
+func _ready() -> void:
+	super._ready()
+	player.intro_ended.connect(func(): state = State.IDLE)
+
 func _process(delta: float) -> void:
 	super._process(delta)
 
@@ -12,11 +16,12 @@ func _process(delta: float) -> void:
 	boss_ai()
 	
 enum State {
+	NONE,
 	IDLE,
 	MOVING,
 }
 
-var state: State = State.IDLE
+var state: State = State.NONE
 var time := 40
 var attack_time := 0
 var simple_attack_time := 0
@@ -34,13 +39,13 @@ func boss_ai() -> void:
 	elif (boss.position.x - player.position.x) < 100:
 		simple_attack_time += 1
 		
-	if attack_time > 60 and boss.power.value > 3 * 8:
+	if attack_time > 150 and boss.power.value > 3 * 8:
 		attack_time = 0
 		boss.inputs_pressed[boss.Inputs.START] = true
 		await get_tree().process_frame
 		boss.inputs_pressed[boss.Inputs.START] = false
 		
-	if simple_attack_time > 150:
+	if simple_attack_time > 100:
 		simple_attack_time = 0
 		spam_bullets()
 	

@@ -79,6 +79,7 @@ bus = &"SFX"
 [node name="PowerComponent" parent="." instance=ExtResource("4_434eu")]
 
 [node name="AttackComponent" parent="." instance=ExtResource("5_cce5b")]
+should_attack = false
 
 [connection signal="damaged" from="HealthComponent" to="." method="_on_health_damaged"]
 [connection signal="dead" from="HealthComponent" to="." method="_on_health_dead"]
