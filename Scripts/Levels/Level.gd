@@ -5,29 +5,16 @@ extends Node2D
 @export var bg_color = Color(0, 0, 0)
 @export var enable_level_end := true
 
-@onready var window_width_half = Global.get_content_size().x / 2
 @onready var camera: Camera2D = $Camera
 @onready var player: GameCharacter = $Player
 
-const CAMERA_OFFSET_X = 30
-
-enum CameraMode {
-	NORMAL,
-	TWO_SIDES,
-}
-
-var camera_mode = CameraMode.NORMAL
-var camera_x_old: float
-var camera_current_offset := 0
-
 # These are set in Board.gd and in next_level()
 var data = {
-	current_character = GameCharacter.Type.GODZILLA,
+	current_character = GameCharacter.Type.MOTHRA,
 	board_piece = null,
 }
 
 func _ready() -> void:
-	Global.widescreen_changed.connect(on_widescreen_change)
 	RenderingServer.set_default_clear_color(bg_color)
 	
 	player.character = data.current_character
@@ -44,8 +31,6 @@ func _ready() -> void:
 	Global.fade_in()
 	
 func _process(_delta: float) -> void:
-	process_camera()
-	
 	Global.accept_pause()
 	
 	if enable_level_end and player.position.x > camera.limit_right - 10:
@@ -58,30 +43,6 @@ func _process(_delta: float) -> void:
 			Global.board.board_data.player_level[board_piece] = player.level
 		
 		next_level()
-
-func process_camera() -> void:
-	camera_x_old = camera.get_screen_center_position().x
-	match camera_mode:
-		CameraMode.NORMAL:
-			if camera.position.x < player.position.x + CAMERA_OFFSET_X \
-				and camera.position.x < camera.limit_right - window_width_half:
-				camera.position.x = clampf(player.position.x + CAMERA_OFFSET_X,
-					window_width_half, camera.limit_right - window_width_half)
-				camera.limit_left = max(camera.position.x - window_width_half, 0)
-		CameraMode.TWO_SIDES:
-			camera_current_offset = move_toward(
-				camera_current_offset,
-				CAMERA_OFFSET_X * player.direction,
-				2
-			)
-			camera.position.x = player.position.x + camera_current_offset
-				
-func is_camera_moving() -> bool:
-	return camera_x_old != camera.get_screen_center_position().x
-		
-func on_widescreen_change() -> void:
-	window_width_half = Global.get_content_size().x / 2
-	camera.limit_left = max(camera.position.x - window_width_half, 0)
 		
 func get_HUD():
 	return $HUD

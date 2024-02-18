@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://du38sf8ro3elu"]
 
 [ext_resource type="Script" path="res://Scripts/Main.gd" id="1_csd2w"]
-[ext_resource type="PackedScene" uid="uid://cin1i4pomwy3a" path="res://Scenes/Bosses/BaseBoss.tscn" id="2_k53ir"]
+[ext_resource type="PackedScene" uid="uid://dhm8bcemuwqfo" path="res://Scenes/Levels/Wilderness.tscn" id="2_8isfk"]
 [ext_resource type="AudioStream" uid="uid://bgfupmtntcg8x" path="res://Audio/SFX/Pause.wav" id="3_iol3x"]
 
 [sub_resource type="Animation" id="Animation_xmtka"]
@@ -55,7 +55,7 @@ _data = {
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_csd2w")
-initial_scene = ExtResource("2_k53ir")
+initial_scene = ExtResource("2_8isfk")
 
 [node name="CurrentScene" type="Node2D" parent="."]
 

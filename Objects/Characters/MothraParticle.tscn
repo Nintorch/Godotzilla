@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://wk0ngrdkwnbv"]
+[gd_scene load_steps=10 format=3 uid="uid://wk0ngrdkwnbv"]
 
 [ext_resource type="Texture2D" uid="uid://di5yqmheu2g18" path="res://Sprites/Characters/Mothra/particles.png" id="1_ok31u"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/MothraParticle.gd" id="2_v1kq8"]
+[ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="3_f4212"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5tse6"]
 atlas = ExtResource("1_ok31u")
@@ -80,3 +81,5 @@ script = ExtResource("2_v1kq8")
 libraries = {
 "": SubResource("AnimationLibrary_4aq1u")
 }
+
+[node name="AttackComponent" parent="." instance=ExtResource("3_f4212")]

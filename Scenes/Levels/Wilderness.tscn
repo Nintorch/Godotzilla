@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dhm8bcemuwqfo"]
+[gd_scene load_steps=5 format=3 uid="uid://dhm8bcemuwqfo"]
 
 [ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/BaseLevel.tscn" id="1_oi33v"]
 [ext_resource type="PackedScene" uid="uid://bliqsom52mx1p" path="res://Objects/Levels/Sky.tscn" id="2_pfc3w"]
 [ext_resource type="Texture2D" uid="uid://d3vfgcp31ia42" path="res://Sprites/Levels/TestLevel/hills.png" id="3_s66fs"]
+[ext_resource type="PackedScene" uid="uid://bvoxqi1x6lk52" path="res://Objects/Levels/Enemies/BaseEnemy.tscn" id="4_a26bk"]
 
 [node name="Level" instance=ExtResource("1_oi33v")]
 
@@ -20,3 +21,6 @@ offset_top = 160.0
 offset_right = 320.0
 offset_bottom = 200.0
 texture = ExtResource("3_s66fs")
+
+[node name="Enemy" parent="." index="3" instance=ExtResource("4_a26bk")]
+position = Vector2(135, 173)

@@ -7,12 +7,15 @@ enum Type {
 
 @onready var timer = $Timer
 @onready var animation_player = $AnimationPlayer
+@onready var attack_component: Node2D = $AttackComponent
 
 var velocity := Vector2()
 var type: Type
 
 func setup(type: Type, player: GameCharacter):
 	self.type = type
+	attack_component.objects_to_ignore.append(player)
+	
 	scale.x = player.direction
 	match type:
 		Type.EYE_BEAM:
@@ -31,6 +34,11 @@ func setup(type: Type, player: GameCharacter):
 				)
 			velocity = Vector2(randi_range(2, 10) * 0.1 * 60 * player.direction,
 							randi_range(6, 9) * 0.1 * 60)
+							
+	attack_component.set_collision(
+		sprite_frames.get_frame_texture(animation, 0).get_size(),
+		Vector2.ZERO
+		)
 
 func _physics_process(delta):
 	if type == Type.WING:

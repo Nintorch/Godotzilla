@@ -24,7 +24,7 @@ func _process(delta: float):
 
 func move(delta: float) -> void:
 	var xspeed = 2 * 60
-	if Global.get_current_scene().is_camera_moving():
+	if get_viewport().get_camera_2d().is_camera_moving():
 		xspeed = 1 * 60
 		
 	parent.velocity.x = parent.inputs[parent.Inputs.XINPUT] * xspeed

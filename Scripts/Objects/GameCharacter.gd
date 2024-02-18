@@ -62,6 +62,7 @@ var direction: int = 1:
 @onready var states_list: Array[Node] = $States.get_children()
 @onready var health: Node = $HealthComponent
 @onready var power: Node = $PowerComponent
+@onready var attack: Node2D = $AttackComponent
 
 var state := State.LEVEL_INTRO: set = _set_state
 var move_state := State.WALK
