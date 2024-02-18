@@ -7,7 +7,6 @@ func _ready() -> void:
 	Global.play_music(preload("res://Audio/Soundtrack/GameOver.ogg"))
 	Global.fade_in()
 	
-	# TODO: can this crash later on after a game over?
 	Global.music.finished.connect(finish)
 	# The board hasn't been freed yet
 	if Global.board:
@@ -27,4 +26,6 @@ func finish() -> void:
 		await Global.fade_end
 		Global.hide_fade()
 		
+		# TODO: check this one
+		Global.music.finished.disconnect(finish)
 		Global.change_scene(Global.main.initial_scene)

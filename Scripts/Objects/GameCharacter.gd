@@ -237,7 +237,6 @@ func process_input() -> void:
 			inputs[i] = Input.is_action_pressed(INPUT_ACTIONS[i])
 			inputs_pressed[i] = Input.is_action_just_pressed(INPUT_ACTIONS[i])
 	
-# TODO: attack component
 func use_attack(type: Attack) -> void:
 	if not enable_attacks:
 		return

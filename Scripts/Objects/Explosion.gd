@@ -1,8 +1,6 @@
 class_name Explosion
 extends Sprite2D
 
-# TODO: make this script-only object
-
 var velocity: Vector2
 
 func _init(new_global_position: Vector2) -> void:
