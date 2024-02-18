@@ -1,29 +1,17 @@
-class_name Capsule
 extends Sprite2D
-
-enum Type {
-	HEALTH,
-	POWER,
-}
 
 @onready var sfx: AudioStreamPlayer = $SFX
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var area_2d: Area2D = $Area2D
 @onready var timer: Timer = $Timer
 
-var type: Type
 var velocity: float = 1.3 * 60
 var direction := 1
 
-func initialize(global_position: Vector2, type: Type) -> Capsule:
+func initialize(global_position: Vector2, type: String) -> Node2D:
+	Global.get_current_scene().add_child(self)
 	self.global_position = global_position
-	self.type = type
-	
-	var animation := ""
-	match type:
-		Type.HEALTH:	animation = "health"
-		Type.POWER:		animation = "power"
-	animation_player.play(animation)
+	animation_player.play(type)
 	return self
 
 func _process(delta: float) -> void:
@@ -53,6 +41,6 @@ func destroy(character: GameCharacter) -> void:
 		queue_free()
 		)
 		
-	match type:
-		Type.HEALTH:	character.health.heal(2 * 8)
-		Type.POWER:		character.power.add(2 * 8)
+	match animation_player.current_animation:
+		"health":	character.health.heal(2 * 8)
+		"power":	character.power.add(2 * 8)

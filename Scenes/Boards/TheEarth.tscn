@@ -14,7 +14,9 @@ levels = Array[PackedScene]([ExtResource("2_sgm5j"), ExtResource("2_sgm5j"), Ext
 [node name="TileMap" parent="Board" index="0"]
 layer_1/tile_data = PackedInt32Array(65537, 1, 0, 65536, 1, 0, 0, 1, 0, 131072, 1, 0, 131073, 1, 0, 196609, 1, 0, 131074, 65537, 0, 65538, 1, 0, 196610, 1, 0, 131075, 1, 0, 262147, 196609, 0, 262145, 1, 0, 262146, 1, 0, 327683, 196609, 0, 327684, 1, 0, 262148, 196609, 0, 262149, 196609, 0, 327685, 131073, 0, 196613, 1, 0, 196612, 1, 0, 131076, 65537, 0, 65540, 1, 0, 2, 1, 0, 65539, 1, 0, 131077, 65537, 0, 196614, 1, 0, 262150, 131073, 0, 327686, 131073, 0)
 
-[node name="Godzilla2" parent="Board/TileMap/Board Pieces" index="2" instance=ExtResource("6_vncvx")]
+[node name="MothraBoss" parent="Board/TileMap/Board Pieces" index="2" instance=ExtResource("6_vncvx")]
 position = Vector2(208, 120)
 scale = Vector2(-1, 1)
+frame = 6
+piece_character = 1
 piece_type = 1

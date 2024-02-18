@@ -12,7 +12,7 @@ func state_init() -> void:
 func _physics_process(delta: float) -> void:
 	move(delta)
 		
-func _process(delta):
+func _process(delta: float):
 	if (parent.inputs_pressed[parent.Inputs.A]
 		or parent.inputs_pressed[parent.Inputs.B]) \
 		and attack_timer.is_stopped():
