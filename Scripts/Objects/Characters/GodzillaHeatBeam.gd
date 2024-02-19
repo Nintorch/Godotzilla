@@ -6,17 +6,17 @@ extends AnimatedSprite2D
 var player: GameCharacter
 var id := 0
 
-func setup(id: int, player: GameCharacter):
-	frame = id
-	self.id = id
+func setup(init_id: int, init_player: GameCharacter):
+	frame = init_id
+	id = init_id
 	visible = false
-	self.player = player
+	player = init_player
 	
 func start() -> void:
 	visible = true
 	destroy_timer.start()
 	
-func _physics_process(delta):
+func _physics_process(_delta):
 	position.y = player.save_position[id].y - id - player.position.y
 	
 func _on_timer_timeout():

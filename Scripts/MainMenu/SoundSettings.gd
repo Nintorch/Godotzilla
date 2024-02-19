@@ -45,13 +45,15 @@ func _process(_delta: float) -> void:
 				
 func update_sfx_volume() -> void:
 	$SFXVolume.text = "sfx volume:   " + str(sfx_volume)
-	AudioServer.set_bus_volume_db(SFX_BUS, volume_db_from_save(sfx_volume))
+	AudioServer.set_bus_volume_db(SFX_BUS,
+		SoundSettings.volume_db_from_save(sfx_volume))
 	sfx_test.bus = "SFX"
 	sfx_test.play()
 	
 func update_music_volume() -> void:
 	$MusicVolume.text = "music volume: " + str(music_volume)
-	AudioServer.set_bus_volume_db(MUSIC_BUS, volume_db_from_save(music_volume))
+	AudioServer.set_bus_volume_db(MUSIC_BUS,
+		SoundSettings.volume_db_from_save(music_volume))
 	sfx_test.bus = "Music"
 	sfx_test.play()
 
@@ -68,4 +70,4 @@ static func load_sound_settings(file: ConfigFile) -> void:
 		volume_db_from_save(file.get_value(SECTION, "music", 100)))
 
 static func volume_db_from_save(value: int) -> int:
-	return (value - 100) * 0.8
+	return roundi((value - 100) * 0.8)

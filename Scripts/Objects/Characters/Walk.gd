@@ -47,7 +47,7 @@ func move(delta: float):
 		parent.velocity.x = parent.move_speed * direction
 		
 		if parent.allow_direction_changing:
-			parent.direction = signf(direction)
+			parent.direction = signi(direction)
 			
 		walk_frame = wrapf(
 			walk_frame + walk_frame_speed * delta * direction * parent.direction,
@@ -70,15 +70,14 @@ func move(delta: float):
 		if parent.velocity.y < 0 and up_down >= 0:
 			jumping = false
 			parent.velocity.y = 0
-					
-	if parent.is_on_floor():
-		if up_down > 0:
-			if parent.animation_player.current_animation == "Walk"\
-				or parent.animation_player.current_animation == "":
-				parent.animation_player.play("Crouch")
-		
-		if up_down <= 0 and parent.animation_player.current_animation == "Crouch":
-			parent.animation_player.play("RESET")
+	
+	if up_down > 0:
+		if parent.animation_player.current_animation == "Walk"\
+			or parent.animation_player.current_animation == "":
+			parent.animation_player.play("Crouch")
+	
+	if up_down <= 0 and parent.animation_player.current_animation == "Crouch":
+		parent.animation_player.play("RESET")
 
 func reset() -> void:
 	walk_frame = 0

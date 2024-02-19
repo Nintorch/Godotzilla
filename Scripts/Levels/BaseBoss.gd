@@ -5,6 +5,7 @@ extends Level
 func _ready() -> void:
 	super._ready()
 	player.intro_ended.connect(func(): state = State.IDLE)
+	player.health.dead.connect(func(): state = State.NONE)
 
 func _process(delta: float) -> void:
 	super._process(delta)
@@ -27,6 +28,9 @@ var attack_time := 0
 var simple_attack_time := 0
 
 func boss_ai() -> void:
+	if state == State.NONE:
+		return
+	
 	time -= 1
 	
 	if boss.position.x < 50:
@@ -41,9 +45,7 @@ func boss_ai() -> void:
 		
 	if attack_time > 150 and boss.power.value > 3 * 8:
 		attack_time = 0
-		boss.inputs_pressed[boss.Inputs.START] = true
-		await get_tree().process_frame
-		boss.inputs_pressed[boss.Inputs.START] = false
+		boss.simulate_input_press(GameCharacter.Inputs.START)
 		
 	if simple_attack_time > 100:
 		simple_attack_time = 0

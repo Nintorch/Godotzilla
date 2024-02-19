@@ -89,7 +89,6 @@ var inputs_pressed := []
 const INPUT_ACTIONS = [["Left", "Right"], ["Up", "Down"], "B", "A", "Start", "Select"]
 
 signal intro_ended
-signal life_amount_changed(new_value: float)
 signal level_amount_changed(new_value: int, new_bar_count: int)
 
 func _ready() -> void:
@@ -236,6 +235,11 @@ func process_input() -> void:
 		for i in range(Inputs.B, Inputs.size()):
 			inputs[i] = Input.is_action_pressed(INPUT_ACTIONS[i])
 			inputs_pressed[i] = Input.is_action_just_pressed(INPUT_ACTIONS[i])
+			
+func simulate_input_press(key: Inputs) -> void:
+	inputs_pressed[key] = true
+	await get_tree().process_frame
+	inputs_pressed[key] = false
 	
 func use_attack(type: Attack) -> void:
 	if not enable_attacks:
@@ -285,8 +289,7 @@ func set_collision(size: Vector2, offset: Vector2) -> void:
 func is_hurtable() -> bool:
 	return state not in [State.LEVEL_INTRO, State.HURT, State.DEAD]
 
-func _on_health_damaged(amount: float, hurt_time: float) -> void:
-	life_amount_changed.emit(health.value)
+func _on_health_damaged(_amount: float, hurt_time: float) -> void:
 	if hurt_time < 0:
 		hurt_time = 0.6
 	if hurt_time > 0:
@@ -294,22 +297,19 @@ func _on_health_damaged(amount: float, hurt_time: float) -> void:
 		state = State.HURT
 
 func _on_health_dead() -> void:
-	life_amount_changed.emit(0)
 	state = State.DEAD
-
-func _on_health_healed(amount: float) -> void:
-	life_amount_changed.emit(health.value)
 	
 func load_state(data: Dictionary = {}) -> void:
+	var bar_value := 0
 	if data.is_empty():
-		var bar_value := GameCharacter.calculate_bar_count(character, level) * 8
+		bar_value = GameCharacter.calculate_bar_count(character, level) * 8
 		power.max_value = bar_value
 		power.value = bar_value
 		health.max_value = bar_value
 		health.value = bar_value
 		return
 		
-	var bar_value: float = data.bars * 8
+	bar_value = data.bars * 8
 	set_level(data.level)
 	
 	health.max_value = bar_value

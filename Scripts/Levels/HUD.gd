@@ -40,31 +40,29 @@ func setup_character_listener(character: GameCharacter, group: Node2D) -> void:
 	
 	# Initial life/power bars and/or level text setup
 	
-	update_character_level(character, group,
-		character.level, character.health.max_value / 8)
+	update_character_level(group, character.level, character.health.max_value / 8)
 		
 	life_bar.initial_value = character.health.value
 	life_bar.target_value = character.health.value
 	life_bar.update_style()
 	
 	# Update the life bar whenever the character's HP changes
-	character.life_amount_changed.connect(func(new_value: float):
+	character.health.value_changed.connect(func(new_value: float):
 		life_bar.target_value = new_value
 		)
 		
 	# Update the character level (life/power bars and/or level text)
 	character.level_amount_changed.connect(
 		func(new_value: int, new_bar_count: int):
-			update_character_level(character, group, new_value, new_bar_count)
+			update_character_level(group, new_value, new_bar_count)
 			)
 	
 	# Update the power bar (it's updated every frame)
-	get_tree().process_frame.connect(func():
-		power_bar.target_value = character.power.value
+	character.power.value_changed.connect(func(new_value: float):
+		power_bar.target_value = new_value
 		)
 		
-func update_character_level(character: GameCharacter, group: Node2D,
-	new_value: int, new_bar_count: int):
+func update_character_level(group: Node2D, new_value: int, new_bar_count: int):
 	var life_bar = group.get_node("Life")
 	var power_bar = group.get_node("Power")
 	life_bar.width = new_bar_count

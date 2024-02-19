@@ -29,7 +29,6 @@ extends Node2D
 # The actual playable board, the node that has this script
 # also includes the board name.
 @onready var board: Node2D = $Board
-@onready var board_pieces: Node2D = $"Board/TileMap/Board Pieces"
 
 @onready var menubip: AudioStreamPlayer = $Board/GUI/MessageWindow/MenuBip
 
@@ -150,7 +149,7 @@ func build_outline():
 		tilemap.set_cell(0, cell, 0, Vector2i(0, 0))
 		
 func get_board_pieces() -> Array[Node2D]:
-	var board_pieces: Array[Node2D]
+	var board_pieces: Array[Node2D] = []
 	board_pieces.assign(
 		%"Board Pieces".get_children().filter(func(x: Node2D):
 			return not x.is_queued_for_deletion()

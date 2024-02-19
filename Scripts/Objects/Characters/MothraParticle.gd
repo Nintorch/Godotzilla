@@ -12,10 +12,11 @@ enum Type {
 var velocity := Vector2()
 var type: Type
 
-func setup(type: Type, player: GameCharacter):
-	self.type = type
+func setup(init_type: Type, player: GameCharacter):
+	type = init_type
 	attack_component.objects_to_ignore.append(player)
 	
+	var should_destroy := false
 	scale.x = player.direction
 	match type:
 		Type.EYE_BEAM:
@@ -23,6 +24,7 @@ func setup(type: Type, player: GameCharacter):
 			timer.start(0.3)
 			timer.timeout.connect(func(): queue_free())
 			velocity = Vector2(5 * player.direction * 60, 0)
+			should_destroy = true
 			
 		Type.WING:
 			animation = "Wing"
@@ -35,6 +37,11 @@ func setup(type: Type, player: GameCharacter):
 			velocity = Vector2(randi_range(2, 10) * 0.1 * 60 * player.direction,
 							randi_range(6, 9) * 0.1 * 60)
 							
+	if should_destroy:
+		attack_component.attacked.connect(func(_body: Node2D, _amount: float):
+			queue_free()
+			)
+			
 	attack_component.set_collision(
 		sprite_frames.get_frame_texture(animation, 0).get_size(),
 		Vector2.ZERO

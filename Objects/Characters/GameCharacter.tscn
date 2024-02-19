@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://bdedrxocj46sr"]
 
-[ext_resource type="Script" path="res://Scripts/Objects/GameCharacter.gd" id="1_clvtk"]
+[ext_resource type="Script" path="res://Scripts/Objects/Characters/GameCharacter.gd" id="1_c8c0q"]
 [ext_resource type="PackedScene" uid="uid://m84defn1thau" path="res://Objects/Characters/Godzilla.tscn" id="1_swkt0"]
 [ext_resource type="PackedScene" uid="uid://camascwoory5h" path="res://Objects/HealthComponent.tscn" id="3_bws3y"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/Walk.gd" id="3_r4s32"]
@@ -22,7 +22,7 @@ size = Vector2(36, 6)
 
 [node name="GameCharacter" type="CharacterBody2D"]
 collision_mask = 2
-script = ExtResource("1_clvtk")
+script = ExtResource("1_c8c0q")
 
 [node name="Skin" parent="." instance=ExtResource("1_swkt0")]
 
@@ -83,4 +83,3 @@ should_attack = false
 
 [connection signal="damaged" from="HealthComponent" to="." method="_on_health_damaged"]
 [connection signal="dead" from="HealthComponent" to="." method="_on_health_dead"]
-[connection signal="healed" from="HealthComponent" to="." method="_on_health_healed"]

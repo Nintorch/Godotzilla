@@ -51,7 +51,7 @@ func next_input() -> void:
 	if current_input >= ACTIONS.size():
 		save_mapping()
 		var file = Global.load_settings_file()
-		load_mapping(file)
+		ControlsSettings.load_mapping(file)
 		exit()
 		return
 	update_text()

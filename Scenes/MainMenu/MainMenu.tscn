@@ -63,8 +63,8 @@ script = SubResource("GDScript_46jxm")
 [node name="NewGame" type="Label" parent="MenuMain" index="0" groups=["option"]]
 offset_left = 72.0
 offset_top = 80.0
-offset_right = 136.0
-offset_bottom = 91.0
+offset_right = 200.0
+offset_bottom = 96.0
 theme_override_fonts/font = ExtResource("2_xjjqh")
 text = "new game"
 uppercase = true

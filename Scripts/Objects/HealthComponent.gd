@@ -6,6 +6,7 @@ extends Node
 
 var died := false
 
+signal value_changed(new_value: float)
 signal damaged(amount: float, hurt_time: float)
 signal dead
 signal healed(amount: float)
@@ -22,6 +23,7 @@ func damage(amount: float, hurt_time: float = -1) -> bool:
 		return true
 		
 	value = maxf(value - amount, 0)
+	value_changed.emit(value)
 	if value > 0:
 		damaged.emit(amount, hurt_time)
 		return true

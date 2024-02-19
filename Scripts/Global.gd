@@ -84,7 +84,12 @@ func accept_pause() -> void:
 		pause_visible_objects = get_all_visible_children(get_current_scene())
 		pause_visible_objects.map(func(x): x.hide())
 		
+		var prev_pause = main.canvas_layer.get_node_or_null(String(pause.name))
+		if prev_pause != null:
+			main.canvas_layer.remove_child(prev_pause)
+			
 		main.canvas_layer.add_child(pause)
+		main.canvas_layer.move_child(pause, 0)
 		get_tree().paused = true
 		
 func get_all_visible_children(node: Node) -> Array[Node]:
@@ -183,7 +188,7 @@ func music_fade_in() -> void:
 	music.volume_db = -80
 	tween.tween_property(music, "volume_db", 0, 0.5)
 	
-func get_global_sfx(name: String) -> AudioStreamPlayer:
-	return main.get_node("GlobalSFX/" + name)
+func get_global_sfx(sfx_name: String) -> AudioStreamPlayer:
+	return main.get_node("GlobalSFX/" + sfx_name)
 	
 #endregion

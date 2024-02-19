@@ -63,7 +63,7 @@ func disappear() -> void:
 	state = State.DISAPPEARING
 	
 	var tween := create_tween()
-	tween.tween_property(self, "size:x", 0, get_tween_seconds(size.x))
+	tween.tween_property(self, "size:x", 0.0, get_tween_seconds(size.x))
 	tween.finished.connect(make_hide)
 	await tween.finished
 		
@@ -75,5 +75,5 @@ func make_hide() -> void:
 func get_text() -> String:
 	return $Text.text
 
-func get_tween_seconds(pixel_width: int) -> float:
-	return pixel_width / 16.0 / 60.0
+func get_tween_seconds(pixel_width: float) -> float:
+	return pixel_width / 16 / 60

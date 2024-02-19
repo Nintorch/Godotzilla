@@ -21,7 +21,7 @@ func _ready() -> void:
 		limit_left = maxi(position.x - window_width_half, 0)
 		)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	camera_x_old = get_screen_center_position().x
 	match camera_mode:
 		CameraMode.NORMAL:
@@ -31,11 +31,11 @@ func _process(delta: float) -> void:
 					window_width_half, limit_right - window_width_half)
 				limit_left = max(position.x - window_width_half, 0)
 		CameraMode.TWO_SIDES:
-			camera_current_offset = move_toward(
+			camera_current_offset = roundi(move_toward(
 				camera_current_offset,
 				camera_offset_x * target.direction,
 				2
-			)
+			))
 			position.x = target.position.x + camera_current_offset
 
 func is_camera_moving() -> bool:

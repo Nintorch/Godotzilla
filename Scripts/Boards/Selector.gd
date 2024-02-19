@@ -12,8 +12,8 @@ enum MovementStyle {
 @onready var board = $"../../.."
 
 # Speed (in pixels per frame for 60 fps)
-var speed: Vector2i = Vector2i()
-var next_speed := Vector2i()
+var speed := Vector2()
+var next_speed := Vector2()
 # Current cell position in pixels
 var old_pos: Vector2
 
@@ -44,11 +44,11 @@ func _process(delta: float) -> void:
 func move(dirx: float, diry: float) -> void:
 	dirx = signf(dirx) if absf(dirx) > 0.1 else 0.0
 	diry = signf(diry) if absf(diry) > 0.1 else 0.0
-	next_speed = Vector2i(
+	next_speed = Vector2(
 		# Basically, if the player wants to move horizontally and vertically,
 		# set xspeed to horizontal direction * 2 (-2 if left and 2 if right),
 		# otherwise the player shouldn't move (only horizontal moves are not allowed)
-		(dirx * 2 if diry else 0),
+		(dirx * 2 if diry else 0.0),
 		# If the player wants to move diagonally, set yspeed to vertical direction,
 		# (-1 if up and 1 is down), otherwise we move only vertically with
 		# absolute yspeed 2
@@ -116,14 +116,14 @@ func update_movement(delta: float) -> void:
 				
 			# If we're still requesting for movement, be aware
 			# of things that should stop the movement
-			if next_speed != Vector2i.ZERO:
+			if next_speed != Vector2.ZERO:
 				stop_conditions()
 			
 	position.x += speed.x * 60 * delta
 	position.y += speed.y * 60 * delta
 	
 func is_stopped() -> bool:
-	return speed == Vector2i.ZERO
+	return absf(speed.x) < 0.01 && absf(speed.y) < 0.01
 
 func stop() -> void:
 	speed = Vector2i.ZERO

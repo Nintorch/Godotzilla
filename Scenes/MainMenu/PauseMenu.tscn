@@ -26,21 +26,27 @@ func menu_select(id: int) -> void:
 			sfx.play()
 			await sfx.finished
 			
-			Global.music.stream_paused = false
+			# Don't resume the music if the player was fast enough
+			# to pause again before sfx.finished above fired and
+			# they're on pause menu again
+			if not Global.main.canvas_layer.get_node(\"PauseMenu\").visible:
+				Global.music.stream_paused = false
 			main_menu.queue_free()
 		1: # Settings
 			main_menu.set_menu(%Settings)
 		2: # Exit
-			# TODO
 			get_tree().paused = true
 			
 			Global.music_fade_out()
 			Global.fade_out()
 			await Global.fade_end
+			main_menu.hide()
 			
 			await get_tree().create_timer(0.25).timeout
 			
-			get_tree().quit()
+			get_tree().paused = false
+			Global.change_scene(preload(\"res://Scenes/MainMenu/MainMenu.tscn\"))
+			main_menu.queue_free()
 "
 
 [sub_resource type="Resource" id="Resource_2kygw"]

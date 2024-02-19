@@ -83,7 +83,7 @@ func _process(delta: float) -> void:
 				walk_frame += delta / FRAME_SPEED[piece_character]
 				if walk_frame >= 2:
 					walk_frame -= 2
-				piece_frame = 1 + walk_frame
+				piece_frame = floori(1 + walk_frame)
 				update_frame()
 
 func update_frame() -> void:
