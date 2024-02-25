@@ -1,0 +1,95 @@
+[gd_scene load_steps=9 format=3 uid="uid://kd587533e5l4"]
+
+[ext_resource type="Texture2D" uid="uid://dnubo4iltw3px" path="res://Sprites/Objects/Enemies/RocketLauncherRocket.png" id="1_0euw7"]
+[ext_resource type="Script" path="res://Scripts/Objects/Enemies/RocketLauncherRocket.gd" id="1_1tm2y"]
+[ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="3_y14pf"]
+[ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="4_7tx0r"]
+
+[sub_resource type="Animation" id="Animation_jrg5h"]
+resource_name = "going_down"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:flip_v")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_s4816"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:flip_v")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vwlvx"]
+_data = {
+"RESET": SubResource("Animation_s4816"),
+"going_down": SubResource("Animation_jrg5h")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_px6nh"]
+size = Vector2(16, 16)
+
+[node name="RocketLauncherRocket" type="Node2D"]
+script = ExtResource("1_1tm2y")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_0euw7")
+hframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vwlvx")
+}
+
+[node name="AttackComponent" parent="." instance=ExtResource("3_y14pf")]
+
+[node name="CollisionShape2D" parent="AttackComponent/Area2D" index="0"]
+shape = SubResource("RectangleShape2D_px6nh")
+
+[node name="DestroySFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_7tx0r")
+bus = &"SFX"
+
+[connection signal="attacked" from="AttackComponent" to="." method="_on_attack_component_attacked"]
+
+[editable path="AttackComponent"]

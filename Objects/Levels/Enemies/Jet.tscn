@@ -1,0 +1,122 @@
+[gd_scene load_steps=9 format=3 uid="uid://gf7elbg3k3nj"]
+
+[ext_resource type="PackedScene" uid="uid://bvoxqi1x6lk52" path="res://Objects/Levels/Enemies/BaseEnemy.tscn" id="1_rc47s"]
+[ext_resource type="Script" path="res://Scripts/Objects/Enemies/Jet.gd" id="2_oq0b1"]
+[ext_resource type="Texture2D" uid="uid://dh1lle66u4pmf" path="res://Sprites/Objects/Enemies/Jet.png" id="2_v43kf"]
+
+[sub_resource type="Animation" id="Animation_on3rk"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_1b12d"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_4gqaq"]
+resource_name = "flying_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_nydiu"]
+resource_name = "flying_right"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.9, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [2, 0, 2, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gx3mi"]
+_data = {
+"RESET": SubResource("Animation_1b12d"),
+"flying_left": SubResource("Animation_4gqaq"),
+"flying_right": SubResource("Animation_nydiu"),
+"idle": SubResource("Animation_on3rk")
+}
+
+[node name="Jet" instance=ExtResource("1_rc47s")]
+script = ExtResource("2_oq0b1")
+
+[node name="HealthComponent" parent="." index="0"]
+value = 1.0
+max_value = 1.0
+
+[node name="AttackComponent" parent="." index="1"]
+default_attack_amount = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="3"]
+texture = ExtResource("2_v43kf")
+hframes = 3
+frame = 1
+region_enabled = true
+region_rect = Rect2(0, 0, 78, 16)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
+libraries = {
+"": SubResource("AnimationLibrary_gx3mi")
+}
+
+[connection signal="attacked" from="AttackComponent" to="." method="_on_attack_component_attacked"]

@@ -9,7 +9,6 @@ var velocity: float = 1.3 * 60
 var direction := 1
 
 func initialize(global_position: Vector2, type: String) -> Node2D:
-	Global.get_current_scene().add_child(self)
 	self.global_position = global_position
 	animation_player.play(type)
 	return self

@@ -50,18 +50,18 @@ func setup_character_listener(character: GameCharacter, group: Node2D) -> void:
 	character.health.value_changed.connect(func(new_value: float):
 		life_bar.target_value = new_value
 		)
-		
+	
 	# Update the character level (life/power bars and/or level text)
 	character.level_amount_changed.connect(
 		func(new_value: int, new_bar_count: int):
 			update_character_level(group, new_value, new_bar_count)
 			)
 	
-	# Update the power bar (it's updated every frame)
+	# Update the power bar
 	character.power.value_changed.connect(func(new_value: float):
 		power_bar.target_value = new_value
 		)
-		
+	
 func update_character_level(group: Node2D, new_value: int, new_bar_count: int):
 	var life_bar = group.get_node("Life")
 	var power_bar = group.get_node("Power")

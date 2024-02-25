@@ -1,0 +1,110 @@
+[gd_scene load_steps=10 format=3 uid="uid://c1nseuiv0k6ax"]
+
+[ext_resource type="PackedScene" uid="uid://bvoxqi1x6lk52" path="res://Objects/Levels/Enemies/BaseEnemy.tscn" id="1_rx4fb"]
+[ext_resource type="Script" path="res://Scripts/Objects/Enemies/RocketLauncher.gd" id="2_5wmul"]
+[ext_resource type="Texture2D" uid="uid://bc3bfeis78o8y" path="res://Sprites/Objects/Enemies/RocketLauncher.png" id="2_p5nvc"]
+
+[sub_resource type="Animation" id="Animation_6jfoh"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_1n8n6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_yyk1h"]
+resource_name = "dead"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_vr21e"]
+resource_name = "launching"
+length = 0.9
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_glueo"]
+resource_name = "launched"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_edroy"]
+_data = {
+"RESET": SubResource("Animation_1n8n6"),
+"dead": SubResource("Animation_yyk1h"),
+"idle": SubResource("Animation_6jfoh"),
+"launched": SubResource("Animation_glueo"),
+"launching": SubResource("Animation_vr21e")
+}
+
+[node name="RocketLauncher" instance=ExtResource("1_rx4fb")]
+script = ExtResource("2_5wmul")
+
+[node name="HealthComponent" parent="." index="0"]
+value = 1.0
+max_value = 1.0
+
+[node name="AttackComponent" parent="." index="1"]
+should_attack = false
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="3"]
+position = Vector2(0, -8)
+texture = ExtResource("2_p5nvc")
+hframes = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
+libraries = {
+"": SubResource("AnimationLibrary_edroy")
+}

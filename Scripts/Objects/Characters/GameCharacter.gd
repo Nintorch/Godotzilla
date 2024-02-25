@@ -120,8 +120,8 @@ func _ready() -> void:
 			change_skin(null)
 			set_collision(Vector2(20, 56), Vector2(0, -1))
 			
-			get_sfx("Step").stream = load("res://Audio/SFX/GodzillaStep.wav")
-			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.wav")
+			get_sfx("Step").stream = preload("res://Audio/SFX/GodzillaStep.wav")
+			get_sfx("Roar").stream = preload("res://Audio/SFX/GodzillaRoar.wav")
 			move_state = State.WALK
 			
 			# We set the character-specific position so when the character
@@ -134,8 +134,8 @@ func _ready() -> void:
 			change_skin(preload("res://Objects/Characters/Mothra.tscn").instantiate())
 			set_collision(Vector2(36, 14), Vector2(-4, 1))
 			
-			get_sfx("Step").stream = load("res://Audio/SFX/MothraStep.wav")
-			get_sfx("Roar").stream = load("res://Audio/SFX/MothraRoar.wav")
+			get_sfx("Step").stream = preload("res://Audio/SFX/MothraStep.wav")
+			get_sfx("Roar").stream = preload("res://Audio/SFX/MothraRoar.wav")
 			move_state = State.FLY
 			position.y -= 40
 			move_speed = 2 * 60
