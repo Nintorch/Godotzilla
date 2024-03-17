@@ -35,3 +35,23 @@ uppercase = true
 process_mode = 3
 stream = ExtResource("4_y31a1")
 bus = &"SFX"
+
+[node name="Choice" type="Node2D" parent="."]
+position = Vector2(8, 40)
+
+[node name="YesNo" type="Label" parent="Choice"]
+offset_left = 8.0
+offset_right = 158.0
+offset_bottom = 16.0
+theme_override_fonts/font = ExtResource("3_qerkx")
+text = "yes  no
+"
+label_settings = SubResource("LabelSettings_qwev6")
+autowrap_mode = 2
+uppercase = true
+
+[node name="Selector" type="Sprite2D" parent="Choice"]
+texture = ExtResource("1_yr4n5")
+centered = false
+region_enabled = true
+region_rect = Rect2(72, 0, 8, 8)

@@ -27,4 +27,4 @@ func state_entered() -> void:
 	
 func _physics_process(_delta: float) -> void:
 	if Engine.get_physics_frames() % 5 == 0:
-		add_child(Explosion.new(parent.global_position))
+		Global.get_current_scene().add_child(Explosion.new(parent.global_position))

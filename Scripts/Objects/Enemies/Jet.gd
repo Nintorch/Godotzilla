@@ -34,7 +34,7 @@ func _process(delta: float) -> void:
 				state = State.MOVING_RIGHT
 				animation_player.play("flying_right")
 				
-		State.MOVING_RIGHT:	
+		State.MOVING_RIGHT:
 			velocity.x += 0.05 * 60 * 60 * delta
 			if not launched_projectile and absf(velocity.x) < 0.04 * 60:
 				var projectile := JET_PROJECTILE.instantiate()

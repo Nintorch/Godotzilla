@@ -21,6 +21,7 @@ const FRAME_SPEED := [
 		piece_type = value
 		update_frame()
 		queue_redraw()
+@export var boss_scene: PackedScene = null
 ## Only works if it's a boss, otherwise loaded from the current save.
 ## If there's no current save, then it's 1.
 @export var level := 1
@@ -50,8 +51,8 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 		
-	tilemap = $"../.."
 	selector = $"../../Selector"
+	tilemap = selector.tilemap
 	process_priority = 1
 	
 	# Adjust position
@@ -150,8 +151,6 @@ func prepare_start() -> void:
 	
 	hide_cell_below()
 	
-	Global.board.menubip.play()
-	
 func remove() -> void:
 	if Global.board.selected_piece == self:
 		Global.board.selected_piece = null
@@ -164,3 +163,6 @@ func is_player() -> bool:
 	
 func get_nav_agent() -> NavigationAgent2D:
 	return $NavigationAgent2D
+	
+func get_character_name() -> String:
+	return GameCharacter.CHARACTER_NAMES[piece_character]

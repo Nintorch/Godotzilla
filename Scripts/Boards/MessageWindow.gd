@@ -1,10 +1,14 @@
 extends NinePatchRect
 
+@export var selector: Node2D
 @export var window_size = Vector2i(96, 64)
 @export var alignment_horizontal = HORIZONTAL_ALIGNMENT_LEFT
 @export var alignment_vertical = VERTICAL_ALIGNMENT_TOP
+@onready var menu_bip: AudioStreamPlayer = $MenuBip
 
 @onready var text: Label = $Text
+@onready var choice_nodes: Node2D = $Choice
+@onready var choice_selector: Sprite2D = $Choice/Selector
 
 enum State {
 	HIDDEN,
@@ -16,16 +20,34 @@ enum State {
 var default_window_size = Vector2i(window_size)
 var state = State.HIDDEN
 
-func _ready():
+signal choice_made(choice: bool)
+
+func _ready() -> void:
 	size = Vector2(0, window_size.y)
 	visible = false
 	text.visible = false
+	choice_nodes.visible = false
 	text.horizontal_alignment = alignment_horizontal
 	text.vertical_alignment = alignment_vertical
 	
-func appear(message: String, enable_sound := true, req_size: Vector2i = default_window_size):
+func _process(delta: float) -> void:
+	if choice_nodes.visible:
+		if Input.is_action_just_pressed("Left"):
+			choice_selector.position.x = 0
+		if Input.is_action_just_pressed("Right"):
+			choice_selector.position.x = 40
+		var input_a := Input.is_action_just_pressed("A")
+		if input_a or Input.is_action_just_pressed("B"):
+			menu_bip.play()
+			await disappear()
+			choice_made.emit((choice_selector.position.x == 0)
+				if input_a else false)
+			selector.ignore_player_input = false
+			choice_selector.position.x = 0
+	
+func appear(message: String, enable_sound := true, choice := false, req_size: Vector2i = default_window_size):
 	if state == State.APPEARING or state == State.DISAPPEARING:
-		return
+		return false
 	
 	window_size = req_size
 	
@@ -47,19 +69,29 @@ func appear(message: String, enable_sound := true, req_size: Vector2i = default_
 	tween.tween_property(self, "size:x", req_size.x, get_tween_seconds(req_size.x))
 	tween.finished.connect(func():
 		text.visible = true
+		if choice:
+			choice_nodes.position.y = req_size.y - 16
+			choice_nodes.visible = true
+			selector.ignore_player_input = true
 		state = State.SHOWN
 		)
 	
 	if enable_sound:
-		$MenuBip.play()
+		menu_bip.play()
 		
 	await tween.finished
+	
+	if choice:
+		var ret: bool = await choice_made
+		return ret
+	return false
 	
 func disappear() -> void:
 	if state != State.SHOWN:
 		return
 	
 	text.visible = false
+	choice_nodes.visible = false
 	state = State.DISAPPEARING
 	
 	var tween := create_tween()
@@ -69,6 +101,8 @@ func disappear() -> void:
 		
 func make_hide() -> void:
 	visible = false
+	text.visible = false
+	choice_nodes.visible = false
 	state = State.HIDDEN
 	size = Vector2(0, window_size.y)
 		

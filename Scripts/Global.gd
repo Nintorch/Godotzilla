@@ -82,7 +82,7 @@ func accept_pause() -> void:
 		
 		get_current_scene().hide()
 		pause_visible_objects = get_all_visible_children(get_current_scene())
-		pause_visible_objects.map(func(x): x.hide())
+		pause_visible_objects.map(func(x): x.visible = false)
 		
 		var prev_pause = main.canvas_layer.get_node_or_null(String(pause.name))
 		if prev_pause != null:

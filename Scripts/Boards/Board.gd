@@ -25,7 +25,7 @@ extends Node2D
 @onready var tilemap: TileMap = $Board/TileMap
 @onready var message_window: NinePatchRect = $Board/GUI/MessageWindow
 @onready var selector: Sprite2D = $Board/TileMap/Selector
-	
+
 # The actual playable board, the node that has this script
 # also includes the board name.
 @onready var board: Node2D = $Board
@@ -77,15 +77,16 @@ func _process(_delta: float):
 		
 	Global.accept_pause()
 	
-	if not selector.is_stopped():
+	if not selector.is_stopped() or selector.ignore_player_input:
 		return
-	
+		
 	if Input.is_action_just_pressed("A"):
 		if not selected_piece:
 			# If no board pieces are selected
 			var piece = get_current_piece()
 			if piece and piece.is_player():
 				piece.select()
+				selector.moved_at_all = false
 				selected_piece = piece
 				message_window.disappear()
 			elif piece and not piece.is_player():
@@ -93,19 +94,18 @@ func _process(_delta: float):
 			else:
 				message_window.appear("There is no monster here.")
 			adjust_message_pos()
-		else:
+		elif not message_window.visible:
+			if not selector.moved_at_all:
+				var result: bool = await message_window.appear(
+					"Not going\nto move?", true, true)
+				if result:
+					await fade_out_selected()
+					returned()
+					return
+				else:
+					selected_piece.deselect()
+					selected_piece = null
 			# If a board piece is selected and A was pressed, start playing
-			selected_piece.prepare_start()
-			Global.playing_levels.assign(
-				selector.playing_levels.map(func(x):
-					if x >= levels.size():
-						print("Level with id " + str(x) + " is out of bounds")
-						return null
-					return levels[x]
-					))
-			if Global.playing_levels.find(null) >= 0:
-				Global.playing_levels.clear()
-				
 			start_playing()
 		
 	# Cancel the player's current move
@@ -126,7 +126,7 @@ func _process(_delta: float):
 		else:
 			message_window.appear("Select\na monster to move.")
 		adjust_message_pos()
-			
+		
 	if message_window.visible and Input.is_action_just_pressed("B"):
 		message_window.disappear()
 		
@@ -172,7 +172,7 @@ func show_boss_info(piece) -> void:
 		
 	var space_count = (size.x - 16) / 8 - hp_text.length()
 	text += "life\n" + " ".repeat(space_count) + hp_text
-	message_window.appear(text, true, size)
+	message_window.appear(text, true, false, size)
 		
 func boss_hp_str(hp: float) -> String:
 	var s := str(snappedf(hp, 0.1))
@@ -180,12 +180,38 @@ func boss_hp_str(hp: float) -> String:
 		s += ".0"
 	return s
 	
-func start_playing() -> void:
+func start_playing(boss_scene: PackedScene = null) -> void:
+	Global.playing_levels.assign(
+		selector.playing_levels.map(func(x):
+			if x >= levels.size():
+				print("Level with id " + str(x) + " is out of bounds")
+				return null
+			return levels[x]
+			))
+	if boss_scene != null:
+		Global.playing_levels.append(boss_scene)
+		
+	if Global.playing_levels.find(null) >= 0:
+		Global.playing_levels.clear()
+				
 	if Global.playing_levels.size() == 0:
-		selected_piece.deselect()
 		selected_piece = null
 		return
-		
+	
+	menubip.play()
+	await fade_out_selected()
+	
+	var level := Global.get_next_level().instantiate()
+	level.data = {
+		current_character = selected_piece.piece_character,
+		board_piece = selected_piece,
+	}
+	# We don't free the board scene so we can later return to it,
+	# hence the second false argument.
+	Global.change_scene_node(level, false)
+	
+func fade_out_selected() -> void:
+	selected_piece.prepare_start()
 	get_tree().paused = true
 	
 	await get_tree().create_timer(0.5).timeout
@@ -197,15 +223,6 @@ func start_playing() -> void:
 	await get_tree().create_timer(0.5).timeout
 	
 	get_tree().paused = false
-	
-	var level := Global.get_next_level().instantiate()
-	level.data = {
-		current_character = selected_piece.piece_character,
-		board_piece = selected_piece,
-	}
-	# We don't free the board scene so we can later return to it,
-	# hence the second false argument.
-	Global.change_scene_node(level, false)
 	
 func returned() -> void:
 	await get_tree().create_timer(0.5).timeout
@@ -245,6 +262,7 @@ func move_boss() -> void:
 	var player_piece: Node2D = get_closest_player(boss_piece)
 	await get_tree().create_timer(0.5).timeout
 	boss_piece.select()
+	selected_piece = boss_piece
 	
 	var nav_agent: NavigationAgent2D = boss_piece.get_nav_agent()
 	nav_agent.set_navigation_map(tilemap.get_layer_navigation_map(0))
@@ -305,8 +323,23 @@ func get_player_pieces() -> Array[Node2D]:
 func get_boss_pieces() -> Array[Node2D]:
 	return get_board_pieces().filter(func(p): return not p.is_player())
 
-func _on_selector_piece_collision(piece):
-	if piece.is_player() and not message_window.visible:
+func _on_selector_piece_collision(piece: Node2D, boss_collision: bool):
+	if not selected_piece.is_player():
+		var boss := selected_piece
+		selected_piece = piece
+		
+		boss.prepare_start()
+		selector.playing_levels.clear()
+		start_playing(boss.boss_scene)
+		return
+		
+	if not boss_collision and not message_window.visible:
 		message_window.appear("Unable to advance because a "
 			+ "monster is blocking the way.", false)
 		adjust_message_pos()
+	elif boss_collision:
+		adjust_message_pos()
+		var result: bool = await message_window.appear(
+			"Will you\nfight\n" + piece.get_character_name() + "?",
+			false, true)
+		start_playing(piece.boss_scene if result else null)

@@ -49,8 +49,11 @@ position = Vector2(16, 56)
 frame = 6
 piece_character = 1
 
-[node name="Selector" parent="Board/TileMap" instance=ExtResource("6_ysf6o")]
+[node name="Selector" parent="Board/TileMap" node_paths=PackedStringArray("tilemap", "message_window", "board") instance=ExtResource("6_ysf6o")]
 position = Vector2(16, 24)
+tilemap = NodePath("..")
+message_window = NodePath("../../GUI/MessageWindow")
+board = NodePath("../../..")
 
 [node name="Camera2D" type="Camera2D" parent="Board/TileMap/Selector"]
 limit_left = 0
@@ -65,11 +68,12 @@ editor_draw_limits = true
 
 [node name="GUI" type="CanvasLayer" parent="Board"]
 
-[node name="MessageWindow" parent="Board/GUI" instance=ExtResource("7_hcaag")]
+[node name="MessageWindow" parent="Board/GUI" node_paths=PackedStringArray("selector") instance=ExtResource("7_hcaag")]
 visible = false
 offset_left = 16.0
 offset_top = 136.0
 offset_right = 48.0
 offset_bottom = 168.0
+selector = NodePath("../../TileMap/Selector")
 
 [connection signal="piece_collision" from="Board/TileMap/Selector" to="." method="_on_selector_piece_collision"]

@@ -7,9 +7,9 @@ enum MovementStyle {
 
 @export var movement_style := MovementStyle.OUTSIDE_CELLS
 
-@onready var tilemap: TileMap = get_parent()
-@onready var message_window = $"../../GUI/MessageWindow"
-@onready var board = $"../../.."
+@export var tilemap: TileMap
+@export var message_window: Control
+@export var board: Node2D
 
 # Speed (in pixels per frame for 60 fps)
 var speed := Vector2()
@@ -17,11 +17,13 @@ var next_speed := Vector2()
 # Current cell position in pixels
 var old_pos: Vector2
 
+var moved_at_all := false
+
 var ignore_player_input := false
 
 var playing_levels: Array[int] = []
 
-signal piece_collision(piece: Sprite2D)
+signal piece_collision(piece: Sprite2D, boss_collision: bool)
 signal stopped
 signal moved
 
@@ -54,6 +56,8 @@ func move(dirx: float, diry: float) -> void:
 		# absolute yspeed 2
 		(diry if dirx else diry * 2)
 		)
+	if next_speed.length() > 0:
+		moved_at_all = true
 		
 # When the movement should be stopped
 func stop_conditions() -> void:
@@ -67,7 +71,7 @@ func stop_conditions() -> void:
 		stop()
 	# Piece collision
 	elif board.selected_piece and next_piece:
-		piece_collision.emit(next_piece)
+		piece_collision.emit(next_piece, false)
 		stop()
 	# Next cell is empty
 	elif not next_cell_exists() and \
@@ -88,6 +92,16 @@ func update_movement(delta: float) -> void:
 		old_pos = Vector2(position)
 		# If is stopped and movement is requested, move
 		speed = next_speed
+		
+		if board.selected_piece and board.selected_piece.is_player() \
+		and moved_at_all and is_stopped():
+			var nearest_boss: Node2D
+			for boss: Node2D in board.get_boss_pieces():
+				if boss.position.distance_to(position) < 36:
+					piece_collision.emit(boss, true)
+					moved_at_all = false
+					return
+		
 		# but be aware of things that should stop the movement
 		if not is_stopped():
 			stop_conditions()

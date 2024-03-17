@@ -31,6 +31,7 @@ func _ready() -> void:
 	Global.fade_in()
 	
 func _process(_delta: float) -> void:
+	#if player.state != player.State.DEAD:
 	Global.accept_pause()
 	
 	if enable_level_end and player.position.x > camera.limit_right - 10:
