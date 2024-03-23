@@ -16,7 +16,7 @@ script/source = "extends \"res://Scripts/MainMenu/Menu.gd\"
 func menu_select(id: int) -> void:
 	match id:
 		0: # New Game
-			main_menu.change_scene(preload(\"res://Scenes/Boards/TheEarth.tscn\"))
+			main_menu.change_scene(preload(\"res://Scenes/GameIntro.tscn\"))
 		1: # Pass word game
 			main_menu.change_scene(preload(\"res://Scenes/PassWordGame.tscn\"))
 		2: # Settings

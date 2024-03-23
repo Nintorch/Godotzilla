@@ -162,6 +162,9 @@ func fade_in(color := FADE_BLACK) -> void:
 func hide_fade() -> void:
 	main.hide_fade()
 	
+func show_fade() -> void:
+	main.show_fade()
+	
 #endregion
 
 #region Music

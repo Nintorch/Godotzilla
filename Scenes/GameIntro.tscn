@@ -1,0 +1,185 @@
+[gd_scene load_steps=11 format=3 uid="uid://dockgi1sveicy"]
+
+[ext_resource type="Script" path="res://Scripts/GameIntro/GameIntro.gd" id="1_go4rg"]
+[ext_resource type="FontFile" uid="uid://blhghnyq5sxle" path="res://Sprites/GameIntro/font.png" id="2_0ovgx"]
+[ext_resource type="PackedScene" uid="uid://blo8x6bqjbe1w" path="res://Scenes/Boards/TheEarth.tscn" id="2_lx84o"]
+[ext_resource type="Script" path="res://Scripts/GameIntro/SolarSystem.gd" id="3_axr0p"]
+[ext_resource type="Texture2D" uid="uid://dffrjrny86uku" path="res://Sprites/GameIntro/images.png" id="3_y7iw8"]
+[ext_resource type="Texture2D" uid="uid://d1n056ela541l" path="res://Sprites/GameIntro/planets.png" id="5_3npx7"]
+[ext_resource type="Texture2D" uid="uid://bcglofsaynaai" path="res://Sprites/GameIntro/gohtenjets.png" id="6_uruu4"]
+[ext_resource type="Script" path="res://Scripts/GameIntro/Gohten.gd" id="6_vtjtd"]
+[ext_resource type="Script" path="res://Scripts/GameIntro/EarthInvasion.gd" id="8_i7p34"]
+[ext_resource type="Texture2D" uid="uid://jye2c33udbgd" path="res://Sprites/GameIntro/earthships.png" id="10_jmebl"]
+
+[node name="GameIntro" type="Node2D"]
+script = ExtResource("1_go4rg")
+next_scene = ExtResource("2_lx84o")
+
+[node name="Bars" type="Node2D" parent="."]
+
+[node name="Bar1" type="ColorRect" parent="Bars"]
+offset_right = 40.0
+offset_bottom = 48.0
+color = Color(0, 0.25098, 0.301961, 1)
+
+[node name="Bar2" type="ColorRect" parent="Bars"]
+offset_top = 176.0
+offset_right = 40.0
+offset_bottom = 240.0
+color = Color(0, 0.25098, 0.301961, 1)
+
+[node name="StoryText" type="Label" parent="Bars"]
+offset_left = 256.0
+offset_top = 192.0
+offset_right = 344.0
+offset_bottom = 215.0
+theme_override_fonts/font = ExtResource("2_0ovgx")
+text = "Hello world
+"
+
+[node name="Images" type="Node2D" parent="."]
+
+[node name="SolarSystem" type="Node2D" parent="Images"]
+visible = false
+script = ExtResource("3_axr0p")
+
+[node name="PlanetMoveTimer" type="Timer" parent="Images/SolarSystem"]
+wait_time = 0.8
+autostart = true
+
+[node name="Image" type="Sprite2D" parent="Images/SolarSystem"]
+position = Vector2(4, 48)
+texture = ExtResource("3_y7iw8")
+offset = Vector2(124, 64)
+region_enabled = true
+region_rect = Rect2(0, 0, 248, 128)
+
+[node name="TheEarth" type="Sprite2D" parent="Images/SolarSystem"]
+position = Vector2(138, 94)
+texture = ExtResource("5_3npx7")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="Mars" type="Sprite2D" parent="Images/SolarSystem"]
+position = Vector2(48, 95)
+texture = ExtResource("5_3npx7")
+region_enabled = true
+region_rect = Rect2(16, 0, 16, 16)
+
+[node name="Jupiter" type="Sprite2D" parent="Images/SolarSystem"]
+position = Vector2(182, 107)
+texture = ExtResource("5_3npx7")
+region_enabled = true
+region_rect = Rect2(32, 0, 16, 16)
+
+[node name="Saturn" type="Sprite2D" parent="Images/SolarSystem"]
+position = Vector2(110, 118)
+texture = ExtResource("5_3npx7")
+region_enabled = true
+region_rect = Rect2(48, 0, 16, 16)
+
+[node name="Uranus" type="Sprite2D" parent="Images/SolarSystem"]
+position = Vector2(82, 126)
+texture = ExtResource("5_3npx7")
+region_enabled = true
+region_rect = Rect2(64, 0, 16, 16)
+
+[node name="Neptune" type="Sprite2D" parent="Images/SolarSystem"]
+position = Vector2(32, 137)
+texture = ExtResource("5_3npx7")
+region_enabled = true
+region_rect = Rect2(80, 0, 16, 16)
+
+[node name="Pluto" type="Sprite2D" parent="Images/SolarSystem"]
+position = Vector2(168, 154)
+texture = ExtResource("5_3npx7")
+region_enabled = true
+region_rect = Rect2(96, 0, 16, 16)
+
+[node name="Gohten" type="Node2D" parent="Images"]
+visible = false
+script = ExtResource("6_vtjtd")
+
+[node name="Gohten" type="Sprite2D" parent="Images/Gohten"]
+position = Vector2(128, 112)
+texture = ExtResource("3_y7iw8")
+offset = Vector2(4, 0)
+region_enabled = true
+region_rect = Rect2(248, 0, 248, 128)
+
+[node name="Jets" type="TextureRect" parent="Images/Gohten"]
+offset_left = -512.0
+offset_top = 48.0
+offset_right = 256.0
+offset_bottom = 112.0
+texture = ExtResource("6_uruu4")
+stretch_mode = 1
+
+[node name="Ghidorah" type="Sprite2D" parent="Images"]
+visible = false
+position = Vector2(4, 48)
+texture = ExtResource("3_y7iw8")
+offset = Vector2(124, 64)
+region_enabled = true
+region_rect = Rect2(496, 0, 248, 128)
+
+[node name="EarthInvasion" type="Node2D" parent="Images"]
+position = Vector2(4, 48)
+script = ExtResource("8_i7p34")
+
+[node name="Background" type="Sprite2D" parent="Images/EarthInvasion"]
+texture = ExtResource("3_y7iw8")
+offset = Vector2(124, 64)
+region_enabled = true
+region_rect = Rect2(744, 0, 248, 128)
+
+[node name="Ships" type="Node2D" parent="Images/EarthInvasion"]
+
+[node name="BigShip1" type="Sprite2D" parent="Images/EarthInvasion/Ships"]
+position = Vector2(60, 89)
+texture = ExtResource("10_jmebl")
+region_enabled = true
+region_rect = Rect2(0, 0, 40, 16)
+
+[node name="BigShip2" type="Sprite2D" parent="Images/EarthInvasion/Ships"]
+position = Vector2(156, 73)
+texture = ExtResource("10_jmebl")
+region_enabled = true
+region_rect = Rect2(0, 0, 40, 16)
+
+[node name="BigShip3" type="Sprite2D" parent="Images/EarthInvasion/Ships"]
+position = Vector2(172, 113)
+texture = ExtResource("10_jmebl")
+region_enabled = true
+region_rect = Rect2(0, 0, 40, 16)
+
+[node name="SmallShip1" type="Sprite2D" parent="Images/EarthInvasion/Ships"]
+position = Vector2(132, 56)
+texture = ExtResource("10_jmebl")
+region_enabled = true
+region_rect = Rect2(0, 16, 24, 10)
+
+[node name="SmallShip2" type="Sprite2D" parent="Images/EarthInvasion/Ships"]
+position = Vector2(84, 48)
+texture = ExtResource("10_jmebl")
+region_enabled = true
+region_rect = Rect2(0, 16, 24, 10)
+
+[node name="SmallShip3" type="Sprite2D" parent="Images/EarthInvasion/Ships"]
+position = Vector2(28, 64)
+texture = ExtResource("10_jmebl")
+region_enabled = true
+region_rect = Rect2(0, 16, 24, 10)
+
+[node name="SmallShip4" type="Sprite2D" parent="Images/EarthInvasion/Ships"]
+position = Vector2(164, 104)
+texture = ExtResource("10_jmebl")
+region_enabled = true
+region_rect = Rect2(0, 16, 24, 10)
+
+[node name="ImageChangeTimer" type="Timer" parent="."]
+wait_time = 8.0
+autostart = true
+
+[connection signal="timeout" from="Images/SolarSystem/PlanetMoveTimer" to="Images/SolarSystem" method="move_planets"]
+[connection signal="timeout" from="ImageChangeTimer" to="." method="next_image"]

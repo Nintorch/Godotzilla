@@ -35,6 +35,9 @@ func fade_in(color := Global.FADE_BLACK) -> void:
 	
 func hide_fade() -> void:
 	$CanvasLayer/Fader.modulate.a = 0
+	
+func show_fade() -> void:
+	$CanvasLayer/Fader.modulate.a = 1
 
 func _on_animation_finished(_anim_name: StringName) -> void:
 	Global.fading = false

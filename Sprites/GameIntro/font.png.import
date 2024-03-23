@@ -1,0 +1,22 @@
+[remap]
+
+importer="font_data_image"
+type="FontFile"
+uid="uid://blhghnyq5sxle"
+path="res://.godot/imported/font.png-49a670995c1eaafcd8a312ee09ca9c3e.fontdata"
+
+[deps]
+
+source_file="res://Sprites/GameIntro/font.png"
+dest_files=["res://.godot/imported/font.png-49a670995c1eaafcd8a312ee09ca9c3e.fontdata"]
+
+[params]
+
+character_ranges=PackedStringArray("\'A\'-\'Z\'", "\'a\'-\'z\'", "\'.\'", "\'2\'", "\',\'", "\' \'", "\'!\'", "\':\'", "\'\"\'")
+columns=26
+rows=3
+image_margin=Rect2i(0, 0, 0, 0)
+character_margin=Rect2i(0, 0, 0, 0)
+fallbacks=[]
+compress=true
+scaling_mode=2
