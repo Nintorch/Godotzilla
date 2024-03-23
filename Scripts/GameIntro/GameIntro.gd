@@ -49,10 +49,6 @@ func _process(delta: float) -> void:
 		return
 		
 	story_text.position.x -= TEXT_SPEED * delta
-	
-	if story_text.position.x + story_text.size.x < 0 and not finished:
-		finished = true
-		print("Yay it's finally finished lol")
 
 func show_current_image() -> void:
 	images.get_children().map(func(img: Node2D):
