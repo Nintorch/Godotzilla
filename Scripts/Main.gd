@@ -1,11 +1,23 @@
 extends Node2D
 
 @export var initial_scene: PackedScene = preload("res://Scenes/TitleScreen.tscn")
+@export var wait_before_start := false # Mostly just a debugging feature
 @onready var canvas_layer: CanvasLayer = $CanvasLayer
 
 func _ready() -> void:
 	Global.main = self
 	Global.music = $Music
+	if wait_before_start:
+		get_tree().paused = true
+		get_tree().process_frame.connect(func():
+			if Global.any_action_button_pressed():
+				get_tree().paused = false
+				start()
+				)
+	else:
+		start()
+	
+func start() -> void:
 	$CurrentScene.add_child(initial_scene.instantiate())
 	
 	Global.widescreen_changed.connect(_on_widescreen_change)
