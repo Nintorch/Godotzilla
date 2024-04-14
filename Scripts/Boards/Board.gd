@@ -41,13 +41,15 @@ var board_data = {
 func _ready():
 	Global.board = self
 	
-	# Save the current board ID
-	var savefile := Global.load_save_file()
-	savefile.set_value(Global.get_save_slot_section(), "board", board_id)
-	savefile.set_value(Global.get_save_slot_section(), "board_data", board_data)
-	Global.store_save_file(savefile)
-	
-	print(board_data)
+	if use_in_saves:
+		Global.save_data.board_id = board_id
+		
+		if not Global.save_data.has("board_data") or \
+			Global.save_data.board_data.size() == 0:
+				Global.save_data.board_data = board_data
+				Global.store_save_data()
+		else:
+			board_data = Global.save_data.board_data
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	tilemap.tile_set.get_source(0).texture = tileset

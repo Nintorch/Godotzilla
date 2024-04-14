@@ -53,7 +53,6 @@ color = Color(0, 0, 0, 1)
 [node name="Images" type="Node2D" parent="."]
 
 [node name="SolarSystem" type="Node2D" parent="Images"]
-visible = false
 script = ExtResource("3_axr0p")
 
 [node name="PlanetMoveTimer" type="Timer" parent="Images/SolarSystem"]
@@ -122,9 +121,9 @@ region_rect = Rect2(248, 0, 248, 128)
 
 [node name="Jets" type="TextureRect" parent="Images/Gohten"]
 offset_left = -512.0
-offset_top = 48.0
+offset_top = 47.0
 offset_right = 256.0
-offset_bottom = 112.0
+offset_bottom = 111.0
 texture = ExtResource("6_uruu4")
 stretch_mode = 1
 
@@ -137,6 +136,7 @@ region_enabled = true
 region_rect = Rect2(496, 0, 248, 128)
 
 [node name="EarthInvasion" type="Node2D" parent="Images"]
+visible = false
 position = Vector2(4, 48)
 script = ExtResource("8_i7p34")
 

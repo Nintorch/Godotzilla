@@ -28,6 +28,3 @@ position = Vector2(279, 168)
 
 [node name="RocketLauncher" parent="." index="4" instance=ExtResource("5_drftp")]
 position = Vector2(190, 160)
-
-[node name="Player" parent="." index="5"]
-enable_intro = false

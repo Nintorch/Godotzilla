@@ -12,7 +12,11 @@ var player: GameCharacter
 var playing_levels: Array[PackedScene] = []
 var board
 
-var save_slot_id := 0
+var save_slot_id := -1 # -1 means no save
+var save_data := {
+	board_id = "",
+	board_data = {},
+}
 
 signal widescreen_changed
 signal fullscreen_changed(flag: bool) # only through use_fullscreen()
@@ -125,6 +129,16 @@ func load_settings_file() -> ConfigFile:
 func save_settings_file(file: ConfigFile) -> void:
 	file.save(SETTINGS_PATH)
 	
+func load_save_data() -> Dictionary:
+	var config_file := load_save_file()
+	save_data = config_file.get_value(get_save_slot_section(), "data", {})
+	return save_data
+	
+func store_save_data() -> void:
+	var config_file := load_save_file()
+	config_file.set_value(get_save_slot_section(), "data", save_data)
+	store_save_file(config_file)
+	
 func load_save_file() -> ConfigFile:
 	var file = ConfigFile.new()
 	if file.load_encrypted_pass(SAVE_FILE_PATH, SAVE_FILE_PASS) != OK:
@@ -132,7 +146,8 @@ func load_save_file() -> ConfigFile:
 	return file
 	
 func store_save_file(file: ConfigFile) -> void:
-	file.save_encrypted_pass(SAVE_FILE_PATH, SAVE_FILE_PASS)
+	if save_slot_id >= 0:
+		file.save_encrypted_pass(SAVE_FILE_PATH, SAVE_FILE_PASS)
 	
 func set_save_slot(id: int) -> void:
 	save_slot_id = id

@@ -14,9 +14,8 @@ func next_level() -> void:
 		await get_tree().create_timer(0.5).timeout
 		
 		get_tree().paused = false
-		var scene: Node2D = Global.board.next_scene.instantiate()
-		scene.board_data = Global.board.board_data
-		Global.change_scene_node(scene)
+		save_data()
+		Global.change_scene(Global.board.next_scene)
 		
 	else:
 		get_tree().paused = true
@@ -30,3 +29,8 @@ func next_level() -> void:
 		
 		Global.change_scene_node(Global.board)
 		Global.board.returned()
+
+func save_data() -> void:
+	if Global.board.use_in_saves:
+		Global.save_data.board_data = Global.board.board_data
+		Global.store_save_data()

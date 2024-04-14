@@ -48,8 +48,7 @@ func _process(delta: float) -> void:
 func appear(message: String, enable_sound := true, choice := false, req_size: Vector2i = default_window_size):
 	if state == State.APPEARING or state == State.DISAPPEARING:
 		return false
-	
-	print(message)
+		
 	window_size = req_size
 	
 	if state == State.SHOWN:
