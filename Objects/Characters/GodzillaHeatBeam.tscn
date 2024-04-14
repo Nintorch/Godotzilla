@@ -1,7 +1,8 @@
-[gd_scene load_steps=28 format=3 uid="uid://twku26u8n2dy"]
+[gd_scene load_steps=29 format=3 uid="uid://twku26u8n2dy"]
 
 [ext_resource type="Texture2D" uid="uid://bg00wrudw7pi5" path="res://Sprites/Characters/Godzilla/heat_beam.png" id="1_g23gd"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/GodzillaHeatBeam.gd" id="2_opyea"]
+[ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="3_acgqs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6fyik"]
 atlas = ExtResource("1_g23gd")
@@ -195,6 +196,9 @@ autostart = true
 
 [node name="DestroyTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="AttackComponent" parent="." instance=ExtResource("3_acgqs")]
+attack_always = true
 
 [connection signal="timeout" from="FlashTimer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="DestroyTimer" to="." method="_on_destroy_timer_timeout"]

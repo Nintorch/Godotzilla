@@ -36,6 +36,15 @@ func attack_body(body: Node2D, amount: float = default_attack_amount) -> void:
 func set_collision(size: Vector2, offset: Vector2) -> void:
 	collision.shape.size = size
 	collision.position = offset
+	
+func start_attack(amount: float) -> void:
+	attack_always = true
+	should_attack = true
+	default_attack_amount = amount
+	
+func stop_attack() -> void:
+	attack_always = false
+	should_attack = false
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	attack_body(body)

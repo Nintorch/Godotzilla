@@ -7,7 +7,10 @@ var move_state: Node
 var current_attack = GameCharacter.Attack
 var variation = 0
 
+var attack_component: Node2D
+
 func state_init() -> void:
+	attack_component = parent.attack
 	move_state = parent.states_list[parent.move_state]
 	parent.animation_player.connect("animation_finished", _on_animation_finished)
 	
@@ -40,6 +43,12 @@ func use(type: GameCharacter.Attack) -> void:
 			else:
 				parent.animation_player.play("Punch2")
 			parent.get_sfx("Punch").play()
+			
+			attack_component.set_collision(Vector2(30, 20), Vector2(20, -15))
+			
+			attack_component.start_attack(2)
+			await parent.animation_player.animation_finished
+			attack_component.stop_attack()
 
 		GameCharacter.Attack.KICK:
 			variation = !variation
@@ -49,9 +58,22 @@ func use(type: GameCharacter.Attack) -> void:
 				parent.animation_player.play("Kick2")
 			parent.get_sfx("Punch").play()
 			
+			attack_component.set_collision(Vector2(30, 30), Vector2(20, 10))
+			
+			attack_component.start_attack(2)
+			await parent.animation_player.animation_finished
+			attack_component.stop_attack()
+			
 		# Godzilla-specific attacks
 		GameCharacter.Attack.TAIL_WHIP:
 			parent.animation_player.play("TailWhip")
+			await get_tree().create_timer(0.15, false).timeout
+			
+			attack_component.set_collision(Vector2(50, 40), Vector2(30, 5))
+			
+			attack_component.start_attack(2)
+			await parent.animation_player.animation_finished
+			attack_component.stop_attack()
 			
 		GameCharacter.Attack.HEAT_BEAM:
 			var animations = [
@@ -65,6 +87,7 @@ func use(type: GameCharacter.Attack) -> void:
 				parent.animation_player.play(anim[0])
 				if anim[0] == "HeatBeam3":
 					create_heat_beam()
+					parent.get_sfx("HeatBeam").play()
 				await get_tree().create_timer(anim[1], false).timeout
 				
 			move_state.walk_frame = 0
