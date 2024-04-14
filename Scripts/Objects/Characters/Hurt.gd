@@ -11,6 +11,9 @@ func state_init() -> void:
 	add_child(timer)
 
 func state_entered() -> void:
+	if parent.is_flying():
+		parent.velocity = Vector2()
+	
 	parent.animation_player.play("RESET")
 	await get_tree().process_frame
 	parent.animation_player.play("Hurt")

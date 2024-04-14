@@ -41,6 +41,14 @@ var board_data = {
 func _ready():
 	Global.board = self
 	
+	# Save the current board ID
+	var savefile := Global.load_save_file()
+	savefile.set_value(Global.get_save_slot_section(), "board", board_id)
+	savefile.set_value(Global.get_save_slot_section(), "board_data", board_data)
+	Global.store_save_file(savefile)
+	
+	print(board_data)
+	
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	tilemap.tile_set.get_source(0).texture = tileset
 	tilemap.tile_set.get_source(1).texture = tileset
@@ -198,7 +206,8 @@ func start_playing(boss_scene: PackedScene = null) -> void:
 		selected_piece = null
 		return
 	
-	menubip.play()
+	if boss_scene == null:
+		menubip.play()
 	await fade_out_selected()
 	
 	var level := Global.get_next_level().instantiate()
@@ -209,6 +218,7 @@ func start_playing(boss_scene: PackedScene = null) -> void:
 	# We don't free the board scene so we can later return to it,
 	# hence the second false argument.
 	Global.change_scene_node(level, false)
+	selected_piece = null
 	
 func fade_out_selected() -> void:
 	selected_piece.prepare_start()
@@ -224,7 +234,7 @@ func fade_out_selected() -> void:
 	
 	get_tree().paused = false
 	
-func returned() -> void:
+func returned(ignore_boss_moves := false) -> void:
 	await get_tree().create_timer(0.5).timeout
 	
 	message_window.make_hide()
@@ -235,15 +245,23 @@ func returned() -> void:
 		selected_piece.deselect()
 		selected_piece = null
 		
+	if ignore_boss_moves:
+		selector.visible = true
+		selector.moved.emit()
+		return
+	
 	if allow_boss_movement and get_boss_pieces().size() > 0:
 		selector.hide()
 		selector.ignore_player_input = true
-		var selector_pos_saved := selector.position
-		
+		var selector_pos_saved := Vector2(selector.position)
+
 		await Global.fade_end
 		await move_boss()
-		await Global.fade_end
-		Global.fade_in()
+		# See the explanation for that if statement in move_boss()
+		# in if selector.visible
+		if not selector.visible:
+			await Global.fade_end
+			Global.fade_in()
 		
 		selector.position = selector_pos_saved
 		selector.show()
@@ -285,6 +303,15 @@ func move_boss() -> void:
 		selector.move(direction.x, direction.y)
 		await selector.moved
 		selector.move(0, 0)
+		
+		# Basically, the boss might have already collided with a player piece,
+		# start the boss battle and it would've be finished at this point,
+		# calling returned() again and setting selector.visible to true,
+		# and since returned() got called again we don't want to proceed with
+		# the move_boss() function anymore
+		if selector.visible:
+			return
+			
 		# Wait until we get onto the next hex
 		await selector.stopped
 	

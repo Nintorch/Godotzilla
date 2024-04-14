@@ -84,7 +84,6 @@ color1 = Color(0.615686, 0.196078, 0, 1)
 color2 = Color(1, 0.407843, 0.12549, 1)
 
 [node name="BossCharacter" type="Node2D" parent="."]
-visible = false
 position = Vector2(8, 48)
 
 [node name="CharacterName" type="Label" parent="BossCharacter"]
@@ -118,9 +117,21 @@ offset_top = 16.0
 offset_right = 137.0
 offset_bottom = 24.0
 
+[node name="TimerText" type="Label" parent="BossCharacter"]
+offset_left = 88.0
+offset_right = 152.0
+offset_bottom = 8.0
+theme_override_fonts/font = ExtResource("2_doi0m")
+text = "60"
+label_settings = SubResource("LabelSettings_ke5ce")
+horizontal_alignment = 2
+uppercase = true
+
 [node name="BgRect2" type="ColorRect" parent="BossCharacter"]
 offset_left = -8.0
 offset_top = 24.0
 offset_right = 248.0
 offset_bottom = 32.0
 color = Color(0, 0, 0, 1)
+
+[node name="Timer" type="Timer" parent="BossCharacter"]

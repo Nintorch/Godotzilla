@@ -17,6 +17,7 @@ loop = true
 board_name = "Jupiter"
 music = SubResource("AudioStreamOggVorbis_16rr4")
 tileset = ExtResource("4_ylq5q")
+board_id = "jupiter"
 levels = Array[PackedScene]([ExtResource("3_2e2no")])
 
 [node name="TileMap" parent="Board" index="0"]

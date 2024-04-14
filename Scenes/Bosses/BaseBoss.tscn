@@ -33,3 +33,5 @@ block_level_end = true
 [node name="HUD" parent="." index="5" node_paths=PackedStringArray("boss")]
 boss = NodePath("../Boss")
 boss_bar_color = Color(0, 0.486275, 0.552941, 1)
+
+[connection signal="boss_timer_timeout" from="HUD" to="." method="_on_hud_boss_timer_timeout"]

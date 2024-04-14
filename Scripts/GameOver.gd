@@ -26,6 +26,5 @@ func finish() -> void:
 		await Global.fade_end
 		Global.hide_fade()
 		
-		# TODO: check this one
 		Global.music.finished.disconnect(finish)
 		Global.change_scene(Global.main.initial_scene)

@@ -4,6 +4,7 @@ extends Node2D
 @export var default_attack_amount := 4
 @export var objects_to_ignore: Array[Node2D]
 @export var should_attack := true
+@export var enemy := false
 
 @onready var area_2d: Area2D = $Area2D
 @onready var collision: CollisionShape2D = $Area2D/CollisionShape2D
@@ -28,7 +29,7 @@ func attack_bodies(amount: float = default_attack_amount) -> void:
 func attack_body(body: Node2D, amount: float = default_attack_amount) -> void:
 	if body == get_parent() or body in objects_to_ignore or not should_attack:
 		return
-	if body.has_node("HealthComponent"):
+	if not enemy and body.has_node("HealthComponent"):
 		body.get_node("HealthComponent").damage(amount)
 		attacked.emit(body, amount)
 

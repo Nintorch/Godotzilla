@@ -1,6 +1,8 @@
 extends Node
 
 const SETTINGS_PATH = "user://settings.cfg"
+const SAVE_FILE_PATH = "user://save.cfg"
+const SAVE_FILE_PASS = "Godotzilla" # Change this in your game!!!
 
 var main: Node2D
 var fading := false # set in Main.gd
@@ -9,6 +11,8 @@ var music: AudioStreamPlayer
 var player: GameCharacter
 var playing_levels: Array[PackedScene] = []
 var board
+
+var save_slot_id := 0
 
 signal widescreen_changed
 signal fullscreen_changed(flag: bool) # only through use_fullscreen()
@@ -90,6 +94,7 @@ func accept_pause() -> void:
 			
 		main.canvas_layer.add_child(pause)
 		main.canvas_layer.move_child(pause, 0)
+		pause.position.x = (get_content_size().x - get_default_resolution().x) / 2
 		get_tree().paused = true
 		
 func get_all_visible_children(node: Node) -> Array[Node]:
@@ -114,11 +119,26 @@ func load_game_settings() -> void:
 func load_settings_file() -> ConfigFile:
 	var file = ConfigFile.new()
 	if file.load(SETTINGS_PATH) != OK:
-		file.save(SETTINGS_PATH)
+		save_settings_file(file)
 	return file
 	
 func save_settings_file(file: ConfigFile) -> void:
 	file.save(SETTINGS_PATH)
+	
+func load_save_file() -> ConfigFile:
+	var file = ConfigFile.new()
+	if file.load_encrypted_pass(SAVE_FILE_PATH, SAVE_FILE_PASS) != OK:
+		store_save_file(file)
+	return file
+	
+func store_save_file(file: ConfigFile) -> void:
+	file.save_encrypted_pass(SAVE_FILE_PATH, SAVE_FILE_PASS)
+	
+func set_save_slot(id: int) -> void:
+	save_slot_id = id
+
+func get_save_slot_section() -> String:
+	return "save" + str(save_slot_id+1)
 	
 #endregion
 	

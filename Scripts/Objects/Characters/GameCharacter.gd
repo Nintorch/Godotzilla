@@ -58,7 +58,6 @@ var direction: int = 1:
 			skin.scale.x = value
 
 @onready var collision: CollisionShape2D = $Collision
-# TODO: reusable state machine
 @onready var states_list: Array[Node] = $States.get_children()
 @onready var health: Node = $HealthComponent
 @onready var power: Node = $PowerComponent
@@ -319,8 +318,6 @@ func load_state(data: Dictionary = {}) -> void:
 	
 	score = Global.board.board_data.player_score
 	add_score(0)
-	
-	# TODO: xp
 	
 func save_state(data: Dictionary) -> void:
 	data.hp = health.value

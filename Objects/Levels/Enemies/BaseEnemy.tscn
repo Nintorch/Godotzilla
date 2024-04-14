@@ -14,8 +14,10 @@ script = ExtResource("1_sr5re")
 [node name="HealthComponent" parent="." instance=ExtResource("1_cy6fi")]
 value = 6.0
 max_value = 6.0
+enemy = true
 
 [node name="AttackComponent" parent="." instance=ExtResource("2_ma02d")]
+enemy = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_mvstq")

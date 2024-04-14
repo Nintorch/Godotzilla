@@ -19,7 +19,6 @@ func _ready() -> void:
 	
 func start() -> void:
 	$CurrentScene.add_child(initial_scene.instantiate())
-	
 	Global.widescreen_changed.connect(_on_widescreen_change)
 	Global.scene_changed.connect(func(_from: Node, _to: Node) -> void:
 		_on_widescreen_change()

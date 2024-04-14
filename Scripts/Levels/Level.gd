@@ -40,8 +40,9 @@ func _process(_delta: float) -> void:
 			player.save_state(board_piece.character_data)
 			board_piece.level = board_piece.character_data.level
 			
-			Global.board.board_data.player_score = player.score
-			Global.board.board_data.player_level[board_piece] = player.level
+			var board_data = Global.board.board_data
+			board_data.player_score = player.score
+			board_data.player_level[board_piece.piece_character] = player.level
 		
 		next_level()
 		

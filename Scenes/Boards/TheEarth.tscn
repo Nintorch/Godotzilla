@@ -1,24 +1,23 @@
-[gd_scene load_steps=7 format=3 uid="uid://blo8x6bqjbe1w"]
+[gd_scene load_steps=6 format=3 uid="uid://blo8x6bqjbe1w"]
 
 [ext_resource type="PackedScene" uid="uid://d2do8ilhab482" path="res://Scenes/Boards/BaseBoard.tscn" id="1_swyd4"]
 [ext_resource type="AudioStream" uid="uid://ij42lx3rq1l1" path="res://Audio/Soundtrack/Earth.ogg" id="2_qcs5w"]
 [ext_resource type="PackedScene" uid="uid://dhm8bcemuwqfo" path="res://Scenes/Levels/Wilderness.tscn" id="2_sgm5j"]
+[ext_resource type="PackedScene" uid="uid://slv0bn0tcyna" path="res://Scenes/Boards/Jupiter.tscn" id="3_npn5c"]
 [ext_resource type="PackedScene" uid="uid://bdbahbhfgy3yt" path="res://Scenes/Levels/TransitionLevel.tscn" id="5_vaw1m"]
-[ext_resource type="PackedScene" uid="uid://cin1i4pomwy3a" path="res://Scenes/Bosses/BaseBoss.tscn" id="6_k02o0"]
-[ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="6_vncvx"]
 
 [node name="Board" instance=ExtResource("1_swyd4")]
 board_name = "The Earth"
 music = ExtResource("2_qcs5w")
+next_scene = ExtResource("3_npn5c")
+board_id = "earth"
 levels = Array[PackedScene]([ExtResource("2_sgm5j"), ExtResource("2_sgm5j"), ExtResource("5_vaw1m")])
 
 [node name="TileMap" parent="Board" index="0"]
 layer_1/tile_data = PackedInt32Array(65537, 1, 0, 65536, 1, 0, 0, 1, 0, 131072, 1, 0, 131073, 1, 0, 196609, 1, 0, 131074, 65537, 0, 65538, 1, 0, 196610, 1, 0, 131075, 1, 0, 262147, 196609, 0, 262145, 1, 0, 262146, 1, 0, 327683, 196609, 0, 327684, 1, 0, 262148, 196609, 0, 262149, 196609, 0, 327685, 131073, 0, 196613, 1, 0, 196612, 1, 0, 131076, 65537, 0, 65540, 1, 0, 2, 1, 0, 65539, 1, 0, 131077, 65537, 0, 196614, 1, 0, 262150, 131073, 0, 327686, 131073, 0)
 
-[node name="MothraBoss" parent="Board/TileMap/Board Pieces" index="2" instance=ExtResource("6_vncvx")]
-position = Vector2(112, 72)
-scale = Vector2(-1, 1)
-frame = 6
-piece_character = 1
-piece_type = 1
-boss_scene = ExtResource("6_k02o0")
+[node name="Godzilla" parent="Board/TileMap/Board Pieces" index="0"]
+position = Vector2(176, 136)
+
+[node name="Mothra" parent="Board/TileMap/Board Pieces" index="1"]
+position = Vector2(152, 152)

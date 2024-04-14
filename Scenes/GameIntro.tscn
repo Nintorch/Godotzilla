@@ -21,12 +21,14 @@ next_scene = ExtResource("2_lx84o")
 offset_right = 40.0
 offset_bottom = 48.0
 color = Color(0, 0.25098, 0.301961, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="Bar2" type="ColorRect" parent="Bars"]
 offset_top = 176.0
 offset_right = 40.0
 offset_bottom = 240.0
 color = Color(0, 0.25098, 0.301961, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="StoryText" type="Label" parent="Bars"]
 offset_left = 256.0
@@ -36,6 +38,17 @@ offset_bottom = 215.0
 theme_override_fonts/font = ExtResource("2_0ovgx")
 text = "Hello world
 "
+metadata/_edit_use_anchors_ = true
+
+[node name="WidescreenBar1" type="ColorRect" parent="Bars"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0, 0, 0, 1)
+
+[node name="WidescreenBar2" type="ColorRect" parent="Bars"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0, 0, 0, 1)
 
 [node name="Images" type="Node2D" parent="."]
 

@@ -1,14 +1,17 @@
-[gd_scene load_steps=13 format=3 uid="uid://b8f5oi120p3iu"]
+[gd_scene load_steps=17 format=3 uid="uid://b8f5oi120p3iu"]
 
 [ext_resource type="PackedScene" uid="uid://bjcf4tfdeo6ta" path="res://Scenes/MainMenu/BaseMenu.tscn" id="1_0ctmj"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/MainMenu.gd" id="1_tn6aw"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="2_xjjqh"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/Saves.gd" id="3_73kxb"]
-[ext_resource type="Script" path="res://Scripts/Boards/BoardDescription.gd" id="4_ncc0d"]
+[ext_resource type="PackedScene" uid="uid://blo8x6bqjbe1w" path="res://Scenes/Boards/TheEarth.tscn" id="5_2voyh"]
 [ext_resource type="PackedScene" uid="uid://bxtvwweer7x10" path="res://Scenes/MainMenu/VideoSettings.tscn" id="5_w2jg4"]
 [ext_resource type="PackedScene" uid="uid://dk6nkw1ue84ow" path="res://Scenes/MainMenu/SoundSettings.tscn" id="6_2krn8"]
+[ext_resource type="Script" path="res://Scripts/Boards/BoardDescription.gd" id="6_wjp7m"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/Controls.gd" id="7_2vwm8"]
+[ext_resource type="PackedScene" uid="uid://slv0bn0tcyna" path="res://Scenes/Boards/Jupiter.tscn" id="7_yibpl"]
 [ext_resource type="Texture2D" uid="uid://dewcb08w13bxc" path="res://Sprites/controller.png" id="8_6m6i1"]
+[ext_resource type="PackedScene" uid="uid://dockgi1sveicy" path="res://Scenes/GameIntro.tscn" id="8_xt4bm"]
 
 [sub_resource type="GDScript" id="GDScript_46jxm"]
 script/source = "extends \"res://Scripts/MainMenu/Menu.gd\"
@@ -16,7 +19,7 @@ script/source = "extends \"res://Scripts/MainMenu/Menu.gd\"
 func menu_select(id: int) -> void:
 	match id:
 		0: # New Game
-			main_menu.change_scene(preload(\"res://Scenes/GameIntro.tscn\"))
+			main_menu.set_menu(%Saves)
 		1: # Pass word game
 			main_menu.change_scene(preload(\"res://Scenes/PassWordGame.tscn\"))
 		2: # Settings
@@ -35,9 +38,17 @@ func menu_select(id: int) -> void:
 			get_tree().quit()
 "
 
-[sub_resource type="Resource" id="Resource_2kygw"]
-script = ExtResource("4_ncc0d")
+[sub_resource type="Resource" id="Resource_tt3oh"]
+script = ExtResource("6_wjp7m")
 name = "The Earth"
+board_id = "earth"
+scene = ExtResource("5_2voyh")
+
+[sub_resource type="Resource" id="Resource_425mq"]
+script = ExtResource("6_wjp7m")
+name = "Jupiter"
+board_id = "jupiter"
+scene = ExtResource("7_yibpl")
 
 [sub_resource type="GDScript" id="GDScript_l65hy"]
 resource_name = "SettingsMenu"
@@ -58,6 +69,7 @@ func menu_select(id: int) -> void:
 script = ExtResource("1_tn6aw")
 
 [node name="MenuMain" parent="." index="1"]
+visible = false
 script = SubResource("GDScript_46jxm")
 
 [node name="NewGame" type="Label" parent="MenuMain" index="0" groups=["option"]]
@@ -98,9 +110,45 @@ uppercase = true
 
 [node name="Saves" type="Node2D" parent="." index="2" groups=["menu"]]
 unique_name_in_owner = true
-visible = false
 script = ExtResource("3_73kxb")
-boards = Array[ExtResource("4_ncc0d")]([SubResource("Resource_2kygw")])
+boards = Array[ExtResource("6_wjp7m")]([SubResource("Resource_tt3oh"), SubResource("Resource_425mq")])
+starting_scene = ExtResource("8_xt4bm")
+
+[node name="Save1" type="Label" parent="Saves" index="0" groups=["option"]]
+offset_left = 72.0
+offset_top = 80.0
+offset_right = 200.0
+offset_bottom = 96.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "save 1"
+uppercase = true
+
+[node name="Save2" type="Label" parent="Saves" index="1" groups=["option"]]
+offset_left = 72.0
+offset_top = 104.0
+offset_right = 200.0
+offset_bottom = 120.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "save 2"
+uppercase = true
+
+[node name="Save3" type="Label" parent="Saves" index="2" groups=["option"]]
+offset_left = 72.0
+offset_top = 128.0
+offset_right = 200.0
+offset_bottom = 144.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "save 3"
+uppercase = true
+
+[node name="Exit" type="Label" parent="Saves" index="3" groups=["option"]]
+offset_left = 72.0
+offset_top = 152.0
+offset_right = 184.0
+offset_bottom = 163.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "exit"
+uppercase = true
 
 [node name="Settings" type="Node2D" parent="." index="3" groups=["menu"]]
 unique_name_in_owner = true
@@ -175,6 +223,8 @@ uppercase = true
 
 [node name="SoundSettings" parent="." index="5" instance=ExtResource("6_2krn8")]
 unique_name_in_owner = true
+visible = false
 
 [node name="VideoSettings" parent="." index="6" instance=ExtResource("5_w2jg4")]
 unique_name_in_owner = true
+visible = false

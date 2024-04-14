@@ -5,7 +5,6 @@
 [ext_resource type="AudioStream" uid="uid://bq6ov0bep762q" path="res://Audio/SFX/MenuBip.wav" id="3_akdro"]
 
 [node name="SoundSettings" type="Node2D" groups=["menu"]]
-visible = false
 script = ExtResource("1_pspne")
 
 [node name="SFXVolume" type="Label" parent="." groups=["option"]]

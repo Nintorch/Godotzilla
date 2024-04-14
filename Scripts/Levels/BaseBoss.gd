@@ -73,3 +73,17 @@ func spam_bullets() -> void:
 	boss.inputs_pressed[boss.Inputs.A] = true
 	await get_tree().create_timer(1, false).timeout
 	boss.inputs_pressed[boss.Inputs.A] = false
+
+
+func _on_hud_boss_timer_timeout() -> void:
+	get_tree().paused = true
+	
+	Global.fade_out()
+	Global.music_fade_out()
+	await Global.fade_end
+	
+	get_tree().paused = false
+	
+	Global.change_scene_node(Global.board)
+	# true for ignore_boss_moves
+	Global.board.returned(true)

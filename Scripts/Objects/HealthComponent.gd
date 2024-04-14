@@ -3,6 +3,7 @@ extends Node
 ## Health points
 @export var value := 10.0
 @export var max_value := 10.0
+@export var enemy := false
 
 var died := false
 
@@ -10,8 +11,6 @@ signal value_changed(new_value: float)
 signal damaged(amount: float, hurt_time: float)
 signal dead
 signal healed(amount: float)
-
-# TODO: invincibility time
 
 # Returns true if the object died (value reached 0)
 func damage(amount: float, hurt_time: float = -1) -> bool:

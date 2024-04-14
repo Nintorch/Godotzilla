@@ -25,9 +25,9 @@ var current_image := 0
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Color.BLACK)
-	for obj: Node in $Bars.get_children():
-		if obj is ColorRect:
-			obj.size.x = Global.get_content_size().x
+	for bar: Node in [$Bars/Bar1, $Bars/Bar2]:
+		bar.size.x = Global.get_default_resolution().x
+	setup_widescreen_bars()
 		
 	story_text.text = TEXT.replace('\n', '')
 	images.visible = false
@@ -49,6 +49,15 @@ func _process(delta: float) -> void:
 		return
 		
 	story_text.position.x -= TEXT_SPEED * delta
+	
+func setup_widescreen_bars() -> void:
+	var bar1: Control = $Bars/WidescreenBar1
+	var bar2: Control = $Bars/WidescreenBar2
+	bar1.position.x = -(Global.get_content_size().x - Global.get_default_resolution().x) / 2 - 1
+	bar1.size.x = -bar1.position.x
+	bar1.size.y = Global.get_content_size().y
+	bar2.position.x = Global.get_default_resolution().x
+	bar2.size = bar1.size
 
 func show_current_image() -> void:
 	images.get_children().map(func(img: Node2D):

@@ -3,8 +3,11 @@ extends CanvasLayer
 @export var player: GameCharacter = null
 @export var boss: GameCharacter = null
 @export var boss_bar_color: Color
+@export var boss_timer_seconds := 60
 
 var vertical_size := 0
+
+signal boss_timer_timeout
 
 func _ready():
 	Global.widescreen_changed.connect(adapt_to_content_size)
@@ -25,7 +28,23 @@ func _ready():
 		$BgRect.size.y = 72
 		vertical_size = 80
 		$BossCharacter.visible = true
-		$BossCharacter/BgRect2.color = boss_bar_color
+		var boss_bar: ColorRect = $BossCharacter/BgRect2
+		boss_bar.color = boss_bar_color
+		boss_bar.size.x = Global.get_content_size().x
+		
+		var timer_text: Label = $BossCharacter/TimerText
+		timer_text.position = $PlayerCharacter/ScoreMeter.position
+		timer_text.text = str(boss_timer_seconds)
+		
+		var timer: Timer = $BossCharacter/Timer
+		timer.start()
+		timer.timeout.connect(func():
+			boss_timer_seconds -= 1
+			timer_text.text = str(boss_timer_seconds)
+			if boss_timer_seconds <= 0:
+				boss_timer_timeout.emit()
+				timer.stop()
+			)
 	else:
 		$BgRect.size.y = 48
 		vertical_size = 48

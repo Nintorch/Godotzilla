@@ -24,7 +24,7 @@ offset_bottom = 200.0
 texture = ExtResource("3_s66fs")
 
 [node name="Jet" parent="." index="3" instance=ExtResource("4_gd8cj")]
-position = Vector2(314, 151)
+position = Vector2(279, 168)
 
 [node name="RocketLauncher" parent="." index="4" instance=ExtResource("5_drftp")]
-position = Vector2(405, 182)
+position = Vector2(190, 160)

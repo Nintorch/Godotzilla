@@ -18,6 +18,9 @@ func launch() -> void:
 		launched = true
 		animation_player.play("launching")
 		await animation_player.animation_finished
+		# In case if the launcher was destroyed while it was preparing for launch
+		if animation_player.current_animation == "dead":
+			return
 		animation_player.play("launched")
 		
 		var rocket := ROCKET_LAUNCHER_ROCKET.instantiate()
@@ -26,6 +29,7 @@ func launch() -> void:
 		rocket.attack_component.objects_to_ignore.append(self)
 
 func _on_health_component_dead() -> void:
+	launched = true
 	destroy_sfx.play()
 	
 	get_parent().add_child(Explosion.new(global_position))
@@ -36,4 +40,5 @@ func _on_health_component_dead() -> void:
 	capsule.initialize(global_position, "health")
 	
 	animation_player.play("dead")
+	$HealthComponent.queue_free()
 	

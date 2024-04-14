@@ -1,9 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://cmoopalhh65x1"]
+[gd_scene load_steps=10 format=3 uid="uid://cmoopalhh65x1"]
 
 [ext_resource type="PackedScene" uid="uid://bjcf4tfdeo6ta" path="res://Scenes/MainMenu/BaseMenu.tscn" id="1_3ivqh"]
-[ext_resource type="Script" path="res://Scripts/MainMenu/Saves.gd" id="2_2obmw"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/PauseMenu.gd" id="2_pl6gi"]
-[ext_resource type="Script" path="res://Scripts/Boards/BoardDescription.gd" id="3_tofa1"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="4_vods2"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/Controls.gd" id="5_edns4"]
 [ext_resource type="Texture2D" uid="uid://dewcb08w13bxc" path="res://Sprites/controller.png" id="6_f2wdc"]
@@ -48,10 +46,6 @@ func menu_select(id: int) -> void:
 			Global.change_scene(preload(\"res://Scenes/MainMenu/MainMenu.tscn\"))
 			main_menu.queue_free()
 "
-
-[sub_resource type="Resource" id="Resource_2kygw"]
-script = ExtResource("3_tofa1")
-name = "The Earth"
 
 [sub_resource type="GDScript" id="GDScript_l65hy"]
 resource_name = "SettingsMenu"
@@ -106,13 +100,7 @@ uppercase = true
 offset_top = 152.0
 offset_bottom = 163.0
 
-[node name="Saves" type="Node2D" parent="." index="2" groups=["menu"]]
-unique_name_in_owner = true
-visible = false
-script = ExtResource("2_2obmw")
-boards = Array[ExtResource("3_tofa1")]([SubResource("Resource_2kygw")])
-
-[node name="Settings" type="Node2D" parent="." index="3" groups=["menu"]]
+[node name="Settings" type="Node2D" parent="." index="2" groups=["menu"]]
 unique_name_in_owner = true
 visible = false
 script = SubResource("GDScript_l65hy")
@@ -154,7 +142,7 @@ theme_override_fonts/font = ExtResource("4_vods2")
 text = "exit"
 uppercase = true
 
-[node name="Controls" type="Node2D" parent="." index="4" groups=["menu"]]
+[node name="Controls" type="Node2D" parent="." index="3" groups=["menu"]]
 unique_name_in_owner = true
 visible = false
 script = ExtResource("5_edns4")
@@ -183,9 +171,9 @@ text = "press escape to exit this menu"
 horizontal_alignment = 1
 uppercase = true
 
-[node name="SoundSettings" parent="." index="5" instance=ExtResource("7_w1mw8")]
+[node name="SoundSettings" parent="." index="4" instance=ExtResource("7_w1mw8")]
 unique_name_in_owner = true
 
-[node name="VideoSettings" parent="." index="6" instance=ExtResource("8_f0twr")]
+[node name="VideoSettings" parent="." index="5" instance=ExtResource("8_f0twr")]
 unique_name_in_owner = true
 include_widescreen = false
