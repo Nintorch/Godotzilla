@@ -17,5 +17,8 @@ fill_to = Vector2(0, 0)
 script = ExtResource("2_n0ki5")
 music = ExtResource("2_y8tv1")
 
+[node name="Camera" parent="." index="1"]
+limit_right = 260
+
 [node name="Floor" parent="." index="2"]
 texture = SubResource("GradientTexture2D_kd1v6")

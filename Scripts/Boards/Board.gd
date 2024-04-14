@@ -293,6 +293,7 @@ func move_boss() -> void:
 			var pos = p.get_cell_pos()
 			tilemap.set_cell(0, pos, 0, Vector2i(0, 0))
 	
+	selector.playing_levels.clear()
 	for i in boss_piece.steps:
 		if i >= path.size():
 			break
