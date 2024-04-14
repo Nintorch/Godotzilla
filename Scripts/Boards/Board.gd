@@ -213,10 +213,11 @@ func start_playing(boss_scene: PackedScene = null) -> void:
 	await fade_out_selected()
 	
 	var level := Global.get_next_level().instantiate()
-	level.data = {
-		current_character = selected_piece.piece_character,
-		board_piece = selected_piece,
-	}
+	if level is Level:
+		level.data = {
+			current_character = selected_piece.piece_character,
+			board_piece = selected_piece,
+		}
 	# We don't free the board scene so we can later return to it,
 	# hence the second false argument.
 	Global.change_scene_node(level, false)
