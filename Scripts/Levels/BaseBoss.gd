@@ -6,6 +6,13 @@ func _ready() -> void:
 	super._ready()
 	player.intro_ended.connect(func(): state = State.IDLE)
 	player.health.dead.connect(func(): state = State.NONE)
+	boss.health.dead.connect(func(): get_HUD().boss_timer.stop())
+	if data.boss_piece:
+		boss.load_state(data.boss_piece.character_data)
+		if Global.board:
+			boss.health.dead.connect(func():
+				Global.board.selected_piece = data.boss_piece
+				)
 
 func _process(delta: float) -> void:
 	super._process(delta)
@@ -28,7 +35,7 @@ var attack_time := 0
 var simple_attack_time := 0
 
 func boss_ai() -> void:
-	if state == State.NONE:
+	if state == State.NONE or boss.state == boss.State.DEAD:
 		return
 	
 	time -= 1
@@ -76,6 +83,7 @@ func spam_bullets() -> void:
 
 
 func _on_hud_boss_timer_timeout() -> void:
+	boss.save_state(data.boss_piece.character_data)
 	get_tree().paused = true
 	
 	Global.fade_out()

@@ -16,6 +16,7 @@ func setup(init_id: int, init_player: GameCharacter):
 func _ready() -> void:
 	attack.objects_to_ignore.append(player)
 	attack.set_collision(Vector2(8, 4 * (id+1)), Vector2(0, 2 * (id+1) - 48/2 + 1))
+	attack.enemy = player.attack.enemy
 	
 func start() -> void:
 	visible = true

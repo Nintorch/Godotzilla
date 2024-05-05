@@ -99,6 +99,9 @@ func _ready() -> void:
 		Global.player = self
 		if enable_intro:
 			position.x = -40
+	else:
+		health.enemy = true
+		attack.enemy = true
 			
 	has_input = is_player
 	
@@ -323,6 +326,7 @@ func load_state(data: Dictionary = {}) -> void:
 		
 	bar_value = data.bars * 8
 	set_level(data.level)
+	xp = data.xp
 	
 	health.max_value = bar_value
 	health.value = data.hp
@@ -336,6 +340,7 @@ func save_state(data: Dictionary) -> void:
 	data.hp = health.value
 	data.bars = power.max_value / 8
 	data.level = level
+	data.xp = xp
 
 func _on_attack_component_attacked(body: Node2D, amount: float) -> void:
 	if body is Enemy:

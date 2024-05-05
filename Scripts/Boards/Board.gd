@@ -109,8 +109,7 @@ func _process(_delta: float):
 				var result: bool = await message_window.appear(
 					"Not going\nto move?", true, true)
 				if result:
-					await fade_out_selected()
-					returned()
+					await not_going_to_move()
 					return
 				else:
 					selected_piece.deselect()
@@ -158,6 +157,10 @@ func build_outline():
 	for cell in tilemap.get_used_cells(1):
 		tilemap.set_cell(0, cell, 0, Vector2i(0, 0))
 		
+func not_going_to_move() -> void:
+	await fade_out_selected()
+	returned()
+		
 func get_board_pieces() -> Array[Node2D]:
 	var board_pieces: Array[Node2D] = []
 	board_pieces.assign(
@@ -190,7 +193,7 @@ func boss_hp_str(hp: float) -> String:
 		s += ".0"
 	return s
 	
-func start_playing(boss_scene: PackedScene = null) -> void:
+func start_playing(boss_piece = null) -> void:
 	Global.playing_levels.assign(
 		selector.playing_levels.map(func(x):
 			if x >= levels.size():
@@ -198,17 +201,17 @@ func start_playing(boss_scene: PackedScene = null) -> void:
 				return null
 			return levels[x]
 			))
-	if boss_scene != null:
-		Global.playing_levels.append(boss_scene)
+	if boss_piece != null:
+		Global.playing_levels.append(boss_piece.boss_scene)
 		
 	if Global.playing_levels.find(null) >= 0:
 		Global.playing_levels.clear()
 				
 	if Global.playing_levels.size() == 0:
-		selected_piece = null
+		not_going_to_move()
 		return
 	
-	if boss_scene == null:
+	if boss_piece == null:
 		menubip.play()
 	await fade_out_selected()
 	
@@ -217,6 +220,7 @@ func start_playing(boss_scene: PackedScene = null) -> void:
 		level.data = {
 			current_character = selected_piece.piece_character,
 			board_piece = selected_piece,
+			boss_piece = boss_piece,
 		}
 	# We don't free the board scene so we can later return to it,
 	# hence the second false argument.
@@ -373,4 +377,5 @@ func _on_selector_piece_collision(piece: Node2D, boss_collision: bool):
 		var result: bool = await message_window.appear(
 			"Will you\nfight\n" + piece.get_character_name() + "?",
 			false, true)
-		start_playing(piece.boss_scene if result else null)
+		start_playing(piece if result else null)
+		selector.set_process(true)

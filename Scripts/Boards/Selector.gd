@@ -71,8 +71,9 @@ func stop_conditions() -> void:
 		stop()
 	# Piece collision
 	elif board.selected_piece and next_piece:
-		piece_collision.emit(next_piece, false)
+		piece_collision.emit(next_piece, not next_piece.is_player())
 		stop()
+		set_process(false)
 	# Next cell is empty
 	elif not next_cell_exists() and \
 		(movement_style == MovementStyle.ONLY_INSIDE_CELLS or board.selected_piece):

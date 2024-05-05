@@ -5,6 +5,8 @@ extends CanvasLayer
 @export var boss_bar_color: Color
 @export var boss_timer_seconds := 60
 
+@onready var boss_timer: Timer = $BossCharacter/Timer
+
 var vertical_size := 0
 
 signal boss_timer_timeout
@@ -86,6 +88,9 @@ func setup_character_listener(character: GameCharacter, group: Node2D) -> void:
 		character.xp_amount_changed.connect(func(new_value: int):
 			level_bar.target_value = new_value
 			)
+		level_bar.initial_value = character.xp
+		level_bar.target_value = level_bar.initial_value
+		level_bar.update_style()
 	
 func update_character_level(group: Node2D, new_value: int, new_bar_count: int):
 	var life_bar = group.get_node("Life")

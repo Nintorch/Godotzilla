@@ -5,6 +5,8 @@ func state_entered() -> void:
 	parent.collision_mask = 0
 	parent.velocity = Vector2(0, 0.3 * 60)
 	parent.animation_player.play("Hurt", -1, 0)
+	if parent.is_flying():
+		parent.get_node("MothraFloorChecking").collision_mask = 0
 	await Global.music.finished
 	
 	get_tree().paused = true

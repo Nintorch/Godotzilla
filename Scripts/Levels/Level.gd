@@ -12,6 +12,7 @@ extends Node2D
 var data = {
 	current_character = GameCharacter.Type.GODZILLA,
 	board_piece = null,
+	boss_piece = null,
 }
 
 func _ready() -> void:
