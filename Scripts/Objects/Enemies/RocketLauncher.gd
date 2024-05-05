@@ -29,6 +29,7 @@ func launch() -> void:
 		rocket.attack_component.objects_to_ignore.append(self)
 
 func _on_health_component_dead() -> void:
+	$HealthComponent.queue_free()
 	launched = true
 	destroy_sfx.play()
 	
@@ -40,5 +41,4 @@ func _on_health_component_dead() -> void:
 	capsule.initialize(global_position, "health")
 	
 	animation_player.play("dead")
-	$HealthComponent.queue_free()
 	

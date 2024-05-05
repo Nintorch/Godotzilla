@@ -29,7 +29,8 @@ func attack_bodies(amount: float = default_attack_amount) -> void:
 func attack_body(body: Node2D, amount: float = default_attack_amount) -> void:
 	if body == get_parent() or body in objects_to_ignore or not should_attack:
 		return
-	if not enemy and body.has_node("HealthComponent"):
+	if body.has_node("HealthComponent") and \
+	(enemy != body.get_node("HealthComponent").enemy):
 		body.get_node("HealthComponent").damage(amount)
 		attacked.emit(body, amount)
 

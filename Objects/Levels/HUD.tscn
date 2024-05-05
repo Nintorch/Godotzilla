@@ -84,6 +84,7 @@ color1 = Color(0.615686, 0.196078, 0, 1)
 color2 = Color(1, 0.407843, 0.12549, 1)
 
 [node name="BossCharacter" type="Node2D" parent="."]
+visible = false
 position = Vector2(8, 48)
 
 [node name="CharacterName" type="Label" parent="BossCharacter"]

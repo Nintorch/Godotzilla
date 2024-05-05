@@ -88,3 +88,4 @@ should_attack = false
 
 [connection signal="damaged" from="HealthComponent" to="." method="_on_health_damaged"]
 [connection signal="dead" from="HealthComponent" to="." method="_on_health_dead"]
+[connection signal="attacked" from="AttackComponent" to="." method="_on_attack_component_attacked"]

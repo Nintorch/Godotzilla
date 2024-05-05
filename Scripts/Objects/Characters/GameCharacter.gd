@@ -68,6 +68,7 @@ var move_state := State.WALK
 var move_speed := 0.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var level := 1
+var xp := 0
 # TODO: move score to Global singleton
 var score := 0
 var save_position: Array[Vector2]
@@ -89,6 +90,7 @@ const INPUT_ACTIONS = [["Left", "Right"], ["Up", "Down"], "B", "A", "Start", "Se
 
 signal intro_ended
 signal level_amount_changed(new_value: int, new_bar_count: int)
+signal xp_amount_changed(new_value: int)
 
 func _ready() -> void:
 	collision.shape = collision.shape.duplicate()
@@ -260,6 +262,17 @@ func set_level(value: int) -> void:
 	
 	level_amount_changed.emit(level, bars)
 	
+func add_xp(value: int) -> void:
+	if value <= 0:
+		return
+		
+	xp += value
+	if xp >= value:
+		set_level(level + xp / 100)
+		xp %= 100
+		
+	xp_amount_changed.emit(xp)
+	
 # Pass 0 to update the score meter
 func add_score(amount: int) -> void:
 	if not is_player:
@@ -323,6 +336,11 @@ func save_state(data: Dictionary) -> void:
 	data.hp = health.value
 	data.bars = power.max_value / 8
 	data.level = level
+
+func _on_attack_component_attacked(body: Node2D, amount: float) -> void:
+	if body is Enemy:
+		add_xp(5)
+		add_score(10)
 
 static func calculate_bar_count(char_id: GameCharacter.Type, char_level: int) -> int:
 	return BaseBarCount[char_id] + char_level - 1

@@ -45,7 +45,7 @@ func _process(_delta: float) -> void:
 			board_data.player_level[board_piece.piece_character] = player.level
 		
 		next_level()
-		
+				
 func get_HUD():
 	return $HUD
 	
