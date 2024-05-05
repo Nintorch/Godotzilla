@@ -131,6 +131,7 @@ func create_heat_beam() -> void:
 		var particle := GodzillaHeatBeam.instantiate()
 		particle.setup(i, parent)
 		particle.position = Vector2(26, 0) + Vector2(8, 0) * i
+		particle.particle_array = heat_beams
 		parent.add_child(particle)
 		heat_beams.append(particle)
 		

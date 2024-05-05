@@ -199,6 +199,8 @@ one_shot = true
 
 [node name="AttackComponent" parent="." instance=ExtResource("3_acgqs")]
 attack_always = true
+default_attack_amount = 24
 
 [connection signal="timeout" from="FlashTimer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="DestroyTimer" to="." method="_on_destroy_timer_timeout"]
+[connection signal="attacked" from="AttackComponent" to="." method="_on_attack_component_attacked"]

@@ -6,6 +6,7 @@ extends AnimatedSprite2D
 
 var player: GameCharacter
 var id := 0
+var particle_array: Array[AnimatedSprite2D]
 
 func setup(init_id: int, init_player: GameCharacter):
 	frame = init_id
@@ -34,3 +35,8 @@ func _on_timer_timeout():
 
 func _on_destroy_timer_timeout():
 	queue_free()
+
+func _on_attack_component_attacked(body: Node2D, amount: float) -> void:
+	for particle in particle_array:
+		if is_instance_valid(particle):
+			particle.attack.objects_to_ignore.append(body)
