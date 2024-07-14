@@ -7,6 +7,11 @@ func _ready() -> void:
 	player.intro_ended.connect(func(): state = State.IDLE)
 	player.health.dead.connect(func(): state = State.NONE)
 	boss.health.dead.connect(func(): get_HUD().boss_timer.stop())
+	boss.dead_state.connect(func():
+		# TODO: Boss victory music
+		Global.play_music(preload("res://Audio/Soundtrack/TitleScreen.ogg"))
+		)
+		
 	if data.boss_piece:
 		boss.load_state(data.boss_piece.character_data)
 		if Global.board:

@@ -11,17 +11,20 @@ var music: AudioStreamPlayer
 var player: GameCharacter
 var playing_levels: Array[PackedScene] = []
 var board
+var score := 0
 
 var save_slot_id := -1 # -1 means no save
 var save_data := {
 	board_id = "",
 	board_data = {},
+	score = 0,
 }
 
 signal widescreen_changed
 signal fullscreen_changed(flag: bool) # only through use_fullscreen()
 signal fade_end
 signal scene_changed(from: Node, to: Node)
+signal score_changed(new_value: int)
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -110,6 +113,11 @@ func get_all_visible_children(node: Node) -> Array[Node]:
 		if N.get_child_count() > 0:
 			nodes.append_array(get_all_visible_children(N))
 	return nodes
+	
+func add_score(value: int) -> void:
+	if value > 0:
+		score += value
+		score_changed.emit(score)
 
 #region Save files
 

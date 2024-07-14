@@ -36,4 +36,5 @@ func menu_select(id: int) -> void:
 		await get_tree().create_timer(0.5).timeout
 		
 		get_tree().paused = false
+		Global.score = save_data.score
 		Global.change_scene(board_description.scene)

@@ -1,7 +1,6 @@
 extends Level
 
 func next_level() -> void:
-	Global.board.board_data.player_score = 213293
 	data.board_piece.remove()
 	
 	if Global.board.get_player_pieces().size() == 0:
@@ -33,4 +32,5 @@ func next_level() -> void:
 func save_data() -> void:
 	if Global.board.use_in_saves:
 		Global.save_data.board_data = Global.board.board_data
+		Global.save_data.score = Global.score
 		Global.store_save_data()

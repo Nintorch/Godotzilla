@@ -1,7 +1,8 @@
 extends "res://Scripts/Objects/Characters/State.gd"
 
 func state_entered() -> void:
-	Global.play_music(preload("res://Audio/Soundtrack/PlayerDeath.ogg"))
+	parent.dead_state.emit()
+	
 	parent.collision_mask = 0
 	parent.velocity = Vector2(0, 0.3 * 60)
 	parent.animation_player.play("Hurt", -1, 0)
@@ -23,7 +24,7 @@ func state_entered() -> void:
 			Global.change_scene(preload("res://Scenes/GameOver.tscn"))
 		else:
 			Global.change_scene_node(Global.board)
-			Global.board.returned()
+			Global.board.returned(false if parent.is_player else true)
 	else:
 		Global.change_scene(preload("res://Scenes/GameOver.tscn"))
 	

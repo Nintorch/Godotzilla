@@ -34,7 +34,6 @@ extends Node2D
 
 var selected_piece: Node = null
 var board_data = {
-	player_score = 0.0,
 	player_level = {}, # [GameCharacter.Type] -> int
 }
 
@@ -253,10 +252,11 @@ func returned(ignore_boss_moves := false) -> void:
 		selected_piece = null
 		
 	if ignore_boss_moves:
+		selector.set_process(true)
 		selector.visible = true
 		selector.moved.emit()
 		return
-	
+
 	if allow_boss_movement and get_boss_pieces().size() > 0:
 		selector.hide()
 		selector.ignore_player_input = true
@@ -328,6 +328,9 @@ func move_boss() -> void:
 	await get_tree().create_timer(0.5).timeout
 	Global.fade_out()
 	
+	selector.playing_levels.clear()
+	selected_piece = null
+	
 func get_closest_player(boss_piece: Node2D) -> Node2D:
 	var array := get_player_pieces()
 	if array.size() == 0:
@@ -365,7 +368,7 @@ func _on_selector_piece_collision(piece: Node2D, boss_collision: bool):
 		
 		boss.prepare_start()
 		selector.playing_levels.clear()
-		start_playing(boss.boss_scene)
+		start_playing(boss)
 		return
 		
 	if not boss_collision and not message_window.visible:
@@ -378,4 +381,3 @@ func _on_selector_piece_collision(piece: Node2D, boss_collision: bool):
 			"Will you\nfight\n" + piece.get_character_name() + "?",
 			false, true)
 		start_playing(piece if result else null)
-		selector.set_process(true)

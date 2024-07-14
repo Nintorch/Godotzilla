@@ -42,14 +42,15 @@ offset_left = 56.0
 offset_top = 8.0
 offset_right = 137.0
 offset_bottom = 16.0
-scale = Vector2(0.998055, 1.00595)
-width = 6
+scale = Vector2(1, 1)
+width = 13
 
 [node name="Life" parent="PlayerCharacter" instance=ExtResource("3_y64wl")]
 offset_left = 56.0
 offset_top = 16.0
 offset_right = 137.0
 offset_bottom = 24.0
+scale = Vector2(1, 1)
 width = 6
 color2 = Color(0.709804, 0.188235, 0.12549, 1)
 
@@ -77,6 +78,7 @@ offset_left = 168.0
 offset_top = 8.0
 offset_right = 232.0
 offset_bottom = 16.0
+scale = Vector2(1, 1)
 style = 1
 width = 100
 initial_value = 0

@@ -69,8 +69,6 @@ var move_speed := 0.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var level := 1
 var xp := 0
-# TODO: move score to Global singleton
-var score := 0
 var save_position: Array[Vector2]
 
 var body: AnimatedSprite2D
@@ -91,6 +89,7 @@ const INPUT_ACTIONS = [["Left", "Right"], ["Up", "Down"], "B", "A", "Start", "Se
 signal intro_ended
 signal level_amount_changed(new_value: int, new_bar_count: int)
 signal xp_amount_changed(new_value: int)
+signal dead_state
 
 func _ready() -> void:
 	collision.shape = collision.shape.duplicate()
@@ -253,7 +252,7 @@ func use_attack(type: Attack) -> void:
 func set_level(value: int) -> void:
 	if not is_player or level == value:
 		return
-	level = value
+	level = mini(value, 16)
 	
 	var bars := GameCharacter.calculate_bar_count(character, level)
 	var bar_value := bars * 8
@@ -270,23 +269,11 @@ func add_xp(value: int) -> void:
 		return
 		
 	xp += value
-	if xp >= value:
+	if xp >= 100:
 		set_level(level + xp / 100)
 		xp %= 100
 		
 	xp_amount_changed.emit(xp)
-	
-# Pass 0 to update the score meter
-func add_score(amount: int) -> void:
-	if not is_player:
-		return
-
-	var score_meter: Label = \
-		Global.get_current_scene().\
-		get_HUD().get_node("PlayerCharacter/ScoreMeter")
-	score += amount
-	if is_player:
-		score_meter.text = str(score)
 	
 func get_sfx(sfx_name: String) -> AudioStreamPlayer:
 	return get_node("SFX/" + sfx_name)
@@ -333,9 +320,6 @@ func load_state(data: Dictionary = {}) -> void:
 	power.max_value = bar_value
 	power.value = bar_value
 	
-	score = Global.board.board_data.player_score
-	add_score(0)
-	
 func save_state(data: Dictionary) -> void:
 	data.hp = health.value
 	data.bars = power.max_value / 8
@@ -345,7 +329,7 @@ func save_state(data: Dictionary) -> void:
 func _on_attack_component_attacked(body: Node2D, amount: float) -> void:
 	if body is Enemy:
 		add_xp(5)
-		add_score(10)
+		Global.add_score(10)
 
 static func calculate_bar_count(char_id: GameCharacter.Type, char_level: int) -> int:
 	return BaseBarCount[char_id] + char_level - 1

@@ -21,6 +21,11 @@ func _ready():
 		printerr("You must provide the player object to the HUD")
 		return
 		
+	$PlayerCharacter/ScoreMeter.text = str(Global.score)
+	Global.score_changed.connect(func(new_value: int):
+		$PlayerCharacter/ScoreMeter.text = str(new_value)
+		)
+		
 	setup_character_listener(player, $PlayerCharacter)
 	
 	# Setup the boss bars if there's a boss in the scene
@@ -95,6 +100,16 @@ func setup_character_listener(character: GameCharacter, group: Node2D) -> void:
 func update_character_level(group: Node2D, new_value: int, new_bar_count: int):
 	var life_bar = group.get_node("Life")
 	var power_bar = group.get_node("Power")
+	
+	if group.has_node("Level"):
+		var level_text = group.get_node("Level")
+		var level_bar = group.get_node("LevelBar")
+		
+		# We're doing this so the level bar doesn't overlap the power bar
+		if new_bar_count >= 14 and level_text.position.y >= 0:
+			level_text.position.y -= 8
+			level_bar.position.y -= 8
+	
 	life_bar.width = new_bar_count
 	life_bar.max_value = new_bar_count * 8
 

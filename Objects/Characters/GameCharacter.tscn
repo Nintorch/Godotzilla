@@ -80,6 +80,7 @@ stream = ExtResource("11_y38wb")
 bus = &"SFX"
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_bws3y")]
+invincibility_time_seconds = 0.5
 
 [node name="PowerComponent" parent="." instance=ExtResource("4_434eu")]
 

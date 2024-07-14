@@ -19,6 +19,9 @@ func _ready() -> void:
 	RenderingServer.set_default_clear_color(bg_color)
 	
 	player.character = data.current_character
+	player.dead_state.connect(func(): 
+		Global.play_music(preload("res://Audio/Soundtrack/PlayerDeath.ogg"))
+		)
 	if data.board_piece:
 		player.load_state(data.board_piece.character_data)
 	
@@ -42,10 +45,12 @@ func _process(_delta: float) -> void:
 			board_piece.level = board_piece.character_data.level
 			
 			var board_data = Global.board.board_data
-			board_data.player_score = player.score
 			board_data.player_level[board_piece.piece_character] = player.level
 		
 		next_level()
+		
+	if Input.is_action_just_pressed("B"):
+		player.add_xp(21321213)
 				
 func get_HUD():
 	return $HUD
