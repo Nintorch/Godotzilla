@@ -8,8 +8,8 @@ extends Sprite2D
 var velocity: float = 1.3 * 60
 var direction := 1
 
-func initialize(global_position: Vector2, type: String) -> Node2D:
-	self.global_position = global_position
+func initialize(globalPosition: Vector2, type: String) -> Node2D:
+	self.global_position = globalPosition
 	animation_player.play(type)
 	return self
 

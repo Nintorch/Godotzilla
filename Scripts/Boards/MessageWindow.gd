@@ -30,7 +30,7 @@ func _ready() -> void:
 	text.horizontal_alignment = alignment_horizontal
 	text.vertical_alignment = alignment_vertical
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if choice_nodes.visible:
 		if Input.is_action_just_pressed("Left"):
 			choice_selector.position.x = 0
@@ -40,8 +40,7 @@ func _process(delta: float) -> void:
 		if input_a or Input.is_action_just_pressed("B"):
 			menu_bip.play()
 			await disappear()
-			choice_made.emit((choice_selector.position.x == 0)
-				if input_a else false)
+			choice_made.emit(choice_selector.position.x == 0 and input_a)
 			selector.ignore_player_input = false
 			choice_selector.position.x = 0
 	

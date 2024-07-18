@@ -1,11 +1,19 @@
 [gd_scene load_steps=3 format=3 uid="uid://bliqsom52mx1p"]
 
 [ext_resource type="Texture2D" uid="uid://c0ixfjb2bb5p5" path="res://Sprites/Levels/TestLevel/sky.png" id="1_ugp5p"]
-[ext_resource type="Script" path="res://Scripts/Levels/Sky.gd" id="2_q44nc"]
+
+[sub_resource type="GDScript" id="GDScript_4hac0"]
+resource_name = "SkyScript"
+script/source = "extends TextureRect
+
+func _ready() -> void:
+	var resolution_x := Global.get_content_size().x
+	position.x = (resolution_x - size.x) / 2
+"
 
 [node name="Sky" type="TextureRect"]
 offset_top = 48.0
 offset_right = 427.0
 offset_bottom = 99.0
 texture = ExtResource("1_ugp5p")
-script = ExtResource("2_q44nc")
+script = SubResource("GDScript_4hac0")

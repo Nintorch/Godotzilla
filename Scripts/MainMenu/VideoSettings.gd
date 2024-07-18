@@ -92,7 +92,5 @@ static func load_video_settings(file: ConfigFile) -> void:
 	Global.use_fullscreen(file.get_value("Video", "fullscreen", false))
 	window.size = Global.get_content_size() * RESOLUTIONS[resolution]
 	
-	# Centering the window
-	var screen_rect := DisplayServer.screen_get_usable_rect(window.current_screen)
-	window.position = screen_rect.position + \
-		(screen_rect.size / 2 - window.get_size() / 2)
+	await Global.get_tree().process_frame
+	window.move_to_center()

@@ -8,10 +8,14 @@ const ACTIONS = [
 const SECTION = "Input"
 
 @onready var current_button: Label = $CurrentButton
+@onready var reset_controls: Label = $ResetControls
+
 var current_input := 0
 var mapping: Array[InputEvent] = []
 
 func menu_enter() -> void:
+	reset_controls.text = reset_controls.text.replace("key",
+		(InputMap.action_get_events("ResetControls")[0] as InputEventKey).as_text_physical_keycode())
 	current_input = 0
 	update_text()
 	

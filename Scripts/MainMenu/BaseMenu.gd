@@ -59,8 +59,7 @@ func change_scene(scene: PackedScene) -> void:
 	get_tree().paused = true
 	
 	Global.music_fade_out()
-	Global.fade_out()
-	await Global.fade_end
+	await Global.fade_out()
 	await get_tree().create_timer(0.5).timeout
 	
 	get_tree().paused = false

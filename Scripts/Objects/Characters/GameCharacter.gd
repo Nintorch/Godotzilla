@@ -41,6 +41,8 @@ const BaseBarCount: Array[int] = [
 	8, # Mothra
 ]
 
+#region Variables and signals
+
 @export var character := GameCharacter.Type.GODZILLA
 
 @export var is_player := true
@@ -75,21 +77,11 @@ var body: AnimatedSprite2D
 var skin: Node2D
 var animation_player: AnimationPlayer
 
-# This is done so the bosses and players use the same script
-# and allow to play as bosses and test their attacks.
-enum Inputs {
-	XINPUT, YINPUT, B, A, START, SELECT,
-}
-
-var has_input := true
-var inputs := []
-var inputs_pressed := []
-const INPUT_ACTIONS = [["Left", "Right"], ["Up", "Down"], "B", "A", "Start", "Select"]
-
 signal intro_ended
 signal level_amount_changed(new_value: int, new_bar_count: int)
 signal xp_amount_changed(new_value: int)
-signal dead_state
+
+#endregion
 
 func _ready() -> void:
 	collision.shape = collision.shape.duplicate()
@@ -219,6 +211,19 @@ func change_skin(new_skin: Node2D) -> void:
 	add_child(new_skin)
 	skin = new_skin
 	
+#region Input related
+	
+# This is done so the bosses and players use the same script
+# and allow to play as bosses and test their attacks.
+enum Inputs {
+	XINPUT, YINPUT, B, A, START, SELECT,
+}
+
+var has_input := true
+var inputs := []
+var inputs_pressed := []
+const INPUT_ACTIONS = [["Left", "Right"], ["Up", "Down"], "B", "A", "Start", "Select"]
+	
 func setup_input(arr: Array) -> void:
 	arr[Inputs.XINPUT] = 0
 	arr[Inputs.YINPUT] = 0
@@ -244,6 +249,8 @@ func simulate_input_press(key: Inputs) -> void:
 	await get_tree().process_frame
 	inputs_pressed[key] = false
 	
+#endregion
+
 func use_attack(type: Attack) -> void:
 	if not enable_attacks:
 		return
@@ -288,7 +295,7 @@ func set_collision(size: Vector2, offset: Vector2) -> void:
 	collision.shape.size = size
 	collision.position = offset
 	
-func is_hurtable() -> bool:
+func is_hurtable() -> bool:	
 	return state not in [State.LEVEL_INTRO, State.HURT, State.DEAD]
 
 func _on_health_damaged(_amount: float, hurt_time: float) -> void:
@@ -326,8 +333,8 @@ func save_state(data: Dictionary) -> void:
 	data.level = level
 	data.xp = xp
 
-func _on_attack_component_attacked(body: Node2D, amount: float) -> void:
-	if body is Enemy:
+func _on_attack_component_attacked(attacked_body: Node2D, _amount: float) -> void:
+	if attacked_body is Enemy:
 		add_xp(5)
 		Global.add_score(10)
 

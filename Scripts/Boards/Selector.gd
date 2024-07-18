@@ -6,7 +6,6 @@ enum MovementStyle {
 }
 
 @export var movement_style := MovementStyle.OUTSIDE_CELLS
-
 @export var tilemap: TileMap
 @export var message_window: Control
 @export var board: Node2D
@@ -16,11 +15,8 @@ var speed := Vector2()
 var next_speed := Vector2()
 # Current cell position in pixels
 var old_pos: Vector2
-
 var moved_at_all := false
-
 var ignore_player_input := false
-
 var playing_levels: Array[int] = []
 
 signal piece_collision(piece: Sprite2D, boss_collision: bool)
@@ -41,6 +37,8 @@ func _process(delta: float) -> void:
 	
 	if not is_stopped() and message_window.visible:
 		message_window.disappear()
+		
+#region Movement
 		
 # Request movement in the direction of (dirx, diry) vector
 func move(dirx: float, diry: float) -> void:
@@ -97,7 +95,6 @@ func update_movement(delta: float) -> void:
 		
 		if board.selected_piece and board.selected_piece.is_player() \
 		and moved_at_all and is_stopped():
-			var nearest_boss: Node2D
 			for boss: Node2D in board.get_boss_pieces():
 				if boss.position.distance_to(position) < 36:
 					piece_collision.emit(boss, true)
@@ -147,6 +144,10 @@ func stop() -> void:
 	position = map_to_tilemap(position)
 	stopped.emit()
 	
+#endregion
+
+#region Tilemap-related code
+
 # Snap coords to tilemap cells
 func map_to_tilemap(pos: Vector2, tm: TileMap = tilemap) -> Vector2:
 	return tm.map_to_local(tm.local_to_map(pos)) - Vector2(0, 7)
@@ -173,6 +174,8 @@ func next_cell_exists() -> bool:
 	
 func get_current_cell() -> Vector2i:
 	return cell_from_pos(get_cell_pos(old_pos))
+	
+#endregion
 
 func reset_playing_levels() -> void:
 	playing_levels.clear()

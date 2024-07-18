@@ -110,6 +110,7 @@ uppercase = true
 
 [node name="Saves" type="Node2D" parent="." index="2" groups=["menu"]]
 unique_name_in_owner = true
+visible = false
 script = ExtResource("3_73kxb")
 boards = Array[ExtResource("6_wjp7m")]([SubResource("Resource_tt3oh"), SubResource("Resource_425mq")])
 starting_scene = ExtResource("8_xt4bm")
@@ -194,7 +195,6 @@ uppercase = true
 
 [node name="Controls" type="Node2D" parent="." index="4" groups=["menu"]]
 unique_name_in_owner = true
-visible = false
 script = ExtResource("7_2vwm8")
 
 [node name="Controller" type="Sprite2D" parent="Controls" index="0"]
@@ -218,6 +218,16 @@ offset_right = 256.0
 offset_bottom = 187.0
 theme_override_fonts/font = ExtResource("2_xjjqh")
 text = "press escape to exit this menu"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="ResetControls" type="Label" parent="Controls" index="3"]
+offset_top = 192.0
+offset_right = 256.0
+offset_bottom = 203.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "press key to reset controls 
+later in-game"
 horizontal_alignment = 1
 uppercase = true
 

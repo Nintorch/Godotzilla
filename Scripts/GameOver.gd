@@ -22,8 +22,7 @@ func finish() -> void:
 		finished = true
 		
 		set_process(false)
-		Global.fade_out()
-		await Global.fade_end
+		await Global.fade_out()
 		Global.hide_fade()
 		
 		Global.music.finished.disconnect(finish)

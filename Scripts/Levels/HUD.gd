@@ -17,9 +17,7 @@ func _ready():
 	
 	await Global.get_current_scene().ready
 	
-	if not is_instance_valid(player):
-		printerr("You must provide the player object to the HUD")
-		return
+	assert(is_instance_valid(player), "You must provide the player object to the HUD")
 		
 	$PlayerCharacter/ScoreMeter.text = str(Global.score)
 	Global.score_changed.connect(func(new_value: int):

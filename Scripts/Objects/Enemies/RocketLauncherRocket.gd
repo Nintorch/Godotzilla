@@ -1,6 +1,7 @@
 extends Node2D
 
 const LAUNCH_HEIGHT := 30
+const EXPLOSION := preload("res://Objects/Levels/Explosion.tscn")
 
 @onready var attack_component: Node2D = $AttackComponent
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -23,8 +24,11 @@ func _process(delta: float) -> void:
 	if position.y > get_viewport().get_camera_2d().limit_bottom:
 		queue_free()
 
-func _on_attack_component_attacked(body: Node2D, amount: float) -> void:
-	get_parent().add_child(Explosion.new(global_position))
+func _on_attack_component_attacked(_body: Node2D, _amount: float) -> void:
+	var explosion := EXPLOSION.instantiate()
+	explosion.global_position = global_position
+	get_parent().add_child(explosion)
 	destroy_sfx.play()
 	destroy_sfx.reparent(get_parent())
+	destroy_sfx.finished.connect(func(): destroy_sfx.queue_free())
 	queue_free()

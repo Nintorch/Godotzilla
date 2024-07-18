@@ -11,3 +11,11 @@ func _on_health_component_damaged(_amount: float, _hurt_time: float) -> void:
 func _on_health_component_dead() -> void:
 	print("I'm dead :((((")
 	queue_free()
+
+func start_destroy_sfx() -> void:
+	destroy_sfx.finished.connect(func():
+		destroy_sfx.queue_free()
+		print(1)
+		)
+	destroy_sfx.play()
+	destroy_sfx.reparent(Global.get_current_scene())

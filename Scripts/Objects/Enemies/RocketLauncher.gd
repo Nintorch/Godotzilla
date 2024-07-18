@@ -1,7 +1,8 @@
 extends "res://Scripts/Objects/Enemies/BaseEnemy.gd"
 
-const CAPSULE = preload("res://Objects/Capsule.tscn")
 const ROCKET_LAUNCHER_ROCKET = preload("res://Objects/Levels/Enemies/RocketLauncherRocket.tscn")
+const CAPSULE := preload("res://Objects/Levels/Capsule.tscn")
+const EXPLOSION := preload("res://Objects/Levels/Explosion.tscn")
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 var launched := false
@@ -9,7 +10,7 @@ var launched := false
 func _ready() -> void:
 	animation_player.play("idle")
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if position.x < Global.player.position.x + 100:
 		launch()
 		
@@ -31,9 +32,11 @@ func launch() -> void:
 func _on_health_component_dead() -> void:
 	$HealthComponent.queue_free()
 	launched = true
-	destroy_sfx.play()
+	start_destroy_sfx()
 	
-	get_parent().add_child(Explosion.new(global_position))
+	var explosion := EXPLOSION.instantiate()
+	explosion.global_position = global_position
+	get_parent().add_child(explosion)
 	
 	var capsule := CAPSULE.instantiate()
 	Global.get_current_scene().call_deferred("add_child", capsule)

@@ -1,5 +1,7 @@
 extends Node2D
 
+#region Variables
+
 @export_category("General board settings")
 @export var board_name: String = "Template"
 @export var music: AudioStream
@@ -37,6 +39,8 @@ var board_data = {
 	player_level = {}, # [GameCharacter.Type] -> int
 }
 
+#endregion
+
 func _ready():
 	Global.board = self
 	
@@ -64,15 +68,11 @@ func _ready():
 		board.visible = false
 		board.process_mode = Node.PROCESS_MODE_DISABLED
 		
-		Global.fade_in()
-		await Global.fade_end
-		
+		await Global.fade_in()
 		# Show the board name for some time
 		await get_tree().create_timer(2).timeout
-		
 		# ..and then fade out and show the board
-		Global.fade_out()
-		await Global.fade_end
+		await Global.fade_out()
 		
 	Global.fade_in()
 	$BoardName.visible = false
@@ -159,38 +159,6 @@ func build_outline():
 func not_going_to_move() -> void:
 	await fade_out_selected()
 	returned()
-		
-func get_board_pieces() -> Array[Node2D]:
-	var board_pieces: Array[Node2D] = []
-	board_pieces.assign(
-		%"Board Pieces".get_children().filter(func(x: Node2D):
-			return not x.is_queued_for_deletion()
-			))
-	return board_pieces
-
-func get_current_piece() -> Node2D:
-	for p in get_board_pieces():
-		if p.get_cell_pos() == selector.get_cell_pos(selector.old_pos):
-			return p
-	return null
-	
-func show_boss_info(piece) -> void:
-	var text = GameCharacter.CHARACTER_NAMES[piece.piece_character] + " - "
-	var size = Vector2i(message_window.default_window_size)
-	var hp_text = boss_hp_str(piece.character_data.hp / 8)
-	
-	if text.length() >= (size.x - 16) / 8:
-		size.x = (text.length() + 1) * 8
-		
-	var space_count = (size.x - 16) / 8 - hp_text.length()
-	text += "life\n" + " ".repeat(space_count) + hp_text
-	message_window.appear(text, true, false, size)
-		
-func boss_hp_str(hp: float) -> String:
-	var s := str(snappedf(hp, 0.1))
-	if fmod(hp, 1) == 0:
-		s += ".0"
-	return s
 	
 func start_playing(boss_piece = null) -> void:
 	Global.playing_levels.assign(
@@ -224,7 +192,6 @@ func start_playing(boss_piece = null) -> void:
 	# We don't free the board scene so we can later return to it,
 	# hence the second false argument.
 	Global.change_scene_node(level, false)
-	selected_piece = null
 	
 func fade_out_selected() -> void:
 	selected_piece.prepare_start()
@@ -233,8 +200,7 @@ func fade_out_selected() -> void:
 	await get_tree().create_timer(0.5).timeout
 	
 	Global.music_fade_out()
-	Global.fade_out()
-	await Global.fade_end
+	await Global.fade_out()
 	
 	await get_tree().create_timer(0.5).timeout
 	
@@ -267,12 +233,31 @@ func returned(ignore_boss_moves := false) -> void:
 		# See the explanation for that if statement in move_boss()
 		# in if selector.visible
 		if not selector.visible:
-			await Global.fade_end
 			Global.fade_in()
 		
 		selector.position = selector_pos_saved
 		selector.show()
 		selector.ignore_player_input = false
+		
+#region Bosses
+		
+func show_boss_info(piece) -> void:
+	var text = GameCharacter.CHARACTER_NAMES[piece.piece_character] + " - "
+	var size = Vector2i(message_window.default_window_size)
+	var hp_text = boss_hp_str(piece.character_data.hp / 8)
+	
+	if text.length() >= (size.x - 16) / 8:
+		size.x = (text.length() + 1) * 8
+		
+	var space_count = (size.x - 16) / 8 - hp_text.length()
+	text += "life\n" + " ".repeat(space_count) + hp_text
+	message_window.appear(text, true, false, size)
+		
+func boss_hp_str(hp: float) -> String:
+	var s := str(snappedf(hp, 0.1))
+	if fmod(hp, 1) == 0:
+		s += ".0"
+	return s
 	
 func move_boss() -> void:
 	var boss_piece: Node2D = get_boss_pieces().pick_random()
@@ -301,9 +286,8 @@ func move_boss() -> void:
 			tilemap.set_cell(0, pos, 0, Vector2i(0, 0))
 	
 	selector.playing_levels.clear()
-	for i in boss_piece.steps:
-		if i >= path.size():
-			break
+	
+	for i in mini(boss_piece.steps, path.size()):
 		await get_tree().create_timer(0.5).timeout
 		# Direction of movement
 		var direction = path[i] - boss_piece.position
@@ -326,10 +310,11 @@ func move_boss() -> void:
 	await get_tree().create_timer(0.5).timeout
 	boss_piece.prepare_start()
 	await get_tree().create_timer(0.5).timeout
-	Global.fade_out()
 	
 	selector.playing_levels.clear()
 	selected_piece = null
+	
+	await Global.fade_out()
 	
 func get_closest_player(boss_piece: Node2D) -> Node2D:
 	var array := get_player_pieces()
@@ -354,7 +339,25 @@ func convert_navigation_path(path: PackedVector2Array) -> PackedVector2Array:
 	# We don't want the boss to move to its position
 	result.remove_at(0)
 	return result
+	
+#endregion
 
+#region Board-specific piece-related code
+
+func get_board_pieces() -> Array[Node2D]:
+	var board_pieces: Array[Node2D] = []
+	board_pieces.assign(
+		%"Board Pieces".get_children().filter(func(x: Node2D):
+			return not x.is_queued_for_deletion()
+			))
+	return board_pieces
+
+func get_current_piece() -> Node2D:
+	for p in get_board_pieces():
+		if p.get_cell_pos() == selector.get_cell_pos(selector.old_pos):
+			return p
+	return null
+	
 func get_player_pieces() -> Array[Node2D]:
 	return get_board_pieces().filter(func(p): return p.is_player())
 	
@@ -381,3 +384,5 @@ func _on_selector_piece_collision(piece: Node2D, boss_collision: bool):
 			"Will you\nfight\n" + piece.get_character_name() + "?",
 			false, true)
 		start_playing(piece if result else null)
+		
+#endregion

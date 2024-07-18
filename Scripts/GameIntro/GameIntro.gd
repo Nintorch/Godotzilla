@@ -70,16 +70,14 @@ func show_current_image() -> void:
 
 func next_image() -> void:
 	if current_image < (image_count-1):
-		Global.fade_out()
-		await Global.fade_end
+		await Global.fade_out()
 		current_image += 1
 		await get_tree().create_timer(0.5, false).timeout
 		show_current_image()
 		Global.fade_in()
 	else:
 		bars.reparent(self)
-		Global.fade_out()
 		Global.music_fade_out()
-		await Global.fade_end
+		await Global.fade_out()
 		await get_tree().create_timer(0.5, false).timeout
 		Global.change_scene(next_scene)

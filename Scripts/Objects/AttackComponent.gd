@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var attack_always := false
-@export var default_attack_amount := 4
+@export var default_attack_amount := 4.0
 @export var objects_to_ignore: Array[Node2D]
 @export var should_attack := true
 @export var enemy := false

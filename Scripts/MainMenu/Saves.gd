@@ -30,11 +30,10 @@ func menu_select(id: int) -> void:
 		
 		get_tree().paused = true
 		
-		Global.fade_out()
 		Global.music_fade_out()
-		await Global.fade_end
+		await Global.fade_out()
 		await get_tree().create_timer(0.5).timeout
 		
 		get_tree().paused = false
-		Global.score = save_data.score
+		Global.score = save_data.get("score", 0)
 		Global.change_scene(board_description.scene)

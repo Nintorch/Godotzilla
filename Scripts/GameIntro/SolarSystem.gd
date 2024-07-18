@@ -15,10 +15,10 @@ func move_planets() -> void:
 		planet.position.x += 1
 		
 		var image_pos: Vector2 = solar_system_object.to_local(planet.global_position)
-		var color := solar_system_image.get_pixel(image_pos.x, image_pos.y)
+		var color := solar_system_image.get_pixel(int(image_pos.x), int(image_pos.y))
 		if color.g > 0.0:
 			continue
-		if solar_system_image.get_pixel(image_pos.x, image_pos.y-1).g > 0.0:
+		if solar_system_image.get_pixel(int(image_pos.x), int(image_pos.y)-1).g > 0.0:
 			planet.position.y -= 1
-		elif solar_system_image.get_pixel(image_pos.x, image_pos.y+1).g > 0.0:
+		elif solar_system_image.get_pixel(int(image_pos.x), int(image_pos.y)+1).g > 0.0:
 			planet.position.y += 1

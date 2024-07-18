@@ -95,13 +95,8 @@ func prepare() -> void:
 	password.fill(' ')
 	
 func leave() -> void:
-	get_tree().paused = true
-	
 	Global.music_fade_out()
-	Global.fade_out()
-	await Global.fade_end
-	
-	get_tree().paused = false
+	await Global.fade_out(true)
 	await get_tree().create_timer(0.5).timeout
 	
 	Global.change_scene(load("res://Scenes/MainMenu/MainMenu.tscn"))
@@ -188,13 +183,10 @@ func pw_test() -> void:
 	get_tree().paused = true
 	
 	Global.music_fade_out()
-	Global.fade_out(Global.FADE_WHITE)
-	await Global.fade_end
-	
+	await Global.fade_out(false, Global.FadeColor.WHITE)
 	await get_tree().create_timer(1).timeout
 	
 	Global.play_music(preload("res://Audio/Soundtrack/PassWordGame.ogg"))
-	Global.fade_in(Global.FADE_WHITE)
-	await Global.fade_end
+	await Global.fade_in(false, Global.FadeColor.WHITE)
 	
 	get_tree().paused = false

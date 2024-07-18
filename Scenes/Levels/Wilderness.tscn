@@ -8,10 +8,10 @@
 
 [node name="Level" instance=ExtResource("1_oi33v")]
 
-[node name="Sky" type="ParallaxLayer" parent="Background" index="0"]
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Background" index="0"]
 motion_scale = Vector2(0, 0)
 
-[node name="Sky" parent="Background/Sky" index="0" instance=ExtResource("2_pfc3w")]
+[node name="Sky" parent="Background/ParallaxLayer" index="0" instance=ExtResource("2_pfc3w")]
 
 [node name="Hills" type="ParallaxLayer" parent="Background" index="1"]
 motion_scale = Vector2(0.7, 1)

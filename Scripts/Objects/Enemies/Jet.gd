@@ -7,6 +7,7 @@ enum State {
 }
 
 const JET_PROJECTILE = preload("res://Objects/Levels/Enemies/JetProjectile.tscn")
+const EXPLOSION := preload("res://Objects/Levels/Explosion.tscn")
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -52,7 +53,9 @@ func _on_health_component_damaged(_amount: float, _hurt_time: float) -> void:
 	pass
 	
 func _on_health_component_dead() -> void:
-	destroy_sfx.play()
-	destroy_sfx.reparent(get_parent())
-	get_parent().add_child(Explosion.new(global_position))
+	var explosion := EXPLOSION.instantiate()
+	explosion.global_position = global_position
+	
+	start_destroy_sfx()
+	get_parent().add_child(explosion)
 	queue_free()

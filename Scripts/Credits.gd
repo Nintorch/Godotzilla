@@ -17,7 +17,7 @@ func _ready() -> void:
 	Global.fade_in()
 	
 func _process(_delta: float) -> void:
-	if not Global.fading:
+	if not Global.is_fading():
 		if Global.any_action_button_pressed():
 			next_text()
 		elif Input.is_action_just_pressed("Exit"):
@@ -33,17 +33,14 @@ func next_text() -> void:
 		exit()
 		return
 	else:
-		Global.fade_out()
-		await Global.fade_end
+		await Global.fade_out()
 	display_text()
-	Global.fade_in()
-	await Global.fade_end
+	await Global.fade_in()
 	
 func exit() -> void:
 	get_tree().paused = true
-	Global.fade_out()
 	Global.music_fade_out()
-	await Global.fade_end
+	await Global.fade_out()
 	await get_tree().create_timer(0.5).timeout
 	get_tree().paused = false
 	Global.hide_fade()

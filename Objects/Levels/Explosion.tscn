@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://cpxp6boj611rb"]
+
+[ext_resource type="Texture2D" uid="uid://dbjki3nsg35x8" path="res://Sprites/Levels/explosion.png" id="1_t4gnj"]
+[ext_resource type="Script" path="res://Scripts/Objects/Explosion.gd" id="2_wfcqr"]
+
+[sub_resource type="Animation" id="Animation_pjamu"]
+resource_name = "animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_7s04k"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t5kuu"]
+_data = {
+"RESET": SubResource("Animation_7s04k"),
+"animation": SubResource("Animation_pjamu")
+}
+
+[node name="Explosion" type="Sprite2D"]
+texture = ExtResource("1_t4gnj")
+hframes = 2
+script = ExtResource("2_wfcqr")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_t5kuu")
+}

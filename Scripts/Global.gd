@@ -5,7 +5,9 @@ const SAVE_FILE_PATH = "user://save.cfg"
 const SAVE_FILE_PASS = "Godotzilla" # Change this in your game!!!
 
 var main: Node2D
-var fading := false # set in Main.gd
+
+var _fade_player: AnimationPlayer
+var _fader: ColorRect
 
 var music: AudioStreamPlayer
 var player: GameCharacter
@@ -22,9 +24,9 @@ var save_data := {
 
 signal widescreen_changed
 signal fullscreen_changed(flag: bool) # only through use_fullscreen()
-signal fade_end
 signal scene_changed(from: Node, to: Node)
 signal score_changed(new_value: int)
+signal fade_end
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -39,6 +41,8 @@ func _process(_delta: float) -> void:
 		
 	if Input.is_action_just_pressed("FullScreen"):
 		use_fullscreen(not is_fullscreen())
+		
+#region Game window related
 
 func get_default_resolution() -> Vector2i:
 	return Vector2i(
@@ -73,6 +77,8 @@ func is_fullscreen() -> bool:
 func get_content_size() -> Vector2i:
 	return get_tree().get_root().content_scale_size
 	
+#endregion
+	
 func get_next_level() -> PackedScene:
 	if playing_levels.size() == 0:
 		return null
@@ -87,7 +93,7 @@ func any_action_button_pressed() -> bool:
 var pause_visible_objects: Array[Node] = []
 	
 func accept_pause() -> void:
-	if not Global.fading and Input.is_action_just_pressed("Select"):
+	if not Global.is_fading() and Input.is_action_just_pressed("Select"):
 		var pause = preload("res://Scenes/MainMenu/PauseMenu.tscn").instantiate()
 		pause.return_scene = get_current_scene()
 		
@@ -139,7 +145,7 @@ func save_settings_file(file: ConfigFile) -> void:
 	
 func load_save_data() -> Dictionary:
 	var config_file := load_save_file()
-	save_data = config_file.get_value(get_save_slot_section(), "data", {})
+	save_data = config_file.get_value(get_save_slot_section(), "data", save_data)
 	return save_data
 	
 func store_save_data() -> void:
@@ -191,22 +197,37 @@ func get_current_scene() -> Node2D:
 	
 #region Fading
 
-enum {
-	FADE_BLACK,
-	FADE_WHITE,
+enum FadeColor {
+	BLACK,
+	WHITE,
 }
 
-func fade_out(color := FADE_BLACK) -> void:
-	main.fade_out(color)
+func is_fading() -> bool:
+	return _fade_player.is_playing()
+
+func _perform_fade(callable: Callable, pause_game, color: FadeColor) -> void:
+	if pause_game:
+		get_tree().paused = true
+		
+	_fader.color = [Color.BLACK, Color.WHITE][color]
+	callable.call()
+	await _fade_player.animation_finished
+	fade_end.emit()
 	
-func fade_in(color := FADE_BLACK) -> void:
-	main.fade_in(color)
+	if pause_game:
+		get_tree().paused = false
+
+func fade_out(pause_game := false, color := FadeColor.BLACK) -> void:
+	await _perform_fade(func(): _fade_player.play_backwards("FadeIn"), pause_game, color)
+	
+func fade_in(pause_game := false, color := FadeColor.BLACK) -> void:
+	await _perform_fade(func(): _fade_player.play("FadeIn"), pause_game, color)
 	
 func hide_fade() -> void:
-	main.hide_fade()
+	_fader.modulate.a = 0
 	
 func show_fade() -> void:
-	main.show_fade()
+	_fader.modulate.a = 1
 	
 #endregion
 

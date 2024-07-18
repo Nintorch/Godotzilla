@@ -7,6 +7,9 @@ extends Node2D
 func _ready() -> void:
 	Global.main = self
 	Global.music = $Music
+	Global._fade_player = $CanvasLayer/FadePlayer
+	Global._fader = $CanvasLayer/Fader
+	
 	if wait_before_start:
 		get_tree().paused = true
 		get_tree().process_frame.connect(func():
@@ -24,35 +27,8 @@ func start() -> void:
 		_on_widescreen_change()
 		)
 	
-	hide_fade()
+	Global.hide_fade()
 	_on_widescreen_change()
-	
-func set_fade_color(color := Global.FADE_BLACK) -> void:
-	match color:
-		Global.FADE_BLACK:
-			$CanvasLayer/Fader.color = Color.BLACK
-		Global.FADE_WHITE:
-			$CanvasLayer/Fader.color = Color.WHITE
-
-func fade_out(color := Global.FADE_BLACK) -> void:
-	Global.fading = true
-	set_fade_color(color)
-	$CanvasLayer/FadePlayer.play_backwards("FadeIn")
-	
-func fade_in(color := Global.FADE_BLACK) -> void:
-	Global.fading = true
-	set_fade_color(color)
-	$CanvasLayer/FadePlayer.play("FadeIn")
-	
-func hide_fade() -> void:
-	$CanvasLayer/Fader.modulate.a = 0
-	
-func show_fade() -> void:
-	$CanvasLayer/Fader.modulate.a = 1
-
-func _on_animation_finished(_anim_name: StringName) -> void:
-	Global.fading = false
-	Global.fade_end.emit()
 
 func _on_widescreen_change() -> void:
 	$CanvasLayer/Fader.size = Global.get_content_size()

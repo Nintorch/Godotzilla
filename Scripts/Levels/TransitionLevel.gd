@@ -7,8 +7,7 @@ func next_level() -> void:
 		get_tree().paused = true
 		
 		Global.music_fade_out()
-		Global.fade_out()
-		await Global.fade_end
+		await Global.fade_out()
 		
 		await get_tree().create_timer(0.5).timeout
 		
@@ -17,14 +16,10 @@ func next_level() -> void:
 		Global.change_scene(Global.board.next_scene)
 		
 	else:
-		get_tree().paused = true
 		
 		if Global.board.music != music:
 			Global.music_fade_out()
-		Global.fade_out()
-		await Global.fade_end
-		
-		get_tree().paused = false
+		await Global.fade_out(true)
 		
 		Global.change_scene_node(Global.board)
 		Global.board.returned()

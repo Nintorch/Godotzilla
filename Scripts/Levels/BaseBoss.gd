@@ -6,10 +6,10 @@ func _ready() -> void:
 	super._ready()
 	player.intro_ended.connect(func(): state = State.IDLE)
 	player.health.dead.connect(func(): state = State.NONE)
-	boss.health.dead.connect(func(): get_HUD().boss_timer.stop())
-	boss.dead_state.connect(func():
+	boss.health.dead.connect(func():
+		get_HUD().boss_timer.stop()
 		# TODO: Boss victory music
-		Global.play_music(preload("res://Audio/Soundtrack/TitleScreen.ogg"))
+		Global.play_music(preload("res://Audio/Soundtrack/PlayerDeath.ogg"))
 		)
 		
 	if data.boss_piece:
@@ -89,13 +89,9 @@ func spam_bullets() -> void:
 
 func _on_hud_boss_timer_timeout() -> void:
 	boss.save_state(data.boss_piece.character_data)
-	get_tree().paused = true
 	
-	Global.fade_out()
 	Global.music_fade_out()
-	await Global.fade_end
-	
-	get_tree().paused = false
+	await Global.fade_out(true)
 	
 	Global.change_scene_node(Global.board)
 	# true for ignore_boss_moves
