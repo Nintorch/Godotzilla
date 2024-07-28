@@ -113,6 +113,8 @@ func update_character_level(group: Node2D, new_value: int, new_bar_count: int):
 	if level_str.length() < 2:
 		level_str = "0" + level_str
 	level_node.text = "level " + level_str
+	
+	level_node.get_node("Bar").width = GameCharacter.calculate_xp_amount(new_value)
 		
 func adapt_to_content_size():
 	var width := Global.get_content_size().x

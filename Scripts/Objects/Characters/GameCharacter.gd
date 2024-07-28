@@ -276,10 +276,15 @@ func add_xp(value: int) -> void:
 	if value <= 0:
 		return
 		
+	var xp_amount := calculate_xp_amount(level)
+	var current_level := level
 	xp += value
-	if xp >= 100:
-		set_level(level + xp / 100)
-		xp %= 100
+	while xp >= xp_amount:
+		xp -= xp_amount
+		current_level += 1
+		xp_amount = calculate_xp_amount(current_level)
+	if current_level > level:
+		set_level(current_level)
 		
 	xp_amount_changed.emit(xp)
 	
@@ -345,3 +350,6 @@ func _on_attack_component_attacked(attacked_body: Node2D, _amount: float) -> voi
 
 static func calculate_bar_count(char_id: GameCharacter.Type, char_level: int) -> int:
 	return BaseBarCount[char_id] + char_level - 1
+	
+static func calculate_xp_amount(char_level: int) -> int:
+	return 100 + 50 * (char_level - 1)
