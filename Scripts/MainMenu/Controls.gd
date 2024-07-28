@@ -81,10 +81,14 @@ func save_mapping() -> void:
 static func load_mapping(file: ConfigFile) -> void:
 	if not file.has_section("Input"):
 		return
-	var has_joypads: bool = Input.get_connected_joypads().size() > 0
+	var has_joypad: bool = Input.get_connected_joypads().size() > 0
+	
 	InputMap.load_from_project_settings()
-	for action in ACTIONS:
-		var input = file.get_value("Input", action)
+	for action: String in ACTIONS:
+		var input: InputEvent = file.get_value("Input", action)
+		if not (input is InputEventKey) and not has_joypad:
+			continue
+		
 		var events := InputMap.action_get_events(action).filter(func(x):
 			return not (x is InputEventKey)
 			)
