@@ -6,7 +6,8 @@ enum MovementStyle {
 }
 
 @export var movement_style := MovementStyle.OUTSIDE_CELLS
-@export var tilemap: TileMap
+@export var board_outline: TileMapLayer
+@export var tilemap: TileMapLayer
 @export var message_window: Control
 @export var board: Node2D
 
@@ -149,7 +150,7 @@ func stop() -> void:
 #region Tilemap-related code
 
 # Snap coords to tilemap cells
-func map_to_tilemap(pos: Vector2, tm: TileMap = tilemap) -> Vector2:
+func map_to_tilemap(pos: Vector2, tm: TileMapLayer = tilemap) -> Vector2:
 	return tm.map_to_local(tm.local_to_map(pos)) - Vector2(0, 7)
 	
 # Convert local coords into tilemap cell coords
@@ -158,11 +159,11 @@ func get_cell_pos(pos: Vector2) -> Vector2i:
 	
 # Get cell from the position
 func cell_from_pos(pos: Vector2i) -> Vector2i:
-	return tilemap.get_cell_atlas_coords(1, pos)
+	return tilemap.get_cell_atlas_coords(pos)
 	
 # Check if a cell exists
 func cell_exists(pos: Vector2i) -> bool:
-	return tilemap.get_cell_atlas_coords(0, pos).x >= 0
+	return board_outline.get_cell_atlas_coords(pos).x >= 0
 	
 func get_next_cell_pos() -> Vector2i:
 	var next_pos := Vector2(old_pos)

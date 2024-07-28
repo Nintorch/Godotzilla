@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://d2do8ilhab482"]
+[gd_scene load_steps=8 format=4 uid="uid://d2do8ilhab482"]
 
 [ext_resource type="Script" path="res://Scripts/Boards/Board.gd" id="1_qudp1"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="3_2wbjf"]
@@ -26,36 +26,34 @@ vertical_alignment = 1
 uppercase = true
 
 [node name="Board" type="Node2D" parent="."]
-
-[node name="TileMap" type="TileMap" parent="Board"]
-y_sort_enabled = true
 position = Vector2(16, 8)
-tile_set = ExtResource("4_f5mxu")
-format = 2
-layer_0/name = "Board Outline"
-layer_0/y_sort_enabled = true
-layer_0/z_index = -1
-layer_1/name = "Icons"
-layer_1/tile_data = PackedInt32Array(65537, 1, 0, 65536, 1, 0, 0, 1, 0, 131072, 1, 0, 131073, 1, 0, 196609, 1, 0, 131074, 1, 0, 65538, 1, 0, 196610, 1, 0, 131075, 1, 0, 196611, 1, 0, 262147, 1, 0, 262145, 1, 0, 262146, 1, 0, 196608, 1, 0)
 
-[node name="Board Pieces" type="Node2D" parent="Board/TileMap"]
+[node name="Outline" type="TileMapLayer" parent="Board"]
+tile_set = ExtResource("4_f5mxu")
+
+[node name="Board Icons" type="TileMapLayer" parent="Board"]
+tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAABAAEAAQAAAAAAAAABAAIAAQAAAAAAAAAAAAEAAQAAAAAAAAACAAEAAQAAAAAAAAACAAIAAQAAAAAAAAACAAMAAQAAAAAAAAABAAMAAQAAAAAAAAAAAAIAAQAAAAAAAAA=")
+tile_set = ExtResource("4_f5mxu")
+
+[node name="Board Pieces" type="Node2D" parent="Board/Board Icons"]
 unique_name_in_owner = true
 
-[node name="Godzilla" parent="Board/TileMap/Board Pieces" instance=ExtResource("5_5kcnc")]
+[node name="Godzilla" parent="Board/Board Icons/Board Pieces" instance=ExtResource("5_5kcnc")]
 position = Vector2(16, 24)
 
-[node name="Mothra" parent="Board/TileMap/Board Pieces" instance=ExtResource("5_5kcnc")]
+[node name="Mothra" parent="Board/Board Icons/Board Pieces" instance=ExtResource("5_5kcnc")]
 position = Vector2(16, 56)
 frame = 6
 piece_character = 1
 
-[node name="Selector" parent="Board/TileMap" node_paths=PackedStringArray("tilemap", "message_window", "board") instance=ExtResource("6_ysf6o")]
+[node name="Selector" parent="Board/Board Icons" node_paths=PackedStringArray("board_outline", "tilemap", "message_window", "board") instance=ExtResource("6_ysf6o")]
 position = Vector2(16, 24)
+board_outline = NodePath("../../Outline")
 tilemap = NodePath("..")
 message_window = NodePath("../../GUI/MessageWindow")
 board = NodePath("../../..")
 
-[node name="Camera2D" type="Camera2D" parent="Board/TileMap/Selector"]
+[node name="Camera2D" type="Camera2D" parent="Board/Board Icons/Selector"]
 limit_left = 0
 limit_top = 0
 limit_right = 256
@@ -74,6 +72,6 @@ offset_left = 16.0
 offset_top = 136.0
 offset_right = 48.0
 offset_bottom = 168.0
-selector = NodePath("../../TileMap/Selector")
+selector = NodePath("../../Board Icons/Selector")
 
-[connection signal="piece_collision" from="Board/TileMap/Selector" to="." method="_on_selector_piece_collision"]
+[connection signal="piece_collision" from="Board/Board Icons/Selector" to="." method="_on_selector_piece_collision"]

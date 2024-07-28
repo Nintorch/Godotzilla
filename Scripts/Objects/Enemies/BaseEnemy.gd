@@ -15,7 +15,6 @@ func _on_health_component_dead() -> void:
 func start_destroy_sfx() -> void:
 	destroy_sfx.finished.connect(func():
 		destroy_sfx.queue_free()
-		print(1)
 		)
 	destroy_sfx.play()
 	destroy_sfx.reparent(Global.get_current_scene())

@@ -29,8 +29,8 @@ const FRAME_SPEED := [
 # "Board Pieces" node
 @onready var parent = get_parent()
 
-var tilemap: TileMap
-var selector
+var tilemap: TileMapLayer
+var selector: Node2D
 
 var init_pos
 var piece_frame := 0
@@ -50,7 +50,8 @@ var character_data = {
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
-		
+	
+	await Global.get_current_scene().ready
 	selector = $"../../Selector"
 	tilemap = selector.tilemap
 	process_priority = 1
@@ -108,10 +109,10 @@ func hide_cell_below() -> void:
 	if tile.x < 0: # Return if already hidden
 		return
 	tile_below = tile
-	tilemap.erase_cell(1, get_cell_pos())
+	tilemap.erase_cell(get_cell_pos())
 	
 func show_cell_below() -> void:
-	tilemap.set_cell(1, get_cell_pos(), 1, tile_below)
+	tilemap.set_cell(get_cell_pos(), 1, tile_below)
 	tile_below = Vector2i(-1, -1)
 
 func select() -> void:

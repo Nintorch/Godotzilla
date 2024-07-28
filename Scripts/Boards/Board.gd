@@ -24,9 +24,10 @@ extends Node2D
 @export_category("Levels")
 @export var levels: Array[PackedScene]
 
-@onready var tilemap: TileMap = $Board/TileMap
+@onready var outline: TileMapLayer = $Board/Outline
+@onready var tilemap: TileMapLayer = $"Board/Board Icons"
 @onready var message_window: NinePatchRect = $Board/GUI/MessageWindow
-@onready var selector: Sprite2D = $Board/TileMap/Selector
+@onready var selector: Sprite2D = $"Board/Board Icons/Selector"
 
 # The actual playable board, the node that has this script
 # also includes the board name.
@@ -145,16 +146,16 @@ func adjust_message_pos():
 		message_window.position.y = 144
 
 func build_outline():
-	for cell in tilemap.get_used_cells(0):
-		var cell_id = tilemap.get_cell_atlas_coords(0, cell)
+	for cell in outline.get_used_cells():
+		var cell_id = outline.get_cell_atlas_coords(cell)
 		if cell_id != Vector2i(0, 0) and cell_id != Vector2i(-1, -1):
-			print("Warning: Icon moved from TileMap layer 0 to layer 1")
-			tilemap.set_cell(1, cell, 0, cell_id)
+			print("Warning: Icon moved from outline layer to board icons layer")
+			tilemap.set_cell(cell, 0, cell_id)
 			
-	tilemap.clear_layer(0)
+	outline.clear()
 			
-	for cell in tilemap.get_used_cells(1):
-		tilemap.set_cell(0, cell, 0, Vector2i(0, 0))
+	for cell in tilemap.get_used_cells():
+		outline.set_cell(cell, 0, Vector2i(0, 0))
 		
 func not_going_to_move() -> void:
 	await fade_out_selected()
@@ -267,7 +268,7 @@ func move_boss() -> void:
 	for p: Node2D in get_boss_pieces():
 		if p != boss_piece:
 			var pos = p.get_cell_pos()
-			tilemap.set_cell(0, pos, 0, Vector2i(0, 0), 1)
+			outline.set_cell(pos, 0, Vector2i(0, 0), 1)
 		
 	var player_piece: Node2D = get_closest_player(boss_piece)
 	await get_tree().create_timer(0.5).timeout
@@ -275,7 +276,7 @@ func move_boss() -> void:
 	selected_piece = boss_piece
 	
 	var nav_agent: NavigationAgent2D = boss_piece.get_nav_agent()
-	nav_agent.set_navigation_map(tilemap.get_layer_navigation_map(0))
+	nav_agent.set_navigation_map(outline.get_navigation_map())
 	nav_agent.target_position = player_piece.global_position
 	nav_agent.get_next_path_position() # Build the navigation path
 	var path := convert_navigation_path(nav_agent.get_current_navigation_path())
@@ -283,7 +284,7 @@ func move_boss() -> void:
 	for p: Node2D in get_boss_pieces():
 		if p != boss_piece:
 			var pos = p.get_cell_pos()
-			tilemap.set_cell(0, pos, 0, Vector2i(0, 0))
+			outline.set_cell(pos, 0, Vector2i(0, 0))
 	
 	selector.playing_levels.clear()
 	

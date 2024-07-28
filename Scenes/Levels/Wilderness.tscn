@@ -8,14 +8,14 @@
 
 [node name="Level" instance=ExtResource("1_oi33v")]
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="Background" index="0"]
-motion_scale = Vector2(0, 0)
+[node name="ParallaxLayer" type="Parallax2D" parent="Background" index="0"]
+scroll_scale = Vector2(0, 0)
 
 [node name="Sky" parent="Background/ParallaxLayer" index="0" instance=ExtResource("2_pfc3w")]
 
-[node name="Hills" type="ParallaxLayer" parent="Background" index="1"]
-motion_scale = Vector2(0.7, 1)
-motion_mirroring = Vector2(320, 0)
+[node name="Hills" type="Parallax2D" parent="Background" index="1"]
+scroll_scale = Vector2(0.7, 1)
+repeat_size = Vector2(320, 0)
 
 [node name="TextureRect" type="TextureRect" parent="Background/Hills" index="0"]
 offset_top = 160.0
