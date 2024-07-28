@@ -7,6 +7,7 @@
 
 [node name="Boss" instance=ExtResource("1_ohey1")]
 script = ExtResource("2_xih6l")
+xp_amount = 100
 music = ExtResource("2_pg308")
 enable_level_end = false
 

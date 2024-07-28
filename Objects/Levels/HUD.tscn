@@ -43,7 +43,7 @@ offset_top = 8.0
 offset_right = 137.0
 offset_bottom = 16.0
 scale = Vector2(1, 1)
-width = 13
+width = 6
 
 [node name="Life" parent="PlayerCharacter" instance=ExtResource("3_y64wl")]
 offset_left = 56.0
@@ -65,6 +65,7 @@ horizontal_alignment = 2
 uppercase = true
 
 [node name="Level" type="Label" parent="PlayerCharacter"]
+clip_children = 2
 offset_left = 168.0
 offset_right = 232.0
 offset_bottom = 8.0
@@ -73,17 +74,28 @@ text = "level 01"
 label_settings = SubResource("LabelSettings_ke5ce")
 uppercase = true
 
-[node name="LevelBar" parent="PlayerCharacter" instance=ExtResource("3_y64wl")]
-offset_left = 168.0
-offset_top = 8.0
-offset_right = 232.0
-offset_bottom = 16.0
-scale = Vector2(1, 1)
+[node name="Bar" parent="PlayerCharacter/Level" instance=ExtResource("3_y64wl")]
+offset_right = 64.0
 style = 1
 width = 100
-initial_value = 0
-color1 = Color(0.615686, 0.196078, 0, 1)
-color2 = Color(1, 0.407843, 0.12549, 1)
+initial_value = 30
+
+[node name="Style1" parent="PlayerCharacter/Level/Bar" index="0"]
+visible = false
+
+[node name="Style2" parent="PlayerCharacter/Level/Bar" index="1"]
+visible = true
+offset_right = 81.0
+
+[node name="BarBG" parent="PlayerCharacter/Level/Bar/Style2" index="0"]
+offset_top = 5.96046e-08
+offset_right = 64.0
+offset_bottom = 8.0
+
+[node name="BarColor" parent="PlayerCharacter/Level/Bar/Style2" index="1"]
+offset_top = 0.0
+offset_right = 19.2
+offset_bottom = 8.0
 
 [node name="BossCharacter" type="Node2D" parent="."]
 visible = false
@@ -138,3 +150,5 @@ offset_bottom = 32.0
 color = Color(0, 0, 0, 1)
 
 [node name="Timer" type="Timer" parent="BossCharacter"]
+
+[editable path="PlayerCharacter/Level/Bar"]

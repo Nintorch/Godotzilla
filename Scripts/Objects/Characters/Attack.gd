@@ -4,7 +4,7 @@ const MothraParticle := preload("res://Objects/Characters/MothraParticle.tscn")
 const GodzillaHeatBeam := preload("res://Objects/Characters/GodzillaHeatBeam.tscn")
 
 var move_state: Node
-var current_attack = GameCharacter.Attack
+var current_attack: GameCharacter.Attack
 var variation = 0
 
 var attack_component: Node2D

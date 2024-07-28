@@ -171,6 +171,16 @@ text = "press escape to exit this menu"
 horizontal_alignment = 1
 uppercase = true
 
+[node name="ResetControls" type="Label" parent="Controls" index="3"]
+offset_top = 192.0
+offset_right = 256.0
+offset_bottom = 203.0
+theme_override_fonts/font = ExtResource("4_vods2")
+text = "press key to reset controls 
+later in-game"
+horizontal_alignment = 1
+uppercase = true
+
 [node name="SoundSettings" parent="." index="4" instance=ExtResource("7_w1mw8")]
 unique_name_in_owner = true
 

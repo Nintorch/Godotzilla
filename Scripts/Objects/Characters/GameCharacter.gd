@@ -300,6 +300,10 @@ func is_hurtable() -> bool:
 	return state not in [State.LEVEL_INTRO, State.HURT, State.DEAD]
 
 func _on_health_damaged(_amount: float, hurt_time: float) -> void:
+	var attack_state := $States/Attack
+	if state == State.ATTACK and attack_state.current_attack == Attack.HEAT_BEAM:
+		hurt_time = 0
+		
 	if hurt_time < 0:
 		hurt_time = 0.6
 	if hurt_time > 0:
