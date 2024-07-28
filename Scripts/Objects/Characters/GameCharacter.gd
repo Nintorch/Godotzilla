@@ -1,6 +1,8 @@
 class_name GameCharacter
 extends CharacterBody2D
 
+#region General constants, variables and signals
+
 enum Type {
 	GODZILLA,
 	MOTHRA,
@@ -40,8 +42,6 @@ const BaseBarCount: Array[int] = [
 	6, # Godzilla
 	8, # Mothra
 ]
-
-#region Variables and signals
 
 @export var character := GameCharacter.Type.GODZILLA
 
@@ -164,14 +164,15 @@ func _physics_process(delta: float) -> void:
 	# The character should come from outside the camera from the left side
 	# of the screen, so we shouldn't limit the position unless the player
 	# got control of the character.
-	if state != State.LEVEL_INTRO and velocity.x < 0 \
-	and position.x <= get_viewport().get_camera_2d().limit_left + 16:
-		position.x = get_viewport().get_camera_2d().limit_left + 16
+	var limit_left := get_viewport().get_camera_2d().limit_left
+	var limit_right := get_viewport().get_camera_2d().limit_right
+	
+	if state != State.LEVEL_INTRO and velocity.x < 0 and position.x <= limit_left + 16:
+		position.x = limit_left + 16
 		velocity.x = 0
 		
-	if block_level_end and velocity.x > 0 \
-	and position.x >= get_viewport().get_camera_2d().limit_right - 16:
-		position.x = get_viewport().get_camera_2d().limit_right - 16
+	if block_level_end and velocity.x > 0 and position.x >= limit_right - 16:
+		position.x = limit_right - 16
 		velocity.x = 0
 
 	if state != State.DEAD and not is_on_floor() and not is_flying():
@@ -295,7 +296,7 @@ func set_collision(size: Vector2, offset: Vector2) -> void:
 	collision.shape.size = size
 	collision.position = offset
 	
-func is_hurtable() -> bool:	
+func is_hurtable() -> bool:
 	return state not in [State.LEVEL_INTRO, State.HURT, State.DEAD]
 
 func _on_health_damaged(_amount: float, hurt_time: float) -> void:
