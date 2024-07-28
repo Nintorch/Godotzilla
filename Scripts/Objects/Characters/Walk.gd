@@ -42,15 +42,15 @@ func common_ground_attacks() -> void:
 			parent.use_attack(GameCharacter.Attack.KICK)
 
 func move(delta: float):
-	var direction = parent.inputs[GameCharacter.Inputs.XINPUT]
-	if direction:
-		parent.velocity.x = parent.move_speed * direction
+	var dirx: float = signf(parent.inputs[GameCharacter.Inputs.XINPUT])
+	if dirx:
+		parent.velocity.x = parent.move_speed * dirx
 		
 		if parent.allow_direction_changing:
-			parent.direction = signi(direction)
+			parent.direction = signi(dirx)
 			
 		walk_frame = wrapf(
-			walk_frame + walk_frame_speed * delta * direction * parent.direction,
+			walk_frame + walk_frame_speed * delta * dirx * parent.direction,
 			0, walk_frames)
 			
 		if parent.body.animation == "Walk":
@@ -58,25 +58,25 @@ func move(delta: float):
 	else:
 		parent.velocity.x = 0
 		
-	var up_down = parent.inputs[GameCharacter.Inputs.YINPUT]
+	var diry: float = parent.inputs[GameCharacter.Inputs.YINPUT]
 	
-	if parent.is_on_floor() and up_down < 0:
+	if parent.is_on_floor() and diry < -0.4:
 		parent.velocity.y = JUMP_SPEED
 		jumping = true
 	
 	if not parent.is_on_floor() and jumping:
-		if up_down < 0 and parent.velocity.y < -1.95 * 60:
+		if diry < -0.4 and parent.velocity.y < -1.95 * 60:
 			parent.velocity.y -= 216 * delta
-		if parent.velocity.y < 0 and up_down >= 0:
+		if parent.velocity.y < 0 and diry >= -0.4:
 			jumping = false
 			parent.velocity.y = 0
 	
-	if up_down > 0:
+	if diry > 0.4:
 		if parent.animation_player.current_animation == "Walk"\
 			or parent.animation_player.current_animation == "":
 			parent.animation_player.play("Crouch")
 	
-	if up_down <= 0 and parent.animation_player.current_animation == "Crouch":
+	if diry <= 0.4 and parent.animation_player.current_animation == "Crouch":
 		parent.animation_player.play("RESET")
 
 func reset() -> void:

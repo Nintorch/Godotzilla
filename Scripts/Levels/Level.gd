@@ -1,7 +1,7 @@
 class_name Level
 extends Node2D
 
-@export var music: AudioStream = preload("res://Audio/Soundtrack/Earth.ogg")
+@export var music: AudioStream
 @export var bg_color = Color(0, 0, 0)
 @export var enable_level_end := true
 
@@ -26,7 +26,7 @@ func _ready() -> void:
 		player.load_state(data.board_piece.character_data)
 	
 	player.intro_ended.connect(func():
-		if not Global.music.playing:
+		if not Global.music.playing and music != null:
 			Global.play_music(music)
 		)
 		

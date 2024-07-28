@@ -1,12 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhm8bcemuwqfo"]
+[gd_scene load_steps=7 format=3 uid="uid://dhm8bcemuwqfo"]
 
 [ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/BaseLevel.tscn" id="1_oi33v"]
 [ext_resource type="PackedScene" uid="uid://bliqsom52mx1p" path="res://Objects/Levels/Sky.tscn" id="2_pfc3w"]
+[ext_resource type="AudioStream" uid="uid://ij42lx3rq1l1" path="res://Audio/Soundtrack/Earth.ogg" id="2_x5m1j"]
 [ext_resource type="Texture2D" uid="uid://d3vfgcp31ia42" path="res://Sprites/Levels/TestLevel/hills.png" id="3_s66fs"]
 [ext_resource type="PackedScene" uid="uid://gf7elbg3k3nj" path="res://Objects/Levels/Enemies/Jet.tscn" id="4_gd8cj"]
 [ext_resource type="PackedScene" uid="uid://c1nseuiv0k6ax" path="res://Objects/Levels/Enemies/RocketLauncher.tscn" id="5_drftp"]
 
 [node name="Level" instance=ExtResource("1_oi33v")]
+music = ExtResource("2_x5m1j")
 
 [node name="ParallaxLayer" type="Parallax2D" parent="Background" index="0"]
 scroll_scale = Vector2(0, 0)

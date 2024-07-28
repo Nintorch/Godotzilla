@@ -17,12 +17,12 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if selector.visible:
 		if Input.is_action_just_pressed("Down"):
-			selector_option = min(selector_option + 1, \
+			selector_option = mini(selector_option + 1, \
 				current_menu.options.size() - 1)
 			move_selector(selector_option)
 			
 		if Input.is_action_just_pressed("Up"):
-			selector_option = max(selector_option - 1, 0)
+			selector_option = maxi(selector_option - 1, 0)
 			move_selector(selector_option)
 		
 	if Global.any_action_button_pressed():

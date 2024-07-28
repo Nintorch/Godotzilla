@@ -30,8 +30,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if not ignore_player_input:
-		var dirx = Input.get_axis("Left", "Right")
-		var diry = Input.get_axis("Up", "Down")
+		var dirx := Input.get_axis("Left", "Right")
+		var diry := Input.get_axis("Up", "Down")
 		move(dirx, diry)
 			
 	update_movement(delta)
@@ -43,8 +43,8 @@ func _process(delta: float) -> void:
 		
 # Request movement in the direction of (dirx, diry) vector
 func move(dirx: float, diry: float) -> void:
-	dirx = signf(dirx) if absf(dirx) > 0.1 else 0.0
-	diry = signf(diry) if absf(diry) > 0.1 else 0.0
+	dirx = signf(dirx)
+	diry = signf(diry)
 	next_speed = Vector2(
 		# Basically, if the player wants to move horizontally and vertically,
 		# set xspeed to horizontal direction * 2 (-2 if left and 2 if right),

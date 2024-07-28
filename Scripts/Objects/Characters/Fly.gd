@@ -27,11 +27,11 @@ func move(delta: float) -> void:
 	if get_viewport().get_camera_2d().is_camera_moving():
 		xspeed = 1 * 60
 		
-	parent.velocity.x = parent.inputs[parent.Inputs.XINPUT] * xspeed
-	parent.velocity.y = parent.inputs[parent.Inputs.YINPUT] * parent.move_speed
+	parent.velocity.x = signf(parent.inputs[parent.Inputs.XINPUT]) * xspeed
+	parent.velocity.y = signf(parent.inputs[parent.Inputs.YINPUT]) * parent.move_speed
 	
-	if parent.allow_direction_changing and parent.inputs[parent.Inputs.XINPUT] != 0:
-		parent.direction = parent.inputs[parent.Inputs.XINPUT]
+	if parent.allow_direction_changing and signf(parent.inputs[parent.Inputs.XINPUT]) != 0:
+		parent.direction = signf(parent.inputs[parent.Inputs.XINPUT])
 	
 	floor_checking.position.y = parent.velocity.y * delta
 	

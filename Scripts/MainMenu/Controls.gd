@@ -30,20 +30,20 @@ func _input(event: InputEvent) -> void:
 			
 		if not event.is_echo() and event.is_pressed():
 			process_input(event)
-	elif event is InputEventJoypadMotion and current_input < 4:
-		if abs(event.axis_value) > 0.5:
-			current_input = 0
-			var inputs = [
-				[JOY_AXIS_LEFT_Y, -0.5],
-				[JOY_AXIS_LEFT_Y, 0.5],
-				[JOY_AXIS_LEFT_X, -0.5],
-				[JOY_AXIS_LEFT_X, 0.5],
-			]
-			for i in inputs:
-				var input = InputEventJoypadMotion.new()
-				input.axis = i[0]
-				input.axis_value = i[1]
-				process_input(input)
+	#elif event is InputEventJoypadMotion and current_input < 4:
+		#if abs(event.axis_value) > 0.5:
+			#current_input = 0
+			#var inputs = [
+				#[JOY_AXIS_LEFT_Y, -0.5],
+				#[JOY_AXIS_LEFT_Y, 0.5],
+				#[JOY_AXIS_LEFT_X, -0.5],
+				#[JOY_AXIS_LEFT_X, 0.5],
+			#]
+			#for i in inputs:
+				#var input = InputEventJoypadMotion.new()
+				#input.axis = i[0]
+				#input.axis_value = i[1]
+				#process_input(input)
 	elif event is InputEventJoypadButton and event.pressed:
 		process_input(event)
 			
@@ -82,9 +82,13 @@ static func load_mapping(file: ConfigFile) -> void:
 	if not file.has_section("Input"):
 		return
 	var has_joypads: bool = Input.get_connected_joypads().size() > 0
+	InputMap.load_from_project_settings()
 	for action in ACTIONS:
 		var input = file.get_value("Input", action)
-		if input is InputEventJoypadMotion or input is InputEventJoypadButton \
-			and has_joypads:
-				InputMap.action_erase_events(action)
-				InputMap.action_add_event(action, input)
+		var events := InputMap.action_get_events(action).filter(func(x):
+			return not (x is InputEventKey)
+			)
+		InputMap.action_erase_events(action)
+		InputMap.action_add_event(action, input)
+		for old_event in events:
+			InputMap.action_add_event(action, old_event)
