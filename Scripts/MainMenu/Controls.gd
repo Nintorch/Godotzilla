@@ -1,11 +1,11 @@
 class_name ControlsSettings
 extends "res://Scripts/MainMenu/Menu.gd"
 
-const ACTIONS = [
+const ACTIONS := [
 	"Up", "Down", "Left", "Right",
 	"B", "A", "Select", "Start"
 ]
-const SECTION = "Input"
+const SECTION := "Input"
 
 @onready var current_button: Label = $CurrentButton
 @onready var reset_controls: Label = $ResetControls
@@ -23,29 +23,14 @@ func menu_enter() -> void:
 	mapping.fill(null)
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventKey:
+	if event is InputEventKey and event.is_pressed() and not event.is_echo():
 		if event.keycode == KEY_ESCAPE:
 			exit()
 			return
-			
-		if not event.is_echo() and event.is_pressed():
-			process_input(event)
-	#elif event is InputEventJoypadMotion and current_input < 4:
-		#if abs(event.axis_value) > 0.5:
-			#current_input = 0
-			#var inputs = [
-				#[JOY_AXIS_LEFT_Y, -0.5],
-				#[JOY_AXIS_LEFT_Y, 0.5],
-				#[JOY_AXIS_LEFT_X, -0.5],
-				#[JOY_AXIS_LEFT_X, 0.5],
-			#]
-			#for i in inputs:
-				#var input = InputEventJoypadMotion.new()
-				#input.axis = i[0]
-				#input.axis_value = i[1]
-				#process_input(input)
-	elif event is InputEventJoypadButton and event.pressed:
 		process_input(event)
+	elif (event is InputEventJoypadMotion and absf(event.axis_value) >= 0.5) \
+		or (event is InputEventJoypadButton and event.pressed):
+			process_input(event)
 			
 func update_text() -> void:
 	current_button.text = "press button " + ACTIONS[current_input]
@@ -54,7 +39,7 @@ func next_input() -> void:
 	current_input += 1
 	if current_input >= ACTIONS.size():
 		save_mapping()
-		var file = Global.load_settings_file()
+		var file := Global.load_settings_file()
 		ControlsSettings.load_mapping(file)
 		exit()
 		return

@@ -42,6 +42,8 @@ var board_data = {
 
 #endregion
 
+#region Main board code
+
 func _ready():
 	Global.board = self
 	
@@ -240,6 +242,8 @@ func returned(ignore_boss_moves := false) -> void:
 		selector.show()
 		selector.ignore_player_input = false
 		
+#endregion
+
 #region Bosses
 		
 func show_boss_info(piece) -> void:
@@ -256,7 +260,7 @@ func show_boss_info(piece) -> void:
 		
 func boss_hp_str(hp: float) -> String:
 	var s := str(snappedf(hp, 0.1))
-	if fmod(hp, 1) == 0:
+	if fmod(hp, 1) < 0.1:
 		s += ".0"
 	return s
 	
@@ -267,8 +271,7 @@ func move_boss() -> void:
 	# (by usign an alternative tile without navigation region)
 	for p: Node2D in get_boss_pieces():
 		if p != boss_piece:
-			var pos = p.get_cell_pos()
-			outline.set_cell(pos, 0, Vector2i(0, 0), 1)
+			outline.set_cell(p.get_cell_pos(), 0, Vector2i(0, 0), 1)
 		
 	var player_piece: Node2D = get_closest_player(boss_piece)
 	await get_tree().create_timer(0.5).timeout
@@ -283,8 +286,7 @@ func move_boss() -> void:
 	
 	for p: Node2D in get_boss_pieces():
 		if p != boss_piece:
-			var pos = p.get_cell_pos()
-			outline.set_cell(pos, 0, Vector2i(0, 0))
+			outline.set_cell(p.get_cell_pos(), 0, Vector2i(0, 0))
 	
 	selector.playing_levels.clear()
 	
@@ -298,7 +300,8 @@ func move_boss() -> void:
 		selector.move(0, 0)
 		
 		# Basically, the boss might have already collided with a player piece,
-		# start the boss battle and it would've be finished at this point,
+		# started the boss battle and it would've been finished at this point
+		# (due to the piece collision signal),
 		# calling returned() again and setting selector.visible to true,
 		# and since returned() got called again we don't want to proceed with
 		# the move_boss() function anymore
@@ -337,7 +340,7 @@ func convert_navigation_path(path: PackedVector2Array) -> PackedVector2Array:
 		if (result.size() > 0 and result[-1] != pos or result.size() == 0) \
 			and selector.cell_exists(selector.get_cell_pos(pos)):
 				result.append(pos)
-	# We don't want the boss to move to its position
+	# We don't want the boss to try to move to its current position
 	result.remove_at(0)
 	return result
 	
