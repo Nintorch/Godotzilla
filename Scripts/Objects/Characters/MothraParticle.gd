@@ -16,6 +16,7 @@ func setup(init_type: Type, player: GameCharacter):
 	type = init_type
 	attack_component.objects_to_ignore.append(player)
 	attack_component.enemy = player.attack.enemy
+	attack_component.attacked.connect(player._on_attack_component_attacked)
 	
 	var should_destroy := false
 	scale.x = player.direction
