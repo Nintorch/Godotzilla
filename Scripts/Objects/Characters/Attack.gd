@@ -58,7 +58,7 @@ func use(type: GameCharacter.Attack) -> void:
 				parent.animation_player.play("Kick2")
 			parent.get_sfx("Punch").play()
 			
-			attack_component.set_collision(Vector2(30, 30), Vector2(20, 10))
+			attack_component.set_collision(Vector2(30, 20), Vector2(20, 15))
 			
 			attack_component.start_attack(2)
 			await parent.animation_player.animation_finished

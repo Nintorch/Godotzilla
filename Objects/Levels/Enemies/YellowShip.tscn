@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://dkwaunrisvrj0"]
+
+[ext_resource type="Texture2D" uid="uid://vwe0hqe8bxv4" path="res://Sprites/Levels/TestLevel/YellowShip.png" id="1_jpes6"]
+[ext_resource type="PackedScene" uid="uid://bvoxqi1x6lk52" path="res://Objects/Levels/Enemies/BaseEnemy.tscn" id="1_sghao"]
+[ext_resource type="Script" path="res://Scripts/Objects/Enemies/YellowShip.gd" id="2_164y3"]
+
+[sub_resource type="Animation" id="Animation_m62yt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(7, 11, 20, 12)]
+}
+
+[sub_resource type="Animation" id="Animation_xt50m"]
+resource_name = "main"
+length = 1.6
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Rect2(7, 12, 20, 12), Rect2(32, 8, 20, 12), Rect2(54, 6, 20, 16), Rect2(75, 7, 20, 16), Rect2(97, 8, 20, 16), Rect2(117, 8, 20, 16), Rect2(7, 26, 18, 16), Rect2(26, 28, 18, 16)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lcmgl"]
+_data = {
+"RESET": SubResource("Animation_m62yt"),
+"main": SubResource("Animation_xt50m")
+}
+
+[node name="YellowShip" instance=ExtResource("1_sghao")]
+script = ExtResource("2_164y3")
+
+[node name="HealthComponent" parent="." index="0"]
+value = 2.0
+max_value = 2.0
+
+[node name="Sprite" type="Sprite2D" parent="." index="4"]
+texture = ExtResource("1_jpes6")
+region_enabled = true
+region_rect = Rect2(7, 11, 20, 12)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="5"]
+root_node = NodePath("../Sprite")
+libraries = {
+"": SubResource("AnimationLibrary_lcmgl")
+}

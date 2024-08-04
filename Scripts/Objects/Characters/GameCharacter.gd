@@ -348,7 +348,7 @@ func save_state(data: Dictionary) -> void:
 func _on_attack_component_attacked(attacked_body: Node2D, _amount: float) -> void:
 	if attacked_body is Enemy:
 		add_xp(5)
-		Global.add_score(10)
+		Global.add_score(100)
 
 static func calculate_bar_count(char_id: GameCharacter.Type, char_level: int) -> int:
 	return BaseBarCount[char_id] + char_level - 1
