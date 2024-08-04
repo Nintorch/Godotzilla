@@ -12,8 +12,7 @@ func _ready() -> void:
 	boss.health.dead.connect(func():
 		get_HUD().boss_timer.stop()
 		player.add_xp(xp_amount)
-		# TODO: Boss victory music
-		Global.play_music(preload("res://Audio/Soundtrack/PlayerDeath.ogg"))
+		Global.play_music(preload("res://Audio/Soundtrack/Victory.ogg"))
 		)
 		
 	if data.boss_piece:
