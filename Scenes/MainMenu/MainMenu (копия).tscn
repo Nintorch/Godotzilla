@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b8f5oi120p3iu"]
+[gd_scene load_steps=18 format=3 uid="uid://bt7ucwmaht7f8"]
 
 [ext_resource type="PackedScene" uid="uid://bjcf4tfdeo6ta" path="res://Scenes/MainMenu/BaseMenu.tscn" id="1_0ctmj"]
 [ext_resource type="Script" path="res://Scripts/MainMenu/MainMenu.gd" id="1_tn6aw"]
@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://slv0bn0tcyna" path="res://Scenes/Boards/Jupiter.tscn" id="7_yibpl"]
 [ext_resource type="Texture2D" uid="uid://dewcb08w13bxc" path="res://Sprites/controller.png" id="8_6m6i1"]
 [ext_resource type="PackedScene" uid="uid://dockgi1sveicy" path="res://Scenes/GameIntro.tscn" id="8_xt4bm"]
-[ext_resource type="PackedScene" uid="uid://bishkusg7nuhs" path="res://Scenes/MainMenu/SaveSlot.tscn" id="9_67uk1"]
+[ext_resource type="PackedScene" uid="uid://bishkusg7nuhs" path="res://Scenes/MainMenu/SaveSlot.tscn" id="9_u65ky"]
 
 [sub_resource type="GDScript" id="GDScript_46jxm"]
 script/source = "extends \"res://Scripts/MainMenu/Menu.gd\"
@@ -41,7 +41,7 @@ func menu_select(id: int) -> void:
 
 [sub_resource type="Resource" id="Resource_tt3oh"]
 script = ExtResource("6_wjp7m")
-name = "The Earth"
+name = "Earth"
 board_id = "earth"
 scene = ExtResource("5_2voyh")
 
@@ -115,23 +115,23 @@ script = ExtResource("3_73kxb")
 boards = Array[ExtResource("6_wjp7m")]([SubResource("Resource_tt3oh"), SubResource("Resource_425mq")])
 starting_scene = ExtResource("8_xt4bm")
 
-[node name="SaveSlot1" parent="Saves" index="0" groups=["option", "saveslot"] instance=ExtResource("9_67uk1")]
-offset_left = 32.0
-offset_top = 32.0
-offset_right = 48.0
-offset_bottom = 48.0
+[node name="SaveSlot1" parent="Saves" index="0" groups=["saveslot"] instance=ExtResource("9_u65ky")]
+offset_left = 16.0
+offset_top = 56.0
+offset_right = 80.0
+offset_bottom = 168.0
 
-[node name="SaveSlot2" parent="Saves" index="1" groups=["option", "saveslot"] instance=ExtResource("9_67uk1")]
-offset_left = 32.0
-offset_top = 80.0
-offset_right = 48.0
-offset_bottom = 96.0
+[node name="SaveSlot2" parent="Saves" index="1" groups=["saveslot"] instance=ExtResource("9_u65ky")]
+offset_left = 96.0
+offset_top = 56.0
+offset_right = 160.0
+offset_bottom = 168.0
 
-[node name="SaveSlot3" parent="Saves" index="2" groups=["option", "saveslot"] instance=ExtResource("9_67uk1")]
-offset_left = 32.0
-offset_top = 128.0
-offset_right = 48.0
-offset_bottom = 144.0
+[node name="SaveSlot3" parent="Saves" index="2" groups=["saveslot"] instance=ExtResource("9_u65ky")]
+offset_left = 176.0
+offset_top = 56.0
+offset_right = 240.0
+offset_bottom = 168.0
 
 [node name="Exit" type="Label" parent="Saves" index="3" groups=["option"]]
 offset_left = 112.0
@@ -210,16 +210,6 @@ offset_right = 256.0
 offset_bottom = 187.0
 theme_override_fonts/font = ExtResource("2_xjjqh")
 text = "press escape to exit this menu"
-horizontal_alignment = 1
-uppercase = true
-
-[node name="ResetControls" type="Label" parent="Controls" index="3"]
-offset_top = 192.0
-offset_right = 256.0
-offset_bottom = 203.0
-theme_override_fonts/font = ExtResource("2_xjjqh")
-text = "press key to reset controls 
-later in-game"
 horizontal_alignment = 1
 uppercase = true
 

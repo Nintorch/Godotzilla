@@ -52,14 +52,16 @@ func _ready() -> void:
 		return
 	
 	await Global.get_current_scene().ready
-	selector = $"../../Selector"
+	update_frame()
+	selector = get_node_or_null("../../Selector")
+	if selector == null:
+		return
 	tilemap = selector.tilemap
 	process_priority = 1
 	
 	# Adjust position
 	position = selector.map_to_tilemap(position, tilemap)
 	init_pos = position
-	update_frame()
 	
 	await get_tree().process_frame
 	hide_cell_below()

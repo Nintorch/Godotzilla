@@ -21,19 +21,20 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	match state:
 		State.IDLE:
-			if position.x < \
-			get_viewport().get_camera_2d().position.x + Global.get_content_size().x / 2 + 30:
-				state = State.MOVING_LEFT
-				velocity = Vector2(-0.8 * 60, -0.2 * 60)
-				animation_player.play("flying_left")
+			var camera := get_viewport().get_camera_2d()
+			if camera != null \
+				and position.x < camera.position.x + Global.get_content_size().x / 2 + 30:
+					state = State.MOVING_LEFT
+					velocity = Vector2(-0.8 * 60, -0.2 * 60)
+					animation_player.play("flying_left")
 				
 		State.MOVING_LEFT:
 			velocity.x -= 0.1 * 60 * 60 * delta
 			
-			if Global.player.character == GameCharacter.Type.MOTHRA \
-			and position.x < Global.player.position.x + 150:
-				state = State.MOVING_RIGHT
-				animation_player.play("flying_right")
+			if Global.player != null and Global.player.character == GameCharacter.Type.MOTHRA \
+				and position.x < Global.player.position.x + 150:
+					state = State.MOVING_RIGHT
+					animation_player.play("flying_right")
 				
 		State.MOVING_RIGHT:
 			velocity.x += 0.05 * 60 * 60 * delta

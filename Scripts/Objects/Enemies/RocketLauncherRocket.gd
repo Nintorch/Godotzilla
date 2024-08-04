@@ -21,7 +21,11 @@ func _process(delta: float) -> void:
 		velocity.y += 0.1 * 60 * 60 * delta
 	position += velocity * delta
 	
-	if position.y > get_viewport().get_camera_2d().limit_bottom:
+	var camera := get_viewport().get_camera_2d()
+	var limit := Global.get_content_size().y + 64
+	if camera != null:
+		limit += camera.get_screen_center_position().y
+	if position.y > limit:
 		queue_free()
 
 func _on_attack_component_attacked(_body: Node2D, _amount: float) -> void:

@@ -4,7 +4,7 @@ extends Node
 @export var value := 10.0
 @export var max_value := 10.0
 @export var enemy := false
-@export var invincibility_time_seconds := 0.0 # in seconds
+@export var invincibility_time_seconds := 0.0
 
 var died := false
 var invincible := false

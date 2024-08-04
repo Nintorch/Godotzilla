@@ -164,16 +164,18 @@ func _physics_process(delta: float) -> void:
 	# The character should come from outside the camera from the left side
 	# of the screen, so we shouldn't limit the position unless the player
 	# got control of the character.
-	var limit_left := get_viewport().get_camera_2d().limit_left
-	var limit_right := get_viewport().get_camera_2d().limit_right
-	
-	if state != State.LEVEL_INTRO and velocity.x < 0 and position.x <= limit_left + 16:
-		position.x = limit_left + 16
-		velocity.x = 0
+	var camera := get_viewport().get_camera_2d()
+	if camera != null:
+		var limit_left := camera.limit_left
+		var limit_right := camera.limit_right
 		
-	if block_level_end and velocity.x > 0 and position.x >= limit_right - 16:
-		position.x = limit_right - 16
-		velocity.x = 0
+		if state != State.LEVEL_INTRO and velocity.x < 0 and position.x <= limit_left + 16:
+			position.x = limit_left + 16
+			velocity.x = 0
+			
+		if block_level_end and velocity.x > 0 and position.x >= limit_right - 16:
+			position.x = limit_right - 16
+			velocity.x = 0
 
 	if state != State.DEAD and not is_on_floor() and not is_flying():
 		velocity.y += gravity * delta

@@ -14,8 +14,8 @@ func initialize(globalPosition: Vector2, type: String) -> Node2D:
 	return self
 
 func _process(delta: float) -> void:
-	if direction > 0 \
-	and (global_position.x + 4) > get_viewport().get_camera_2d().limit_right:
+	var camera := get_viewport().get_camera_2d()
+	if camera != null and direction > 0 and (global_position.x + 4) > camera.limit_right:
 		direction = -1
 		
 	position.x += velocity * direction * delta

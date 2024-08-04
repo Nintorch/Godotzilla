@@ -23,9 +23,14 @@ func _process(_delta: float):
 		parent.use_attack(GameCharacter.Attack.WING_ATTACK)
 
 func move(delta: float) -> void:
-	var xspeed = 2 * 60
-	if get_viewport().get_camera_2d().is_camera_moving():
-		xspeed = 1 * 60
+	var xspeed := 2 * 60
+	var ylimit := YLIMIT
+	
+	var camera := get_viewport().get_camera_2d()
+	if camera != null:
+		ylimit += camera.limit_top
+		if camera.is_camera_moving():
+			xspeed = 1 * 60
 		
 	parent.velocity.x = signf(parent.inputs[parent.Inputs.XINPUT]) * xspeed
 	parent.velocity.y = signf(parent.inputs[parent.Inputs.YINPUT]) * parent.move_speed
@@ -35,7 +40,6 @@ func move(delta: float) -> void:
 	
 	floor_checking.position.y = parent.velocity.y * delta
 	
-	var ylimit := get_viewport().get_camera_2d().limit_top + YLIMIT
 	if Global.get_current_scene().has_node("HUD"):
 		ylimit += Global.get_current_scene().get_node("HUD").vertical_size
 	

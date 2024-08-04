@@ -3,6 +3,7 @@ extends Node2D
 @export var initial_scene: PackedScene = preload("res://Scenes/TitleScreen.tscn")
 @export var wait_before_start := false # Mostly just a debugging feature
 @onready var canvas_layer: CanvasLayer = $CanvasLayer
+var wait_before_start_flag := false
 
 func _ready() -> void:
 	Global.main = self
@@ -13,7 +14,8 @@ func _ready() -> void:
 	if wait_before_start:
 		get_tree().paused = true
 		get_tree().process_frame.connect(func():
-			if Global.any_action_button_pressed():
+			if not wait_before_start_flag and Global.any_action_button_pressed():
+				wait_before_start_flag = true
 				get_tree().paused = false
 				start()
 				)
@@ -41,7 +43,7 @@ func _on_widescreen_change() -> void:
 		curscene.position.x = (Global.get_content_size().x - \
 			Global.get_default_resolution().x) / 2
 		return
-		
+
 	if get_viewport().get_camera_2d().limit_right <= Global.get_content_size().x:
 		curscene.position.x = (get_viewport().get_camera_2d().limit_right - \
 			Global.get_content_size().x) / 2

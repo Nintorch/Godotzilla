@@ -132,6 +132,7 @@ func load_game_settings() -> void:
 	
 	VideoSettings.load_video_settings(file)
 	SoundSettings.load_sound_settings(file)
+	ControlsSettings.init_controls()
 	ControlsSettings.load_mapping(file)
 
 func load_settings_file() -> ConfigFile:
@@ -145,7 +146,7 @@ func save_settings_file(file: ConfigFile) -> void:
 	
 func load_save_data() -> Dictionary:
 	var config_file := load_save_file()
-	save_data = config_file.get_value(get_save_slot_section(), "data", save_data)
+	save_data = config_file.get_value(get_save_slot_section(), "data", {})
 	return save_data
 	
 func store_save_data() -> void:

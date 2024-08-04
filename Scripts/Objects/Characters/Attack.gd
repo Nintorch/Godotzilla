@@ -12,7 +12,7 @@ var attack_component: Node2D
 func state_init() -> void:
 	attack_component = parent.attack
 	move_state = parent.states_list[parent.move_state]
-	parent.animation_player.connect("animation_finished", _on_animation_finished)
+	parent.animation_player.animation_finished.connect(_on_animation_finished)
 	
 var save_allow_direction_changing := false
 func state_entered() -> void:

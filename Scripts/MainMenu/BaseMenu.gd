@@ -40,8 +40,8 @@ func set_menu(menu: Node2D) -> void:
 		current_menu.menu_exit()
 		
 	current_menu = menu
-	enable_menu(current_menu, true)
 	current_menu.menu_enter()
+	enable_menu(current_menu, true)
 	
 	if current_menu.options.size() > 0:
 		selector.visible = true

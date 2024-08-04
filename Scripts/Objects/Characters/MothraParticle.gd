@@ -52,8 +52,9 @@ func _physics_process(delta):
 	if type == Type.WING:
 		velocity.y += 1 * 60 * delta
 	position += velocity * delta
-	
-	if position.y > \
-		get_viewport().get_camera_2d().get_screen_center_position().y \
-		+ Global.get_content_size().y / 2 + 20:
+	var camera := get_viewport().get_camera_2d()
+	var limit := Global.get_content_size().y + 20
+	if camera != null:
+		limit += camera.get_screen_center_position().y
+	if position.y > limit:
 		queue_free()

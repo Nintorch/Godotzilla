@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=3 uid="uid://bishkusg7nuhs"]
+
+[ext_resource type="Texture2D" uid="uid://c5trtmb05sfr4" path="res://Sprites/PassWordGame.png" id="1_lyp2j"]
+[ext_resource type="Script" path="res://Scripts/MainMenu/SaveSlot.gd" id="2_han8w"]
+[ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="3_6dxk1"]
+[ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="3_uosa4"]
+
+[node name="SaveSlot" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_han8w")
+
+[node name="Border" type="NinePatchRect" parent="."]
+layout_mode = 0
+offset_right = 192.0
+offset_bottom = 48.0
+texture = ExtResource("1_lyp2j")
+draw_center = false
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="SaveExists" type="Node2D" parent="."]
+
+[node name="SaveID" type="Label" parent="SaveExists" groups=["option"]]
+offset_left = 72.0
+offset_top = 16.0
+offset_right = 120.0
+offset_bottom = 32.0
+theme_override_fonts/font = ExtResource("3_6dxk1")
+text = "save 1"
+uppercase = true
+metadata/_edit_use_anchors_ = true
+
+[node name="PlanetName" type="Label" parent="SaveExists" groups=["option"]]
+offset_left = 48.0
+offset_top = 24.0
+offset_right = 144.0
+offset_bottom = 40.0
+theme_override_fonts/font = ExtResource("3_6dxk1")
+text = "the earth"
+horizontal_alignment = 1
+uppercase = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Piece2" parent="SaveExists" instance=ExtResource("3_uosa4")]
+position = Vector2(24, 24)
+frame = 6
+piece_character = 1
+
+[node name="Piece1" parent="SaveExists" instance=ExtResource("3_uosa4")]
+position = Vector2(32, 24)
+
+[node name="DoesntExist" type="Node2D" parent="."]
+position = Vector2(0, 24)
+
+[node name="SaveID" type="Label" parent="DoesntExist" groups=["option"]]
+offset_left = 72.0
+offset_top = -8.0
+offset_right = 120.0
+offset_bottom = 8.0
+theme_override_fonts/font = ExtResource("3_6dxk1")
+text = "save 1"
+uppercase = true
+
+[node name="Empty" type="Label" parent="DoesntExist" groups=["option"]]
+offset_left = 72.0
+offset_right = 120.0
+offset_bottom = 16.0
+theme_override_fonts/font = ExtResource("3_6dxk1")
+text = "empty"
+uppercase = true
