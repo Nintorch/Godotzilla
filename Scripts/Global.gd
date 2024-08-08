@@ -10,7 +10,7 @@ var _fade_player: AnimationPlayer
 var _fader: ColorRect
 
 var music: AudioStreamPlayer
-var player: GameCharacter
+var player: PlayerCharacter
 var playing_levels: Array[PackedScene] = []
 var board
 var score := 0
@@ -218,11 +218,17 @@ func _perform_fade(callable: Callable, pause_game, color: FadeColor) -> void:
 	if pause_game:
 		get_tree().paused = false
 
-func fade_out(pause_game := false, color := FadeColor.BLACK) -> void:
-	await _perform_fade(func(): _fade_player.play_backwards("FadeIn"), pause_game, color)
+func fade_out(color := FadeColor.BLACK) -> void:
+	await _perform_fade(func(): _fade_player.play_backwards("FadeIn"), false, color)
 	
-func fade_in(pause_game := false, color := FadeColor.BLACK) -> void:
-	await _perform_fade(func(): _fade_player.play("FadeIn"), pause_game, color)
+func fade_in(color := FadeColor.BLACK) -> void:
+	await _perform_fade(func(): _fade_player.play("FadeIn"), false, color)
+	
+func fade_out_paused(color := FadeColor.BLACK) -> void:
+	await _perform_fade(func(): _fade_player.play_backwards("FadeIn"), true, color)
+	
+func fade_in_paused(color := FadeColor.BLACK) -> void:
+	await _perform_fade(func(): _fade_player.play("FadeIn"), true, color)
 	
 func hide_fade() -> void:
 	_fader.modulate.a = 0

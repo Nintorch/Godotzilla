@@ -105,6 +105,11 @@ Exit={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Enemies"
+2d_physics/layer_2="Walls, floor and ceiling"
+
 [physics]
 
 2d/default_gravity=240.0

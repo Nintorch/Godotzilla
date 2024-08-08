@@ -17,7 +17,7 @@ func state_init() -> void:
 		walk_frames = parent.body.sprite_frames.get_frame_count("Walk")
 	
 	match parent.character:
-		GameCharacter.Type.GODZILLA:
+		PlayerCharacter.Type.GODZILLA:
 			walk_frame_speed = 9
 
 func _process(delta: float) -> void:
@@ -25,24 +25,24 @@ func _process(delta: float) -> void:
 	
 	# Attacks
 	match parent.character:
-		GameCharacter.Type.GODZILLA:
+		PlayerCharacter.Type.GODZILLA:
 			common_ground_attacks()
 			if parent.animation_player.current_animation == "Crouch" \
-				and parent.inputs_pressed[GameCharacter.Inputs.B]:
-					parent.use_attack(GameCharacter.Attack.TAIL_WHIP)
-			if parent.inputs_pressed[GameCharacter.Inputs.START] \
+				and parent.inputs_pressed[PlayerCharacter.Inputs.B]:
+					parent.use_attack(PlayerCharacter.Attack.TAIL_WHIP)
+			if parent.inputs_pressed[PlayerCharacter.Inputs.START] \
 				and parent.power.value >= 6 * 8:
-				parent.use_attack(GameCharacter.Attack.HEAT_BEAM)
+				parent.use_attack(PlayerCharacter.Attack.HEAT_BEAM)
 	
 func common_ground_attacks() -> void:
-	if parent.inputs_pressed[GameCharacter.Inputs.A]:
-		parent.use_attack(GameCharacter.Attack.PUNCH)
+	if parent.inputs_pressed[PlayerCharacter.Inputs.A]:
+		parent.use_attack(PlayerCharacter.Attack.PUNCH)
 	if parent.animation_player.current_animation != "Crouch" \
-		and parent.inputs_pressed[GameCharacter.Inputs.B]:
-			parent.use_attack(GameCharacter.Attack.KICK)
+		and parent.inputs_pressed[PlayerCharacter.Inputs.B]:
+			parent.use_attack(PlayerCharacter.Attack.KICK)
 
 func move(delta: float):
-	var dirx: float = signf(parent.inputs[GameCharacter.Inputs.XINPUT])
+	var dirx: float = signf(parent.inputs[PlayerCharacter.Inputs.XINPUT])
 	if dirx:
 		parent.velocity.x = parent.move_speed * dirx
 		
@@ -58,7 +58,7 @@ func move(delta: float):
 	else:
 		parent.velocity.x = 0
 		
-	var diry: float = parent.inputs[GameCharacter.Inputs.YINPUT]
+	var diry: float = parent.inputs[PlayerCharacter.Inputs.YINPUT]
 	
 	if parent.is_on_floor() and diry < -0.4:
 		parent.velocity.y = JUMP_SPEED

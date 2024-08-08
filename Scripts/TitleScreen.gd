@@ -27,18 +27,18 @@ func _on_flash_timer_timeout() -> void:
 	
 func do_flash() -> void:
 	if not $AfterFlash.visible and not Global.is_fading():
-		await Global.fade_out(false, Global.FadeColor.WHITE)
+		await Global.fade_out(Global.FadeColor.WHITE)
 		
 		$BeforeFlash.visible = false
 		$AfterFlash.visible = true
-		Global.fade_in(false, Global.FadeColor.WHITE)
+		Global.fade_in(Global.FadeColor.WHITE)
 		
 func leave() -> void:
 	if not Global.is_fading():
 		get_tree().paused = true
 		
 		Global.music_fade_out()
-		await Global.fade_out(false, Global.FadeColor.BLACK)
+		await Global.fade_out(Global.FadeColor.BLACK)
 		
 		await get_tree().create_timer(0.5).timeout
 		

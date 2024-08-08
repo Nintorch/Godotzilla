@@ -1,16 +1,18 @@
 class_name Level
 extends Node2D
 
+const GAME_OVER_SCENE := preload("res://Scenes/GameOver.tscn")
+
 @export var music: AudioStream
-@export var bg_color = Color(0, 0, 0)
+@export var bg_color := Color(0, 0, 0)
 @export var enable_level_end := true
 
 @onready var camera: Camera2D = $Camera
-@onready var player: GameCharacter = $Player
+@onready var player: PlayerCharacter = $Player
 
 # These are set in Board.gd and in next_level()
 var data = {
-	current_character = GameCharacter.Type.GODZILLA,
+	current_character = PlayerCharacter.Type.GODZILLA,
 	board_piece = null,
 	boss_piece = null,
 }
@@ -21,6 +23,7 @@ func _ready() -> void:
 	player.character = data.current_character
 	player.health.dead.connect(func(): 
 		Global.play_music(preload("res://Audio/Soundtrack/PlayerDeath.ogg"))
+		player_dead(player)
 		)
 	if data.board_piece:
 		player.load_state(data.board_piece.character_data)
@@ -65,13 +68,31 @@ func next_level() -> void:
 		if level.music != music:
 			Global.music_fade_out()
 			
-		await Global.fade_out(true)
+		await Global.fade_out_paused()
 		level.data = data
 		Global.change_scene_node(level)
 	else:
 		if Global.board.music != music:
 			Global.music_fade_out()
 			
-		await Global.fade_out(true)
+		await Global.fade_out_paused()
 		Global.change_scene_node(Global.board)
 		Global.board.returned()
+		
+# Can also be used on bosses, hence the "character" argument
+func player_dead(character: PlayerCharacter) -> void:
+	await Global.music.finished
+	await Global.fade_out_paused()
+	
+	if not is_instance_valid(Global.board):
+		return
+	
+	Global.board.selected_piece.remove()
+	Global.board.selected_piece = null
+		
+	if Global.board.get_player_pieces().size() == 0:
+		Global.change_scene(GAME_OVER_SCENE)
+		return
+		
+	Global.change_scene_node(Global.board)
+	Global.board.returned(not character.is_player)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cin1i4pomwy3a"]
 
 [ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/BaseLevel.tscn" id="1_ohey1"]
-[ext_resource type="PackedScene" uid="uid://bdedrxocj46sr" path="res://Objects/Characters/GameCharacter.tscn" id="2_atw37"]
+[ext_resource type="PackedScene" uid="uid://bdedrxocj46sr" path="res://Objects/Characters/PlayerCharacter.tscn" id="2_atw37"]
 [ext_resource type="AudioStream" uid="uid://by7wimbn2cemn" path="res://Audio/Soundtrack/MogueraTheme.ogg" id="2_pg308"]
 [ext_resource type="Script" path="res://Scripts/Levels/BaseBoss.gd" id="2_xih6l"]
 

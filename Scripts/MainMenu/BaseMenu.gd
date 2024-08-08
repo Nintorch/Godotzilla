@@ -15,7 +15,7 @@ func _ready() -> void:
 	set_menu(%MenuMain)
 
 func _process(_delta: float) -> void:
-	if selector.visible:
+	if selector.is_processing():
 		if Input.is_action_just_pressed("Down"):
 			selector_option = mini(selector_option + 1, \
 				current_menu.options.size() - 1)
@@ -35,21 +35,26 @@ func enable_menu(menu: Node2D, flag: bool) -> void:
 	menu.set_process_input(flag)
 
 func set_menu(menu: Node2D) -> void:
-	if current_menu:
-		enable_menu(current_menu, false)
-		current_menu.menu_exit()
+	var prev_menu := current_menu
+	selector.visible = false
 		
 	current_menu = menu
+	if prev_menu: prev_menu.menu_exit()
 	current_menu.menu_enter()
+	
+	await get_tree().process_frame
+	
+	if prev_menu: enable_menu(prev_menu, false)
 	enable_menu(current_menu, true)
 	
 	if current_menu.options.size() > 0:
 		selector.visible = true
+		selector.set_process(true)
 		selector_option = 0
 		move_selector(0)
 	else:
-		# Hide the selector in case if the menu doesn't have options 
-		selector.visible = false
+		# Hide the selector in case if the menu doesn't have options
+		selector.set_process(false)
 	
 func move_selector(option: int) -> void:
 	var control_option = current_menu.options[option]

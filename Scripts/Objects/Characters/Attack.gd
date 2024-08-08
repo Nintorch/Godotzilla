@@ -4,7 +4,7 @@ const MothraParticle := preload("res://Objects/Characters/MothraParticle.tscn")
 const GodzillaHeatBeam := preload("res://Objects/Characters/GodzillaHeatBeam.tscn")
 
 var move_state: Node
-var current_attack: GameCharacter.Attack
+var current_attack: PlayerCharacter.Attack
 var variation = 0
 
 var attack_component: Node2D
@@ -25,23 +25,20 @@ func state_exited() -> void:
 func _process(delta: float) -> void:
 	move_state.move(delta)
 
-func use(type: GameCharacter.Attack) -> void:
-	parent.state = GameCharacter.State.ATTACK
+func use(type: PlayerCharacter.Attack) -> void:
+	parent.state = PlayerCharacter.State.ATTACK
 	current_attack = type
 	
 	match type:
-		GameCharacter.Attack.PUNCH, GameCharacter.Attack.KICK:
+		PlayerCharacter.Attack.PUNCH, PlayerCharacter.Attack.KICK:
 			parent.animation_player.play("RESET")
 			await get_tree().process_frame
 	
 	match type:
 		# Common ground attacks
-		GameCharacter.Attack.PUNCH:
-			variation = !variation
-			if variation:
-				parent.animation_player.play("Punch1")
-			else:
-				parent.animation_player.play("Punch2")
+		PlayerCharacter.Attack.PUNCH:
+			variation = not variation
+			parent.animation_player.play("Punch1" if variation else "Punch2")
 			parent.get_sfx("Punch").play()
 			
 			attack_component.set_collision(Vector2(30, 20), Vector2(20, -15))
@@ -50,12 +47,9 @@ func use(type: GameCharacter.Attack) -> void:
 			await parent.animation_player.animation_finished
 			attack_component.stop_attack()
 
-		GameCharacter.Attack.KICK:
-			variation = !variation
-			if variation:
-				parent.animation_player.play("Kick1")
-			else:
-				parent.animation_player.play("Kick2")
+		PlayerCharacter.Attack.KICK:
+			variation = not variation
+			parent.animation_player.play("Kick1" if variation else "Kick2")
 			parent.get_sfx("Punch").play()
 			
 			attack_component.set_collision(Vector2(30, 20), Vector2(20, 15))
@@ -65,7 +59,7 @@ func use(type: GameCharacter.Attack) -> void:
 			attack_component.stop_attack()
 			
 		# Godzilla-specific attacks
-		GameCharacter.Attack.TAIL_WHIP:
+		PlayerCharacter.Attack.TAIL_WHIP:
 			parent.animation_player.play("TailWhip")
 			await get_tree().create_timer(0.15, false).timeout
 			
@@ -75,7 +69,7 @@ func use(type: GameCharacter.Attack) -> void:
 			await parent.animation_player.animation_finished
 			attack_component.stop_attack()
 			
-		GameCharacter.Attack.HEAT_BEAM:
+		PlayerCharacter.Attack.HEAT_BEAM:
 			var animations = [
 				["HeatBeam1", 0.1],
 				["HeatBeam2", 1],
@@ -95,7 +89,7 @@ func use(type: GameCharacter.Attack) -> void:
 			parent.state = parent.move_state
 			
 		# Mothra-specific attacks
-		GameCharacter.Attack.EYE_BEAM:
+		PlayerCharacter.Attack.EYE_BEAM:
 			var particle = MothraParticle.instantiate()
 			Global.get_current_scene().add_child(particle)
 			particle.setup(particle.Type.EYE_BEAM, parent)
@@ -104,7 +98,7 @@ func use(type: GameCharacter.Attack) -> void:
 			parent.state = parent.move_state
 			parent.get_sfx("Step").play()
 			
-		GameCharacter.Attack.WING_ATTACK:
+		PlayerCharacter.Attack.WING_ATTACK:
 			var power = mini(parent.power.value, 2 * 8)
 			var times: int = power / 2.6
 			if times == 0:
@@ -148,15 +142,15 @@ func _on_animation_finished(anim_name: String) -> void:
 	match anim_name:
 		"Punch1", "Punch2":
 			parent.animation_player.play("RESET")
-			parent.state = GameCharacter.State.WALK
+			parent.state = PlayerCharacter.State.WALK
 		"Kick1", "Kick2":
 			move_state.walk_frame = 0
 			parent.animation_player.play("RESET")
-			parent.state = GameCharacter.State.WALK
+			parent.state = PlayerCharacter.State.WALK
 		"TailWhip":
 			move_state.walk_frame = 0
-			if parent.inputs[GameCharacter.Inputs.YINPUT] > 0:
+			if parent.inputs[PlayerCharacter.Inputs.YINPUT] > 0:
 				parent.animation_player.play("Crouch")
 			else:
 				parent.animation_player.play("RESET")
-			parent.state = GameCharacter.State.WALK
+			parent.state = PlayerCharacter.State.WALK

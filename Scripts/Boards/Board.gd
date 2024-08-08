@@ -37,7 +37,7 @@ extends Node2D
 
 var selected_piece: Node = null
 var board_data = {
-	player_level = {}, # [GameCharacter.Type] -> int
+	player_level = {}, # [PlayerCharacter.Type] -> int
 }
 
 #endregion
@@ -247,7 +247,7 @@ func returned(ignore_boss_moves := false) -> void:
 #region Bosses
 		
 func show_boss_info(piece) -> void:
-	var text = GameCharacter.CHARACTER_NAMES[piece.piece_character] + " - "
+	var text = PlayerCharacter.CHARACTER_NAMES[piece.piece_character] + " - "
 	var size = Vector2i(message_window.default_window_size)
 	var hp_text = boss_hp_str(piece.character_data.hp / 8)
 	

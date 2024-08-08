@@ -2,9 +2,9 @@ extends "res://Scripts/MainMenu/Menu.gd"
 
 # Explanation of the save system:
 # When the player gets on a board (using a save ofc)
-# the board's name is saved in the save file.
+# the board's id is saved in the save file.
 # In this menu the needed BoardDescription is found by
-# comparing the board names
+# comparing the board ids
 #
 # After the player completes the board, the next board
 # the player is sent to is determined by "next_board"
@@ -35,15 +35,15 @@ func _ready() -> void:
 	save_slots[0].select()
 	
 func menu_enter() -> void:
-	main_menu.selector.self_modulate.a = 0.0
+	main_menu.selector.hide()
 		
 func _process(delta: float) -> void:
 	save_slots.map(func(s: Control) -> void: s.deselect())
 	if main_menu.selector_option < save_slots.size():
-		main_menu.selector.self_modulate.a = 0.0
+		main_menu.selector.hide()
 		save_slots[main_menu.selector_option].select()
 	else:
-		main_menu.selector.self_modulate.a = 1.0
+		main_menu.selector.show()
 
 func menu_select(id: int) -> void:
 	if id == save_slots.size():
@@ -52,13 +52,10 @@ func menu_select(id: int) -> void:
 		Global.set_save_slot(id)
 		
 		var save_data := Global.load_save_data()
-		var board_id: String = save_data.get("board_id", "")
-		if board_id.is_empty():
+		var board_description = get_board_description(save_data)
+		if board_description == null:
 			main_menu.change_scene(starting_scene)
 			return
-		var board_description: BoardDescription = boards.filter(
-			func(b: BoardDescription): return b.board_id == board_id
-			)[0]
 		
 		get_tree().paused = true
 		

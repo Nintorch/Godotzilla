@@ -4,11 +4,11 @@ extends AnimatedSprite2D
 @onready var destroy_timer = $DestroyTimer
 @onready var attack: Node2D = $AttackComponent
 
-var player: GameCharacter
+var player: PlayerCharacter
 var id := 0
 var particle_array: Array[AnimatedSprite2D]
 
-func setup(init_id: int, init_player: GameCharacter):
+func setup(init_id: int, init_player: PlayerCharacter):
 	frame = init_id
 	id = init_id
 	visible = false

@@ -1,7 +1,7 @@
 extends CanvasLayer
 
-@export var player: GameCharacter = null
-@export var boss: GameCharacter = null
+@export var player: PlayerCharacter = null
+@export var boss: PlayerCharacter = null
 @export var boss_bar_color: Color
 @export var boss_timer_seconds := 60
 
@@ -55,7 +55,7 @@ func _ready():
 		vertical_size = 48
 		$BossCharacter.visible = false
 		
-func setup_character_listener(character: GameCharacter, group: Node2D) -> void:
+func setup_character_listener(character: PlayerCharacter, group: Node2D) -> void:
 	# Set the character's name in the HUD
 	group.get_node("CharacterName").text = character.get_character_name()
 	
@@ -115,7 +115,7 @@ func update_character_level(group: Node2D, new_value: int, new_bar_count: int):
 		level_str = "0" + level_str
 	level_node.text = "level " + level_str
 	
-	level_node.get_node("Bar").width = GameCharacter.calculate_xp_amount(new_value)
+	level_node.get_node("Bar").width = PlayerCharacter.calculate_xp_amount(new_value)
 		
 func adapt_to_content_size():
 	var width := Global.get_content_size().x

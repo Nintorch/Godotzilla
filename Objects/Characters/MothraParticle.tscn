@@ -83,3 +83,4 @@ libraries = {
 }
 
 [node name="AttackComponent" parent="." instance=ExtResource("3_f4212")]
+default_attack_amount = 2.0

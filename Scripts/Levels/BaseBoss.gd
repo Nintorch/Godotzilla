@@ -3,7 +3,7 @@ extends Level
 ## The amount of XP the player gets when the boss is defeated
 @export var xp_amount := 100
 
-@onready var boss: GameCharacter = $Boss
+@onready var boss: PlayerCharacter = $Boss
 
 func _ready() -> void:
 	super._ready()
@@ -13,6 +13,7 @@ func _ready() -> void:
 		get_HUD().boss_timer.stop()
 		player.add_xp(xp_amount)
 		Global.play_music(preload("res://Audio/Soundtrack/Victory.ogg"))
+		player_dead(boss)
 		)
 		
 	if data.boss_piece:
@@ -60,7 +61,7 @@ func boss_ai() -> void:
 		
 	if attack_time > 150 and boss.power.value > 3 * 8:
 		attack_time = 0
-		boss.simulate_input_press(GameCharacter.Inputs.START)
+		boss.simulate_input_press(PlayerCharacter.Inputs.START)
 		
 	if simple_attack_time > 100:
 		simple_attack_time = 0
@@ -94,7 +95,7 @@ func _on_hud_boss_timer_timeout() -> void:
 	boss.save_state(data.boss_piece.character_data)
 	
 	Global.music_fade_out()
-	await Global.fade_out(true)
+	await Global.fade_out_paused()
 	
 	Global.change_scene_node(Global.board)
 	# true for ignore_boss_moves

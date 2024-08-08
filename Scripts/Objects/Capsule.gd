@@ -29,10 +29,10 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if not timer.is_stopped():
 		return
 		
-	if body is GameCharacter:
+	if body is PlayerCharacter:
 		destroy(body)
 		
-func destroy(character: GameCharacter) -> void:
+func destroy(character: PlayerCharacter) -> void:
 	visible = false
 	area_2d.queue_free()
 	sfx.play()

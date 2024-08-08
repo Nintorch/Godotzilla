@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3 uid="uid://lxs5br5r3336"]
+
+[ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="1_bmng2"]
+
+[sub_resource type="GDScript" id="GDScript_l65hy"]
+resource_name = "SettingsMenu"
+script/source = "extends \"res://Scripts/MainMenu/Menu.gd\"
+
+func menu_select(id: int) -> void:
+	var menus: Array[Node2D] = [
+		%VideoSettings,
+		%SoundSettings,
+		%Controls,
+		%MenuMain,
+	]
+	
+	main_menu.set_menu(menus[id])
+"
+
+[node name="Settings" type="Node2D" groups=["menu"]]
+visible = false
+script = SubResource("GDScript_l65hy")
+
+[node name="Video" type="Label" parent="." groups=["option"]]
+offset_left = 72.0
+offset_top = 80.0
+offset_right = 136.0
+offset_bottom = 91.0
+theme_override_fonts/font = ExtResource("1_bmng2")
+text = "video options"
+uppercase = true
+
+[node name="Sound" type="Label" parent="." groups=["option"]]
+offset_left = 72.0
+offset_top = 104.0
+offset_right = 176.0
+offset_bottom = 115.0
+theme_override_fonts/font = ExtResource("1_bmng2")
+text = "sound options"
+uppercase = true
+
+[node name="Controls" type="Label" parent="." groups=["option"]]
+offset_left = 72.0
+offset_top = 128.0
+offset_right = 184.0
+offset_bottom = 139.0
+theme_override_fonts/font = ExtResource("1_bmng2")
+text = "controls
+"
+uppercase = true
+
+[node name="Exit" type="Label" parent="." groups=["option"]]
+offset_left = 72.0
+offset_top = 152.0
+offset_right = 184.0
+offset_bottom = 163.0
+theme_override_fonts/font = ExtResource("1_bmng2")
+text = "exit"
+uppercase = true

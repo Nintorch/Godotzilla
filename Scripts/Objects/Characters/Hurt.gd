@@ -25,7 +25,7 @@ func state_entered() -> void:
 
 func _on_timeout() -> void:
 	# Might be called after the character died
-	if parent.state != GameCharacter.State.HURT:
+	if parent.state != PlayerCharacter.State.HURT:
 		return
 	parent.animation_player.play("RESET")
 	move_state.reset()

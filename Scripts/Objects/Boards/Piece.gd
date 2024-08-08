@@ -11,7 +11,7 @@ const FRAME_SPEED := [
 	0.2, # Mothra
 ]
 
-@export var piece_character := GameCharacter.Type.GODZILLA:
+@export var piece_character := PlayerCharacter.Type.GODZILLA:
 	set(value):
 		piece_character = value
 		update_frame()
@@ -66,7 +66,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	hide_cell_below()
 	
-	if piece_character == GameCharacter.Type.MOTHRA:
+	if piece_character == PlayerCharacter.Type.MOTHRA:
 		walk_anim = 1
 	
 	var player_level = Global.get_current_scene().board_data.player_level
@@ -74,7 +74,7 @@ func _ready() -> void:
 		level = player_level[piece_character]
 	steps = PIECE_STEPS[piece_character]
 	character_data.bars = \
-		GameCharacter.calculate_bar_count(piece_character, level)
+		PlayerCharacter.calculate_bar_count(piece_character, level)
 	character_data.hp = character_data.bars * 8
 
 func _process(delta: float) -> void:
@@ -168,4 +168,4 @@ func get_nav_agent() -> NavigationAgent2D:
 	return $NavigationAgent2D
 	
 func get_character_name() -> String:
-	return GameCharacter.CHARACTER_NAMES[piece_character]
+	return PlayerCharacter.CHARACTER_NAMES[piece_character]

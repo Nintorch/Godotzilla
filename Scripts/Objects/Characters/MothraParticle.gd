@@ -12,7 +12,7 @@ enum Type {
 var velocity := Vector2()
 var type: Type
 
-func setup(init_type: Type, player: GameCharacter):
+func setup(init_type: Type, player: PlayerCharacter):
 	type = init_type
 	attack_component.objects_to_ignore.append(player)
 	attack_component.enemy = player.attack.enemy

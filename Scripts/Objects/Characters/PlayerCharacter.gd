@@ -1,4 +1,4 @@
-class_name GameCharacter
+class_name PlayerCharacter
 extends CharacterBody2D
 
 #region General constants, variables and signals
@@ -43,7 +43,7 @@ const BaseBarCount: Array[int] = [
 	8, # Mothra
 ]
 
-@export var character := GameCharacter.Type.GODZILLA
+@export var character := PlayerCharacter.Type.GODZILLA
 
 @export var is_player := true
 @export var enable_intro := true
@@ -109,9 +109,9 @@ func _ready() -> void:
 			
 	await Global.get_current_scene().ready
 		
-	# GameCharacter-specific setup
+	# PlayerCharacter-specific setup
 	match character:
-		GameCharacter.Type.GODZILLA:
+		PlayerCharacter.Type.GODZILLA:
 			change_skin(null)
 			set_collision(Vector2(20, 56), Vector2(0, -1))
 			
@@ -125,7 +125,7 @@ func _ready() -> void:
 			if is_player and enable_intro:
 				position.x = -35
 		
-		GameCharacter.Type.MOTHRA:
+		PlayerCharacter.Type.MOTHRA:
 			change_skin(load("res://Objects/Characters/Mothra.tscn").instantiate())
 			set_collision(Vector2(36, 14), Vector2(-4, 1))
 			
@@ -264,7 +264,7 @@ func set_level(value: int) -> void:
 		return
 	level = mini(value, 16)
 	
-	var bars := GameCharacter.calculate_bar_count(character, level)
+	var bars := PlayerCharacter.calculate_bar_count(character, level)
 	var bar_value := bars * 8
 	
 	power.max_value = bar_value
@@ -322,7 +322,7 @@ func _on_health_dead() -> void:
 func load_state(data: Dictionary = {}) -> void:
 	var bar_value := 0
 	if data.is_empty():
-		bar_value = GameCharacter.calculate_bar_count(character, level) * 8
+		bar_value = PlayerCharacter.calculate_bar_count(character, level) * 8
 		power.max_value = bar_value
 		power.value = bar_value
 		health.resize_and_fill(bar_value)
@@ -348,7 +348,7 @@ func _on_attack_component_attacked(attacked_body: Node2D, _amount: float) -> voi
 		add_xp(5)
 		Global.add_score(100)
 
-static func calculate_bar_count(char_id: GameCharacter.Type, char_level: int) -> int:
+static func calculate_bar_count(char_id: PlayerCharacter.Type, char_level: int) -> int:
 	return BaseBarCount[char_id] + char_level - 1
 	
 static func calculate_xp_amount(char_level: int) -> int:

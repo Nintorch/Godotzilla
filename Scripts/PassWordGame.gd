@@ -96,7 +96,7 @@ func prepare() -> void:
 	
 func leave() -> void:
 	Global.music_fade_out()
-	await Global.fade_out(true)
+	await Global.fade_out_paused()
 	await get_tree().create_timer(0.5).timeout
 	
 	Global.change_scene(load("res://Scenes/MainMenu/MainMenu.tscn"))
@@ -113,15 +113,10 @@ func input_selector_process() -> void:
 		END_POS: Vector2i(0,3),
 	}
 	
-	var move := Vector2i()
-	if Input.is_action_just_pressed("Left"):
-		move.x -= 1
-	if Input.is_action_just_pressed("Right"):
-		move.x += 1
-	if Input.is_action_just_pressed("Up"):
-		move.y -= 1
-	if Input.is_action_just_pressed("Down"):
-		move.y += 1
+	var move := Vector2i(
+		int(Input.is_action_just_pressed("Right")) - int(Input.is_action_just_pressed("Left")),
+		int(Input.is_action_just_pressed("Down")) - int(Input.is_action_just_pressed("Up")),
+	)
 	
 	if move != Vector2i.ZERO:
 		if move.x < 0 and input_selector_position in LEFT_REMAPS:
@@ -159,15 +154,17 @@ func move_password_selector(pos: int) -> void:
 	
 	var posx := selector_position % 20
 	var posy := selector_position / 20
-	password_selector.position.x = posx * 8 + (16 if posx >= 10 else 0)
-	password_selector.position.y = posy * 24
+	password_selector.position = Vector2(
+		posx * 8 + (16 if posx >= 10 else 0),
+		posy * 24
+	)
 	
 func update_password_text() -> void:
 	var string := "".join(password)
 	var result := ""
-	for i in range(0, 40, 10):
-		result += string.substr(i, 10) + \
-			("  " if i % 20 == 0 else '\n')
+	for i in 4:
+		result += string.substr(i*10, 10) + \
+			("  " if i % 2 == 0 else '\n')
 	password_node.text = result
 
 func get_password_text() -> String:
@@ -183,10 +180,10 @@ func pw_test() -> void:
 	get_tree().paused = true
 	
 	Global.music_fade_out()
-	await Global.fade_out(false, Global.FadeColor.WHITE)
+	await Global.fade_out(Global.FadeColor.WHITE)
 	await get_tree().create_timer(1).timeout
 	
 	Global.play_music(preload("res://Audio/Soundtrack/PassWordGame.ogg"))
-	await Global.fade_in(false, Global.FadeColor.WHITE)
+	await Global.fade_in(Global.FadeColor.WHITE)
 	
 	get_tree().paused = false

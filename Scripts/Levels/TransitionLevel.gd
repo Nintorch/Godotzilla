@@ -19,7 +19,7 @@ func next_level() -> void:
 		
 		if Global.board.music != music:
 			Global.music_fade_out()
-		await Global.fade_out(true)
+		await Global.fade_out_paused()
 		
 		Global.change_scene_node(Global.board)
 		Global.board.returned()

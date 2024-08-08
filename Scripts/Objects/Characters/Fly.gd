@@ -16,11 +16,11 @@ func _process(_delta: float):
 	if (parent.inputs_pressed[parent.Inputs.A]
 		or parent.inputs_pressed[parent.Inputs.B]) \
 		and attack_timer.is_stopped():
-			parent.use_attack(GameCharacter.Attack.EYE_BEAM)
+			parent.use_attack(PlayerCharacter.Attack.EYE_BEAM)
 			attack_timer.start(0.2)
 	
 	if parent.inputs_pressed[parent.Inputs.START]:
-		parent.use_attack(GameCharacter.Attack.WING_ATTACK)
+		parent.use_attack(PlayerCharacter.Attack.WING_ATTACK)
 
 func move(delta: float) -> void:
 	var xspeed := 2 * 60

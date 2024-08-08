@@ -14,7 +14,7 @@
 [sub_resource type="GDScript" id="GDScript_5gjb6"]
 script/source = "extends Node2D
 
-@onready var parent: GameCharacter = get_parent()
+@onready var parent: PlayerCharacter = get_parent()
 @onready var offset_y = $Body/Head.position.y
 @onready var body = $Body
 @onready var head = $Body/Head
