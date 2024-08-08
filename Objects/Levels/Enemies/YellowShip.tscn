@@ -47,7 +47,6 @@ _data = {
 script = ExtResource("2_164y3")
 
 [node name="HealthComponent" parent="." index="0"]
-value = 2.0
 max_value = 2.0
 
 [node name="Sprite" type="Sprite2D" parent="." index="4"]

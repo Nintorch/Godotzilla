@@ -31,9 +31,9 @@ region_enabled = true
 region_rect = Rect2(403, 22, 18, 30)
 
 [node name="HealthComponent" parent="TopPart" instance=ExtResource("2_k6k24")]
-value = 4.0
 max_value = 4.0
 enemy = true
+health_speed = 0.2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TopPart"]
 position = Vector2(-1, -4)
@@ -48,9 +48,9 @@ region_enabled = true
 region_rect = Rect2(394, 60, 34, 30)
 
 [node name="HealthComponent" parent="BottomPart" instance=ExtResource("2_k6k24")]
-value = 4.0
 max_value = 4.0
 enemy = true
+health_speed = 0.2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BottomPart"]
 position = Vector2(-1, 2)

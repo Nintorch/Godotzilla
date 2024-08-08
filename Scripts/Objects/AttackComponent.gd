@@ -53,6 +53,7 @@ func stop_attack() -> void:
 	should_attack = false
 	attacked_bodies.clear()
 	collision.shape.size = Vector2.ZERO
+	collision.position = Vector2.ZERO
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	attack_body(body)

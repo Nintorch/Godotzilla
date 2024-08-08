@@ -269,8 +269,7 @@ func set_level(value: int) -> void:
 	
 	power.max_value = bar_value
 	power.value = bar_value
-	health.max_value = bar_value
-	health.value = bar_value
+	health.resize_and_fill(bar_value)
 	
 	level_amount_changed.emit(level, bars)
 	
@@ -326,16 +325,15 @@ func load_state(data: Dictionary = {}) -> void:
 		bar_value = GameCharacter.calculate_bar_count(character, level) * 8
 		power.max_value = bar_value
 		power.value = bar_value
-		health.max_value = bar_value
-		health.value = bar_value
+		health.resize_and_fill(bar_value)
 		return
 		
 	bar_value = data.bars * 8
 	set_level(data.level)
 	xp = data.xp
 	
-	health.max_value = bar_value
-	health.value = data.hp
+	health.resize(bar_value)
+	health.set_value(data.hp)
 	power.max_value = bar_value
 	power.value = bar_value
 	
