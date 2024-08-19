@@ -29,8 +29,24 @@ func _process(delta: float) -> void:
 	if player.position.x > boss.position.x - 20:
 		player.position.x = boss.position.x - 20
 		player.velocity.x = 0
+		
+	if boss.position.x > camera.limit_right - 10:
+		boss.position.x = camera.limit_right - 10
+		boss.velocity.x = 0.0
 	
 	boss_ai()
+	
+func _on_hud_boss_timer_timeout() -> void:
+	boss.save_state(data.boss_piece.character_data)
+	
+	Global.music_fade_out()
+	await Global.fade_out_paused()
+	
+	Global.change_scene_node(Global.board)
+	# true for ignore_boss_moves
+	Global.board.returned(true)
+	
+#region Boss AI example
 	
 enum State {
 	NONE,
@@ -89,14 +105,5 @@ func spam_bullets() -> void:
 	boss.inputs_pressed[boss.Inputs.A] = true
 	await get_tree().create_timer(1, false).timeout
 	boss.inputs_pressed[boss.Inputs.A] = false
-
-
-func _on_hud_boss_timer_timeout() -> void:
-	boss.save_state(data.boss_piece.character_data)
 	
-	Global.music_fade_out()
-	await Global.fade_out_paused()
-	
-	Global.change_scene_node(Global.board)
-	# true for ignore_boss_moves
-	Global.board.returned(true)
+#endregion

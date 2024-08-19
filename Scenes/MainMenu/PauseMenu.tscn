@@ -19,6 +19,7 @@ func menu_select(id: int) -> void:
 			Global.get_current_scene().show()
 			Global.pause_visible_objects.map(func(x): x.show())
 			get_tree().paused = false
+			Global.pause_finished.emit()
 			
 			var sfx := Global.get_global_sfx(\"Pause\")
 			sfx.play()

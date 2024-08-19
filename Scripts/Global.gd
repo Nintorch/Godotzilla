@@ -27,6 +27,7 @@ signal fullscreen_changed(flag: bool) # only through use_fullscreen()
 signal scene_changed(from: Node, to: Node)
 signal score_changed(new_value: int)
 signal fade_end
+signal pause_finished
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -94,7 +95,7 @@ var pause_visible_objects: Array[Node] = []
 	
 func accept_pause() -> void:
 	if not Global.is_fading() and Input.is_action_just_pressed("Select"):
-		var pause = preload("res://Scenes/MainMenu/PauseMenu.tscn").instantiate()
+		var pause := preload("res://Scenes/MainMenu/PauseMenu.tscn").instantiate()
 		pause.return_scene = get_current_scene()
 		
 		get_current_scene().hide()

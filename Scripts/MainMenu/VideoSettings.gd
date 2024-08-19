@@ -9,10 +9,11 @@ var current_resolution := 2
 
 func _ready() -> void:
 	super._ready()
+	var widescreen_node := $Widescreen
 	
 	if not include_widescreen:
-		$Widescreen.queue_free()
-		options.remove_at(1)
+		options.erase(widescreen_node)
+		widescreen_node.queue_free()
 		$Exit.position.y -= 24
 		
 	Global.fullscreen_changed.connect(func(flag: bool) -> void:
@@ -23,7 +24,7 @@ func _ready() -> void:
 		)
 		
 	var file := Global.load_settings_file()
-	$Widescreen.text = "wide screen: " + \
+	widescreen_node.text = "wide screen: " + \
 		("on" if file.get_value(SECTION, "widescreen", false) else "off")
 	current_resolution = file.get_value(SECTION, "resolution", 2)
 	update_resolution_text()

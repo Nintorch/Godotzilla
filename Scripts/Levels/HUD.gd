@@ -66,7 +66,6 @@ func setup_character_listener(character: PlayerCharacter, group: Node2D) -> void
 	
 	update_character_level(group, character.level, character.health.max_value / 8)
 	
-	print(character.health.value)
 	life_bar.initial_value = character.health.value
 	life_bar.target_value = character.health.value
 	life_bar.update_style()

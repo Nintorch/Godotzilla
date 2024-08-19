@@ -9,7 +9,7 @@
 script = ExtResource("2_xih6l")
 xp_amount = 100
 music = ExtResource("2_pg308")
-enable_level_end = false
+right_boundary_behaviour = 0
 
 [node name="Camera" parent="." index="1"]
 limit_right = 256
@@ -24,12 +24,10 @@ position = Vector2(196, 189)
 character = 1
 is_player = false
 enable_intro = false
-block_level_end = true
 direction = -1
 
 [node name="Player" parent="." index="4"]
 position = Vector2(39, 189)
-block_level_end = true
 
 [node name="HUD" parent="." index="5" node_paths=PackedStringArray("boss")]
 boss = NodePath("../Boss")

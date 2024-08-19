@@ -1,11 +1,20 @@
 class_name Level
 extends Node2D
 
+enum LevelBoundaryType {
+	## The player will act like there's a big wall preventing them from going further
+	WALL,
+	## The player will go to the next level upon touching the boundary
+	NEXT_LEVEL,
+	## The player character will be transported to the next planet upon touching the boundary
+	NEXT_PLANET,
+}
+
 const GAME_OVER_SCENE := preload("res://Scenes/GameOver.tscn")
 
 @export var music: AudioStream
 @export var bg_color := Color(0, 0, 0)
-@export var enable_level_end := true
+@export var right_boundary_behaviour := LevelBoundaryType.NEXT_LEVEL
 
 @onready var camera: Camera2D = $Camera
 @onready var player: PlayerCharacter = $Player
@@ -19,6 +28,9 @@ var data = {
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(bg_color)
+	Global.pause_finished.connect(func() -> void:
+		RenderingServer.set_default_clear_color(bg_color)
+		)
 	
 	player.character = data.current_character
 	player.health.dead.connect(func(): 
@@ -32,28 +44,60 @@ func _ready() -> void:
 		if not Global.music.playing and music != null:
 			Global.play_music(music)
 		)
-		
-	player.block_level_end = not enable_level_end
 	
 	Global.fade_in()
 	
 func _process(_delta: float) -> void:
 	Global.accept_pause()
 	
-	if enable_level_end and player.position.x > camera.limit_right - 10:
-		var board_piece = data.board_piece
-		if board_piece:
-			player.save_state(board_piece.character_data)
-			board_piece.level = board_piece.character_data.level
+	if player.state != PlayerCharacter.State.LEVEL_INTRO \
+		and player.position.x < camera.limit_left + 10:
+			player.position.x = camera.limit_left + 10
+			player.velocity.x = 0.0
+	
+	if player.position.x > camera.limit_right - 10:
+		match right_boundary_behaviour:
+			LevelBoundaryType.WALL:
+				player.position.x = camera.limit_right - 10
+				player.velocity.x = 0.0
 			
-			var board_data = Global.board.board_data
-			board_data.player_level[board_piece.piece_character] = player.level
-		
-		next_level()
+			LevelBoundaryType.NEXT_LEVEL, LevelBoundaryType.NEXT_PLANET:
+				var board_piece = data.board_piece
+				if board_piece:
+					player.save_state(board_piece.character_data)
+					board_piece.level = board_piece.character_data.level
+					
+					var board_data = Global.board.board_data
+					board_data.player_level[board_piece.piece_character] = player.level
+				
+				if right_boundary_behaviour == LevelBoundaryType.NEXT_LEVEL:
+					next_level()
+				else:
+					next_planet()
 				
 func get_HUD():
 	return $HUD
+
+# Can also be used on bosses, hence the "character" argument
+func player_dead(character: PlayerCharacter) -> void:
+	await Global.music.finished
+	await Global.fade_out_paused()
 	
+	if not is_instance_valid(Global.board):
+		return
+	
+	Global.board.selected_piece.remove()
+	Global.board.selected_piece = null
+		
+	if Global.board.get_player_pieces().size() == 0:
+		Global.change_scene(GAME_OVER_SCENE)
+		return
+		
+	Global.change_scene_node(Global.board)
+	Global.board.returned(not character.is_player)
+
+#region Code for going to the next level/planet
+
 func next_level() -> void:
 	if OS.is_debug_build() and not Global.board:
 		get_tree().paused = true
@@ -79,20 +123,40 @@ func next_level() -> void:
 		Global.change_scene_node(Global.board)
 		Global.board.returned()
 		
-# Can also be used on bosses, hence the "character" argument
-func player_dead(character: PlayerCharacter) -> void:
-	await Global.music.finished
-	await Global.fade_out_paused()
-	
-	if not is_instance_valid(Global.board):
+func next_planet() -> void:
+	if OS.is_debug_build() and not Global.board:
+		get_tree().paused = true
+		Global.fade_out()
 		return
-	
-	Global.board.selected_piece.remove()
-	Global.board.selected_piece = null
 		
+	assert(is_instance_valid(Global.board))
+	
+	data.board_piece.remove()
+	
 	if Global.board.get_player_pieces().size() == 0:
-		Global.change_scene(GAME_OVER_SCENE)
-		return
+		get_tree().paused = true
 		
-	Global.change_scene_node(Global.board)
-	Global.board.returned(not character.is_player)
+		Global.music_fade_out()
+		await Global.fade_out()
+		
+		await get_tree().create_timer(0.5).timeout
+		
+		get_tree().paused = false
+		save_data()
+		Global.change_scene(Global.board.next_scene)
+		
+	else:
+		if Global.board.music != music:
+			Global.music_fade_out()
+		await Global.fade_out_paused()
+		
+		Global.change_scene_node(Global.board)
+		Global.board.returned()
+
+func save_data() -> void:
+	if Global.board.use_in_saves:
+		Global.save_data.board_data = Global.board.board_data
+		Global.save_data.score = Global.score
+		Global.store_save_data()
+		
+#endregion
