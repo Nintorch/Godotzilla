@@ -157,19 +157,27 @@ func store_save_data() -> void:
 	
 func load_save_file() -> ConfigFile:
 	var file = ConfigFile.new()
-	if file.load_encrypted_pass(SAVE_FILE_PATH, SAVE_FILE_PASS) != OK:
+	if file.load_encrypted_pass(SAVE_FILE_PATH, get_save_password()) != OK:
 		store_save_file(file)
 	return file
 	
 func store_save_file(file: ConfigFile) -> void:
 	if save_slot_id >= 0:
-		file.save_encrypted_pass(SAVE_FILE_PATH, SAVE_FILE_PASS)
+		file.save_encrypted_pass(SAVE_FILE_PATH, get_save_password())
 	
 func set_save_slot(id: int) -> void:
 	save_slot_id = id
 
 func get_save_slot_section() -> String:
 	return "save" + str(save_slot_id+1)
+	
+func get_save_password() -> String:
+	# We tried to prevent other people from sending their
+	# save files to other people
+	# Like imagine if someone completed the game and sent other
+	# people their save file
+	# So we also use (hopefully) user-unique home directory
+	return SAVE_FILE_PASS + OS.get_user_data_dir()
 	
 #endregion
 	
