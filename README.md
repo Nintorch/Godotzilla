@@ -10,13 +10,23 @@ This framework can be used for anything you want, this includes but not limited 
 - 2 playable characters: Godzilla and Mothra
 - Everything essential for a GMoM-styled game is present:
   - Levels
-  - Bosses
+  - Bosses (includes a Mothra boss template)
   - Boards
   - Title screen
   - Main menu
+  - "Pass word game"
   - Settings
   - Credits
-- **Save system**
+- Save system
+  - With encryption and (hopefully working) protection against using other people's save files
+- Wide screen support
+- Gamepad support
+  - Tested with cheap controllers as well as Dualshock 4 and Xbox One controllers
+- In-game control remapping
+- Pause menu with settings
+- Reusable components for characters and enemies:
+  - State machine
+  - Health component, power component, attack component
 - And more!
 
 ## Usage
