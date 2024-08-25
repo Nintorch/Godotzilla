@@ -1,4 +1,4 @@
-extends "res://Scripts/Objects/Characters/State.gd"
+extends State
 
 var move_state: Node
 var sfx_step: AudioStreamPlayer
@@ -24,7 +24,7 @@ var current_params
 func state_init() -> void:
 	sfx_step = parent.get_sfx("Step")
 	sfx_roar = parent.get_sfx("Roar")
-	move_state = parent.states_list[parent.move_state]
+	move_state = parent.state.states_list[parent.move_state]
 	current_params = CHARACTER_PARAMS[parent.character]
 
 func _physics_process(delta: float) -> void:
@@ -43,7 +43,7 @@ func _physics_process(delta: float) -> void:
 			sfx_step.play()
 			
 	if parent.position.x > current_params.target_x:
-		parent.state = parent.move_state
+		parent.state.current = parent.move_state
 		parent.velocity = Vector2(0,0)
 		move_state.reset()
 		parent.body.frame = 0

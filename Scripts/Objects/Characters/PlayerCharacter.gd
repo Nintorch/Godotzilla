@@ -59,12 +59,11 @@ var direction: int = 1:
 			skin.scale.x = value
 
 @onready var collision: CollisionShape2D = $Collision
-@onready var states_list: Array[Node] = $States.get_children()
 @onready var health: Node = $HealthComponent
 @onready var power: Node = $PowerComponent
 @onready var attack: Node2D = $AttackComponent
+@onready var state: StateMachine = $StateMachine
 
-var state := State.LEVEL_INTRO: set = _set_state
 var move_state := State.WALK
 var move_speed := 0.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -147,20 +146,14 @@ func _ready() -> void:
 		animation_player.play("Idle")
 	
 	if not enable_intro:
-		state = move_state
+		state.set_state(move_state)
 		if is_player:
 			intro_ended.emit()
 	
-	for i in states_list:
-		i.state_init()
-		if i == states_list[state]:
-			i.enable()
-			i.state_entered()
-		else:
-			i.disable()
+	state.init()
 		
 func _physics_process(delta: float) -> void:
-	if state != State.DEAD and not is_on_floor() and not is_flying():
+	if state.current != State.DEAD and not is_on_floor() and not is_flying():
 		velocity.y += gravity * delta
 
 	move_and_slide()
@@ -169,20 +162,6 @@ func _physics_process(delta: float) -> void:
 
 func _process(_delta: float) -> void:
 	process_input()
-
-func _set_state(new_state: State) -> void:
-	if state == new_state:
-		return
-	
-	var old_state_node := states_list[state]
-	var new_state_node := states_list[new_state]
-	
-	old_state_node.state_exited()
-	old_state_node.disable()
-	new_state_node.enable()
-	new_state_node.state_entered()
-	
-	state = new_state
 	
 func change_skin(new_skin: Node2D) -> void:
 	if new_skin == null:
@@ -240,7 +219,7 @@ func simulate_input_press(key: Inputs) -> void:
 func use_attack(type: Attack) -> void:
 	if not enable_attacks:
 		return
-	$States/Attack.use(type)
+	$StateMachine/Attack.use(type)
 	
 func set_level(value: int) -> void:
 	if not is_player or level == value:
@@ -289,18 +268,18 @@ func is_hurtable() -> bool:
 	return state not in [State.LEVEL_INTRO, State.HURT, State.DEAD]
 
 func _on_health_damaged(_amount: float, hurt_time: float) -> void:
-	var attack_state := $States/Attack
-	if state == State.ATTACK and attack_state.current_attack == Attack.HEAT_BEAM:
+	var attack_state := $StateMachine/Attack
+	if state.current == State.ATTACK and attack_state.current_attack == Attack.HEAT_BEAM:
 		hurt_time = 0
 		
 	if hurt_time < 0:
 		hurt_time = 0.6
 	if hurt_time > 0:
-		$States/Hurt.hurt_time = hurt_time
-		state = State.HURT
+		$StateMachine/Hurt.hurt_time = hurt_time
+		state.current = State.HURT
 
 func _on_health_dead() -> void:
-	state = State.DEAD
+	state.current = State.DEAD
 	
 func load_state(data: Dictionary = {}) -> void:
 	var bar_value := 0

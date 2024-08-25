@@ -1,11 +1,11 @@
-extends "res://Scripts/Objects/Characters/State.gd"
+extends State
 
 @onready var timer := Timer.new()
 var hurt_time := 0.0
 var move_state: Node
 
 func state_init() -> void:
-	move_state = parent.states_list[parent.move_state]
+	move_state = parent.state.states_list[parent.move_state]
 	timer.timeout.connect(_on_timeout)
 	timer.one_shot = true
 	add_child(timer)
@@ -25,8 +25,8 @@ func state_entered() -> void:
 
 func _on_timeout() -> void:
 	# Might be called after the character died
-	if parent.state != PlayerCharacter.State.HURT:
+	if parent.state.current != PlayerCharacter.State.HURT:
 		return
 	parent.animation_player.play("RESET")
 	move_state.reset()
-	parent.state = parent.move_state
+	parent.state.current = parent.move_state

@@ -1,4 +1,4 @@
-extends "res://Scripts/Objects/Characters/State.gd"
+extends State
 
 const MothraParticle := preload("res://Objects/Characters/MothraParticle.tscn")
 const GodzillaHeatBeam := preload("res://Objects/Characters/GodzillaHeatBeam.tscn")
@@ -11,7 +11,7 @@ var attack_component: Node2D
 
 func state_init() -> void:
 	attack_component = parent.attack
-	move_state = parent.states_list[parent.move_state]
+	move_state = parent.state.states_list[parent.move_state]
 	parent.animation_player.animation_finished.connect(_on_animation_finished)
 	
 var save_allow_direction_changing := false
@@ -26,7 +26,7 @@ func _process(delta: float) -> void:
 	move_state.move(delta)
 
 func use(type: PlayerCharacter.Attack) -> void:
-	parent.state = PlayerCharacter.State.ATTACK
+	parent.state.current = PlayerCharacter.State.ATTACK
 	current_attack = type
 	
 	match type:
@@ -86,7 +86,7 @@ func use(type: PlayerCharacter.Attack) -> void:
 				
 			move_state.walk_frame = 0
 			parent.animation_player.play("RESET")
-			parent.state = parent.move_state
+			parent.state.current = parent.move_state
 			
 		# Mothra-specific attacks
 		PlayerCharacter.Attack.EYE_BEAM:
@@ -95,14 +95,14 @@ func use(type: PlayerCharacter.Attack) -> void:
 			particle.setup(particle.Type.EYE_BEAM, parent)
 			particle.global_position = \
 				parent.global_position + Vector2(20 * parent.direction, -2)
-			parent.state = parent.move_state
+			parent.state.current = parent.move_state
 			parent.get_sfx("Step").play()
 			
 		PlayerCharacter.Attack.WING_ATTACK:
 			var power = mini(parent.power.value, 2 * 8)
 			var times: int = power / 2.6
 			if times == 0:
-				parent.state = parent.move_state
+				parent.state.current = parent.move_state
 				return
 			parent.power.use(power)
 			
@@ -114,7 +114,7 @@ func use(type: PlayerCharacter.Attack) -> void:
 				particle.global_position = parent.global_position
 				await get_tree().create_timer(0.15, false).timeout
 				
-			parent.state = parent.move_state
+			parent.state.current = parent.move_state
 				
 func create_heat_beam() -> void:
 	const HEAT_BEAM_COUNT := 12
@@ -142,15 +142,15 @@ func _on_animation_finished(anim_name: String) -> void:
 	match anim_name:
 		"Punch1", "Punch2":
 			parent.animation_player.play("RESET")
-			parent.state = PlayerCharacter.State.WALK
+			parent.state.current = PlayerCharacter.State.WALK
 		"Kick1", "Kick2":
 			move_state.walk_frame = 0
 			parent.animation_player.play("RESET")
-			parent.state = PlayerCharacter.State.WALK
+			parent.state.current = PlayerCharacter.State.WALK
 		"TailWhip":
 			move_state.walk_frame = 0
 			if parent.inputs[PlayerCharacter.Inputs.YINPUT] > 0:
 				parent.animation_player.play("Crouch")
 			else:
 				parent.animation_player.play("RESET")
-			parent.state = PlayerCharacter.State.WALK
+			parent.state.current = PlayerCharacter.State.WALK

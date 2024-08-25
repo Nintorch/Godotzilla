@@ -1,6 +1,7 @@
+class_name State
 extends Node
 
-@onready var parent: PlayerCharacter = $"../.."
+@onready var parent: Node = $"../.."
 
 ## The method that is called when the player is ready
 func state_init() -> void:

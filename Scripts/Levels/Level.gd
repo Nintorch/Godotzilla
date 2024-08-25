@@ -50,7 +50,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	Global.accept_pause()
 	
-	if player.state != PlayerCharacter.State.LEVEL_INTRO \
+	if player.state.current != PlayerCharacter.State.LEVEL_INTRO \
 		and player.position.x < camera.limit_left + 10:
 			player.position.x = camera.limit_left + 10
 			player.velocity.x = 0.0

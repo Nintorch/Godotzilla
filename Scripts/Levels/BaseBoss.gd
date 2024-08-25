@@ -7,8 +7,8 @@ extends Level
 
 func _ready() -> void:
 	super._ready()
-	player.intro_ended.connect(func(): state = State.IDLE)
-	player.health.dead.connect(func(): state = State.NONE)
+	player.intro_ended.connect(func(): state = BossState.IDLE)
+	player.health.dead.connect(func(): state = BossState.NONE)
 	boss.health.dead.connect(func():
 		get_HUD().boss_timer.stop()
 		player.add_xp(xp_amount)
@@ -48,19 +48,19 @@ func _on_hud_boss_timer_timeout() -> void:
 	
 #region Boss AI example
 	
-enum State {
+enum BossState {
 	NONE,
 	IDLE,
 	MOVING,
 }
 
-var state: State = State.NONE
+var state: BossState = BossState.NONE
 var time := 40
 var attack_time := 0
 var simple_attack_time := 0
 
 func boss_ai() -> void:
-	if state == State.NONE or boss.state == boss.State.DEAD:
+	if state == BossState.NONE or boss.state.current == boss.State.DEAD:
 		return
 	
 	time -= 1
@@ -68,7 +68,7 @@ func boss_ai() -> void:
 	if boss.position.x < 50:
 		boss.position.x = 50
 		boss.velocity.x = 0
-		state = State.IDLE
+		state = BossState.IDLE
 		
 	if (boss.position.x - player.position.x) < 60:
 		attack_time += 1
@@ -84,21 +84,21 @@ func boss_ai() -> void:
 		spam_bullets()
 	
 	match state:
-		State.IDLE:
+		BossState.IDLE:
 			boss.inputs[boss.Inputs.XINPUT] = 0
 			boss.inputs[boss.Inputs.YINPUT] = 0
 			if time <= 0:
-				state = State.MOVING
+				state = BossState.MOVING
 				time = 20
 				
 				boss.inputs[boss.Inputs.XINPUT] = randi_range(-1, 1)
 				boss.inputs[boss.Inputs.YINPUT] = randi_range(-1, 1)
-		State.MOVING:
+		BossState.MOVING:
 			if boss.position.y > 160:
 				boss.position.y = 160
 				boss.velocity.y = 0
 			if time <= 0:
-				state = State.IDLE
+				state = BossState.IDLE
 				time = randi_range(30, 90)
 
 func spam_bullets() -> void:

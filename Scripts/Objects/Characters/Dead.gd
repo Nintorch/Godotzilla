@@ -1,4 +1,4 @@
-extends "res://Scripts/Objects/Characters/State.gd"
+extends State
 
 const EXPLOSION := preload("res://Objects/Levels/Explosion.tscn")
 
