@@ -163,9 +163,6 @@ func _physics_process(delta: float) -> void:
 func _process(_delta: float) -> void:
 	process_input()
 	
-	if Input.is_action_just_pressed("B"):
-		add_xp(40)
-	
 func change_skin(new_skin: Node2D) -> void:
 	if new_skin == null:
 		move_child($Skin, -1)
