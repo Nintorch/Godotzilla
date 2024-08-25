@@ -163,6 +163,9 @@ func _physics_process(delta: float) -> void:
 func _process(_delta: float) -> void:
 	process_input()
 	
+	if Input.is_action_just_pressed("B"):
+		add_xp(40)
+	
 func change_skin(new_skin: Node2D) -> void:
 	if new_skin == null:
 		move_child($Skin, -1)
@@ -234,6 +237,8 @@ func set_level(value: int) -> void:
 	health.resize_and_fill(bar_value)
 	
 	level_amount_changed.emit(level, bars)
+	
+	get_sfx("LevelUp").play()
 	
 func add_xp(value: int) -> void:
 	if value <= 0:

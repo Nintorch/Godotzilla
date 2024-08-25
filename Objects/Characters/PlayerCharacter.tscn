@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bdedrxocj46sr"]
+[gd_scene load_steps=19 format=3 uid="uid://bdedrxocj46sr"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/PlayerCharacter.gd" id="1_c8c0q"]
 [ext_resource type="PackedScene" uid="uid://m84defn1thau" path="res://Objects/Characters/Godzilla.tscn" id="1_swkt0"]
@@ -15,6 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://deo2ts4xdwwce" path="res://Audio/SFX/CharPunch.wav" id="11_npbvd"]
 [ext_resource type="AudioStream" uid="uid://bnpu85disxvis" path="res://Audio/SFX/GodzillaHeatBeam.wav" id="11_y38wb"]
 [ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="12_re2uk"]
+[ext_resource type="AudioStream" uid="uid://clfqyu3fby0tv" path="res://Audio/SFX/LevelUp.wav" id="13_l1dc3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yw7jv"]
 size = Vector2(20, 56)
@@ -80,6 +81,10 @@ bus = &"SFX"
 [node name="HeatBeam" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("11_y38wb")
 bus = &"SFX"
+
+[node name="LevelUp" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("13_l1dc3")
+volume_db = 8.0
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_bws3y")]
 invincibility_time_seconds = 0.5
