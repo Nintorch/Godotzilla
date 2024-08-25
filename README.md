@@ -6,6 +6,19 @@ This framework can be used for anything you want, this includes but not limited 
 - NES Godzilla Creepypasta remakes
 - playable NGC fan stories.
 
+## Features
+- 2 playable characters: Godzilla and Mothra
+- Everything essential for a GMoM-styled game is present:
+  - Levels
+  - Bosses
+  - Boards
+  - Title screen
+  - Main menu
+  - Settings
+  - Credits
+- **Save system**
+- And more!
+
 ## Usage
 TODO: tutorials
 
