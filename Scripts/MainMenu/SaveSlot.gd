@@ -20,6 +20,9 @@ func set_data(save_id: int, planet: BoardDescription, char_level: int) -> void:
 	self.planet = planet
 	$SaveExists/PlanetName.text = planet.name.to_lower()
 	
+	if planet.icon != null:
+		$SaveExists/PlanetIcon.texture = planet.icon
+	
 func set_data_empty(save_id: int) -> void:
 	doesnt_exist.visible = true
 	$DoesntExist/SaveID.text = "save " + str(save_id + 1)

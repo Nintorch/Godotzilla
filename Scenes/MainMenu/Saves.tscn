@@ -1,23 +1,34 @@
-[gd_scene load_steps=10 format=3 uid="uid://bdey4yd06l4t3"]
+[gd_scene load_steps=13 format=3 uid="uid://bdey4yd06l4t3"]
 
 [ext_resource type="Script" path="res://Scripts/MainMenu/Saves.gd" id="1_k6r7c"]
 [ext_resource type="Script" path="res://Scripts/Boards/BoardDescription.gd" id="2_j2snq"]
+[ext_resource type="Texture2D" uid="uid://bwwv6hp8lqxa8" path="res://Sprites/Levels/PlanetIcons.png" id="3_30or2"]
 [ext_resource type="PackedScene" uid="uid://blo8x6bqjbe1w" path="res://Scenes/Boards/TheEarth.tscn" id="3_fesxg"]
 [ext_resource type="PackedScene" uid="uid://slv0bn0tcyna" path="res://Scenes/Boards/Jupiter.tscn" id="4_nkx8y"]
 [ext_resource type="PackedScene" uid="uid://dockgi1sveicy" path="res://Scenes/GameIntro.tscn" id="5_8br8r"]
 [ext_resource type="PackedScene" uid="uid://bishkusg7nuhs" path="res://Scenes/MainMenu/SaveSlot.tscn" id="6_3xjm8"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="7_sjpp6"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_heghi"]
+atlas = ExtResource("3_30or2")
+region = Rect2(0, 0, 32, 32)
+
 [sub_resource type="Resource" id="Resource_tt3oh"]
 script = ExtResource("2_j2snq")
 name = "The Earth"
 board_id = "earth"
+icon = SubResource("AtlasTexture_heghi")
 scene = ExtResource("3_fesxg")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6cjqn"]
+atlas = ExtResource("3_30or2")
+region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="Resource" id="Resource_425mq"]
 script = ExtResource("2_j2snq")
 name = "Jupiter"
 board_id = "jupiter"
+icon = SubResource("AtlasTexture_6cjqn")
 scene = ExtResource("4_nkx8y")
 
 [node name="Saves" type="Node2D" groups=["menu"]]
