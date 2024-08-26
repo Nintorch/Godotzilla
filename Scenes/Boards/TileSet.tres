@@ -1,8 +1,8 @@
 [gd_resource type="TileSet" load_steps=5 format=3 uid="uid://ssw1p4ldc5kg"]
 
-[ext_resource type="Texture2D" uid="uid://dhod63htftwaw" path="res://Sprites/EditorBoard.png" id="1_86gfs"]
+[ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Sprites/Levels/TestLevel/board.png" id="1_5bvg0"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_kpots"]
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_akmfr"]
 vertices = PackedVector2Array(-16, -1, -21, -7, -16, -13, -11, -8, -8, 7, 16, 0, 22, 6, 16, 12, 10, 7, -16, 12, -22, 7, 16, -13, 21, -9, 11, -9, 6, 16, -6, 16, 6, -16, -7, -16)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(9, 10, 0, 4), PackedInt32Array(11, 12, 5, 13), PackedInt32Array(8, 14, 15, 4, 3), PackedInt32Array(16, 13, 5, 8, 3, 17)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-6.71751, -16, 6.01041, -16, 10.6066, -9.19239, 16, -12.7279, 20.8597, -8.83884, 16, 0, 22.2739, 6.01041, 16, 12.3744, 10.2531, 7.42462, 6.36396, 16, -6.36396, 16, -8.48528, 7.42462, -16, 12.3744, -21.5668, 7.07107, -16, -1.41422, -20.8596, -7.42462, -16, -12.7279, -10.6066, -8.48528)])
@@ -11,17 +11,17 @@ agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wxb3r"]
 resource_name = "Outline"
-texture = ExtResource("1_86gfs")
+texture = ExtResource("1_5bvg0")
 texture_region_size = Vector2i(48, 34)
 use_texture_padding = false
-0:0/next_alternative_id = 3
+0:0/next_alternative_id = 2
 0:0/0 = 0
-0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_kpots")
+0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_akmfr")
 0:0/1 = 1
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5xk1u"]
 resource_name = "Icons"
-texture = ExtResource("1_86gfs")
+texture = ExtResource("1_5bvg0")
 margins = Vector2i(48, 0)
 texture_region_size = Vector2i(48, 32)
 0:0/0 = 0

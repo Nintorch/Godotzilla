@@ -146,7 +146,7 @@ func _ready() -> void:
 		animation_player.play("Idle")
 	
 	if not enable_intro:
-		state.set_state(move_state)
+		state.current = move_state
 		if is_player:
 			intro_ended.emit()
 	

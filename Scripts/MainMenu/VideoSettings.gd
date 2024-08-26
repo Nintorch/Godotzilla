@@ -4,7 +4,7 @@ extends "res://Scripts/MainMenu/Menu.gd"
 @export var include_widescreen := true
 
 const SECTION := "Video"
-const RESOLUTIONS := [1, 2, 3, 4, 5, -1]
+const RESOLUTIONS := [1, 2, 3, 4, -1]
 var current_resolution := 2
 
 func _ready() -> void:

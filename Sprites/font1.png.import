@@ -13,10 +13,13 @@ dest_files=["res://.godot/imported/font1.png-7ba8dc092517dcd1d45e236242645b2c.fo
 [params]
 
 character_ranges=PackedStringArray("\'A\'-\'Z\'", "\'0\'-\'9\'", "\'.\'", "\',\'", "\'\"\'", "45", "\'!\'", "\'?\'", "\':\'", "\' \'")
+kerning_pairs=PackedStringArray()
 columns=26
 rows=2
 image_margin=Rect2i(0, 0, 0, 0)
 character_margin=Rect2i(0, 0, 0, 0)
+ascent=0
+descent=0
 fallbacks=[]
 compress=true
 scaling_mode=0
