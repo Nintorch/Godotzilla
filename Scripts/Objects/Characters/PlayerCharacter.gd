@@ -221,7 +221,7 @@ func use_attack(type: Attack) -> void:
 		return
 	$StateMachine/Attack.use(type)
 	
-func set_level(value: int) -> void:
+func set_level(value: int, sfx := false) -> void:
 	if not is_player or level == value:
 		return
 	level = mini(value, 16)
@@ -235,7 +235,8 @@ func set_level(value: int) -> void:
 	
 	level_amount_changed.emit(level, bars)
 	
-	get_sfx("LevelUp").play()
+	if sfx:
+		get_sfx("LevelUp").play()
 	
 func add_xp(value: int) -> void:
 	if value <= 0:
@@ -249,7 +250,7 @@ func add_xp(value: int) -> void:
 		current_level += 1
 		xp_amount = calculate_xp_amount(current_level)
 	if current_level > level:
-		set_level(current_level)
+		set_level(current_level, true)
 		
 	xp_amount_changed.emit(xp)
 	

@@ -21,7 +21,7 @@ func _ready() -> void:
 	setup_widescreen_bars()
 	
 	story_text.text = FileAccess.open("res://Other/GameIntroText.txt", FileAccess.READ) \
-		.get_as_text().replace('\n', '')
+		.get_as_text().replace('\n', '').replace('\r', '')
 	images.visible = false
 	image_count = images.get_child_count()
 	
