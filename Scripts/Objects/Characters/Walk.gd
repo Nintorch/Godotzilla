@@ -71,7 +71,7 @@ func move(delta: float):
 			jumping = false
 			parent.velocity.y = 0
 	
-	if diry > 0.4:
+	if diry > 0.4 and parent.body.sprite_frames.has_animation("Crouch"):
 		if parent.animation_player.current_animation == "Walk"\
 			or parent.animation_player.current_animation == "":
 			parent.animation_player.play("Crouch")

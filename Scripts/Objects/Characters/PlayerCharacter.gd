@@ -261,7 +261,7 @@ func get_character_name() -> String:
 	return CHARACTER_NAMES[character]
 	
 func is_flying() -> bool:
-	return character == Type.MOTHRA
+	return move_state == State.FLY
 	
 func set_collision(size: Vector2, offset: Vector2) -> void:
 	collision.shape.size = size

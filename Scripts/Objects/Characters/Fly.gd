@@ -23,7 +23,7 @@ func _process(_delta: float):
 		parent.use_attack(PlayerCharacter.Attack.WING_ATTACK)
 
 func move(delta: float) -> void:
-	var xspeed := 2 * 60
+	var xspeed: float = parent.move_speed
 	var ylimit := YLIMIT
 	
 	var camera := get_viewport().get_camera_2d()

@@ -16,7 +16,8 @@ func state_entered() -> void:
 	
 	parent.animation_player.play("RESET")
 	await get_tree().process_frame
-	parent.animation_player.play("Hurt")
+	if parent.animation_player.has_animation("Hurt"):
+		parent.animation_player.play("Hurt")
 	
 	# -1 if facing right and 1 if facing left
 	parent.velocity.x = -parent.direction * parent.move_speed
