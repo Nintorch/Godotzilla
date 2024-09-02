@@ -92,9 +92,11 @@ func _process(delta: float) -> void:
 
 func update_frame() -> void:
 	# + 1 to skip the top row of the spritesheet (non-character sprites for boards)
-	var value := (piece_character + 1) * FRAME_COUNT + piece_frame
-	if value < (hframes * vframes):
-		frame = value
+	var xoffset := 48 * piece_frame
+	var yoffset := 48 * (piece_character + 1)
+	
+	region_rect.position.x = xoffset
+	region_rect.position.y = yoffset
 	
 	# Face the left direction if it's a boss
 	scale.x = 1 if piece_type == 0 else -1

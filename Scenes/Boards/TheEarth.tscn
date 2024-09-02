@@ -21,7 +21,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAABAAEAAQAAAAAAAAABAAIAAQAAAAA
 [node name="Mothra2" parent="Board/Board Icons/Board Pieces" index="2" instance=ExtResource("6_vncvx")]
 position = Vector2(176, 104)
 scale = Vector2(-1, 1)
-frame = 6
+region_rect = Rect2(0, 96, 48, 48)
 piece_character = 1
 piece_type = 1
 boss_scene = ExtResource("7_wraew")

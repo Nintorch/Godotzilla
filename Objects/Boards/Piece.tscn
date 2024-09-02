@@ -6,9 +6,8 @@
 [node name="Piece" type="Sprite2D"]
 position = Vector2(0, 9)
 texture = ExtResource("1_vlmlk")
-hframes = 3
-vframes = 3
-frame = 3
+region_enabled = true
+region_rect = Rect2(0, 48, 48, 48)
 script = ExtResource("2_f5xfm")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]

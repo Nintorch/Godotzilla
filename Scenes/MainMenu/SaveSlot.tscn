@@ -58,7 +58,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Piece2" parent="SaveExists" instance=ExtResource("3_uosa4")]
 position = Vector2(24, 24)
-frame = 6
+region_rect = Rect2(0, 96, 48, 48)
 piece_character = 1
 
 [node name="Piece1" parent="SaveExists" instance=ExtResource("3_uosa4")]
