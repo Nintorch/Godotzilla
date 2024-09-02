@@ -125,8 +125,9 @@ func get_all_visible_children(node: Node) -> Array[Node]:
 	return nodes
 	
 func add_score(value: int) -> void:
-	if value > 0:
-		score += value
+	const SCORE_MAX := 999999
+	if value > 0 and value < SCORE_MAX:
+		score = mini(score+value, SCORE_MAX)
 		score_changed.emit(score)
 
 #region Save files
