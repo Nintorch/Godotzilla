@@ -19,7 +19,7 @@ This framework can be used for anything you want, this includes but not limited 
   - Credits
 - Save system
   - With encryption and (hopefully working) protection against using other people's save files
-- Wide screen support
+- Wide screen (togglable)
 - Gamepad support
   - Tested with cheap controllers as well as Dualshock 4 and Xbox One controllers
 - In-game control remapping
