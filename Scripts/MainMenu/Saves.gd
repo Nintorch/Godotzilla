@@ -29,7 +29,7 @@ func _ready() -> void:
 		if board_description == null:
 			save_slot.set_data_empty(save_id)
 		else:
-			save_slot.set_data(save_id, board_description, -1)
+			save_slot.set_data(save_id, board_description)
 		save_id += 1
 		
 	save_slots[0].select()
@@ -37,7 +37,7 @@ func _ready() -> void:
 func menu_enter() -> void:
 	main_menu.selector.hide()
 		
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	save_slots.map(func(s: Control) -> void: s.deselect())
 	if main_menu.selector_option < save_slots.size():
 		main_menu.selector.hide()

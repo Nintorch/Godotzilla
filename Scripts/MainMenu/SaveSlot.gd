@@ -11,21 +11,21 @@ func _ready() -> void:
 	save_exists.visible = false
 	doesnt_exist.visible = false
 
-func set_data(save_id: int, planet: BoardDescription, char_level: int) -> void:
+func set_data(psave_id: int, pplanet: BoardDescription) -> void:
 	save_exists.visible = true
 	
-	self.save_id = save_id
-	$SaveExists/SaveID.text = "save " + str(save_id + 1)
+	self.save_id = psave_id
+	$SaveExists/SaveID.text = "save " + str(psave_id + 1)
 	
-	self.planet = planet
-	$SaveExists/PlanetName.text = planet.name.to_lower()
+	self.planet = pplanet
+	$SaveExists/PlanetName.text = pplanet.name.to_lower()
 	
 	if planet.icon != null:
-		$SaveExists/PlanetIcon.texture = planet.icon
+		$SaveExists/PlanetIcon.texture = pplanet.icon
 	
-func set_data_empty(save_id: int) -> void:
+func set_data_empty(psave_id: int) -> void:
 	doesnt_exist.visible = true
-	$DoesntExist/SaveID.text = "save " + str(save_id + 1)
+	$DoesntExist/SaveID.text = "save " + str(psave_id + 1)
 
 func select() -> void:
 	border.self_modulate = Color("b53120")

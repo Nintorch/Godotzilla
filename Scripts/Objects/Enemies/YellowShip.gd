@@ -4,7 +4,7 @@ extends "res://Scripts/Objects/Enemies/BaseEnemy.gd"
 
 var velocity := Vector2()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var camera := get_viewport().get_camera_2d()
 	if camera == null:
 		return

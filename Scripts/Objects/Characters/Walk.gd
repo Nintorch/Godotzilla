@@ -47,7 +47,7 @@ func move(delta: float) -> void:
 		parent.velocity.x = parent.move_speed * dirx
 		
 		if parent.allow_direction_changing:
-			parent.direction = signi(dirx)
+			parent.direction = int(signf(dirx))
 			
 		walk_frame = wrapf(
 			walk_frame + walk_frame_speed * delta * dirx * parent.direction,

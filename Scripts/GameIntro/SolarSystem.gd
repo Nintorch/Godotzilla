@@ -14,7 +14,6 @@ func _ready() -> void:
 func move_planets() -> void:
 	for planet in planets:
 		planet.position.x += 1
-		Image
 		var image_pos: Vector2 = solar_system_object.to_local(planet.global_position)
 		var color := solar_system_image.get_pixel(int(image_pos.x), int(image_pos.y))
 		if color.g > 0.0:

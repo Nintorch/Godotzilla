@@ -18,7 +18,7 @@ var camera_current_offset := 0
 func _ready() -> void:
 	Global.widescreen_changed.connect(func() -> void:
 		window_width_half = Global.get_content_size().x / 2
-		limit_left = maxi(position.x - window_width_half, 0)
+		limit_left = maxi(int(position.x - window_width_half), 0)
 		)
 
 func _process(_delta: float) -> void:

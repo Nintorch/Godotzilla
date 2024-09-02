@@ -63,7 +63,7 @@ func save_mapping() -> void:
 	Global.save_settings_file(file)
 	
 static func init_controls() -> void:
-	Input.joy_connection_changed.connect(func(_device: int, connected: bool) -> void:
+	Input.joy_connection_changed.connect(func(_device: int, _connected: bool) -> void:
 		load_mapping(Global.load_settings_file())
 		)
 	

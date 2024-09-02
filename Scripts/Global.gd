@@ -110,6 +110,9 @@ func accept_pause() -> void:
 		main.canvas_layer.move_child(pause, 0)
 		pause.position.x = (get_content_size().x - get_default_resolution().x) / 2
 		get_tree().paused = true
+
+func finish_pause() -> void:
+	pause_finished.emit()
 		
 func get_all_visible_children(node: Node) -> Array[Node]:
 	var nodes: Array[Node] = []

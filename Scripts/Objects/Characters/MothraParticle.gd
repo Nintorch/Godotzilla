@@ -54,7 +54,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y += 1 * 60 * delta
 	position += velocity * delta
 	var camera := get_viewport().get_camera_2d()
-	var limit := Global.get_content_size().y + 20
+	var limit: float = Global.get_content_size().y + 20.0
 	if camera != null:
 		limit += camera.get_screen_center_position().y
 	if position.y > limit:

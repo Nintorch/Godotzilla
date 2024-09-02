@@ -9,16 +9,16 @@ func _ready() -> void:
 		1:	bottom_part.queue_free()
 		2:	top_part.queue_free()
 		
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not is_instance_valid(top_part) and not is_instance_valid(bottom_part):
 		queue_free()
 
-func _on_top_health_damaged(amount: float, hurt_time: float) -> void:
+func _on_top_health_damaged(_amount: float, _hurt_time: float) -> void:
 	var top_sprite := $TopPart/Sprite
 	top_sprite.region_rect.position.x = 439
 	top_sprite.region_rect.position.y = 21
 	
-func _on_bottom_health_damaged(amount: float, hurt_time: float) -> void:
+func _on_bottom_health_damaged(_amount: float, _hurt_time: float) -> void:
 	$BottomPart/Sprite.region_rect.position.x = 429
 
 func _on_top_health_dead() -> void:

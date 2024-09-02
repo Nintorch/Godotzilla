@@ -100,7 +100,7 @@ func use(type: PlayerCharacter.Attack) -> void:
 			
 		PlayerCharacter.Attack.WING_ATTACK:
 			var power := mini(parent.power.value, 2 * 8)
-			var times: int = power / 2.6
+			var times := int(power / 2.6)
 			if times == 0:
 				parent.state.current = parent.move_state
 				return
