@@ -88,9 +88,11 @@ offset_bottom = 163.0
 
 [node name="Settings" parent="." index="2" instance=ExtResource("5_frcs8")]
 unique_name_in_owner = true
+visible = false
 
 [node name="Controls" parent="." index="3" instance=ExtResource("6_kgulq")]
 unique_name_in_owner = true
+visible = false
 
 [node name="SoundSettings" parent="." index="4" instance=ExtResource("7_w1mw8")]
 unique_name_in_owner = true

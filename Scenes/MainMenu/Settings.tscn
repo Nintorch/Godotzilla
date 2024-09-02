@@ -18,7 +18,6 @@ func menu_select(id: int) -> void:
 "
 
 [node name="Settings" type="Node2D" groups=["menu"]]
-visible = false
 script = SubResource("GDScript_l65hy")
 
 [node name="Video" type="Label" parent="." groups=["option"]]

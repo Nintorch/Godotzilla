@@ -38,7 +38,6 @@ func menu_select(id: int) -> void:
 script = ExtResource("1_tn6aw")
 
 [node name="MenuMain" parent="." index="1"]
-visible = false
 script = SubResource("GDScript_46jxm")
 
 [node name="NewGame" type="Label" parent="MenuMain" index="0" groups=["option"]]
@@ -79,12 +78,15 @@ uppercase = true
 
 [node name="Saves" parent="." index="2" instance=ExtResource("4_bf7ph")]
 unique_name_in_owner = true
+visible = false
 
 [node name="Settings" parent="." index="3" instance=ExtResource("5_jak1r")]
 unique_name_in_owner = true
+visible = false
 
 [node name="Controls" parent="." index="4" instance=ExtResource("6_u2h2c")]
 unique_name_in_owner = true
+visible = false
 
 [node name="SoundSettings" parent="." index="5" instance=ExtResource("6_2krn8")]
 unique_name_in_owner = true

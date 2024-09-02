@@ -6,6 +6,16 @@ const ACTIONS := [
 	"B", "A", "Select", "Start"
 ]
 const SECTION := "Input"
+const HIGHLIGHTS: Array[Rect2] = [
+	Rect2(23, 44, 8, 8), # Up
+	Rect2(23, 60, 8, 8), # Down
+	Rect2(15, 52, 8, 8), # Left
+	Rect2(31, 52, 8, 8), # Right
+	Rect2(121, 55, 18, 18), # B
+	Rect2(144, 55, 18, 18), # A
+	Rect2(61, 61, 15, 6), # Select
+	Rect2(88, 61, 15, 6), # Start
+]
 
 @onready var current_button: Label = $CurrentButton
 @onready var reset_controls: Label = $ResetControls
@@ -34,6 +44,12 @@ func _input(event: InputEvent) -> void:
 			
 func update_text() -> void:
 	current_button.text = "press button " + ACTIONS[current_input]
+	
+	var controller := $Controller
+	var controller_position: Vector2 = controller.get_rect().position + controller.position
+	var highlight := $ButtonHighlight
+	highlight.region_rect = HIGHLIGHTS[current_input]
+	highlight.position = controller_position + HIGHLIGHTS[current_input].position
 	
 func next_input() -> void:
 	current_input += 1

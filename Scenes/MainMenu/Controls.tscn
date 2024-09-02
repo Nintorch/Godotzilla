@@ -1,11 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://dy3m74iswj1v"]
+[gd_scene load_steps=5 format=3 uid="uid://dy3m74iswj1v"]
 
 [ext_resource type="Script" path="res://Scripts/MainMenu/Controls.gd" id="1_pl7kv"]
 [ext_resource type="Texture2D" uid="uid://dewcb08w13bxc" path="res://Sprites/controller.png" id="2_nqnh2"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="3_alnrf"]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pvg2g"]
+blend_mode = 1
+
 [node name="Controls" type="Node2D" groups=["menu"]]
-visible = false
 script = ExtResource("1_pl7kv")
 
 [node name="Controller" type="Sprite2D" parent="."]
@@ -13,6 +15,14 @@ position = Vector2(128, 120)
 texture = ExtResource("2_nqnh2")
 offset = Vector2(0, 3)
 region_rect = Rect2(0, 0, 20, 20)
+
+[node name="ButtonHighlight" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_pvg2g")
+position = Vector2(59, 124)
+texture = ExtResource("2_nqnh2")
+centered = false
+region_enabled = true
+region_rect = Rect2(23, 44, 8, 8)
 
 [node name="CurrentButton" type="Label" parent="."]
 offset_top = 64.0
