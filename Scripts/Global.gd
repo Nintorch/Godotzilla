@@ -17,9 +17,9 @@ var score := 0
 
 var save_slot_id := -1 # -1 means no save
 var save_data := {
-	board_id = "",
-	board_data = {},
-	score = 0,
+	"board_id": "",
+	"board_data": {},
+	"score": 0,
 }
 
 signal widescreen_changed

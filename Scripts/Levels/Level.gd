@@ -68,7 +68,7 @@ func _process(_delta: float) -> void:
 					board_piece.level = board_piece.character_data.level
 					
 					var board_data: Dictionary = Global.board.board_data
-					board_data.player_level[board_piece.piece_character] = player.level
+					board_data["player_level"][board_piece.piece_character] = player.level
 				
 				if right_boundary_behaviour == LevelBoundaryType.NEXT_LEVEL:
 					next_level()
@@ -155,8 +155,8 @@ func next_planet() -> void:
 
 func save_data() -> void:
 	if Global.board.use_in_saves:
-		Global.save_data.board_data = Global.board.board_data
-		Global.save_data.score = Global.score
+		Global.save_data["board_data"] = Global.board.board_data
+		Global.save_data["score"] = Global.score
 		Global.store_save_data()
 		
 #endregion

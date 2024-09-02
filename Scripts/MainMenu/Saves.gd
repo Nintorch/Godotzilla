@@ -29,7 +29,7 @@ func _ready() -> void:
 		if board_description == null:
 			save_slot.set_data_empty(save_id)
 		else:
-			save_slot.set_data(save_id, board_description)
+			save_slot.set_data(save_id, board_description, save_data)
 		save_id += 1
 		
 	save_slots[0].select()
