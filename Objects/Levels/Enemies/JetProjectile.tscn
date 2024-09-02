@@ -17,6 +17,7 @@ region_enabled = true
 region_rect = Rect2(78, 0, 8, 2)
 
 [node name="AttackComponent" parent="." instance=ExtResource("2_373u2")]
+enemy = true
 
 [node name="CollisionShape2D" parent="AttackComponent/Area2D" index="0"]
 shape = SubResource("RectangleShape2D_rgpnx")

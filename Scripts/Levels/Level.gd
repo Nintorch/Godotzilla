@@ -21,7 +21,7 @@ const GAME_OVER_SCENE := preload("res://Scenes/GameOver.tscn")
 
 # These are set in Board.gd and in next_level()
 var data := {
-	current_character = PlayerCharacter.Type.GODZILLA,
+	current_character = PlayerCharacter.Type.MOTHRA,
 	board_piece = null,
 	boss_piece = null,
 }
