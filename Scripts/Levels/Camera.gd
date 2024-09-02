@@ -6,17 +6,17 @@ enum CameraMode {
 }
 
 
-@export var camera_offset_x = 30
+@export var camera_offset_x := 30
 @export var target: Node2D
 
-@onready var window_width_half = Global.get_content_size().x / 2
+@onready var window_width_half := Global.get_content_size().x / 2
 
-var camera_mode = CameraMode.NORMAL
+var camera_mode := CameraMode.NORMAL
 var camera_x_old: float
 var camera_current_offset := 0
 
 func _ready() -> void:
-	Global.widescreen_changed.connect(func():
+	Global.widescreen_changed.connect(func() -> void:
 		window_width_half = Global.get_content_size().x / 2
 		limit_left = maxi(position.x - window_width_half, 0)
 		)

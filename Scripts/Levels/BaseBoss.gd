@@ -7,9 +7,9 @@ extends Level
 
 func _ready() -> void:
 	super._ready()
-	player.intro_ended.connect(func(): state = BossState.IDLE)
-	player.health.dead.connect(func(): state = BossState.NONE)
-	boss.health.dead.connect(func():
+	player.intro_ended.connect(func() -> void: state = BossState.IDLE)
+	player.health.dead.connect(func() -> void: state = BossState.NONE)
+	boss.health.dead.connect(func() -> void:
 		get_HUD().boss_timer.stop()
 		player.add_xp(xp_amount)
 		Global.play_music(preload("res://Audio/Soundtrack/Victory.ogg"))
@@ -19,7 +19,7 @@ func _ready() -> void:
 	if data.boss_piece:
 		boss.load_state(data.boss_piece.character_data)
 		if Global.board:
-			boss.health.dead.connect(func():
+			boss.health.dead.connect(func() -> void:
 				Global.board.selected_piece = data.boss_piece
 				)
 

@@ -4,11 +4,11 @@ extends State
 # This state consists of not only walking but also crouching and jumping.
 # This state also includes the movement for flying characters.
 
-var walk_frame = 0.0
-var walk_frames = 0
-var walk_frame_speed = 0
+var walk_frame := 0.0
+var walk_frames := 0
+var walk_frame_speed := 0
 
-var jumping = false
+var jumping := false
 
 const JUMP_SPEED = -2 * 60
 
@@ -41,7 +41,7 @@ func common_ground_attacks() -> void:
 		and parent.inputs_pressed[PlayerCharacter.Inputs.B]:
 			parent.use_attack(PlayerCharacter.Attack.KICK)
 
-func move(delta: float):
+func move(delta: float) -> void:
 	var dirx: float = signf(parent.inputs[PlayerCharacter.Inputs.XINPUT])
 	if dirx:
 		parent.velocity.x = parent.move_speed * dirx

@@ -4,7 +4,7 @@ const TEXT_SPEED := 1 * 60
 
 @export var next_scene: PackedScene
 
-@onready var story_text = $Bars/StoryText
+@onready var story_text := $Bars/StoryText
 @onready var images: Node2D = $Images
 @onready var bars: Node2D = $Bars
 @onready var image_change_timer: Timer = $ImageChangeTimer
@@ -54,7 +54,7 @@ func setup_widescreen_bars() -> void:
 	bar2.size = bar1.size
 
 func show_current_image() -> void:
-	images.get_children().map(func(img: Node2D):
+	images.get_children().map(func(img: Node2D) -> void:
 		img.visible = false
 		img.set_process(false)
 		)

@@ -11,7 +11,7 @@ var music_volume := 100
 
 func _ready() -> void:
 	super._ready()
-	var file = Global.load_settings_file()
+	var file := Global.load_settings_file()
 	sfx_volume = file.get_value(SECTION, "sfx", 100)
 	$SFXVolume.text = "sfx volume:   " + str(sfx_volume)
 	music_volume = file.get_value(SECTION, "music", 100)
@@ -58,7 +58,7 @@ func update_music_volume() -> void:
 	sfx_test.play()
 
 func save_sound_settings() -> void:
-	var file = Global.load_settings_file()
+	var file := Global.load_settings_file()
 	file.set_value(SECTION, "sfx", sfx_volume)
 	file.set_value(SECTION, "music", music_volume)
 	Global.save_settings_file(file)

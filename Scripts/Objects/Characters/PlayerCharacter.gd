@@ -243,14 +243,19 @@ func add_xp(value: int) -> void:
 		return
 		
 	var xp_amount := calculate_xp_amount(level)
+	var max_xp := calculate_xp_amount(16)
 	var current_level := level
 	xp += value
-	while xp >= xp_amount:
-		xp -= xp_amount
-		current_level += 1
-		xp_amount = calculate_xp_amount(current_level)
-	if current_level > level:
-		set_level(current_level, true)
+	if xp < max_xp:
+		while xp >= xp_amount:
+			xp -= xp_amount
+			current_level += 1
+			xp_amount = calculate_xp_amount(current_level)
+		if current_level > level:
+			set_level(current_level, true)
+	else:
+		xp = max_xp
+		set_level(16)
 		
 	xp_amount_changed.emit(xp)
 	

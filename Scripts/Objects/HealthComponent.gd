@@ -65,6 +65,6 @@ func resize_and_fill(new_hp_amount: float) -> void:
 	resize(new_hp_amount)
 	fill()
 	
-func set_value(new_value: float):
+func set_value(new_value: float) -> void:
 	target_value = minf(new_value, max_value)
 	value = target_value

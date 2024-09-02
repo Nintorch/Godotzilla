@@ -5,14 +5,14 @@ enum Type {
 	WING,
 }
 
-@onready var timer = $Timer
-@onready var animation_player = $AnimationPlayer
+@onready var timer := $Timer
+@onready var animation_player := $AnimationPlayer
 @onready var attack_component: Node2D = $AttackComponent
 
 var velocity := Vector2()
 var type: Type
 
-func setup(init_type: Type, player: PlayerCharacter):
+func setup(init_type: Type, player: PlayerCharacter) -> void:
 	type = init_type
 	attack_component.objects_to_ignore.append(player)
 	attack_component.enemy = player.attack.enemy
@@ -24,7 +24,7 @@ func setup(init_type: Type, player: PlayerCharacter):
 		Type.EYE_BEAM:
 			animation = "EyeBeam"
 			timer.start(0.3)
-			timer.timeout.connect(func(): queue_free())
+			timer.timeout.connect(func() -> void: queue_free())
 			velocity = Vector2(5 * player.direction * 60, 0)
 			should_destroy = true
 			
@@ -32,7 +32,7 @@ func setup(init_type: Type, player: PlayerCharacter):
 			animation = "Wing"
 			animation_player.play("Flash")
 			timer.start(0.4)
-			timer.timeout.connect(func():
+			timer.timeout.connect(func() -> void:
 				animation_player.stop()
 				visible = true # Just in case
 				)
@@ -40,7 +40,7 @@ func setup(init_type: Type, player: PlayerCharacter):
 							randi_range(6, 9) * 0.1 * 60)
 							
 	if should_destroy:
-		attack_component.attacked.connect(func(_body: Node2D, _amount: float):
+		attack_component.attacked.connect(func(_body: Node2D, _amount: float) -> void:
 			queue_free()
 			)
 			
@@ -49,7 +49,7 @@ func setup(init_type: Type, player: PlayerCharacter):
 		Vector2.ZERO
 		)
 
-func _physics_process(delta):
+func _physics_process(delta: float) -> void:
 	if type == Type.WING:
 		velocity.y += 1 * 60 * delta
 	position += velocity * delta

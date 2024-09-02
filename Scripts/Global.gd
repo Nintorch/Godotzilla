@@ -12,7 +12,7 @@ var _fader: ColorRect
 var music: AudioStreamPlayer
 var player: PlayerCharacter
 var playing_levels: Array[PackedScene] = []
-var board
+var board: Board
 var score := 0
 
 var save_slot_id := -1 # -1 means no save
@@ -36,7 +36,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ResetControls"):
 		InputMap.load_from_project_settings()
-		var file = load_settings_file()
+		var file := load_settings_file()
 		file.erase_section("Input")
 		save_settings_file(file)
 		
@@ -52,7 +52,7 @@ func get_default_resolution() -> Vector2i:
 		)
 
 func use_widescreen(flag: bool) -> void:
-	var size = get_default_resolution()
+	var size := get_default_resolution()
 	if flag:
 		size.x = ProjectSettings.get_setting(
 			"display/window/size/viewport_width_widescreen")
@@ -100,9 +100,9 @@ func accept_pause() -> void:
 		
 		get_current_scene().hide()
 		pause_visible_objects = get_all_visible_children(get_current_scene())
-		pause_visible_objects.map(func(x): x.visible = false)
+		pause_visible_objects.map(func(x: Node) -> void: x.visible = false)
 		
-		var prev_pause = main.canvas_layer.get_node_or_null(String(pause.name))
+		var prev_pause: Node = main.canvas_layer.get_node_or_null(String(pause.name))
 		if prev_pause != null:
 			main.canvas_layer.remove_child(prev_pause)
 			
@@ -129,7 +129,7 @@ func add_score(value: int) -> void:
 #region Save files
 
 func load_game_settings() -> void:
-	var file = load_settings_file()
+	var file := load_settings_file()
 	
 	VideoSettings.load_video_settings(file)
 	SoundSettings.load_sound_settings(file)
@@ -137,7 +137,7 @@ func load_game_settings() -> void:
 	ControlsSettings.load_mapping(file)
 
 func load_settings_file() -> ConfigFile:
-	var file = ConfigFile.new()
+	var file := ConfigFile.new()
 	if file.load(SETTINGS_PATH) != OK:
 		save_settings_file(file)
 	return file
@@ -156,7 +156,7 @@ func store_save_data() -> void:
 	store_save_file(config_file)
 	
 func load_save_file() -> ConfigFile:
-	var file = ConfigFile.new()
+	var file := ConfigFile.new()
 	if file.load_encrypted_pass(SAVE_FILE_PATH, get_save_password()) != OK:
 		store_save_file(file)
 	return file
@@ -183,9 +183,9 @@ func get_save_password() -> String:
 	
 #region Scene changing
 
-func change_scene_node(node: Node, free = true) -> void:
-	var curscene_parent = main.get_node("CurrentScene")
-	var curscene = curscene_parent.get_child(0)
+func change_scene_node(node: Node, free := true) -> void:
+	var curscene_parent := main.get_node("CurrentScene")
+	var curscene := curscene_parent.get_child(0)
 	
 	curscene_parent.remove_child(curscene)
 	if free:
@@ -194,7 +194,7 @@ func change_scene_node(node: Node, free = true) -> void:
 	
 	scene_changed.emit(curscene, node)
 	
-func change_scene(scene: PackedScene, free = true) -> void:
+func change_scene(scene: PackedScene, free := true) -> void:
 	change_scene_node(scene.instantiate(), free)
 	
 func get_initial_scene() -> PackedScene:
@@ -215,7 +215,7 @@ enum FadeColor {
 func is_fading() -> bool:
 	return _fade_player.is_playing()
 
-func _perform_fade(callable: Callable, pause_game, color: FadeColor) -> void:
+func _perform_fade(callable: Callable, pause_game: bool, color: FadeColor) -> void:
 	if pause_game:
 		get_tree().paused = true
 		
@@ -228,16 +228,16 @@ func _perform_fade(callable: Callable, pause_game, color: FadeColor) -> void:
 		get_tree().paused = false
 
 func fade_out(color := FadeColor.BLACK) -> void:
-	await _perform_fade(func(): _fade_player.play_backwards("FadeIn"), false, color)
+	await _perform_fade(func() -> void: _fade_player.play_backwards("FadeIn"), false, color)
 	
 func fade_in(color := FadeColor.BLACK) -> void:
-	await _perform_fade(func(): _fade_player.play("FadeIn"), false, color)
+	await _perform_fade(func() -> void: _fade_player.play("FadeIn"), false, color)
 	
 func fade_out_paused(color := FadeColor.BLACK) -> void:
-	await _perform_fade(func(): _fade_player.play_backwards("FadeIn"), true, color)
+	await _perform_fade(func() -> void: _fade_player.play_backwards("FadeIn"), true, color)
 	
 func fade_in_paused(color := FadeColor.BLACK) -> void:
-	await _perform_fade(func(): _fade_player.play("FadeIn"), true, color)
+	await _perform_fade(func() -> void: _fade_player.play("FadeIn"), true, color)
 	
 func hide_fade() -> void:
 	_fader.modulate.a = 0
@@ -261,13 +261,13 @@ func stop_music() -> void:
 	music.stop()
 	
 func music_fade_out() -> void:
-	var tween = create_tween()
+	var tween := create_tween()
 	tween.tween_property(music, "volume_db", -80, 0.5)
 	await tween.finished
 	music.stop()
 	
 func music_fade_in() -> void:
-	var tween = create_tween()
+	var tween := create_tween()
 	music.volume_db = -80
 	tween.tween_property(music, "volume_db", 0, 0.5)
 	

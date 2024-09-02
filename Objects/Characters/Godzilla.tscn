@@ -15,9 +15,9 @@
 script/source = "extends Node2D
 
 @onready var parent: PlayerCharacter = get_parent()
-@onready var offset_y = $Body/Head.position.y
-@onready var body = $Body
-@onready var head = $Body/Head
+@onready var offset_y: float = $Body/Head.position.y
+@onready var body := $Body
+@onready var head := $Body/Head
 
 func _process(_delta: float) -> void:
 	if body.animation == \"Walk\":

@@ -5,7 +5,7 @@ const GodzillaHeatBeam := preload("res://Objects/Characters/GodzillaHeatBeam.tsc
 
 var move_state: Node
 var current_attack: PlayerCharacter.Attack
-var variation = 0
+var variation := 0
 
 var attack_component: Node2D
 
@@ -70,14 +70,14 @@ func use(type: PlayerCharacter.Attack) -> void:
 			attack_component.stop_attack()
 			
 		PlayerCharacter.Attack.HEAT_BEAM:
-			var animations = [
+			var animations := [
 				["HeatBeam1", 0.1],
 				["HeatBeam2", 1],
 				["HeatBeam1", 0.1],
 				["HeatBeam3", 1],
 			]
 			
-			for anim in animations:
+			for anim: Array in animations:
 				parent.animation_player.play(anim[0])
 				if anim[0] == "HeatBeam3":
 					create_heat_beam()
@@ -90,7 +90,7 @@ func use(type: PlayerCharacter.Attack) -> void:
 			
 		# Mothra-specific attacks
 		PlayerCharacter.Attack.EYE_BEAM:
-			var particle = MothraParticle.instantiate()
+			var particle := MothraParticle.instantiate()
 			Global.get_current_scene().add_child(particle)
 			particle.setup(particle.Type.EYE_BEAM, parent)
 			particle.global_position = \
@@ -99,7 +99,7 @@ func use(type: PlayerCharacter.Attack) -> void:
 			parent.get_sfx("Step").play()
 			
 		PlayerCharacter.Attack.WING_ATTACK:
-			var power = mini(parent.power.value, 2 * 8)
+			var power := mini(parent.power.value, 2 * 8)
 			var times: int = power / 2.6
 			if times == 0:
 				parent.state.current = parent.move_state

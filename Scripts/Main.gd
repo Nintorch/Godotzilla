@@ -13,7 +13,7 @@ func _ready() -> void:
 	
 	if wait_before_start:
 		get_tree().paused = true
-		get_tree().process_frame.connect(func():
+		get_tree().process_frame.connect(func() -> void:
 			if not wait_before_start_flag and Global.any_action_button_pressed():
 				wait_before_start_flag = true
 				get_tree().paused = false

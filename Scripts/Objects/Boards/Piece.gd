@@ -27,20 +27,20 @@ const FRAME_SPEED := [
 @export var level := 1
 
 # "Board Pieces" node
-@onready var parent = get_parent()
+@onready var parent := get_parent()
 
 var tilemap: TileMapLayer
 var selector: Node2D
 
-var init_pos
+var init_pos: Vector2
 var piece_frame := 0
 var tile_below := Vector2i(-1, -1)
-var selected = false
+var selected := false
 var steps := 0
 var walk_frame := 0.0
 var walk_anim := 0
 
-var character_data = {
+var character_data := {
 	hp = 0.0,
 	bars = 0,
 	xp = 0,
@@ -69,7 +69,7 @@ func _ready() -> void:
 	if piece_character == PlayerCharacter.Type.MOTHRA:
 		walk_anim = 1
 	
-	var player_level = Global.get_current_scene().board_data.player_level
+	var player_level: Dictionary = Global.get_current_scene().board_data.player_level
 	if piece_character in player_level:
 		level = player_level[piece_character]
 	steps = PIECE_STEPS[piece_character]
@@ -92,7 +92,7 @@ func _process(delta: float) -> void:
 
 func update_frame() -> void:
 	# + 1 to skip the top row of the spritesheet (non-character sprites for boards)
-	var value = (piece_character + 1) * FRAME_COUNT + piece_frame
+	var value := (piece_character + 1) * FRAME_COUNT + piece_frame
 	if value < (hframes * vframes):
 		frame = value
 	
@@ -107,7 +107,7 @@ func get_cell_pos() -> Vector2i:
 func hide_cell_below() -> void:
 	if Engine.is_editor_hint():
 		return
-	var tile = selector.cell_from_pos(get_cell_pos())
+	var tile: Vector2i = selector.cell_from_pos(get_cell_pos())
 	if tile.x < 0: # Return if already hidden
 		return
 	tile_below = tile

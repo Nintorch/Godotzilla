@@ -1,9 +1,9 @@
 extends NinePatchRect
 
 @export var selector: Node2D
-@export var window_size = Vector2i(96, 64)
-@export var alignment_horizontal = HORIZONTAL_ALIGNMENT_LEFT
-@export var alignment_vertical = VERTICAL_ALIGNMENT_TOP
+@export var window_size := Vector2i(96, 64)
+@export var alignment_horizontal := HORIZONTAL_ALIGNMENT_LEFT
+@export var alignment_vertical := VERTICAL_ALIGNMENT_TOP
 @onready var menu_bip: AudioStreamPlayer = $MenuBip
 
 @onready var text: Label = $Text
@@ -17,8 +17,8 @@ enum State {
 	DISAPPEARING,
 }
 
-var default_window_size = Vector2i(window_size)
-var state = State.HIDDEN
+var default_window_size := Vector2i(window_size)
+var state := State.HIDDEN
 
 signal choice_made(choice: bool)
 
@@ -44,7 +44,12 @@ func _process(_delta: float) -> void:
 			selector.ignore_player_input = false
 			choice_selector.position.x = 0
 	
-func appear(message: String, enable_sound := true, choice := false, req_size: Vector2i = default_window_size):
+func appear(
+		message: String,
+		enable_sound := true,
+		choice := false,
+		req_size: Vector2i = default_window_size,
+		) -> bool:
 	if state == State.APPEARING or state == State.DISAPPEARING:
 		return false
 		
@@ -66,7 +71,7 @@ func appear(message: String, enable_sound := true, choice := false, req_size: Ve
 	
 	var tween := create_tween()
 	tween.tween_property(self, "size:x", req_size.x, get_tween_seconds(req_size.x))
-	tween.finished.connect(func():
+	tween.finished.connect(func() -> void:
 		text.visible = true
 		if choice:
 			choice_nodes.position.y = req_size.y - 16

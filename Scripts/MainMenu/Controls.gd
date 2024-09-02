@@ -57,7 +57,7 @@ func exit() -> void:
 	main_menu.set_menu(%Settings)
 
 func save_mapping() -> void:
-	var file = Global.load_settings_file()
+	var file := Global.load_settings_file()
 	for i in ACTIONS.size():
 		file.set_value(SECTION, ACTIONS[i], mapping[i])
 	Global.save_settings_file(file)
@@ -78,10 +78,10 @@ static func load_mapping(file: ConfigFile) -> void:
 		if not (input is InputEventKey) and not has_joypad:
 			continue
 		
-		var events := InputMap.action_get_events(action).filter(func(x):
+		var events := InputMap.action_get_events(action).filter(func(x: InputEvent) -> bool:
 			return not (x is InputEventKey)
 			)
 		InputMap.action_erase_events(action)
 		InputMap.action_add_event(action, input)
-		for old_event in events:
+		for old_event: InputEvent in events:
 			InputMap.action_add_event(action, old_event)

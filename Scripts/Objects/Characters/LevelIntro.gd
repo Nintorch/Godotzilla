@@ -19,7 +19,7 @@ const CHARACTER_PARAMS = [
 	},
 ]
 
-var current_params
+var current_params: Dictionary
 
 func state_init() -> void:
 	sfx_step = parent.get_sfx("Step")

@@ -9,7 +9,7 @@ func _ready() -> void:
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	
 	# Disable every menu when starting up
-	for menu in get_children().filter(func(x): return x.is_in_group("menu")):
+	for menu: Node in get_children().filter(func(x: Node) -> bool: return x.is_in_group("menu")):
 		enable_menu(menu, false)
 	
 	set_menu(%MenuMain)
@@ -57,7 +57,7 @@ func set_menu(menu: Node2D) -> void:
 		selector.set_process(false)
 	
 func move_selector(option: int) -> void:
-	var control_option = current_menu.options[option]
+	var control_option: Node = current_menu.options[option]
 	selector.global_position = control_option.global_position + Vector2(-16, 0)
 	
 func change_scene(scene: PackedScene) -> void:

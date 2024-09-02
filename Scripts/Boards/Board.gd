@@ -1,3 +1,4 @@
+class_name Board
 extends Node2D
 
 #region Variables
@@ -36,7 +37,7 @@ extends Node2D
 @onready var menubip: AudioStreamPlayer = $Board/GUI/MessageWindow/MenuBip
 
 var selected_piece: Node = null
-var board_data = {
+var board_data := {
 	player_level = {}, # [PlayerCharacter.Type] -> int
 }
 
@@ -44,7 +45,7 @@ var board_data = {
 
 #region Main board code
 
-func _ready():
+func _ready() -> void:
 	Global.board = self
 	
 	if use_in_saves:
@@ -83,7 +84,7 @@ func _ready():
 	board.process_mode = Node.PROCESS_MODE_INHERIT
 	Global.play_music(music)
 		
-func _process(_delta: float):
+func _process(_delta: float) -> void:
 	if not board.visible:
 		return
 		
@@ -95,7 +96,7 @@ func _process(_delta: float):
 	if Input.is_action_just_pressed("A"):
 		if not selected_piece:
 			# If no board pieces are selected
-			var piece = get_current_piece()
+			var piece := get_current_piece()
 			if piece and piece.is_player():
 				piece.select()
 				selector.moved_at_all = false
@@ -141,15 +142,15 @@ func _process(_delta: float):
 	if message_window.visible and Input.is_action_just_pressed("B"):
 		message_window.disappear()
 		
-func adjust_message_pos():
+func adjust_message_pos() -> void:
 	if selector.position.y > 120:
 		message_window.position.y = 16
 	else:
 		message_window.position.y = 144
 
-func build_outline():
+func build_outline() -> void:
 	for cell in outline.get_used_cells():
-		var cell_id = outline.get_cell_atlas_coords(cell)
+		var cell_id := outline.get_cell_atlas_coords(cell)
 		if cell_id != Vector2i(0, 0) and cell_id != Vector2i(-1, -1):
 			print("Warning: Icon moved from outline layer to board icons layer")
 			tilemap.set_cell(cell, 0, cell_id)
@@ -163,9 +164,9 @@ func not_going_to_move() -> void:
 	await fade_out_selected()
 	returned()
 	
-func start_playing(boss_piece = null) -> void:
+func start_playing(boss_piece: Node2D = null) -> void:
 	Global.playing_levels.assign(
-		selector.playing_levels.map(func(x):
+		selector.playing_levels.map(func(x: int) -> PackedScene:
 			if x >= levels.size():
 				print("Level with id " + str(x) + " is out of bounds")
 				return null
@@ -246,15 +247,15 @@ func returned(ignore_boss_moves := false) -> void:
 
 #region Bosses
 		
-func show_boss_info(piece) -> void:
-	var text = PlayerCharacter.CHARACTER_NAMES[piece.piece_character] + " - "
-	var size = Vector2i(message_window.default_window_size)
-	var hp_text = boss_hp_str(piece.character_data.hp / 8)
+func show_boss_info(piece: Node2D) -> void:
+	var text := PlayerCharacter.CHARACTER_NAMES[piece.piece_character] + " - "
+	var size := Vector2i(message_window.default_window_size)
+	var hp_text := boss_hp_str(piece.character_data.hp / 8)
 	
 	if text.length() >= (size.x - 16) / 8:
 		size.x = (text.length() + 1) * 8
 		
-	var space_count = (size.x - 16) / 8 - hp_text.length()
+	var space_count := (size.x - 16) / 8 - hp_text.length()
 	text += "life\n" + " ".repeat(space_count) + hp_text
 	message_window.appear(text, true, false, size)
 		
@@ -293,7 +294,7 @@ func move_boss() -> void:
 	for i in mini(boss_piece.steps, path.size()):
 		await get_tree().create_timer(0.5).timeout
 		# Direction of movement
-		var direction = path[i] - boss_piece.position
+		var direction := path[i] - boss_piece.position
 		# Request movement
 		selector.move(direction.x, direction.y)
 		await selector.moved
@@ -351,7 +352,7 @@ func convert_navigation_path(path: PackedVector2Array) -> PackedVector2Array:
 func get_board_pieces() -> Array[Node2D]:
 	var board_pieces: Array[Node2D] = []
 	board_pieces.assign(
-		%"Board Pieces".get_children().filter(func(x: Node2D):
+		%"Board Pieces".get_children().filter(func(x: Node2D) -> bool:
 			return not x.is_queued_for_deletion()
 			))
 	return board_pieces
@@ -363,12 +364,12 @@ func get_current_piece() -> Node2D:
 	return null
 	
 func get_player_pieces() -> Array[Node2D]:
-	return get_board_pieces().filter(func(p): return p.is_player())
+	return get_board_pieces().filter(func(p: Node2D) -> bool: return p.is_player())
 	
 func get_boss_pieces() -> Array[Node2D]:
-	return get_board_pieces().filter(func(p): return not p.is_player())
+	return get_board_pieces().filter(func(p: Node2D) -> bool: return not p.is_player())
 
-func _on_selector_piece_collision(piece: Node2D, boss_collision: bool):
+func _on_selector_piece_collision(piece: Node2D, boss_collision: bool) -> void:
 	if not selected_piece.is_player():
 		var boss := selected_piece
 		selected_piece = piece

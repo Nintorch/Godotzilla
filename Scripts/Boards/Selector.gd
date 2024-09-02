@@ -186,7 +186,7 @@ func get_level_id(tile: Vector2i) -> int:
 	
 # Get the piece (if exists) from the next cell
 func get_next_cell_piece() -> Sprite2D:
-	for p in board.get_board_pieces():
+	for p: Sprite2D in board.get_board_pieces():
 		if p.get_cell_pos() == get_next_cell_pos():
 			return p
 	return null

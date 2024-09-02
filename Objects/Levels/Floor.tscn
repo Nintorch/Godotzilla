@@ -8,7 +8,7 @@ script/source = "extends TextureRect
 @export var width_before_0 := 50
 
 func _ready() -> void:
-	var width = get_parent().get_node(\"Camera\").limit_right + width_before_0
+	var width: float = get_parent().get_node(\"Camera\").limit_right + width_before_0
 	size.x = width
 	$StaticBody2D/CollisionShape2D.shape.size.x = width + width_before_0 * 2
 	$StaticBody2D/CollisionShape2D.position.x = width / 2 - width_before_0

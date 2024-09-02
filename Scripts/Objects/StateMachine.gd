@@ -6,7 +6,7 @@ extends Node
 var current := 0: set = _set_state
 
 func _ready() -> void:
-	states_list.assign(get_children().filter(func(c): return c is State))
+	states_list.assign(get_children().filter(func(c: Node) -> bool: return c is State))
 	current = states_list.find(initial_state)
 
 func init() -> void:

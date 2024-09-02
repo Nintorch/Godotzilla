@@ -7,8 +7,9 @@ var solar_system_image: Image = preload("res://Sprites/GameIntro/images.png").ge
 var planets: Array[Node2D] = []
 
 func _ready() -> void:
-	planets.assign(get_children().filter(func(p: Node):
-		return p.name != "Image" and p is Sprite2D))
+	planets.assign(get_children().filter(func(p: Node) -> bool:
+		return p.name != "Image" and p is Sprite2D
+		))
 
 func move_planets() -> void:
 	for planet in planets:

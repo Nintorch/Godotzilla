@@ -18,7 +18,7 @@ var save_slots: Array[Control] = []
 func _ready() -> void:
 	super._ready()
 	save_slots.assign(get_children().filter(
-		func(c: Control): return c.is_in_group("saveslot")
+		func(c: Control) -> bool: return c.is_in_group("saveslot")
 		))
 	
 	var save_id := 0
@@ -52,7 +52,7 @@ func menu_select(id: int) -> void:
 		Global.set_save_slot(id)
 		
 		var save_data := Global.load_save_data()
-		var board_description = get_board_description(save_data)
+		var board_description := get_board_description(save_data)
 		if board_description == null:
 			main_menu.change_scene(starting_scene)
 			return

@@ -9,10 +9,10 @@ var small_ships: Array[Sprite2D] = []
 var big_ships: Array[Sprite2D] = []
 
 func _ready() -> void:
-	small_ships.assign(ships.get_children().filter(func(node: Node):
+	small_ships.assign(ships.get_children().filter(func(node: Node) -> bool:
 		return node is Sprite2D and node.name.begins_with("Small")
 		))
-	big_ships.assign(ships.get_children().filter(func(node: Node):
+	big_ships.assign(ships.get_children().filter(func(node: Node) -> bool:
 		return node is Sprite2D and node.name.begins_with("Big")
 		))
 

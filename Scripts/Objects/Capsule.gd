@@ -36,7 +36,7 @@ func destroy(character: PlayerCharacter) -> void:
 	visible = false
 	area_2d.queue_free()
 	sfx.play()
-	sfx.finished.connect(func():
+	sfx.finished.connect(func() -> void:
 		queue_free()
 		)
 		

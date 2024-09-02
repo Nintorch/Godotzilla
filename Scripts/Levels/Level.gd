@@ -20,7 +20,7 @@ const GAME_OVER_SCENE := preload("res://Scenes/GameOver.tscn")
 @onready var player: PlayerCharacter = $Player
 
 # These are set in Board.gd and in next_level()
-var data = {
+var data := {
 	current_character = PlayerCharacter.Type.GODZILLA,
 	board_piece = null,
 	boss_piece = null,
@@ -33,14 +33,14 @@ func _ready() -> void:
 		)
 	
 	player.character = data.current_character
-	player.health.dead.connect(func(): 
+	player.health.dead.connect(func() -> void: 
 		Global.play_music(preload("res://Audio/Soundtrack/PlayerDeath.ogg"))
 		player_dead(player)
 		)
 	if data.board_piece:
 		player.load_state(data.board_piece.character_data)
 	
-	player.intro_ended.connect(func():
+	player.intro_ended.connect(func() -> void:
 		if not Global.music.playing and music != null:
 			Global.play_music(music)
 		)
@@ -62,12 +62,12 @@ func _process(_delta: float) -> void:
 				player.velocity.x = 0.0
 			
 			LevelBoundaryType.NEXT_LEVEL, LevelBoundaryType.NEXT_PLANET:
-				var board_piece = data.board_piece
+				var board_piece: Node2D = data.board_piece
 				if board_piece:
 					player.save_state(board_piece.character_data)
 					board_piece.level = board_piece.character_data.level
 					
-					var board_data = Global.board.board_data
+					var board_data: Dictionary = Global.board.board_data
 					board_data.player_level[board_piece.piece_character] = player.level
 				
 				if right_boundary_behaviour == LevelBoundaryType.NEXT_LEVEL:
@@ -75,7 +75,7 @@ func _process(_delta: float) -> void:
 				else:
 					next_planet()
 				
-func get_HUD():
+func get_HUD() -> Node2D:
 	return $HUD
 
 # Can also be used on bosses, hence the "character" argument
