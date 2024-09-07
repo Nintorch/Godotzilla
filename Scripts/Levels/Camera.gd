@@ -5,7 +5,6 @@ enum CameraMode {
 	TWO_SIDES,
 }
 
-
 @export var camera_offset_x := 30
 @export var target: Node2D
 
@@ -24,12 +23,15 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	camera_x_old = get_screen_center_position().x
 	match camera_mode:
+		# The default camera mode, the one from the original game
 		CameraMode.NORMAL:
 			if position.x < target.position.x + camera_offset_x \
 				and position.x < limit_right - window_width_half:
 				position.x = clampf(target.position.x + camera_offset_x,
 					window_width_half, limit_right - window_width_half)
 				limit_left = max(position.x - window_width_half, 0)
+		
+		# The camera can move in both sides
 		CameraMode.TWO_SIDES:
 			camera_current_offset = roundi(move_toward(
 				camera_current_offset,

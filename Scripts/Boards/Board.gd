@@ -48,20 +48,22 @@ var board_data := {
 
 func _ready() -> void:
 	Global.board = self
+	Global.level_data = {}
 	
-	# Is that smart or stupid?
-	board_data["player_characters"] = (func() -> Array[PlayerCharacter.Type]:
-		var array: Array[PlayerCharacter.Type] = []
-		array.assign(get_player_pieces().map(
-			func(p: BoardPiece) -> PlayerCharacter.Type: return p.piece_character
-			))
-		array.sort()
-		return array
-	).call()
+	# Save current player characters so we can show them
+	# in a save slot
+	var player_characters: Array[PlayerCharacter.Type] = []
+	player_characters.assign(get_player_pieces().map(
+		func(p: BoardPiece) -> PlayerCharacter.Type: return p.piece_character
+		))
+	player_characters.sort()
+	board_data["player_characters"] = player_characters
 	
 	if use_in_saves:
 		Global.save_data["board_id"] = board_id
 		
+		# We don't save the data right now because the board
+		# also needs to be able to load its state from save data
 		if not Global.save_data.has("board_data") or \
 			Global.save_data["board_data"].size() == 0:
 				Global.save_data["board_data"] = board_data
@@ -94,7 +96,7 @@ func _ready() -> void:
 	board.visible = true
 	board.process_mode = Node.PROCESS_MODE_INHERIT
 	Global.play_music(music)
-		
+	
 func _process(_delta: float) -> void:
 	if not board.visible:
 		return
@@ -105,8 +107,8 @@ func _process(_delta: float) -> void:
 		return
 		
 	if Input.is_action_just_pressed("A"):
+		# If no board pieces are selected
 		if not selected_piece:
-			# If no board pieces are selected
 			var piece := get_current_piece()
 			if piece and piece.is_player():
 				piece.select()
@@ -138,9 +140,9 @@ func _process(_delta: float) -> void:
 		selected_piece = null
 		message_window.disappear()
 		
-	# Mini board tutorial
+	# Mini tutorial on how to use the board (from GMoM)
 	if Input.is_action_just_pressed("Start"):
-		if not selected_piece and get_current_piece():
+		if not selected_piece and get_current_piece() != null:
 			# We don't check if it's a boss on purpose
 			# (to be accurate to the original game)
 			message_window.appear("Then press button A.")
@@ -171,21 +173,28 @@ func build_outline() -> void:
 	for cell in tilemap.get_used_cells():
 		outline.set_cell(cell, 0, Vector2i(0, 0))
 		
+# The player skipped their move, make the bosses do their move
 func not_going_to_move() -> void:
 	await fade_out_selected()
 	returned()
 	
+# The player made their move
 func start_playing(boss_piece: Node2D = null) -> void:
+	# The levels the player is going to go through
 	Global.playing_levels.assign(
 		selector.playing_levels.map(func(x: int) -> PackedScene:
+			# Ignore non-existant levels
 			if x >= levels.size():
 				print("Level with id " + str(x) + " is out of bounds")
 				return null
 			return levels[x]
 			))
+			
+	# If the player also collided with a boss during their move
 	if boss_piece != null:
 		Global.playing_levels.append(boss_piece.boss_scene)
 		
+	# Let the developer know there's a missing level scene on the board
 	if Global.playing_levels.find(null) >= 0:
 		Global.playing_levels.clear()
 				
@@ -197,17 +206,17 @@ func start_playing(boss_piece: Node2D = null) -> void:
 		menubip.play()
 	await fade_out_selected()
 	
-	var level := Global.get_next_level().instantiate()
-	if level is Level:
-		level.data = {
-			current_character = selected_piece.piece_character,
-			board_piece = selected_piece,
-			boss_piece = boss_piece,
-		}
+	# We later load that data in Level.gd
+	Global.level_data = {
+		current_character = selected_piece.piece_character,
+		board_piece = selected_piece,
+		boss_piece = boss_piece,
+	}
 	# We don't free the board scene so we can later return to it,
 	# hence the second false argument.
-	Global.change_scene_node(level, false)
+	Global.change_scene(Global.get_next_level(), false)
 	
+# Fade out after the player made their move
 func fade_out_selected() -> void:
 	selected_piece.prepare_start()
 	get_tree().paused = true
@@ -221,6 +230,9 @@ func fade_out_selected() -> void:
 	
 	get_tree().paused = false
 	
+# The game returned back to the board after a level was finished.
+# ignore_boss_moves indicates that the game returned to the board
+# after a boss scene where the boss timer ran out
 func returned(ignore_boss_moves := false) -> void:
 	await get_tree().create_timer(0.5).timeout
 	
@@ -238,10 +250,15 @@ func returned(ignore_boss_moves := false) -> void:
 		selector.moved.emit()
 		return
 
+	# Here we prepare for a boss (if present) to make a move
+	# (if allowed by the board's properties)
 	if allow_boss_movement and get_boss_pieces().size() > 0:
+		# The bosses also use the selector to move, so we should
+		# save its current position so later the player won't
+		# notice that selector was used/moved
+		var selector_pos_saved := Vector2(selector.position)
 		selector.hide()
 		selector.ignore_player_input = true
-		var selector_pos_saved := Vector2(selector.position)
 
 		await Global.fade_end
 		await move_boss()
@@ -258,6 +275,7 @@ func returned(ignore_boss_moves := false) -> void:
 
 #region Bosses
 		
+# Information about a boss after the player pressed on their board piece
 func show_boss_info(piece: BoardPiece) -> void:
 	var text := PlayerCharacter.CHARACTER_NAMES[piece.piece_character] + " - "
 	var size := Vector2i(message_window.default_window_size)
@@ -276,10 +294,11 @@ func boss_hp_str(hp: float) -> String:
 		s += ".0"
 	return s
 	
+# Make the boss piece move using pathfinding
 func move_boss() -> void:
 	var boss_piece: BoardPiece = get_boss_pieces().pick_random()
 	
-	# Don't include other boss pieces in the navigation path
+	# Don't include other boss pieces in the navigation path so they don't collide
 	# (by usign an alternative tile without navigation region)
 	for p: BoardPiece in get_boss_pieces():
 		if p != boss_piece:
@@ -368,6 +387,8 @@ func get_board_pieces() -> Array[BoardPiece]:
 			))
 	return board_pieces
 
+# If selector is currently positioned on a board piece
+# then we can check that using this function
 func get_current_piece() -> BoardPiece:
 	for p: BoardPiece in get_board_pieces():
 		if p.get_cell_pos() == selector.get_cell_pos(selector.old_pos):
@@ -380,6 +401,8 @@ func get_player_pieces() -> Array[BoardPiece]:
 func get_boss_pieces() -> Array[BoardPiece]:
 	return get_board_pieces().filter(func(p: BoardPiece) -> bool: return not p.is_player())
 
+# 2 board pieces collided with each other
+# Boss collisions with other bosses are prohibited by the move_boss function
 func _on_selector_piece_collision(piece: BoardPiece, boss_collision: bool) -> void:
 	if not selected_piece.is_player():
 		var boss := selected_piece

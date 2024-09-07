@@ -13,14 +13,15 @@ func _physics_process(delta: float) -> void:
 	move(delta)
 		
 func _process(_delta: float) -> void:
-	if (parent.inputs_pressed[parent.Inputs.A]
-		or parent.inputs_pressed[parent.Inputs.B]) \
-		and attack_timer.is_stopped():
-			parent.use_attack(PlayerCharacter.Attack.EYE_BEAM)
-			attack_timer.start(0.2)
-	
-	if parent.inputs_pressed[parent.Inputs.START]:
-		parent.use_attack(PlayerCharacter.Attack.WING_ATTACK)
+	if parent.character == PlayerCharacter.Type.MOTHRA:
+		if (parent.inputs_pressed[parent.Inputs.A]
+			or parent.inputs_pressed[parent.Inputs.B]) \
+			and attack_timer.is_stopped():
+				parent.use_attack(PlayerCharacter.Attack.EYE_BEAM)
+				attack_timer.start(0.2)
+		
+		if parent.inputs_pressed[parent.Inputs.START]:
+			parent.use_attack(PlayerCharacter.Attack.WING_ATTACK)
 
 func move(delta: float) -> void:
 	var xspeed: float = parent.move_speed

@@ -10,7 +10,7 @@ var walk_frame_speed := 0
 
 var jumping := false
 
-const JUMP_SPEED = -2 * 60
+const JUMP_SPEED := -2 * 60
 
 func state_init() -> void:
 	if not parent.is_flying():
@@ -60,10 +60,12 @@ func move(delta: float) -> void:
 		
 	var diry: float = parent.inputs[PlayerCharacter.Inputs.YINPUT]
 	
+	# Jump!
 	if parent.is_on_floor() and diry < -0.4:
 		parent.velocity.y = JUMP_SPEED
 		jumping = true
 	
+	# Variable jump height
 	if not parent.is_on_floor() and jumping:
 		if diry < -0.4 and parent.velocity.y < -1.95 * 60:
 			parent.velocity.y -= 216 * delta
@@ -71,11 +73,12 @@ func move(delta: float) -> void:
 			jumping = false
 			parent.velocity.y = 0
 	
+	# Crouch
 	if diry > 0.4 and parent.body.sprite_frames.has_animation("Crouch"):
 		if parent.animation_player.current_animation == "Walk"\
 			or parent.animation_player.current_animation == "":
 			parent.animation_player.play("Crouch")
-	
+
 	if diry <= 0.4 and parent.animation_player.current_animation == "Crouch":
 		parent.animation_player.play("RESET")
 

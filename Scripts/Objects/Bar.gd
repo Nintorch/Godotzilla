@@ -6,7 +6,9 @@ enum Style {
 	STYLE2,
 }
 
-# I wish to find a method to not have all this repeated code in setters...
+const SPEED := 1 * 60
+
+# I wish I found a method to not have all this repeated code in setters...
 
 ## Style 1 is the style for player's power and life bars.
 @export var style := Style.STYLE1:
@@ -38,7 +40,6 @@ enum Style {
 
 var value: float = 0
 var target_value: float = 0
-const speed = 1 * 60
 var max_value: float = 0
 
 func _ready() -> void:
@@ -50,7 +51,7 @@ func _process(delta: float) -> void:
 		value = max_value
 
 	if value != target_value:
-		value = move_toward(value, target_value, speed * delta)
+		value = move_toward(value, target_value, SPEED * delta)
 		match style:
 			Style.STYLE1:
 				$Style1/RedBar.size.x = int(value)

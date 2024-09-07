@@ -1,14 +1,19 @@
 extends Node2D
 
+## Always keep checking for other bodies in the attack component and attack them
 @export var attack_always := false
 @export var default_attack_amount := 4.0
 @export var objects_to_ignore: Array[Node2D]
+## Allow the attack component to attack at all
 @export var should_attack := true
+## Set to true if this attack component belongs to an enemy,
+## otherwise false if it belongs to a player/not enemy
 @export var enemy := false
 
 @onready var area_2d: Area2D = $Area2D
 @onready var collision: CollisionShape2D = $Area2D/CollisionShape2D
 
+# We don't want to attack a body multiple times in the same attack
 var attacked_bodies: Array[Node2D] = []
 
 signal attacked(body: Node2D, amount: float)
@@ -41,6 +46,8 @@ func attack_body(body: Node2D, amount: float = default_attack_amount) -> void:
 func set_collision(size: Vector2, offset: Vector2) -> void:
 	collision.shape.size = size
 	collision.position = offset
+	
+# The next 2 functions are useful for attack moves of a player or a boss
 	
 func start_attack(amount: float) -> void:
 	attack_always = true

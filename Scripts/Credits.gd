@@ -5,10 +5,10 @@ extends Node2D
 var current_text := 0
 var texts: Array[String]
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	$CenterContainer.size = Vector2(Global.get_default_resolution())
+	
 	texts.assign(Array(FileAccess.open("res://Other/Credits.txt", FileAccess.READ) \
 		.get_as_text().split("==")).map(func(i: String) -> String: return i.strip_edges()))
 	
@@ -41,7 +41,9 @@ func exit() -> void:
 	get_tree().paused = true
 	Global.music_fade_out()
 	await Global.fade_out()
+	
 	await get_tree().create_timer(0.5).timeout
+	
 	get_tree().paused = false
 	Global.hide_fade()
 	Global.change_scene(Global.get_initial_scene())

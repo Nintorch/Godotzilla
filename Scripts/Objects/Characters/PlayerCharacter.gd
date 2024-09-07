@@ -89,6 +89,7 @@ func _ready() -> void:
 		if enable_intro:
 			position.x = -40
 	else:
+		# The character is not a player, it's a boss/enemy
 		health.enemy = true
 		attack.enemy = true
 			
@@ -101,7 +102,6 @@ func _ready() -> void:
 	
 	save_position.resize(60)
 	
-	# Several default values
 	move_speed = 1 * 60
 	load_state()
 			
@@ -110,6 +110,7 @@ func _ready() -> void:
 	# PlayerCharacter-specific setup
 	match character:
 		PlayerCharacter.Type.GODZILLA:
+			# null here means the game shouldn't load a new skin as it's already loaded
 			change_skin(null)
 			set_collision(Vector2(20, 56), Vector2(0, -1))
 			
@@ -118,8 +119,8 @@ func _ready() -> void:
 			move_state = State.WALK
 			
 			# We set the character-specific position so when the character
-			# walks in a sudden frame change won't happen
-			# (walk_frame is set to 0 when the characters gets control)
+			# walks in a sudden walking animation frame change won't happen
+			# (walk_frame is set to 0 when the player gets control)
 			if is_player and enable_intro:
 				position.x = -35
 		
@@ -179,7 +180,7 @@ func change_skin(new_skin: Node2D) -> void:
 #region Input related
 	
 # This is done so the bosses and players use the same script
-# and allow to play as bosses and test their attacks.
+# and to allow the developer/player to play as bosses/test their attacks.
 enum Inputs {
 	XINPUT, YINPUT, B, A, START, SELECT,
 }
@@ -187,7 +188,7 @@ enum Inputs {
 var has_input := true
 var inputs := []
 var inputs_pressed := []
-const INPUT_ACTIONS = [["Left", "Right"], ["Up", "Down"], "B", "A", "Start", "Select"]
+const INPUT_ACTIONS := [["Left", "Right"], ["Up", "Down"], "B", "A", "Start", "Select"]
 	
 func setup_input(arr: Array) -> void:
 	arr[Inputs.XINPUT] = 0
@@ -209,6 +210,7 @@ func process_input() -> void:
 			inputs[i] = Input.is_action_pressed(INPUT_ACTIONS[i])
 			inputs_pressed[i] = Input.is_action_just_pressed(INPUT_ACTIONS[i])
 			
+# Useful for boss attacks in AI code
 func simulate_input_press(key: Inputs) -> void:
 	inputs_pressed[key] = true
 	await get_tree().process_frame
@@ -221,6 +223,7 @@ func use_attack(type: Attack) -> void:
 		return
 	$StateMachine/Attack.use(type)
 	
+# Set the current xp level
 func set_level(value: int, sfx := false) -> void:
 	if not is_player or level == value:
 		return
@@ -289,6 +292,7 @@ func _on_health_damaged(_amount: float, hurt_time: float) -> void:
 func _on_health_dead() -> void:
 	state.current = State.DEAD
 	
+# Load the character state from data from a board piece
 func load_state(data: Dictionary = {}) -> void:
 	var bar_value := 0
 	if data.is_empty():
@@ -307,6 +311,7 @@ func load_state(data: Dictionary = {}) -> void:
 	power.max_value = bar_value
 	power.value = bar_value
 	
+# Save the character state into a dictionary from a board piece
 func save_state(data: Dictionary) -> void:
 	data.hp = health.value
 	data.bars = power.max_value / 8

@@ -23,6 +23,7 @@ func state_exited() -> void:
 	parent.allow_direction_changing = save_allow_direction_changing
 
 func _process(delta: float) -> void:
+	# Allow the player to move while attacking
 	move_state.move(delta)
 
 func use(type: PlayerCharacter.Attack) -> void:
@@ -78,10 +79,12 @@ func use(type: PlayerCharacter.Attack) -> void:
 			]
 			
 			for anim: Array in animations:
-				parent.animation_player.play(anim[0])
+				parent.animation_player.play(anim[0] as String)
+				
 				if anim[0] == "HeatBeam3":
 					create_heat_beam()
 					parent.get_sfx("HeatBeam").play()
+					
 				await get_tree().create_timer(anim[1], false).timeout
 				
 			move_state.walk_frame = 0
@@ -92,26 +95,37 @@ func use(type: PlayerCharacter.Attack) -> void:
 		PlayerCharacter.Attack.EYE_BEAM:
 			var particle := MothraParticle.instantiate()
 			Global.get_current_scene().add_child(particle)
+			
 			particle.setup(particle.Type.EYE_BEAM, parent)
 			particle.global_position = \
 				parent.global_position + Vector2(20 * parent.direction, -2)
+				
 			parent.state.current = parent.move_state
 			parent.get_sfx("Step").play()
 			
 		PlayerCharacter.Attack.WING_ATTACK:
+			# Calculate the amount of power this attack should use
 			var power := mini(parent.power.value, 2 * 8)
+			
+			# Calculate the number of wing particles that should be created
 			var times := int(power / 2.6)
+			
+			# Not enough power for this attack
 			if times == 0:
 				parent.state.current = parent.move_state
 				return
+				
 			parent.power.use(power)
 			
 			wing_attack_sfx(mini(3, times))
+			
 			for i in times:
 				var particle := MothraParticle.instantiate()
 				Global.get_current_scene().add_child(particle)
+				
 				particle.setup(particle.Type.WING, parent)
 				particle.global_position = parent.global_position
+				
 				await get_tree().create_timer(0.15, false).timeout
 				
 			parent.state.current = parent.move_state
@@ -123,9 +137,11 @@ func create_heat_beam() -> void:
 	
 	for i in HEAT_BEAM_COUNT:
 		var particle := GodzillaHeatBeam.instantiate()
+		
 		particle.setup(i, parent)
 		particle.position = Vector2(26, 0) + Vector2(8, 0) * i
 		particle.particle_array = heat_beams
+		
 		parent.add_child(particle)
 		heat_beams.append(particle)
 		

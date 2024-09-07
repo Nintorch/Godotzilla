@@ -25,7 +25,7 @@ func _ready() -> void:
 	for save_slot in save_slots:
 		Global.set_save_slot(save_id)
 		var save_data := Global.load_save_data()
-		var board_description: BoardDescription = get_board_description(save_data)
+		var board_description := get_board_description(save_data)
 		if board_description == null:
 			save_slot.set_data_empty(save_id)
 		else:

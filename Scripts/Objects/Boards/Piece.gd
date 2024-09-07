@@ -49,12 +49,13 @@ var character_data := {
 }
 
 func _ready() -> void:
+	# Remember that this script is a tool script and can run in Godot editor
 	if Engine.is_editor_hint():
 		return
 	
 	await Global.get_current_scene().ready
 	update_frame()
-	selector = get_node_or_null("../../Selector")
+	selector = Global.board.selector if is_instance_valid(Global.board) else null
 	if selector == null:
 		return
 	tilemap = selector.tilemap
@@ -74,8 +75,7 @@ func _ready() -> void:
 	if piece_character in player_level:
 		level = player_level[piece_character]
 	steps = PIECE_STEPS[piece_character]
-	character_data.bars = \
-		PlayerCharacter.calculate_bar_count(piece_character, level)
+	character_data.bars = PlayerCharacter.calculate_bar_count(piece_character, level)
 	character_data.hp = character_data.bars * 8
 
 func _process(delta: float) -> void:
@@ -120,6 +120,7 @@ func show_cell_below() -> void:
 	tilemap.set_cell(get_cell_pos(), 1, tile_below)
 	tile_below = Vector2i(-1, -1)
 
+# The player/boss has selected this board piece
 func select() -> void:
 	selected = true
 	
@@ -131,10 +132,11 @@ func select() -> void:
 	# Just in case, but mostly for bosses
 	selector.global_position = global_position
 	show_cell_below()
-	# Move this piece above all other pieces
+	# Move this piece above every other piece
 	parent.move_child(self, -1)
 	
-	Global.board.menubip.play()
+	if is_instance_valid(Global.board):
+		Global.board.menubip.play()
 	
 func deselect() -> void:
 	selected = false
@@ -158,7 +160,7 @@ func prepare_start() -> void:
 	hide_cell_below()
 	
 func remove() -> void:
-	if Global.board.selected_piece == self:
+	if is_instance_valid(Global.board) and Global.board.selected_piece == self:
 		Global.board.selected_piece = null
 	selector.visible = true
 	show_cell_below()

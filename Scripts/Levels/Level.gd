@@ -19,7 +19,6 @@ const GAME_OVER_SCENE := preload("res://Scenes/GameOver.tscn")
 @onready var camera: Camera2D = $Camera
 @onready var player: PlayerCharacter = $Player
 
-# These are set in Board.gd and in next_level()
 var data := {
 	current_character = PlayerCharacter.Type.GODZILLA,
 	board_piece = null,
@@ -32,6 +31,9 @@ func _ready() -> void:
 		RenderingServer.set_default_clear_color(bg_color)
 		)
 	
+	if not Global.level_data.is_empty():
+		data = Global.level_data
+		
 	player.character = data.current_character
 	player.health.dead.connect(func() -> void: 
 		Global.play_music(preload("res://Audio/Soundtrack/PlayerDeath.ogg"))
@@ -50,11 +52,13 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	Global.accept_pause()
 	
+	# Level left boundary
 	if player.state.current != PlayerCharacter.State.LEVEL_INTRO \
 		and player.position.x < camera.limit_left + 10:
 			player.position.x = camera.limit_left + 10
 			player.velocity.x = 0.0
 	
+	# Level right boundary
 	if player.position.x > camera.limit_right - 10:
 		match right_boundary_behaviour:
 			LevelBoundaryType.WALL:
@@ -74,9 +78,6 @@ func _process(_delta: float) -> void:
 					next_level()
 				else:
 					next_planet()
-				
-func get_HUD() -> Node2D:
-	return $HUD
 
 # Can also be used on bosses, hence the "character" argument
 func player_dead(character: PlayerCharacter) -> void:
@@ -113,7 +114,6 @@ func next_level() -> void:
 			Global.music_fade_out()
 			
 		await Global.fade_out_paused()
-		level.data = data
 		Global.change_scene_node(level)
 	else:
 		if Global.board.music != music:

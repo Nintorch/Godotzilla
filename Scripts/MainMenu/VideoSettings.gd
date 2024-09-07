@@ -1,10 +1,11 @@
 class_name VideoSettings
 extends "res://Scripts/MainMenu/Menu.gd"
 
-@export var include_widescreen := true
-
+# Section in the save file
 const SECTION := "Video"
 const RESOLUTIONS := [1, 2, 3, 4, -1]
+
+@export var include_widescreen := true
 var current_resolution := 2
 
 func _ready() -> void:
@@ -70,11 +71,9 @@ func update_resolution_text() -> void:
 func update_resolution() -> void:
 	update_resolution_text()
 	
-	if RESOLUTIONS[current_resolution] == -1:
-		Global.use_fullscreen(true)
+	Global.use_fullscreen(RESOLUTIONS[current_resolution] == -1)
+	if Global.is_fullscreen():
 		return
-	else:
-		Global.use_fullscreen(false)
 		
 	get_window().set_size(Global.get_content_size() * RESOLUTIONS[current_resolution])
 	

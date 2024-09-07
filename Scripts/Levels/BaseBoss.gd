@@ -10,7 +10,7 @@ func _ready() -> void:
 	player.intro_ended.connect(func() -> void: state = BossState.IDLE)
 	player.health.dead.connect(func() -> void: state = BossState.NONE)
 	boss.health.dead.connect(func() -> void:
-		get_HUD().boss_timer.stop()
+		$HUD.boss_timer.stop()
 		player.add_xp(xp_amount)
 		Global.play_music(preload("res://Audio/Soundtrack/Victory.ogg"))
 		player_dead(boss)

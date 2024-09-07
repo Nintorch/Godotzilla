@@ -74,11 +74,11 @@ func stop_conditions() -> void:
 		stop()
 		if not next_piece.is_player():
 			set_process(false)
-	# Next cell is empty
+	# The next cell is empty
 	elif not next_cell_exists() and \
 		(movement_style == MovementStyle.ONLY_INSIDE_CELLS or board.selected_piece):
 			stop()
-	# Next cell is outside the camera limits
+	# The next cell is outside the camera limits
 	elif movement_style == MovementStyle.OUTSIDE_CELLS:
 		var next_cell := get_next_cell_pos()
 		var xlimit: int = $Camera2D.limit_right / 32 - 2
@@ -91,7 +91,7 @@ func update_movement(delta: float) -> void:
 	if is_stopped():
 		# Save the current cell position
 		old_pos = Vector2(position)
-		# If is stopped and movement is requested, move
+		# If is stopped and movement is requested, move..
 		speed = next_speed
 		
 		if board.selected_piece and board.selected_piece.is_player() \
@@ -102,7 +102,7 @@ func update_movement(delta: float) -> void:
 					moved_at_all = false
 					return
 		
-		# but be aware of things that should stop the movement
+		# ..but be aware of things that should stop the movement
 		if not is_stopped():
 			stop_conditions()
 		elif board.selected_piece \
@@ -110,7 +110,7 @@ func update_movement(delta: float) -> void:
 			and message_window.get_text() == "Unable to advance farther.":
 				message_window.disappear()
 	else:
-		# If we're moving and got onto the next hex
+		# If we're moving and then we moved onto the next hex
 		var yoffset := 32 if not speed.x else 16
 		if (speed.y > 0 and position.y > old_pos.y + yoffset - speed.y) \
 		or (speed.y < 0 and position.y < old_pos.y - yoffset - speed.y):

@@ -68,7 +68,7 @@ func _process(_delta: float) -> void:
 				update_password_text()
 				move_password_selector(1)
 	
-	if Input.is_action_just_pressed("Start"):
+	if Input.is_action_just_pressed("Start") or Input.is_action_just_pressed("Exit"):
 		leave()
 		return
 		

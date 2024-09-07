@@ -36,9 +36,7 @@ func destroy(character: PlayerCharacter) -> void:
 	visible = false
 	area_2d.queue_free()
 	sfx.play()
-	sfx.finished.connect(func() -> void:
-		queue_free()
-		)
+	sfx.finished.connect(queue_free)
 		
 	match animation_player.current_animation:
 		"health":	character.health.heal(2 * 8)

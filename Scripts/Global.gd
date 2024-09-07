@@ -14,6 +14,7 @@ var player: PlayerCharacter
 var playing_levels: Array[PackedScene] = []
 var board: Board
 var score := 0
+var level_data := {}
 
 var save_slot_id := -1 # -1 means no save
 var save_data := {

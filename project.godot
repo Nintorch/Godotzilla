@@ -31,9 +31,9 @@ window/size/viewport_width=256
 window/size/viewport_height=240
 window/size/resizable=false
 window/size/window_width_override=768
-window/size/window_height_override=720
+window/size/window_height_override=512
 window/stretch/mode="viewport"
-window/size/viewport_width_widescreen=427
+window/size/viewport_width_widescreen=480
 
 [dotnet]
 

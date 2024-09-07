@@ -4,7 +4,7 @@ var move_state: Node
 var sfx_step: AudioStreamPlayer
 var sfx_roar: AudioStreamPlayer
 
-const CHARACTER_PARAMS = [
+const CHARACTER_PARAMS := [
 	{
 		step_sfx_period = 30,
 		step_sfx_start = 15,

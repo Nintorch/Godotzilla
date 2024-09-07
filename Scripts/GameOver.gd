@@ -8,8 +8,9 @@ func _ready() -> void:
 	Global.fade_in()
 	
 	Global.music.finished.connect(finish)
+	
 	# The board hasn't been freed yet
-	if Global.board:
+	if is_instance_valid(Global.board):
 		Global.board.queue_free()
 		Global.board = null
 	
