@@ -30,9 +30,6 @@ This framework can be used for anything you want, this includes but not limited 
 - [Tutorials!](Tutorials)
 - And more!
 
-## Usage
-TODO: tutorials
-
 ## Credits
 - Nintorch - main developer of the framework
 - FreKay Planet - sprite rips of Mothra
