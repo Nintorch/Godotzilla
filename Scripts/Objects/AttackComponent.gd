@@ -3,6 +3,7 @@ extends Node2D
 ## Always keep checking for other bodies in the attack component and attack them
 @export var attack_always := false
 @export var default_attack_amount := 4.0
+@export var default_hurt_time := -1.0
 @export var objects_to_ignore: Array[Node2D]
 ## Allow the attack component to attack at all
 @export var should_attack := true
@@ -29,17 +30,19 @@ func _process(_delta: float) -> void:
 	if attack_always:
 		attack_bodies()
 
-func attack_bodies(amount: float = default_attack_amount) -> void:
+func attack_bodies(amount := default_attack_amount, hurt_time := default_hurt_time) -> void:
 	var bodies := area_2d.get_overlapping_bodies()
 	for body in bodies:
 		attack_body(body, amount)
 			
-func attack_body(body: Node2D, amount: float = default_attack_amount) -> void:
+func attack_body(body: Node2D,
+				amount := default_attack_amount,
+				hurt_time := default_hurt_time) -> void:
 	if body == get_parent() or body in objects_to_ignore or not should_attack:
 		return
 	if body.has_node("HealthComponent") and (enemy != body.get_node("HealthComponent").enemy) \
 		and body not in attacked_bodies:
-			body.get_node("HealthComponent").damage(amount)
+			body.get_node("HealthComponent").damage(amount, hurt_time)
 			attacked.emit(body, amount)
 			attacked_bodies.append(body)
 
@@ -49,10 +52,11 @@ func set_collision(size: Vector2, offset: Vector2) -> void:
 	
 # The next 2 functions are useful for attack moves of a player or a boss
 	
-func start_attack(amount: float) -> void:
+func start_attack(amount: float, hurt_time := -1.0) -> void:
 	attack_always = true
 	should_attack = true
 	default_attack_amount = amount
+	default_hurt_time = hurt_time
 	attacked_bodies.clear()
 	
 func stop_attack() -> void:

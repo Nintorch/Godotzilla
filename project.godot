@@ -30,8 +30,8 @@ gdscript/warnings/integer_division=0
 window/size/viewport_width=256
 window/size/viewport_height=240
 window/size/resizable=false
-window/size/window_width_override=768
-window/size/window_height_override=512
+window/size/window_width_override=512
+window/size/window_height_override=480
 window/stretch/mode="viewport"
 window/size/viewport_width_widescreen=480
 

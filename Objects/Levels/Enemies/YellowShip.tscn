@@ -49,12 +49,12 @@ script = ExtResource("2_164y3")
 [node name="HealthComponent" parent="." index="0"]
 max_value = 2.0
 
-[node name="Sprite" type="Sprite2D" parent="." index="4"]
+[node name="Sprite" type="Sprite2D" parent="." index="3"]
 texture = ExtResource("1_jpes6")
 region_enabled = true
 region_rect = Rect2(7, 11, 20, 12)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="5"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
 root_node = NodePath("../Sprite")
 libraries = {
 "": SubResource("AnimationLibrary_lcmgl")

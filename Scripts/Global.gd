@@ -205,7 +205,7 @@ func change_scene(scene: PackedScene, free := true) -> void:
 func get_initial_scene() -> PackedScene:
 	return main.initial_scene
 	
-func get_current_scene() -> Node2D:
+func get_current_scene() -> Node:
 	return main.get_node("CurrentScene").get_child(0)
 	
 #endregion

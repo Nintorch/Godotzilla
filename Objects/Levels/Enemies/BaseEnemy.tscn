@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bvoxqi1x6lk52"]
+[gd_scene load_steps=5 format=3 uid="uid://bvoxqi1x6lk52"]
 
 [ext_resource type="PackedScene" uid="uid://camascwoory5h" path="res://Objects/HealthComponent.tscn" id="1_cy6fi"]
 [ext_resource type="Script" path="res://Scripts/Objects/Enemies/BaseEnemy.gd" id="1_sr5re"]
 [ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="2_ma02d"]
-[ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="4_hidvd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mvstq"]
 size = Vector2(20, 10)
@@ -12,7 +11,6 @@ size = Vector2(20, 10)
 script = ExtResource("1_sr5re")
 
 [node name="HealthComponent" parent="." instance=ExtResource("1_cy6fi")]
-value = 6.0
 max_value = 6.0
 enemy = true
 
@@ -21,10 +19,6 @@ enemy = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_mvstq")
-
-[node name="DestroySFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_hidvd")
-bus = &"SFX"
 
 [connection signal="damaged" from="HealthComponent" to="." method="_on_health_component_damaged"]
 [connection signal="dead" from="HealthComponent" to="." method="_on_health_component_dead"]

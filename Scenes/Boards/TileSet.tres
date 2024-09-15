@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" load_steps=5 format=3 uid="uid://ssw1p4ldc5kg"]
 
-[ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Sprites/Levels/TestLevel/board.png" id="1_5bvg0"]
+[ext_resource type="Texture2D" uid="uid://dhod63htftwaw" path="res://Sprites/EditorBoard.png" id="1_0n84i"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_akmfr"]
 vertices = PackedVector2Array(-16, -1, -21, -7, -16, -13, -11, -8, -8, 7, 16, 0, 22, 6, 16, 12, 10, 7, -16, 12, -22, 7, 16, -13, 21, -9, 11, -9, 6, 16, -6, 16, 6, -16, -7, -16)
@@ -11,7 +11,7 @@ agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wxb3r"]
 resource_name = "Outline"
-texture = ExtResource("1_5bvg0")
+texture = ExtResource("1_0n84i")
 texture_region_size = Vector2i(48, 34)
 use_texture_padding = false
 0:0/next_alternative_id = 2
@@ -21,7 +21,7 @@ use_texture_padding = false
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5xk1u"]
 resource_name = "Icons"
-texture = ExtResource("1_5bvg0")
+texture = ExtResource("1_0n84i")
 margins = Vector2i(48, 0)
 texture_region_size = Vector2i(48, 32)
 0:0/0 = 0
