@@ -85,6 +85,7 @@ bus = &"SFX"
 [node name="LevelUp" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("13_l1dc3")
 volume_db = 8.0
+bus = &"SFX"
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_bws3y")]
 invincibility_time_seconds = 0.5

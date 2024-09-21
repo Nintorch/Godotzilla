@@ -48,7 +48,7 @@ var board_data := {
 
 func _ready() -> void:
 	Global.board = self
-	Global.level_data = {}
+	Global.level_data = null
 	
 	# Save current player characters so we can show them
 	# in a save slot
@@ -207,11 +207,11 @@ func start_playing(boss_piece: Node2D = null) -> void:
 	await fade_out_selected()
 	
 	# We later load that data in Level.gd
-	Global.level_data = {
-		current_character = selected_piece.piece_character,
-		board_piece = selected_piece,
-		boss_piece = boss_piece,
-	}
+	Global.level_data = Level.GameplayData.new()
+	Global.level_data.current_character = selected_piece.piece_character
+	Global.level_data.board_piece = selected_piece
+	Global.level_data.boss_piece = boss_piece
+	
 	# We don't free the board scene so we can later return to it,
 	# hence the second false argument.
 	Global.change_scene(Global.get_next_level(), false)

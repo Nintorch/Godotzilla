@@ -19,11 +19,12 @@ const GAME_OVER_SCENE := preload("res://Scenes/GameOver.tscn")
 @onready var camera: Camera2D = $Camera
 @onready var player: PlayerCharacter = $Player
 
-var data := {
-	current_character = PlayerCharacter.Type.GODZILLA,
-	board_piece = null,
-	boss_piece = null,
-}
+class GameplayData:
+	var current_character := PlayerCharacter.Type.GODZILLA
+	var board_piece: BoardPiece = null
+	var boss_piece: BoardPiece = null
+
+var data: GameplayData = null
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(bg_color)
@@ -31,8 +32,7 @@ func _ready() -> void:
 		RenderingServer.set_default_clear_color(bg_color)
 		)
 	
-	if not Global.level_data.is_empty():
-		data = Global.level_data
+	data = Global.level_data if Global.level_data != null else GameplayData.new()
 		
 	player.character = data.current_character
 	player.health.dead.connect(func() -> void: 
