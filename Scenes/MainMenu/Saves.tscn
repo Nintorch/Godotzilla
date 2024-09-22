@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bdey4yd06l4t3"]
+[gd_scene load_steps=14 format=3 uid="uid://bdey4yd06l4t3"]
 
 [ext_resource type="Script" path="res://Scripts/MainMenu/Saves.gd" id="1_k6r7c"]
 [ext_resource type="Script" path="res://Scripts/Boards/BoardDescription.gd" id="2_j2snq"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://slv0bn0tcyna" path="res://Scenes/Boards/Jupiter.tscn" id="4_nkx8y"]
 [ext_resource type="PackedScene" uid="uid://dockgi1sveicy" path="res://Scenes/GameIntro.tscn" id="5_8br8r"]
 [ext_resource type="PackedScene" uid="uid://bishkusg7nuhs" path="res://Scenes/MainMenu/SaveSlot.tscn" id="6_3xjm8"]
+[ext_resource type="PackedScene" uid="uid://bn3se1dw6cfhu" path="res://Objects/Boards/MessageWindow.tscn" id="7_csx5w"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="7_sjpp6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_heghi"]
@@ -36,6 +37,15 @@ script = ExtResource("1_k6r7c")
 boards = Array[ExtResource("2_j2snq")]([SubResource("Resource_tt3oh"), SubResource("Resource_425mq")])
 starting_scene = ExtResource("5_8br8r")
 
+[node name="DeleteText" type="Label" parent="."]
+offset_left = 32.0
+offset_top = 16.0
+offset_right = 144.0
+offset_bottom = 27.0
+theme_override_fonts/font = ExtResource("7_sjpp6")
+text = "press a to delete a slot"
+uppercase = true
+
 [node name="SaveSlot1" parent="." groups=["option", "saveslot"] instance=ExtResource("6_3xjm8")]
 offset_left = 32.0
 offset_top = 32.0
@@ -54,11 +64,27 @@ offset_top = 128.0
 offset_right = 48.0
 offset_bottom = 144.0
 
+[node name="Delete" type="Label" parent="." groups=["option"]]
+offset_left = 104.0
+offset_top = 184.0
+offset_right = 216.0
+offset_bottom = 195.0
+theme_override_fonts/font = ExtResource("7_sjpp6")
+text = "delete"
+uppercase = true
+
 [node name="Exit" type="Label" parent="." groups=["option"]]
-offset_left = 112.0
-offset_top = 192.0
-offset_right = 224.0
-offset_bottom = 203.0
+offset_left = 104.0
+offset_top = 200.0
+offset_right = 216.0
+offset_bottom = 211.0
 theme_override_fonts/font = ExtResource("7_sjpp6")
 text = "exit"
 uppercase = true
+
+[node name="MessageWindow" parent="." node_paths=PackedStringArray("selector") instance=ExtResource("7_csx5w")]
+offset_left = 16.0
+offset_top = 160.0
+offset_right = 48.0
+offset_bottom = 192.0
+selector = NodePath("")

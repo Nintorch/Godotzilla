@@ -1,3 +1,4 @@
+class_name MessageWindow
 extends NinePatchRect
 
 @export var selector: Node2D
@@ -40,8 +41,11 @@ func _process(_delta: float) -> void:
 		if input_a or Input.is_action_just_pressed("B"):
 			menu_bip.play()
 			await disappear()
-			choice_made.emit(choice_selector.position.x == 0 and input_a)
-			selector.ignore_player_input = false
+			if selector:
+				choice_made.emit(choice_selector.position.x == 0 and input_a)
+				selector.ignore_player_input = false
+			else:
+				choice_made.emit(choice_selector.position.x == 0)
 			choice_selector.position.x = 0
 	
 func appear(
@@ -76,7 +80,8 @@ func appear(
 		if choice:
 			choice_nodes.position.y = req_size.y - 16
 			choice_nodes.visible = true
-			selector.ignore_player_input = true
+			if selector:
+				selector.ignore_player_input = true
 		state = State.SHOWN
 		)
 	

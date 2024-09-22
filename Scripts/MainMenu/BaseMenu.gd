@@ -1,9 +1,9 @@
+class_name BaseMenu
 extends Node2D
-
-var current_menu: Node2D
 
 @onready var selector: ColorRect = $Selector
 var selector_option := 0
+var current_menu: Node2D
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Color.BLACK)
@@ -25,8 +25,8 @@ func _process(_delta: float) -> void:
 			selector_option = maxi(selector_option - 1, 0)
 			move_selector(selector_option)
 		
-	if Global.any_action_button_pressed():
-		current_menu.menu_select(selector_option)
+		if Global.any_action_button_pressed():
+			current_menu.menu_select(selector_option)
 	
 func enable_menu(menu: Node2D, flag: bool) -> void:
 	menu.visible = flag

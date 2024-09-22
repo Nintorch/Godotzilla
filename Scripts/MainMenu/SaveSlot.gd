@@ -15,6 +15,8 @@ func _ready() -> void:
 
 func set_data(psave_id: int, pplanet: BoardDescription, save_data: Dictionary) -> void:
 	save_exists.visible = true
+	doesnt_exist.visible = false
+	
 	var group := $SaveExists
 	
 	self.save_id = psave_id
@@ -38,7 +40,9 @@ func set_data(psave_id: int, pplanet: BoardDescription, save_data: Dictionary) -
 		position_x += 8
 	
 func set_data_empty(psave_id: int) -> void:
+	save_exists.visible = false
 	doesnt_exist.visible = true
+	
 	$DoesntExist/SaveID.text = "save " + str(psave_id + 1)
 
 func select() -> void:

@@ -27,7 +27,7 @@ extends Node2D
 
 @onready var outline: TileMapLayer = $Board/Outline
 @onready var tilemap: TileMapLayer = $"Board/Board Icons"
-@onready var message_window: NinePatchRect = $Board/GUI/MessageWindow
+@onready var message_window: MessageWindow = $Board/GUI/MessageWindow
 @onready var selector: Sprite2D = $"Board/Board Icons/Selector"
 
 # The actual playable board, the node that has this script

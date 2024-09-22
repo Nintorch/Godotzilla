@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var main_menu: Node2D = get_parent()
+@onready var main_menu: BaseMenu = get_parent()
 var options: Array[Control]
 
 func _ready() -> void:
