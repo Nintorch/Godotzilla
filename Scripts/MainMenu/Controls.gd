@@ -60,7 +60,7 @@ func next_input() -> void:
 	current_input += 1
 	if current_input >= ACTIONS.size():
 		save_mapping()
-		load_mapping(Global.load_settings_file())
+		load_mapping(SaveManager.load_settings_file())
 		exit()
 		return
 	update_text()
@@ -78,14 +78,14 @@ func exit() -> void:
 	main_menu.set_menu(%Settings)
 
 func save_mapping() -> void:
-	var file := Global.load_settings_file()
+	var file := SaveManager.load_settings_file()
 	for i in ACTIONS.size():
 		file.set_value(SECTION, ACTIONS[i], mapping[i])
-	Global.save_settings_file(file)
+	SaveManager.save_settings_file(file)
 	
 static func init_controls() -> void:
 	Input.joy_connection_changed.connect(func(_device: int, _connected: bool) -> void:
-		load_mapping(Global.load_settings_file())
+		load_mapping(SaveManager.load_settings_file())
 		)
 	
 static func load_mapping(file: ConfigFile) -> void:

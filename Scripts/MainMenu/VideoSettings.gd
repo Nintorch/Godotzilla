@@ -24,7 +24,7 @@ func _ready() -> void:
 			update_resolution()
 		)
 		
-	var file := Global.load_settings_file()
+	var file := SaveManager.load_settings_file()
 	widescreen_node.text = "wide screen: " + \
 		("on" if file.get_value(SECTION, "widescreen", false) else "off")
 	current_resolution = file.get_value(SECTION, "resolution", 2)
@@ -78,11 +78,11 @@ func update_resolution() -> void:
 	get_window().set_size(Global.get_content_size() * RESOLUTIONS[current_resolution])
 	
 func save_video_settings() -> void:
-	var file := Global.load_settings_file()
+	var file := SaveManager.load_settings_file()
 	file.set_value(SECTION, "widescreen", Global.is_widescreen())
 	file.set_value(SECTION, "fullscreen", Global.is_fullscreen())
 	file.set_value(SECTION, "resolution", current_resolution)
-	Global.save_settings_file(file)
+	SaveManager.save_settings_file(file)
 	
 static func load_video_settings(file: ConfigFile) -> void:
 	var resolution: int = file.get_value("Video", "resolution", 2)

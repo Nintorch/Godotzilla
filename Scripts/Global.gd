@@ -1,9 +1,5 @@
 extends Node
 
-const SETTINGS_PATH = "user://settings.cfg"
-const SAVE_FILE_PATH = "user://save.cfg"
-const SAVE_FILE_PASS = "Godotzilla" # Change this in your game!!!
-
 var main: Node2D
 
 var _fade_player: AnimationPlayer
@@ -16,31 +12,16 @@ var board: Board
 var score := 0
 var level_data: Level.GameplayData = null
 
-var save_slot_id := -1 # -1 means no save
-var save_data := {
-	"board_id": "",
-	"board_data": {},
-	"score": 0,
-}
-
 signal widescreen_changed
 signal fullscreen_changed(flag: bool) # only through use_fullscreen()
 signal scene_changed(from: Node, to: Node)
 signal score_changed(new_value: int)
 signal fade_end
-signal pause_finished
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	load_game_settings()
 	
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("ResetControls"):
-		InputMap.load_from_project_settings()
-		var file := load_settings_file()
-		file.erase_section("Input")
-		save_settings_file(file)
-		
 	if Input.is_action_just_pressed("FullScreen"):
 		use_fullscreen(not is_fullscreen())
 		
@@ -92,99 +73,11 @@ func any_action_button_pressed() -> bool:
 			return true
 	return false
 	
-var pause_visible_objects: Array[Node] = []
-	
-func accept_pause() -> void:
-	if not Global.is_fading() and Input.is_action_just_pressed("Select"):
-		var pause := preload("res://Scenes/MainMenu/PauseMenu.tscn").instantiate()
-		pause.return_scene = get_current_scene()
-		
-		get_current_scene().hide()
-		pause_visible_objects = get_all_visible_children(get_current_scene())
-		pause_visible_objects.map(func(x: Node) -> void: x.visible = false)
-		
-		var prev_pause: Node = main.canvas_layer.get_node_or_null(String(pause.name))
-		if prev_pause != null:
-			main.canvas_layer.remove_child(prev_pause)
-			
-		main.canvas_layer.add_child(pause)
-		main.canvas_layer.move_child(pause, 0)
-		pause.position.x = (get_content_size().x - get_default_resolution().x) / 2
-		get_tree().paused = true
-
-func finish_pause() -> void:
-	pause_finished.emit()
-		
-func get_all_visible_children(node: Node) -> Array[Node]:
-	var nodes: Array[Node] = []
-	for N in node.get_children():
-		if "visible" not in N or not N.visible:
-			continue
-		nodes.append(N)
-		if N.get_child_count() > 0:
-			nodes.append_array(get_all_visible_children(N))
-	return nodes
-	
 func add_score(value: int) -> void:
 	const SCORE_MAX := 999999
 	if value > 0 and value < SCORE_MAX:
 		score = mini(score+value, SCORE_MAX)
 		score_changed.emit(score)
-
-#region Save files
-
-func load_game_settings() -> void:
-	var file := load_settings_file()
-	
-	VideoSettings.load_video_settings(file)
-	SoundSettings.load_sound_settings(file)
-	ControlsSettings.init_controls()
-	ControlsSettings.load_mapping(file)
-
-func load_settings_file() -> ConfigFile:
-	var file := ConfigFile.new()
-	if file.load(SETTINGS_PATH) != OK:
-		save_settings_file(file)
-	return file
-	
-func save_settings_file(file: ConfigFile) -> void:
-	file.save(SETTINGS_PATH)
-	
-func load_save_data() -> Dictionary:
-	var config_file := load_save_file()
-	save_data = config_file.get_value(get_save_slot_section(), "data", {})
-	return save_data
-	
-func store_save_data() -> void:
-	var config_file := load_save_file()
-	config_file.set_value(get_save_slot_section(), "data", save_data)
-	store_save_file(config_file)
-	
-func load_save_file() -> ConfigFile:
-	var file := ConfigFile.new()
-	if file.load_encrypted_pass(SAVE_FILE_PATH, get_save_password()) != OK:
-		store_save_file(file)
-	return file
-	
-func store_save_file(file: ConfigFile) -> void:
-	if save_slot_id >= 0:
-		file.save_encrypted_pass(SAVE_FILE_PATH, get_save_password())
-	
-func set_save_slot(id: int) -> void:
-	save_slot_id = id
-
-func get_save_slot_section() -> String:
-	return "save" + str(save_slot_id+1)
-	
-func get_save_password() -> String:
-	# We tried to prevent other people from sending their
-	# save files to other people
-	# Like imagine if someone completed the game and sent other
-	# people their save file
-	# So we also use (hopefully) user-unique home directory
-	return SAVE_FILE_PASS + OS.get_user_data_dir()
-	
-#endregion
 	
 #region Scene changing
 

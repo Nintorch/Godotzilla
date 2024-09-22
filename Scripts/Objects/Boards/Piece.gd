@@ -72,7 +72,7 @@ func _ready() -> void:
 	if piece_character == PlayerCharacter.Type.MOTHRA:
 		walk_anim = 1
 	
-	var player_level: Dictionary = Global.get_current_scene().board_data["player_level"]
+	var player_level: Dictionary = Global.board.board_data["player_level"]
 	if piece_character in player_level:
 		level = player_level[piece_character]
 	steps = PIECE_STEPS[piece_character]

@@ -60,16 +60,16 @@ func _ready() -> void:
 	board_data["player_characters"] = player_characters
 	
 	if use_in_saves:
-		Global.save_data["board_id"] = board_id
+		SaveManager.save_data["board_id"] = board_id
 		
 		# We don't save the data right now because the board
 		# also needs to be able to load its state from save data
-		if not Global.save_data.has("board_data") or \
-			Global.save_data["board_data"].size() == 0:
-				Global.save_data["board_data"] = board_data
-				Global.store_save_data()
+		if not SaveManager.save_data.has("board_data") or \
+			SaveManager.save_data["board_data"].size() == 0:
+				SaveManager.save_data["board_data"] = board_data
+				SaveManager.store_save_data()
 		else:
-			board_data = Global.save_data["board_data"]
+			board_data = SaveManager.save_data["board_data"]
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	tilemap.tile_set.get_source(0).texture = tileset
@@ -101,7 +101,7 @@ func _process(_delta: float) -> void:
 	if not board.visible:
 		return
 		
-	Global.accept_pause()
+	PauseManager.accept_pause()
 	
 	if not selector.is_stopped() or selector.ignore_player_input:
 		return

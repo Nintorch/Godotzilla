@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://cmoopalhh65x1"]
+[gd_scene load_steps=8 format=3 uid="uid://cmoopalhh65x1"]
 
 [ext_resource type="PackedScene" uid="uid://bjcf4tfdeo6ta" path="res://Scenes/MainMenu/BaseMenu.tscn" id="1_3ivqh"]
-[ext_resource type="Script" path="res://Scripts/MainMenu/PauseMenu.gd" id="2_pl6gi"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="4_vods2"]
 [ext_resource type="PackedScene" uid="uid://lxs5br5r3336" path="res://Scenes/MainMenu/Settings.tscn" id="5_frcs8"]
 [ext_resource type="PackedScene" uid="uid://dy3m74iswj1v" path="res://Scenes/MainMenu/Controls.tscn" id="6_kgulq"]
@@ -14,26 +13,11 @@ script/source = "extends \"res://Scripts/MainMenu/Menu.gd\"
 func menu_select(id: int) -> void:
 	match id:
 		0: # Continue
-			main_menu.hide()
-			main_menu.process_mode = Node.PROCESS_MODE_DISABLED
-			Global.get_current_scene().show()
-			Global.pause_visible_objects.map(func(x: Node) -> void: x.show())
-			get_tree().paused = false
-			Global.finish_pause()
-			
-			var sfx := Global.get_global_sfx(\"Pause\")
-			sfx.play()
-			await sfx.finished
-			
-			# Don't resume the music if the player was fast enough
-			# to pause again before sfx.finished above fired and
-			# they're on pause menu again
-			if not Global.main.canvas_layer.get_node(\"PauseMenu\").visible:
-				Global.music.stream_paused = false
-			main_menu.queue_free()
+			PauseManager.finish_pause()
 		1: # Settings
 			main_menu.set_menu(%Settings)
 		2: # Exit
+			PauseManager.prepare_for_exit()
 			get_tree().paused = true
 			
 			Global.music_fade_out()
@@ -49,7 +33,7 @@ func menu_select(id: int) -> void:
 "
 
 [node name="PauseMenu" instance=ExtResource("1_3ivqh")]
-script = ExtResource("2_pl6gi")
+process_mode = 2
 
 [node name="MenuMain" parent="." index="1"]
 script = SubResource("GDScript_mmqcn")

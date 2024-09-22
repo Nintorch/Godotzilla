@@ -28,7 +28,7 @@ var data: GameplayData = null
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(bg_color)
-	Global.pause_finished.connect(func() -> void:
+	PauseManager.pause_finished.connect(func() -> void:
 		RenderingServer.set_default_clear_color(bg_color)
 		)
 	
@@ -50,7 +50,8 @@ func _ready() -> void:
 	Global.fade_in()
 	
 func _process(_delta: float) -> void:
-	Global.accept_pause()
+	if player.state.current != PlayerCharacter.State.DEAD:
+		PauseManager.accept_pause()
 	
 	# Level left boundary
 	if player.state.current != PlayerCharacter.State.LEVEL_INTRO \
@@ -155,8 +156,8 @@ func next_planet() -> void:
 
 func save_data() -> void:
 	if Global.board.use_in_saves:
-		Global.save_data["board_data"] = Global.board.board_data
-		Global.save_data["score"] = Global.score
-		Global.store_save_data()
+		SaveManager.save_data["board_data"] = Global.board.board_data
+		SaveManager.save_data["score"] = Global.score
+		SaveManager.store_save_data()
 		
 #endregion

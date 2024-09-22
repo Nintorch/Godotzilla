@@ -23,8 +23,8 @@ func _ready() -> void:
 	
 	var save_id := 0
 	for save_slot in save_slots:
-		Global.set_save_slot(save_id)
-		var save_data := Global.load_save_data()
+		SaveManager.set_save_slot(save_id)
+		var save_data := SaveManager.load_save_data()
 		var board_description := get_board_description(save_data)
 		if board_description == null:
 			save_slot.set_data_empty(save_id)
@@ -49,9 +49,9 @@ func menu_select(id: int) -> void:
 	if id == save_slots.size():
 		main_menu.set_menu(%MenuMain)
 	else:
-		Global.set_save_slot(id)
+		SaveManager.set_save_slot(id)
 		
-		var save_data := Global.load_save_data()
+		var save_data := SaveManager.load_save_data()
 		var board_description := get_board_description(save_data)
 		if board_description == null:
 			main_menu.change_scene(starting_scene)
