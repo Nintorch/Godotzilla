@@ -293,9 +293,9 @@ func _on_health_dead() -> void:
 	state.current = State.DEAD
 	
 # Load the character state from data from a board piece
-func load_state(data: Dictionary = {}) -> void:
+func load_state(data: BoardPiece.CharacterData = null) -> void:
 	var bar_value := 0
-	if data.is_empty():
+	if data == null:
 		bar_value = PlayerCharacter.calculate_bar_count(character, level) * 8
 		power.max_value = bar_value
 		power.value = bar_value
@@ -312,7 +312,7 @@ func load_state(data: Dictionary = {}) -> void:
 	power.value = bar_value
 	
 # Save the character state into a dictionary from a board piece
-func save_state(data: Dictionary) -> void:
+func save_state(data: BoardPiece.CharacterData) -> void:
 	data.hp = health.value
 	data.bars = power.max_value / 8
 	data.level = level

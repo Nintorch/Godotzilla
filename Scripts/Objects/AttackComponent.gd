@@ -33,7 +33,7 @@ func _process(_delta: float) -> void:
 func attack_bodies(amount := default_attack_amount, hurt_time := default_hurt_time) -> void:
 	var bodies := area_2d.get_overlapping_bodies()
 	for body in bodies:
-		attack_body(body, amount)
+		attack_body(body, amount, hurt_time)
 			
 func attack_body(body: Node2D,
 				amount := default_attack_amount,

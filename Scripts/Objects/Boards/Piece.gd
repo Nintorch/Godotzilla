@@ -41,12 +41,13 @@ var steps := 0
 var walk_frame := 0.0
 var walk_anim := 0
 
-var character_data := {
-	hp = 0.0,
-	bars = 0,
-	xp = 0,
-	level = 1,
-}
+class CharacterData:
+	var hp := 0.0
+	var bars := 0
+	var xp := 0
+	var level := 1
+
+var character_data := CharacterData.new()
 
 func _ready() -> void:
 	# Remember that this script is a tool script and can run in Godot editor
