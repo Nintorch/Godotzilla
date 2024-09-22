@@ -38,12 +38,12 @@ boards = Array[ExtResource("2_j2snq")]([SubResource("Resource_tt3oh"), SubResour
 starting_scene = ExtResource("5_8br8r")
 
 [node name="DeleteText" type="Label" parent="."]
-offset_left = 32.0
+offset_left = 16.0
 offset_top = 16.0
-offset_right = 144.0
+offset_right = 248.0
 offset_bottom = 27.0
 theme_override_fonts/font = ExtResource("7_sjpp6")
-text = "press a to delete a slot"
+text = "press action to delete a slot"
 uppercase = true
 
 [node name="SaveSlot1" parent="." groups=["option", "saveslot"] instance=ExtResource("6_3xjm8")]
@@ -82,9 +82,8 @@ theme_override_fonts/font = ExtResource("7_sjpp6")
 text = "exit"
 uppercase = true
 
-[node name="MessageWindow" parent="." node_paths=PackedStringArray("selector") instance=ExtResource("7_csx5w")]
+[node name="MessageWindow" parent="." instance=ExtResource("7_csx5w")]
 offset_left = 16.0
 offset_top = 160.0
 offset_right = 48.0
 offset_bottom = 192.0
-selector = NodePath("")
