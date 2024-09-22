@@ -59,9 +59,9 @@ var direction: int = 1:
 			skin.scale.x = value
 
 @onready var collision: CollisionShape2D = $Collision
-@onready var health: Node = $HealthComponent
-@onready var power: Node = $PowerComponent
-@onready var attack: Node2D = $AttackComponent
+@onready var health: HealthComponent = $HealthComponent
+@onready var power: PowerComponent = $PowerComponent
+@onready var attack: AttackComponent = $AttackComponent
 @onready var state: StateMachine = $StateMachine
 
 var move_state := State.WALK
@@ -165,11 +165,12 @@ func _process(_delta: float) -> void:
 	process_input()
 	
 func change_skin(new_skin: Node2D) -> void:
-	if new_skin == null:
-		move_child($Skin, -1)
-		return
-		
 	var prev_skin: Node2D = $Skin
+	if new_skin == null:
+		move_child(prev_skin, -1)
+		skin = prev_skin
+		return
+	
 	remove_child(prev_skin)
 	prev_skin.queue_free()
 	
@@ -314,7 +315,7 @@ func load_state(data: BoardPiece.CharacterData = null) -> void:
 # Save the character state into a dictionary from a board piece
 func save_state(data: BoardPiece.CharacterData) -> void:
 	data.hp = health.value
-	data.bars = power.max_value / 8
+	data.bars = int(power.max_value / 8)
 	data.level = level
 	data.xp = xp
 

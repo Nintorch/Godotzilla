@@ -1,3 +1,4 @@
+class_name PowerComponent
 extends Node
 
 @export var value := 10.0

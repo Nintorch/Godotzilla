@@ -7,10 +7,10 @@ enum CameraMode {
 
 @export var camera_offset_x := 30
 @export var target: Node2D
+@export var camera_mode := CameraMode.NORMAL
 
 @onready var window_width_half := Global.get_content_size().x / 2
 
-var camera_mode := CameraMode.NORMAL
 var camera_x_old: float
 var camera_current_offset := 0
 
@@ -33,6 +33,7 @@ func _process(_delta: float) -> void:
 		
 		# The camera can move in both sides
 		CameraMode.TWO_SIDES:
+			var direction: int = target.direction if "direction" in target else 1
 			camera_current_offset = roundi(move_toward(
 				camera_current_offset,
 				camera_offset_x * target.direction,

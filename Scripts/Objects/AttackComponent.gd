@@ -1,3 +1,4 @@
+class_name AttackComponent
 extends Node2D
 
 ## Always keep checking for other bodies in the attack component and attack them

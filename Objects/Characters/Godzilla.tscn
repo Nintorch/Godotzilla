@@ -31,7 +31,7 @@ func _process(_delta: float) -> void:
 
 func _on_animation_started(anim_name: StringName) -> void:
 	var size := 56
-	if anim_name == \"Crouch\":
+	if anim_name == \"Crouch\" or anim_name == \"TailWhip\":
 		size = 40
 	parent.set_collision(Vector2(20, size),
 		Vector2(0, -1 + (56 - size) / 2))

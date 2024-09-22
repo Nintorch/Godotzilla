@@ -11,7 +11,7 @@ size = Vector2(32, 48)
 size = Vector2(16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1lues"]
-size = Vector2(32, 24)
+size = Vector2(16, 24)
 
 [node name="BreakableMountain" type="StaticBody2D"]
 collision_layer = 2

@@ -42,7 +42,7 @@ func use(type: PlayerCharacter.Attack) -> void:
 			parent.animation_player.play("Punch1" if variation else "Punch2")
 			parent.get_sfx("Punch").play()
 			
-			attack_component.set_collision(Vector2(30, 20), Vector2(20, -15))
+			attack_component.set_collision(Vector2(30, 20), Vector2(20 * parent.direction, -15))
 			
 			attack_component.start_attack(2)
 			await parent.animation_player.animation_finished
@@ -53,7 +53,7 @@ func use(type: PlayerCharacter.Attack) -> void:
 			parent.animation_player.play("Kick1" if variation else "Kick2")
 			parent.get_sfx("Punch").play()
 			
-			attack_component.set_collision(Vector2(30, 20), Vector2(20, 15))
+			attack_component.set_collision(Vector2(30, 20), Vector2(20 * parent.direction, 15))
 			
 			attack_component.start_attack(2)
 			await parent.animation_player.animation_finished
@@ -64,7 +64,7 @@ func use(type: PlayerCharacter.Attack) -> void:
 			parent.animation_player.play("TailWhip")
 			await get_tree().create_timer(0.15, false).timeout
 			
-			attack_component.set_collision(Vector2(50, 40), Vector2(30, 5))
+			attack_component.set_collision(Vector2(50, 40), Vector2(30 * parent.direction, 5))
 			
 			attack_component.start_attack(2)
 			await parent.animation_player.animation_finished
@@ -140,6 +140,8 @@ func create_heat_beam() -> void:
 		
 		particle.setup(i, parent)
 		particle.position = Vector2(26, 0) + Vector2(8, 0) * i
+		particle.position.x *= parent.direction
+		particle.scale.x = parent.direction
 		particle.particle_array = heat_beams
 		
 		parent.add_child(particle)
