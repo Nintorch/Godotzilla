@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bdbahbhfgy3yt"]
+[gd_scene load_steps=5 format=3 uid="uid://bdbahbhfgy3yt"]
 
 [ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/BaseLevel.tscn" id="1_sxqx2"]
+[ext_resource type="AudioStream" uid="uid://bv5227ls5ejej" path="res://Audio/Soundtrack/PassWordGame.ogg" id="2_gkpwp"]
 
 [sub_resource type="Gradient" id="Gradient_v0rqx"]
 offsets = PackedFloat32Array(0.708154, 1)
@@ -12,6 +13,7 @@ fill_from = Vector2(0, 1)
 fill_to = Vector2(0, 0)
 
 [node name="Level" instance=ExtResource("1_sxqx2")]
+music = ExtResource("2_gkpwp")
 right_boundary_behaviour = 2
 
 [node name="Camera" parent="." index="1"]

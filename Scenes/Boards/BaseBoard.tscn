@@ -1,12 +1,59 @@
-[gd_scene load_steps=8 format=4 uid="uid://d2do8ilhab482"]
+[gd_scene load_steps=13 format=4 uid="uid://d2do8ilhab482"]
 
 [ext_resource type="Script" path="res://Scripts/Boards/Board.gd" id="1_qudp1"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="3_2wbjf"]
-[ext_resource type="TileSet" uid="uid://ssw1p4ldc5kg" path="res://Scenes/Boards/TileSet.tres" id="4_f5mxu"]
 [ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Sprites/Levels/TestLevel/board.png" id="4_yatfn"]
 [ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="5_5kcnc"]
 [ext_resource type="PackedScene" uid="uid://dtc8wqm5nbty2" path="res://Objects/Boards/Selector.tscn" id="6_ysf6o"]
 [ext_resource type="PackedScene" uid="uid://bn3se1dw6cfhu" path="res://Objects/Boards/MessageWindow.tscn" id="7_hcaag"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_1ofnh"]
+vertices = PackedVector2Array(-16, -1, -21, -7, -16, -13, -11, -8, -8, 7, 16, 0, 22, 6, 16, 12, 10, 7, -16, 12, -22, 7, 16, -13, 21, -9, 11, -9, 6, 16, -6, 16, 6, -16, -7, -16)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(9, 10, 0, 4), PackedInt32Array(11, 12, 5, 13), PackedInt32Array(8, 14, 15, 4, 3), PackedInt32Array(16, 13, 5, 8, 3, 17)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-6.71751, -16, 6.01041, -16, 10.6066, -9.19239, 16, -12.7279, 20.8597, -8.83884, 16, 0, 22.2739, 6.01041, 16, 12.3744, 10.2531, 7.42462, 6.36396, 16, -6.36396, 16, -8.48528, 7.42462, -16, 12.3744, -21.5668, 7.07107, -16, -1.41422, -20.8596, -7.42462, -16, -12.7279, -10.6066, -8.48528)])
+source_geometry_group_name = &"navigation_polygon_source_group"
+agent_radius = 0.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5jw5i"]
+load_path = "res://.godot/imported/EditorBoard.png-dacee69496e3ef6b098dc372742f0496.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y5qnd"]
+resource_name = "Outline"
+texture = SubResource("CompressedTexture2D_5jw5i")
+texture_region_size = Vector2i(48, 34)
+use_texture_padding = false
+0:0/next_alternative_id = 2
+0:0/0 = 0
+0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1ofnh")
+0:0/1 = 1
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a0gnq"]
+load_path = "res://.godot/imported/EditorBoard.png-dacee69496e3ef6b098dc372742f0496.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dct05"]
+resource_name = "Icons"
+texture = SubResource("CompressedTexture2D_a0gnq")
+margins = Vector2i(48, 0)
+texture_region_size = Vector2i(48, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:0/0 = 0
+4:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_8es2h"]
+tile_shape = 2
+tile_layout = 1
+tile_offset_axis = 1
+tile_size = Vector2i(32, 32)
+navigation_layer_0/layers = 1
+sources/0 = SubResource("TileSetAtlasSource_y5qnd")
+sources/1 = SubResource("TileSetAtlasSource_dct05")
 
 [node name="Board" type="Node2D"]
 script = ExtResource("1_qudp1")
@@ -29,11 +76,10 @@ uppercase = true
 position = Vector2(16, 8)
 
 [node name="Outline" type="TileMapLayer" parent="Board"]
-tile_set = ExtResource("4_f5mxu")
 
 [node name="Board Icons" type="TileMapLayer" parent="Board"]
 tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAABAAEAAQAAAAAAAAABAAIAAQAAAAAAAAAAAAEAAQAAAAAAAAACAAEAAQAAAAAAAAACAAIAAQAAAAAAAAACAAMAAQAAAAAAAAABAAMAAQAAAAAAAAAAAAIAAQAAAAAAAAA=")
-tile_set = ExtResource("4_f5mxu")
+tile_set = SubResource("TileSet_8es2h")
 
 [node name="Board Pieces" type="Node2D" parent="Board/Board Icons"]
 unique_name_in_owner = true

@@ -1,3 +1,4 @@
+class_name BoardSelector
 extends Sprite2D
 
 enum MovementStyle {

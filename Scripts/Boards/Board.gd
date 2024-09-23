@@ -28,7 +28,7 @@ extends Node2D
 @onready var outline: TileMapLayer = $Board/Outline
 @onready var tilemap: TileMapLayer = $"Board/Board Icons"
 @onready var message_window: MessageWindow = $Board/GUI/MessageWindow
-@onready var selector: Sprite2D = $"Board/Board Icons/Selector"
+@onready var selector: BoardSelector = $"Board/Board Icons/Selector"
 
 # The actual playable board, the node that has this script
 # also includes the board name.
@@ -39,6 +39,7 @@ extends Node2D
 var selected_piece: BoardPiece = null
 var board_data := {
 	"player_level": {}, # [PlayerCharacter.Type] -> int
+	"player_xp": {}, # [PlayerCharacter.Type] -> int
 	"player_characters": [],
 }
 
@@ -57,23 +58,29 @@ func _ready() -> void:
 		func(p: BoardPiece) -> PlayerCharacter.Type: return p.piece_character
 		))
 	player_characters.sort()
-	board_data["player_characters"] = player_characters
 	
 	if use_in_saves:
-		SaveManager.save_data["board_id"] = board_id
+		var save_data := SaveManager.save_data
 		
-		# We don't save the data right now because the board
-		# also needs to be able to load its state from save data
-		if not SaveManager.save_data.has("board_data") or \
-			SaveManager.save_data["board_data"].size() == 0:
-				SaveManager.save_data["board_data"] = board_data
+		if save_data.has("board_data") and not save_data["board_data"].is_empty():
+			board_data = save_data["board_data"]
+			board_data["player_characters"] = player_characters
+				
+		if not save_data.has("board_id") or save_data["board_id"] != board_id:
+				save_data["board_id"] = board_id
+				save_data["board_data"] = board_data
+				board_data["player_characters"] = player_characters
 				SaveManager.store_save_data()
-		else:
-			board_data = SaveManager.save_data["board_data"]
+		
+	for piece in get_player_pieces():
+		if board_data.player_level.has(piece.piece_character):
+			piece.character_data.level = board_data["player_level"][piece.piece_character]
+			piece.character_data.xp = board_data["player_xp"][piece.piece_character]
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	tilemap.tile_set.get_source(0).texture = tileset
 	tilemap.tile_set.get_source(1).texture = tileset
+	outline.tile_set = tilemap.tile_set
 	build_outline()
 	
 	if board_name:
@@ -101,7 +108,8 @@ func _process(_delta: float) -> void:
 	if not board.visible:
 		return
 		
-	PauseManager.accept_pause()
+	if not selector.ignore_player_input and not Global.is_fade_shown():
+		PauseManager.accept_pause()
 	
 	if not selector.is_stopped() or selector.ignore_player_input:
 		return
@@ -130,8 +138,9 @@ func _process(_delta: float) -> void:
 				else:
 					selected_piece.deselect()
 					selected_piece = null
-			# If a board piece is selected and A was pressed, start playing
-			start_playing()
+			else:
+				# If a board piece is selected and A was pressed, start playing
+				start_playing()
 		
 	# Cancel the player's current move
 	if Input.is_action_just_pressed("B") and selected_piece:
@@ -211,6 +220,7 @@ func start_playing(boss_piece: Node2D = null) -> void:
 	Global.level_data.current_character = selected_piece.piece_character
 	Global.level_data.board_piece = selected_piece
 	Global.level_data.boss_piece = boss_piece
+	selected_piece = null
 	
 	# We don't free the board scene so we can later return to it,
 	# hence the second false argument.
@@ -245,6 +255,8 @@ func returned(ignore_boss_moves := false) -> void:
 		selected_piece = null
 		
 	if ignore_boss_moves:
+		selector.playing_levels.clear()
+		selector.ignore_player_input = false
 		selector.set_process(true)
 		selector.visible = true
 		selector.moved.emit()
@@ -261,15 +273,14 @@ func returned(ignore_boss_moves := false) -> void:
 		selector.ignore_player_input = true
 
 		await Global.fade_end
-		await move_boss()
-		# See the explanation for that if statement in move_boss()
-		# in if selector.visible
-		if not selector.visible:
-			Global.fade_in()
-		
+		if await move_boss():
+			selector.show()
 		selector.position = selector_pos_saved
+	else:
 		selector.show()
-		selector.ignore_player_input = false
+		
+	selector.ignore_player_input = false
+	selector.playing_levels.clear()
 		
 #endregion
 
@@ -295,7 +306,7 @@ func boss_hp_str(hp: float) -> String:
 	return s
 	
 # Make the boss piece move using pathfinding
-func move_boss() -> void:
+func move_boss() -> bool:
 	var boss_piece: BoardPiece = get_boss_pieces().pick_random()
 	
 	# Don't include other boss pieces in the navigation path so they don't collide
@@ -329,27 +340,25 @@ func move_boss() -> void:
 		selector.move(direction.x, direction.y)
 		await selector.moved
 		selector.move(0, 0)
-		
-		# Basically, the boss might have already collided with a player piece,
-		# started the boss battle and it would've been finished at this point
-		# (due to the piece collision signal),
-		# calling returned() again and setting selector.visible to true,
-		# and since returned() got called again we don't want to proceed with
-		# the move_boss() function anymore
-		if selector.visible:
-			return
-			
+
 		# Wait until we get onto the next hex
 		await selector.stopped
 	
 	await get_tree().create_timer(0.5).timeout
 	boss_piece.prepare_start()
-	await get_tree().create_timer(0.5).timeout
-	
-	selector.playing_levels.clear()
-	selected_piece = null
-	
-	await Global.fade_out()
+		
+	if selector.playing_levels.size() < boss_piece.steps:
+		selected_piece = player_piece
+		selector.playing_levels.clear()
+		start_playing(boss_piece)
+		return false
+	else:
+		selector.playing_levels.clear()
+		selected_piece = null
+		await get_tree().create_timer(0.5).timeout
+		await Global.fade_out()
+		Global.fade_in()
+		return true
 	
 func get_closest_player(boss_piece: BoardPiece) -> Node2D:
 	var array := get_player_pieces()
@@ -373,6 +382,7 @@ func convert_navigation_path(path: PackedVector2Array) -> PackedVector2Array:
 				result.append(pos)
 	# We don't want the boss to try to move to its current position
 	result.remove_at(0)
+	result.remove_at(result.size()-1)
 	return result
 	
 #endregion
@@ -404,18 +414,11 @@ func get_boss_pieces() -> Array[BoardPiece]:
 # 2 board pieces collided with each other
 # Boss collisions with other bosses are prohibited by the move_boss function
 func _on_selector_piece_collision(piece: BoardPiece, boss_collision: bool) -> void:
-	if not selected_piece.is_player():
-		var boss := selected_piece
-		selected_piece = piece
-		
-		boss.prepare_start()
-		selector.playing_levels.clear()
-		start_playing(boss)
-		return
-		
 	if not boss_collision and not message_window.visible:
-		message_window.appear("Unable to advance because a "
-			+ "monster is blocking the way.", false)
+		message_window.appear(
+			"Unable to advance because a monster is blocking the way.",
+			false
+			)
 		adjust_message_pos()
 	elif boss_collision:
 		adjust_message_pos()

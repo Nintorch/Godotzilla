@@ -1,7 +1,7 @@
 class_name MessageWindow
 extends NinePatchRect
 
-@export var selector: Node2D
+@export var selector: BoardSelector
 @export var window_size := Vector2i(96, 64)
 @export var alignment_horizontal := HORIZONTAL_ALIGNMENT_LEFT
 @export var alignment_vertical := VERTICAL_ALIGNMENT_TOP
@@ -37,15 +37,12 @@ func _process(_delta: float) -> void:
 			choice_selector.position.x = 0
 		if Input.is_action_just_pressed("Right"):
 			choice_selector.position.x = 40
-		var input_a := Input.is_action_just_pressed("A")
-		if input_a or Input.is_action_just_pressed("B"):
+		if Input.is_action_just_pressed("A") or Input.is_action_just_pressed("B"):
 			menu_bip.play()
 			await disappear()
 			if selector:
-				choice_made.emit(choice_selector.position.x == 0 and input_a)
 				selector.ignore_player_input = false
-			else:
-				choice_made.emit(choice_selector.position.x == 0)
+			choice_made.emit(choice_selector.position.x == 0)
 			choice_selector.position.x = 0
 	
 func appear(

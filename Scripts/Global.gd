@@ -1,5 +1,7 @@
 extends Node
 
+const SCORE_MAX := 9999999
+
 var main: Node2D
 
 var _fade_player: AnimationPlayer
@@ -73,11 +75,24 @@ func any_action_button_pressed() -> bool:
 			return true
 	return false
 	
-func add_score(value: int) -> void:
-	const SCORE_MAX := 999999
-	if value > 0 and value < SCORE_MAX:
-		score = mini(score+value, SCORE_MAX)
+func add_score(value: int, delta: int = 20) -> void:
+	if value < 0:
+		return
+	
+	# Gradually add score for the player.
+	# I don't make a target score here and instead use score_given
+	# because the player might get some more score while the previous score
+	# hasn't been given out fully, so they both have to increase the resulting
+	# score
+	var score_given := 0
+	while score_given < value:
+		score += delta
+		score_given += delta
+		if score_given > value:
+			score -= score_given - value
+		score = mini(score, SCORE_MAX)
 		score_changed.emit(score)
+		await get_tree().create_timer(0.1, false).timeout
 	
 #region Scene changing
 
@@ -112,6 +127,9 @@ enum FadeColor {
 
 func is_fading() -> bool:
 	return _fade_player.is_playing()
+	
+func is_fade_shown() -> bool:
+	return is_fading() or _fader.modulate.a > 0
 
 func _perform_fade(callable: Callable, pause_game: bool, color: FadeColor) -> void:
 	if pause_game:

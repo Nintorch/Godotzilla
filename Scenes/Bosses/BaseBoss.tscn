@@ -8,6 +8,7 @@
 [node name="Boss" instance=ExtResource("1_ohey1")]
 script = ExtResource("2_xih6l")
 xp_amount = 100
+score_amount = 110000
 music = ExtResource("2_pg308")
 right_boundary_behaviour = 0
 

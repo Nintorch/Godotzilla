@@ -2,6 +2,8 @@ extends Level
 
 ## The amount of XP the player gets when the boss is defeated
 @export var xp_amount := 100
+## The amount of score the player gets when the boss is defeated
+@export var score_amount := 110000
 
 @onready var boss: PlayerCharacter = $Boss
 
@@ -9,11 +11,17 @@ func _ready() -> void:
 	super._ready()
 	player.intro_ended.connect(func() -> void: state = BossState.IDLE)
 	player.health.dead.connect(func() -> void: state = BossState.NONE)
+	
+	boss.health.damaged.connect(func(_amount: float, _hurt_time: float) -> void:
+		Global.add_score(20)
+		)
 	boss.health.dead.connect(func() -> void:
 		$HUD.boss_timer.stop()
 		player.add_xp(xp_amount)
 		Global.play_music(preload("res://Audio/Soundtrack/Victory.ogg"))
+		save_player_state()
 		player_dead(boss)
+		Global.add_score(score_amount, 10000)
 		)
 		
 	if data.boss_piece:

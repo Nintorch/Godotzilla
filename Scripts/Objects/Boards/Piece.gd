@@ -31,7 +31,7 @@ const FRAME_SPEED := [
 @onready var parent := get_parent()
 
 var tilemap: TileMapLayer
-var selector: Node2D
+var selector: BoardSelector
 
 var init_pos: Vector2
 var piece_frame := 0
@@ -166,6 +166,14 @@ func remove() -> void:
 	selector.visible = true
 	show_cell_below()
 	queue_free()
+	
+func save_data() -> void:
+	if not is_instance_valid(Global.board):
+		return
+		
+	var board_data := Global.board.board_data
+	board_data["player_level"][piece_character] = character_data.level
+	board_data["player_xp"][piece_character] = character_data.xp
 	
 func is_player() -> bool:
 	return piece_type == 0

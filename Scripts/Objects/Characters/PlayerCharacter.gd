@@ -220,7 +220,7 @@ func simulate_input_press(key: Inputs) -> void:
 #endregion
 
 func use_attack(type: Attack) -> void:
-	if not enable_attacks:
+	if not enable_attacks or state.current in [State.DEAD or State.LEVEL_INTRO]:
 		return
 	$StateMachine/Attack.use(type)
 	

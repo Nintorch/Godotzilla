@@ -67,18 +67,21 @@ func _process(_delta: float) -> void:
 				player.velocity.x = 0.0
 			
 			LevelBoundaryType.NEXT_LEVEL, LevelBoundaryType.NEXT_PLANET:
-				var board_piece: Node2D = data.board_piece
-				if board_piece:
-					player.save_state(board_piece.character_data)
-					board_piece.level = board_piece.character_data.level
-					
-					var board_data: Dictionary = Global.board.board_data
-					board_data["player_level"][board_piece.piece_character] = player.level
+				save_player_state()
 				
 				if right_boundary_behaviour == LevelBoundaryType.NEXT_LEVEL:
 					next_level()
 				else:
 					next_planet()
+
+func save_player_state() -> void:
+	var board_piece: Node2D = data.board_piece
+	if board_piece:
+		player.save_state(board_piece.character_data)
+		board_piece.level = board_piece.character_data.level
+	
+		var board_data: Dictionary = Global.board.board_data
+		board_data.player_level[board_piece.piece_character] = player.level
 
 # Can also be used on bosses, hence the "character" argument
 func player_dead(character: PlayerCharacter) -> void:
@@ -121,6 +124,7 @@ func next_level() -> void:
 			Global.music_fade_out()
 			
 		await Global.fade_out_paused()
+		data.board_piece.save_data() # Just in case
 		Global.change_scene_node(Global.board)
 		Global.board.returned()
 		
@@ -132,6 +136,7 @@ func next_planet() -> void:
 		
 	assert(is_instance_valid(Global.board))
 	
+	data.board_piece.save_data()
 	data.board_piece.remove()
 	
 	if Global.board.get_player_pieces().size() == 0:
