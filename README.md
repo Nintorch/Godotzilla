@@ -27,7 +27,8 @@ This framework can be used for anything you want, this includes but not limited 
 - Reusable components for characters and enemies:
   - State machine
   - Health component, power component, attack component
-- [Tutorials!](Tutorials)
+- [Tutorials!](Tutorials) (You should at least check out the "Framework overview" one, it also includes
+  how to properly import the framework into Godot without errors)
 - And more!
 
 ## Credits
