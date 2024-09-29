@@ -192,13 +192,14 @@ func music_fade_in() -> void:
 func get_global_sfx(sfx_name: String) -> AudioStreamPlayer:
 	return main.get_node("GlobalSFX/" + sfx_name)
 	
-func play_sfx_globally(stream: AudioStream) -> void:
+func play_sfx_globally(stream: AudioStream) -> AudioStreamPlayer:
 	var node := AudioStreamPlayer.new()
 	node.stream = stream
 	node.bus = "SFX"
 	node.finished.connect(node.queue_free)
 	add_child(node)
 	node.play()
+	return node
 	
 func is_sfx_playing_globally(stream: AudioStream) -> bool:
 	return Global.get_children().filter(func(x: Node) -> bool:

@@ -41,4 +41,5 @@ func _on_bottom_health_dead() -> void:
 func play_sfx() -> void:
 	if not sfx_played_this_frame:
 		sfx_played_this_frame = true
-		Global.play_sfx_globally(BREAK_SFX)
+		var sfx := Global.play_sfx_globally(BREAK_SFX)
+		sfx.volume_db = 5
