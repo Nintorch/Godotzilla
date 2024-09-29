@@ -40,7 +40,9 @@ func display_text() -> void:
 	text_node.text = text
 	
 func prepare_licensing_text() -> void:
-	var result := Engine.get_license_text()
+	var result := FileAccess.open("res://LICENSE", FileAccess.READ).get_as_text()
+	
+	result += "\n" + Engine.get_license_text()
 	result += "\nGodot Engine also uses third-party libraries, 
 the next list includes the licensed files and their respective licenses:\n"
 
