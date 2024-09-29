@@ -21,6 +21,7 @@ scroll_scale = Vector2(0, 0)
 [node name="Hills" type="Parallax2D" parent="Background" index="1"]
 scroll_scale = Vector2(0.7, 1)
 repeat_size = Vector2(320, 0)
+repeat_times = 4
 
 [node name="TextureRect" type="TextureRect" parent="Background/Hills" index="0"]
 offset_top = 160.0

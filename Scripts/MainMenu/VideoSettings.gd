@@ -21,6 +21,7 @@ func _ready() -> void:
 		if flag:
 			$Resolution.text = "resolution: full screen"
 		else:
+			current_resolution = min(3, current_resolution)
 			update_resolution()
 		)
 		

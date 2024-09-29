@@ -9,6 +9,8 @@ const BOARD_PIECE := preload("res://Objects/Boards/Piece.tscn")
 var save_id := 0
 var planet: BoardDescription = null
 
+var pieces: Array[BoardPiece] = []
+
 func _ready() -> void:
 	save_exists.visible = false
 	doesnt_exist.visible = false
@@ -37,16 +39,21 @@ func set_data(psave_id: int, pplanet: BoardDescription, save_data: Dictionary) -
 		piece.piece_character = character
 		group.add_child(piece)
 		piece.position = Vector2(position_x, 24.0)
+		pieces.append(piece)
 		position_x += 8
 	
 func set_data_empty(psave_id: int) -> void:
 	save_exists.visible = false
 	doesnt_exist.visible = true
-	
+	pieces = []
 	$DoesntExist/SaveID.text = "save " + str(psave_id + 1)
 
 func select() -> void:
 	border.self_modulate = Color("b53120")
+	for piece in pieces:
+		piece.select()
 	
 func deselect() -> void:
 	border.self_modulate = Color.WHITE
+	for piece in pieces:
+		piece.deselect()

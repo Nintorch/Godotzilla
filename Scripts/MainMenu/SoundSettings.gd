@@ -63,7 +63,7 @@ func save_sound_settings() -> void:
 	var file := SaveManager.load_settings_file()
 	file.set_value(SECTION, "sfx", sfx_volume)
 	file.set_value(SECTION, "music", music_volume)
-	Global.save_settings_file(file)
+	SaveManager.save_settings_file(file)
 	
 static func load_sound_settings(file: ConfigFile) -> void:
 	AudioServer.set_bus_volume_db(SFX_BUS,

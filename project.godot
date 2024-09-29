@@ -14,6 +14,7 @@ config/name="Godotzilla"
 run/main_scene="res://Scenes/Main.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/show_image=false
 config/icon="res://icon.svg"
 
 [autoload]
@@ -35,7 +36,7 @@ window/size/resizable=false
 window/size/window_width_override=512
 window/size/window_height_override=480
 window/stretch/mode="viewport"
-window/size/viewport_width_widescreen=480
+window/size/viewport_width_widescreen=426
 
 [dotnet]
 

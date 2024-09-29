@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://slv0bn0tcyna"]
+[gd_scene load_steps=6 format=3 uid="uid://slv0bn0tcyna"]
 
 [ext_resource type="PackedScene" uid="uid://d2do8ilhab482" path="res://Scenes/Boards/BaseBoard.tscn" id="1_vt5a8"]
 [ext_resource type="AudioStream" uid="uid://dtdevd1wqdmom" path="res://Audio/Soundtrack/Mars.ogg" id="2_qojmy"]
 [ext_resource type="PackedScene" uid="uid://dhm8bcemuwqfo" path="res://Scenes/Levels/Wilderness.tscn" id="3_2e2no"]
 [ext_resource type="Texture2D" uid="uid://56livh2aqxw0" path="res://Sprites/Levels/Jupiter/board.png" id="4_ylq5q"]
+[ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="5_kbvgg"]
 
 [node name="Board" instance=ExtResource("1_vt5a8")]
 board_name = "Jupiter"
@@ -11,3 +12,8 @@ music = ExtResource("2_qojmy")
 tileset = ExtResource("4_ylq5q")
 board_id = "jupiter"
 levels = Array[PackedScene]([ExtResource("3_2e2no")])
+
+[node name="Mothra" parent="Board/Board Icons/Board Pieces" index="1" instance=ExtResource("5_kbvgg")]
+position = Vector2(16, 56)
+region_rect = Rect2(0, 96, 48, 48)
+piece_character = 1

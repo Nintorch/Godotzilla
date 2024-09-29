@@ -38,8 +38,7 @@ extends Node2D
 
 var selected_piece: BoardPiece = null
 var board_data := {
-	"player_level": {}, # [PlayerCharacter.Type] -> int
-	"player_xp": {}, # [PlayerCharacter.Type] -> int
+	"players": {}, # [String (board piece name)] -> Dictionary ("xp", "level")
 	"player_characters": [],
 }
 
@@ -71,12 +70,7 @@ func _ready() -> void:
 				save_data["board_data"] = board_data
 				board_data["player_characters"] = player_characters
 				SaveManager.store_save_data()
-		
-	for piece in get_player_pieces():
-		if board_data.player_level.has(piece.piece_character):
-			piece.character_data.level = board_data["player_level"][piece.piece_character]
-			piece.character_data.xp = board_data["player_xp"][piece.piece_character]
-	
+
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	tilemap.tile_set.get_source(0).texture = tileset
 	tilemap.tile_set.get_source(1).texture = tileset
@@ -130,24 +124,23 @@ func _process(_delta: float) -> void:
 			adjust_message_pos()
 		elif not message_window.visible:
 			if not selector.moved_at_all:
-				var result: bool = await message_window.appear(
+				var result: MessageWindow.Response = await message_window.appear(
 					"Not going\nto move?", true, true)
-				if result:
+				if result == MessageWindow.Response.YES:
 					await not_going_to_move()
 					return
-				else:
+				elif result == MessageWindow.Response.NO:
 					selected_piece.deselect()
 					selected_piece = null
 			else:
 				# If a board piece is selected and A was pressed, start playing
+				menubip.play()
 				start_playing()
 		
 	# Cancel the player's current move
 	if Input.is_action_just_pressed("B") and selected_piece:
 		menubip.play()
-		selected_piece.deselect()
-		selected_piece = null
-		message_window.disappear()
+		cancel_move()
 		
 	# Mini tutorial on how to use the board (from GMoM)
 	if Input.is_action_just_pressed("Start"):
@@ -163,6 +156,11 @@ func _process(_delta: float) -> void:
 		
 	if message_window.visible and Input.is_action_just_pressed("B"):
 		message_window.disappear()
+		
+func cancel_move() -> void:
+	selected_piece.deselect()
+	selected_piece = null
+	message_window.disappear()
 		
 func adjust_message_pos() -> void:
 	if selector.position.y > 120:
@@ -210,9 +208,7 @@ func start_playing(boss_piece: Node2D = null) -> void:
 	if Global.playing_levels.size() == 0:
 		not_going_to_move()
 		return
-	
-	if boss_piece == null:
-		menubip.play()
+
 	await fade_out_selected()
 	
 	# We later load that data in Level.gd
@@ -422,9 +418,12 @@ func _on_selector_piece_collision(piece: BoardPiece, boss_collision: bool) -> vo
 		adjust_message_pos()
 	elif boss_collision:
 		adjust_message_pos()
-		var result: bool = await message_window.appear(
+		var result: MessageWindow.Response = await message_window.appear(
 			"Will you\nfight\n" + piece.get_character_name() + "?",
 			false, true)
-		start_playing(piece if result else null)
+		if result == MessageWindow.Response.CANCEL:
+			cancel_move()
+		elif result != MessageWindow.Response.UNKNOWN:
+			start_playing(piece if result == MessageWindow.Response.YES else null)
 		
 #endregion

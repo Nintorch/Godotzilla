@@ -1,6 +1,13 @@
 class_name MessageWindow
 extends NinePatchRect
 
+enum Response {
+	YES,
+	NO,
+	CANCEL,
+	UNKNOWN,
+}
+
 @export var selector: BoardSelector
 @export var window_size := Vector2i(96, 64)
 @export var alignment_horizontal := HORIZONTAL_ALIGNMENT_LEFT
@@ -21,7 +28,7 @@ enum State {
 var default_window_size := Vector2i(window_size)
 var state := State.HIDDEN
 
-signal choice_made(choice: bool)
+signal choice_made(choice: Response)
 
 func _ready() -> void:
 	size = Vector2(0, window_size.y)
@@ -37,12 +44,20 @@ func _process(_delta: float) -> void:
 			choice_selector.position.x = 0
 		if Input.is_action_just_pressed("Right"):
 			choice_selector.position.x = 40
-		if Input.is_action_just_pressed("A") or Input.is_action_just_pressed("B"):
+		var input_a := Input.is_action_just_pressed("A")
+		if input_a or Input.is_action_just_pressed("B"):
 			menu_bip.play()
 			await disappear()
 			if selector:
 				selector.ignore_player_input = false
-			choice_made.emit(choice_selector.position.x == 0)
+				
+			if input_a:
+				choice_made.emit(
+					Response.YES if choice_selector.position.x == 0 else Response.NO
+					)
+			else:
+				choice_made.emit(Response.CANCEL)
+					
 			choice_selector.position.x = 0
 	
 func appear(
@@ -50,9 +65,9 @@ func appear(
 		enable_sound := true,
 		choice := false,
 		req_size: Vector2i = default_window_size,
-		) -> bool:
+		) -> Response:
 	if state == State.APPEARING or state == State.DISAPPEARING:
-		return false
+		return Response.UNKNOWN
 		
 	window_size = req_size
 	
@@ -88,9 +103,8 @@ func appear(
 	await tween.finished
 	
 	if choice:
-		var ret: bool = await choice_made
-		return ret
-	return false
+		return await choice_made
+	return Response.UNKNOWN
 	
 func disappear() -> void:
 	if state != State.SHOWN:

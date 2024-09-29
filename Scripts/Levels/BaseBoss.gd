@@ -12,24 +12,20 @@ func _ready() -> void:
 	player.intro_ended.connect(func() -> void: state = BossState.IDLE)
 	player.health.dead.connect(func() -> void: state = BossState.NONE)
 	
-	boss.health.damaged.connect(func(_amount: float, _hurt_time: float) -> void:
-		Global.add_score(20)
+	boss.health.damaged.connect(func(amount: float, _hurt_time: float) -> void:
+		Global.add_score(20 * int(amount))
 		)
 	boss.health.dead.connect(func() -> void:
 		$HUD.boss_timer.stop()
 		player.add_xp(xp_amount)
 		Global.play_music(preload("res://Audio/Soundtrack/Victory.ogg"))
 		save_player_state()
-		player_dead(boss)
+		player_dead(boss, data.boss_piece)
 		Global.add_score(score_amount, 10000)
 		)
 		
 	if data.boss_piece:
 		boss.load_state(data.boss_piece.character_data)
-		if Global.board:
-			boss.health.dead.connect(func() -> void:
-				Global.board.selected_piece = data.boss_piece
-				)
 
 func _process(delta: float) -> void:
 	super._process(delta)

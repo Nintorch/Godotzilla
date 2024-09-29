@@ -27,3 +27,11 @@ offset_right = 224.0
 offset_bottom = 226.0
 theme_override_fonts/font = ExtResource("2_vqk51")
 text = "PRESS ANY KEY  TO CONTINUE"
+
+[node name="Licensing" type="Label" parent="."]
+offset_left = 8.0
+offset_right = 248.0
+offset_bottom = 240.0
+theme_override_font_sizes/font_size = 10
+text = "Licensing text here"
+autowrap_mode = 2

@@ -7,7 +7,7 @@ var move_state: Node
 var current_attack: PlayerCharacter.Attack
 var variation := 0
 
-var attack_component: Node2D
+var attack_component: AttackComponent
 
 func state_init() -> void:
 	attack_component = parent.attack
@@ -21,6 +21,9 @@ func state_entered() -> void:
 
 func state_exited() -> void:
 	parent.allow_direction_changing = save_allow_direction_changing
+	
+func is_still_attacking() -> bool:
+	return parent.state.current == PlayerCharacter.State.ATTACK
 
 func _process(delta: float) -> void:
 	# Allow the player to move while attacking
@@ -63,6 +66,7 @@ func use(type: PlayerCharacter.Attack) -> void:
 		PlayerCharacter.Attack.TAIL_WHIP:
 			parent.animation_player.play("TailWhip")
 			await get_tree().create_timer(0.15, false).timeout
+			if not is_still_attacking(): return
 			
 			attack_component.set_collision(Vector2(50, 40), Vector2(30 * parent.direction, 5))
 			
@@ -86,6 +90,7 @@ func use(type: PlayerCharacter.Attack) -> void:
 					parent.get_sfx("HeatBeam").play()
 					
 				await get_tree().create_timer(anim[1], false).timeout
+				if not is_still_attacking(): return
 				
 			move_state.walk_frame = 0
 			parent.animation_player.play("RESET")
@@ -97,9 +102,10 @@ func use(type: PlayerCharacter.Attack) -> void:
 			Global.get_current_scene().add_child(particle)
 			
 			particle.setup(particle.Type.EYE_BEAM, parent)
-			particle.global_position = \
+			particle.global_position = (
 				parent.global_position + Vector2(20 * parent.direction, -2)
-				
+			)
+			
 			parent.state.current = parent.move_state
 			parent.get_sfx("Step").play()
 			
@@ -127,6 +133,7 @@ func use(type: PlayerCharacter.Attack) -> void:
 				particle.global_position = parent.global_position
 				
 				await get_tree().create_timer(0.15, false).timeout
+				if not is_still_attacking(): return
 				
 			parent.state.current = parent.move_state
 				
@@ -157,6 +164,7 @@ func wing_attack_sfx(times: int) -> void:
 		await get_tree().create_timer(0.25, false).timeout
 
 func _on_animation_finished(anim_name: String) -> void:
+	if not is_still_attacking(): return
 	match anim_name:
 		"Punch1", "Punch2":
 			parent.animation_player.play("RESET")

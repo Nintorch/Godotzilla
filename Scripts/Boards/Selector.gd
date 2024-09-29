@@ -65,7 +65,7 @@ func stop_conditions() -> void:
 	
 	# Too many steps
 	if board.selected_piece and playing_levels.size() >= board.selected_piece.steps:
-		if next_cell_exists() and not message_window.visible:
+		if next_cell_exists() and not message_window.visible and next_piece == null:
 			message_window.appear("Unable to advance farther.", false)
 			board.adjust_message_pos()
 		stop()

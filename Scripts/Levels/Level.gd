@@ -80,18 +80,18 @@ func save_player_state() -> void:
 		player.save_state(board_piece.character_data)
 		board_piece.level = board_piece.character_data.level
 	
-		var board_data: Dictionary = Global.board.board_data
-		board_data.player_level[board_piece.piece_character] = player.level
+		board_piece.save_data()
 
 # Can also be used on bosses, hence the "character" argument
-func player_dead(character: PlayerCharacter) -> void:
+func player_dead(character: PlayerCharacter,
+				piece: BoardPiece = data.board_piece) -> void:
 	await Global.music.finished
 	await Global.fade_out_paused()
 	
 	if not is_instance_valid(Global.board):
 		return
 	
-	Global.board.selected_piece.remove()
+	if is_instance_valid(piece): piece.remove()
 	Global.board.selected_piece = null
 		
 	if Global.board.get_player_pieces().size() == 0:

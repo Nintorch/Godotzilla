@@ -47,7 +47,7 @@ func is_widescreen() -> bool:
 	return get_content_size().x > get_default_resolution().x
 	
 func use_fullscreen(flag: bool) -> void:
-	const FULLSCREEN = DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
+	const FULLSCREEN = DisplayServer.WINDOW_MODE_FULLSCREEN
 	if flag and not is_fullscreen():
 		DisplayServer.window_set_mode(FULLSCREEN)
 		fullscreen_changed.emit(true)
@@ -56,7 +56,7 @@ func use_fullscreen(flag: bool) -> void:
 		fullscreen_changed.emit(false)
 		
 func is_fullscreen() -> bool:
-	const FULLSCREEN = DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
+	const FULLSCREEN = DisplayServer.WINDOW_MODE_FULLSCREEN
 	return DisplayServer.window_get_mode() == FULLSCREEN
 	
 func get_content_size() -> Vector2i:
@@ -78,6 +78,8 @@ func any_action_button_pressed() -> bool:
 func add_score(value: int, delta: int = 20) -> void:
 	if value < 0:
 		return
+	if delta <= 0:
+		delta = 20
 	
 	# Gradually add score for the player.
 	# I don't make a target score here and instead use score_given
@@ -189,5 +191,18 @@ func music_fade_in() -> void:
 	
 func get_global_sfx(sfx_name: String) -> AudioStreamPlayer:
 	return main.get_node("GlobalSFX/" + sfx_name)
+	
+func play_sfx_globally(stream: AudioStream) -> void:
+	var node := AudioStreamPlayer.new()
+	node.stream = stream
+	node.bus = "SFX"
+	node.finished.connect(node.queue_free)
+	add_child(node)
+	node.play()
+	
+func is_sfx_playing_globally(stream: AudioStream) -> bool:
+	return Global.get_children().filter(func(x: Node) -> bool:
+		return (x is AudioStreamPlayer and (x as AudioStreamPlayer).stream == stream)
+		).size() != 0
 	
 #endregion

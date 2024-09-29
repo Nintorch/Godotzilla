@@ -72,15 +72,18 @@ func _ready() -> void:
 	if piece_character == PlayerCharacter.Type.MOTHRA:
 		walk_anim = 1
 	
-	var player_level: Dictionary = Global.board.board_data["player_level"]
-	if piece_character in player_level:
-		level = player_level[piece_character]
+	var players_data: Dictionary = Global.board.board_data["players"]
+	if players_data.has(name):
+		character_data.level = players_data[name]["level"]
+		character_data.xp = players_data[name]["xp"]
+		level = character_data.level
+		
 	steps = PIECE_STEPS[piece_character]
 	character_data.bars = PlayerCharacter.calculate_bar_count(piece_character, level)
 	character_data.hp = character_data.bars * 8
 
 func _process(delta: float) -> void:
-	if selected:
+	if selected and is_instance_valid(selector):
 		global_position = selector.global_position
 		
 		if walk_anim == 0 and not selector.is_stopped() \
@@ -129,14 +132,14 @@ func select() -> void:
 	walk_frame = 0.0
 	update_frame()
 	
-	selector.visible = false
-	# Just in case, but mostly for bosses
-	selector.global_position = global_position
-	show_cell_below()
-	# Move this piece above every other piece
-	parent.move_child(self, -1)
-	
 	if is_instance_valid(Global.board):
+		selector.visible = false
+		# Just in case, but mostly for bosses
+		selector.global_position = global_position
+		show_cell_below()
+		# Move this piece above every other piece
+		parent.move_child(self, -1)
+	
 		Global.board.menubip.play()
 	
 func deselect() -> void:
@@ -145,11 +148,12 @@ func deselect() -> void:
 	piece_frame = 0
 	update_frame()
 	
-	selector.visible = true
-	selector.reset_playing_levels()
-	
-	position = init_pos
-	hide_cell_below()
+	if is_instance_valid(Global.board):
+		selector.visible = true
+		selector.reset_playing_levels()
+		
+		position = init_pos
+		hide_cell_below()
 	
 func prepare_start() -> void:
 	init_pos = position
@@ -172,8 +176,10 @@ func save_data() -> void:
 		return
 		
 	var board_data := Global.board.board_data
-	board_data["player_level"][piece_character] = character_data.level
-	board_data["player_xp"][piece_character] = character_data.xp
+	if not board_data["players"].has(name):
+		board_data["players"][name] = {}
+	board_data["players"][name]["level"] = character_data.level
+	board_data["players"][name]["xp"] = character_data.xp
 	
 func is_player() -> bool:
 	return piece_type == 0

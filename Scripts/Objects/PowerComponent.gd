@@ -24,3 +24,8 @@ func use(amount: float) -> bool:
 
 func add(amount: float) -> void:
 	value = minf(value + amount, max_value)
+
+func set_empty() -> void:
+	value = 0.0
+	max_value = 0.0
+	restore_speed = 0.0

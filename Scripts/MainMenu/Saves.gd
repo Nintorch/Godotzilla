@@ -17,7 +17,6 @@ extends "res://Scripts/MainMenu/Menu.gd"
 @onready var message_window: MessageWindow = $MessageWindow
 
 var save_slots: Array[Control] = []
-var delete_mode := false
 
 func _ready() -> void:
 	super._ready()
@@ -53,28 +52,28 @@ func _process(_delta: float) -> void:
 func menu_select(id: int) -> void:
 	match id:
 		3:
-			delete_mode = not delete_mode
-			delete_text.visible = delete_mode
+			delete_text.visible = not delete_text.visible
 		4:
 			main_menu.set_menu(%MenuMain)
+			delete_text.hide()
 		_:
 			SaveManager.set_save_slot(id)
 			var save_data := SaveManager.load_save_data()
 			var board_description := get_board_description(save_data)
 			
-			if delete_mode:
+			if delete_text.visible:
 				if board_description == null:
 					return
 				main_menu.selector.set_process(false)
 				
+				reposition_message_window()
 				var result := await message_window.appear(
 					"Do you want to delete this slot?", true, true)
-				if result:
+				if result == MessageWindow.Response.YES:
 					var save_file := SaveManager.load_save_file()
 					save_file.erase_section(SaveManager.get_save_slot_section())
 					SaveManager.store_save_file(save_file)
 					save_slots[id].set_data_empty(id)
-					delete_mode = false
 					delete_text.hide()
 					
 				main_menu.selector.set_process(true)
@@ -100,3 +99,9 @@ func get_board_description(save_data: Dictionary) -> BoardDescription:
 		return boards.filter(
 			func(b: BoardDescription) -> bool: return b.board_id == board_id
 			)[0]
+
+func reposition_message_window() -> void:
+	if Global.is_widescreen():
+		message_window.global_position.x = 16
+	else:
+		message_window.position.x = 16

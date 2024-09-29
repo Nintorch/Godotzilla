@@ -87,11 +87,6 @@ unique_name_in_owner = true
 [node name="Godzilla" parent="Board/Board Icons/Board Pieces" instance=ExtResource("5_5kcnc")]
 position = Vector2(16, 24)
 
-[node name="Mothra" parent="Board/Board Icons/Board Pieces" instance=ExtResource("5_5kcnc")]
-position = Vector2(16, 56)
-region_rect = Rect2(0, 96, 48, 48)
-piece_character = 1
-
 [node name="Selector" parent="Board/Board Icons" node_paths=PackedStringArray("board_outline", "tilemap", "message_window", "board") instance=ExtResource("6_ysf6o")]
 position = Vector2(16, 24)
 board_outline = NodePath("../../Outline")

@@ -14,3 +14,4 @@ func _physics_process(_delta: float) -> void:
 		var explosion := EXPLOSION.instantiate()
 		explosion.global_position = parent.global_position
 		add_child(explosion)
+		Global.play_sfx_globally(preload("res://Audio/SFX/CharHurt.wav"))

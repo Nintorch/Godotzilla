@@ -9,8 +9,7 @@ var walk_frames := 0
 var walk_frame_speed := 0
 
 var jumping := false
-
-const JUMP_SPEED := -2 * 60
+var jump_speed := -2 * 60
 
 func state_init() -> void:
 	if not parent.is_flying():
@@ -19,6 +18,8 @@ func state_init() -> void:
 	match parent.character:
 		PlayerCharacter.Type.GODZILLA:
 			walk_frame_speed = 9
+			# # You can change the jumping speed for your character like this
+			# jump_speed = -1 * 60
 
 func _process(delta: float) -> void:
 	move(delta)
@@ -62,7 +63,7 @@ func move(delta: float) -> void:
 	
 	# Jump!
 	if parent.is_on_floor() and diry < -0.4:
-		parent.velocity.y = JUMP_SPEED
+		parent.velocity.y = jump_speed
 		jumping = true
 	
 	# Variable jump height
