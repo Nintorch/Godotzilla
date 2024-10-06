@@ -422,21 +422,22 @@ func _on_selector_piece_collision(boss_collision: bool) -> void:
 		adjust_message_pos()
 	elif boss_collision:
 		adjust_message_pos()
-		var no_moves := true
 		var bosses := selector.get_neighbor_pieces()
-		while no_moves:
+		while true:
 			for piece in bosses:
 				var result: MessageWindow.Response = await message_window.appear(
 					"Will you\nfight\n" + piece.get_character_name() + "?",
 					false, true)
-				if result == MessageWindow.Response.CANCEL:
-					cancel_move()
-					return
-				elif result == MessageWindow.Response.YES:
-					start_playing(piece)
-					no_moves = false
-				elif result == MessageWindow.Response.NO and bosses.size() == 1:
-					start_playing(null)
-					no_moves = false
+				match result:
+					MessageWindow.Response.CANCEL:
+						cancel_move()
+						return
+					MessageWindow.Response.YES:
+						start_playing(piece)
+						return
+					MessageWindow.Response.NO:
+						if bosses.size() == 1:
+							start_playing(null)
+							return
 		
 #endregion
