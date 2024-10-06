@@ -36,7 +36,7 @@ This framework can be used for anything you want, this includes but not limited 
 - FreKay Planet - sprite rips of Mothra
 - Cioss - NES controller sprite for "Controls" menu
 - Special thanks to MadzillaKOTH and Dino for following the development
-  of the framework and giving me motivation to work on it
+  of the framework, giving me motivation to work on it and testing and Z-9 Lurker as well for testing
 - "Godzilla: Monster of Monsters" NES game © Toho Co., Ltd. & Compile
 - Godzilla and related characters © Toho Co., Ltd.
 - Nintendo Entertainment System (NES) © Nintendo
