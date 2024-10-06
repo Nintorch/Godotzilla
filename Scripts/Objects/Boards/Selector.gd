@@ -111,8 +111,6 @@ func update_movement(delta: float) -> void:
 		or (speed.y < 0 and position.y < old_pos.y - yoffset - speed.y):
 			moved.emit()
 			
-			if check_for_bosses(): return
-		
 			# Save the current cell position
 			old_pos = Vector2(position)
 			# If we're moving in different direction than
@@ -125,6 +123,8 @@ func update_movement(delta: float) -> void:
 			# Save the level from the current hex
 			if board.selected_piece:
 				playing_levels.append(get_level_id(get_current_cell()))
+			
+			if check_for_bosses(): return
 				
 			# If we're still requesting for movement, be aware
 			# of things that should stop the movement
