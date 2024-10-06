@@ -426,21 +426,25 @@ func _on_selector_piece_collision(boss_collision: bool) -> void:
 			"Will you fight\nthe enemy?",
 			false, true)
 		if result == MessageWindow.Response.YES:
-			var bosses := selector.get_neighbor_pieces()
+			var bosses := selector.get_neighbor_bosses()
+			# Keep looping through the bosses until the player either
+			# chooses to fight or cancels their move
+			# ("No" response to all of the bosses is ignored basically)
 			while true:
 				for piece in bosses:
 					result = await message_window.appear(
 						"Will you fight\n%s?" % piece.get_character_name(),
 						false, true)
-					match result:
-						MessageWindow.Response.CANCEL:
-							cancel_move()
-							return
-						MessageWindow.Response.YES:
-							start_playing(piece)
-							return
+					if result == MessageWindow.Response.YES:
+						start_playing(piece)
+						return
+					elif result == MessageWindow.Response.CANCEL:
+						cancel_move()
+						return
 		elif result == MessageWindow.Response.NO:
 			message_window.appear("Unable to advance, contacting the enemy.")
 			selector.set_process(true)
+		elif result == MessageWindow.Response.CANCEL:
+			cancel_move()
 		
 #endregion

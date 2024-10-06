@@ -142,7 +142,7 @@ func stop() -> void:
 	
 func check_for_bosses() -> bool:
 	if board.selected_piece and board.selected_piece.is_player() and moved_at_all:
-		if get_neighbor_pieces().size() > 0:
+		if get_neighbor_bosses().size() > 0:
 			piece_collision.emit(true)
 			next_speed = Vector2.ZERO
 			speed = Vector2.ZERO
@@ -150,7 +150,7 @@ func check_for_bosses() -> bool:
 			return true
 	return false
 	
-func get_neighbor_pieces() -> Array[BoardPiece]:
+func get_neighbor_bosses() -> Array[BoardPiece]:
 	var array: Array[BoardPiece] = []
 	array.assign(board.get_boss_pieces().filter(func(p: BoardPiece) -> bool:
 		return p.position.distance_to(position) < 36
