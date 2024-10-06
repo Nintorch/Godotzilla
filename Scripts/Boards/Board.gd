@@ -442,7 +442,7 @@ func _on_selector_piece_collision(boss_collision: bool) -> void:
 						cancel_move()
 						return
 		elif result == MessageWindow.Response.NO:
-			message_window.appear("Unable to advance, contacting the enemy.")
+			message_window.appear("Unable to advance, contacting the enemy.", false)
 			selector.set_process(true)
 		elif result == MessageWindow.Response.CANCEL:
 			cancel_move()
