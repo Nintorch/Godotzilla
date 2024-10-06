@@ -189,22 +189,9 @@ func music_fade_in() -> void:
 	music.volume_db = -80
 	tween.tween_property(music, "volume_db", 0, 0.5)
 	
-func get_global_sfx(sfx_name: String) -> AudioStreamPlayer:
-	return main.get_node("GlobalSFX/" + sfx_name)
-	
-func play_sfx_globally(stream: AudioStream) -> AudioStreamPlayer:
-	var node := AudioStreamPlayer.new()
-	node.stream = stream
-	node.bus = "SFX"
-	node.finished.connect(node.queue_free)
-	node.process_mode = Node.PROCESS_MODE_PAUSABLE
-	add_child(node)
-	node.play()
-	return node
-	
-func is_sfx_playing_globally(stream: AudioStream) -> bool:
-	return Global.get_children().filter(func(x: Node) -> bool:
-		return (x is AudioStreamPlayer and (x as AudioStreamPlayer).stream == stream)
-		).size() != 0
-	
+func play_global_sfx(sfx_name: String) -> AudioStreamPlayer:
+	var sfx: AudioStreamPlayer = main.get_node("GlobalSFX/" + sfx_name)
+	sfx.play()
+	return sfx
+
 #endregion

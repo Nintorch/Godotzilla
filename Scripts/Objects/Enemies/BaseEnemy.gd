@@ -13,4 +13,4 @@ func _on_health_component_dead() -> void:
 	queue_free()
 
 func start_destroy_sfx() -> void:
-	Global.play_sfx_globally(preload("res://Audio/SFX/CharHurt.wav"))
+	Global.play_global_sfx("Explosion")

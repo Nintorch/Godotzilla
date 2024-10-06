@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://du38sf8ro3elu"]
+[gd_scene load_steps=8 format=3 uid="uid://du38sf8ro3elu"]
 
 [ext_resource type="Script" path="res://Scripts/Main.gd" id="1_csd2w"]
 [ext_resource type="AudioStream" uid="uid://bgfupmtntcg8x" path="res://Audio/SFX/Pause.wav" id="3_iol3x"]
+[ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="3_jlebr"]
+[ext_resource type="AudioStream" uid="uid://byy8g0bpfb65s" path="res://Audio/SFX/BlockDestruct.wav" id="4_oop6x"]
 
 [sub_resource type="Animation" id="Animation_xmtka"]
 resource_name = "FadeIn"
@@ -78,8 +80,18 @@ libraries = {
 }
 
 [node name="GlobalSFX" type="Node" parent="."]
-process_mode = 3
+process_mode = 1
 
 [node name="Pause" type="AudioStreamPlayer" parent="GlobalSFX"]
+process_mode = 3
 stream = ExtResource("3_iol3x")
+bus = &"SFX"
+
+[node name="Explosion" type="AudioStreamPlayer" parent="GlobalSFX"]
+stream = ExtResource("3_jlebr")
+bus = &"SFX"
+
+[node name="BlockDestruct" type="AudioStreamPlayer" parent="GlobalSFX"]
+stream = ExtResource("4_oop6x")
+volume_db = 5.0
 bus = &"SFX"

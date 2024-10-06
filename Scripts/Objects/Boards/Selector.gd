@@ -110,6 +110,9 @@ func update_movement(delta: float) -> void:
 		if (speed.y > 0 and position.y > old_pos.y + yoffset - speed.y) \
 		or (speed.y < 0 and position.y < old_pos.y - yoffset - speed.y):
 			moved.emit()
+			
+			if check_for_bosses(): return
+		
 			# Save the current cell position
 			old_pos = Vector2(position)
 			# If we're moving in different direction than

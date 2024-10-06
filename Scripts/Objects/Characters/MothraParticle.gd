@@ -18,7 +18,6 @@ func setup(init_type: Type, player: PlayerCharacter) -> void:
 	attack_component.enemy = player.attack.enemy
 	attack_component.attacked.connect(player._on_attack_component_attacked)
 	
-	var should_destroy := false
 	scale.x = player.direction
 	match type:
 		Type.EYE_BEAM:
@@ -26,7 +25,6 @@ func setup(init_type: Type, player: PlayerCharacter) -> void:
 			timer.start(0.3)
 			timer.timeout.connect(func() -> void: queue_free())
 			velocity = Vector2(5 * player.direction * 60, 0)
-			should_destroy = true
 			
 		Type.WING:
 			animation = "Wing"
@@ -39,10 +37,9 @@ func setup(init_type: Type, player: PlayerCharacter) -> void:
 			velocity = Vector2(randi_range(2, 10) * 0.1 * 60 * player.direction,
 							randi_range(6, 9) * 0.1 * 60)
 							
-	if should_destroy:
-		attack_component.attacked.connect(func(_body: Node2D, _amount: float) -> void:
-			queue_free()
-			)
+	attack_component.attacked.connect(func(_body: Node2D, _amount: float) -> void:
+		queue_free()
+		)
 			
 	attack_component.set_collision(
 		sprite_frames.get_frame_texture(animation, 0).get_size(),

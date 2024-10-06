@@ -20,7 +20,7 @@ func start_pause() -> void:
 	get_tree().paused = true
 	
 	Global.music.stream_paused = true
-	Global.get_global_sfx("Pause").play()
+	Global.play_global_sfx("Pause")
 
 func finish_pause() -> void:
 	var current_pause_menu := Global.get_current_scene()
@@ -31,9 +31,7 @@ func finish_pause() -> void:
 	
 	pause_finished.emit()
 	
-	var sfx := Global.get_global_sfx("Pause")
-	sfx.play()
-	await sfx.finished
+	await Global.play_global_sfx("Pause").finished
 	
 	# Don't resume the music if the player was fast enough
 	# to pause again before sfx.finished above fired and

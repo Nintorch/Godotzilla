@@ -1,12 +1,8 @@
 extends StaticBody2D
 
-const BREAK_SFX = preload("res://Audio/SFX/BlockDestruct.wav")
-
 @export_enum("Top and bottom", "Top only", "Bottom only") var type := 0
 @onready var top_part: StaticBody2D = $TopPart
 @onready var bottom_part: StaticBody2D = $BottomPart
-
-var sfx_played_this_frame := false
 
 func _ready() -> void:
 	match type:
@@ -16,7 +12,6 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if not is_instance_valid(top_part) and not is_instance_valid(bottom_part):
 		queue_free()
-	sfx_played_this_frame = false
 
 func _on_top_health_damaged(_amount: float, _hurt_time: float) -> void:
 	var top_sprite := $TopPart/Sprite
@@ -39,7 +34,4 @@ func _on_bottom_health_dead() -> void:
 	Global.add_score(100)
 
 func play_sfx() -> void:
-	if not sfx_played_this_frame:
-		sfx_played_this_frame = true
-		var sfx := Global.play_sfx_globally(BREAK_SFX)
-		sfx.volume_db = 5
+	Global.play_global_sfx("BlockDestruct")

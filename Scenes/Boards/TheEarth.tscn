@@ -19,7 +19,7 @@ levels = Array[PackedScene]([ExtResource("2_sgm5j"), ExtResource("2_sgm5j"), Ext
 tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAABAAEAAQAAAAAAAAABAAIAAQAAAAAAAAAAAAEAAQAAAAAAAAACAAEAAQAAAAAAAAACAAIAAQAAAAAAAAACAAMAAQABAAAAAAABAAMAAQAAAAAAAAAAAAIAAQAAAAAAAAACAAQAAQABAAAAAAABAAQAAQAAAAAAAAAFAAEAAQAAAAAAAAAEAAEAAQAAAAAAAAAEAAIAAQAAAAAAAAADAAIAAQAAAAAAAAADAAMAAQAAAAAAAAADAAUAAQABAAAAAAADAAQAAQABAAAAAAAEAAMAAQAAAAAAAAAEAAQAAQAAAAAAAAAFAAQAAQACAAAAAAAGAAMAAQACAAAAAAAGAAIAAQAAAAAAAAAFAAIAAQAAAAAAAAAFAAMAAQAAAAAAAAAGAAQAAQACAAAAAAAFAAUAAQACAAAAAAA=")
 
 [node name="Godzilla2" parent="Board/Board Icons/Board Pieces" index="1" instance=ExtResource("6_vncvx")]
-position = Vector2(80, 88)
+position = Vector2(208, 152)
 scale = Vector2(-1, 1)
 region_rect = Rect2(0, 96, 48, 48)
 piece_character = 1
@@ -32,7 +32,7 @@ region_rect = Rect2(0, 96, 48, 48)
 piece_character = 1
 
 [node name="Mothra2" parent="Board/Board Icons/Board Pieces" index="3" instance=ExtResource("6_vncvx")]
-position = Vector2(80, 56)
+position = Vector2(112, 104)
 scale = Vector2(-1, 1)
 region_rect = Rect2(0, 96, 48, 48)
 piece_character = 1
