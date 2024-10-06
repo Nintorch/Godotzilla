@@ -197,6 +197,7 @@ func play_sfx_globally(stream: AudioStream) -> AudioStreamPlayer:
 	node.stream = stream
 	node.bus = "SFX"
 	node.finished.connect(node.queue_free)
+	node.process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_child(node)
 	node.play()
 	return node

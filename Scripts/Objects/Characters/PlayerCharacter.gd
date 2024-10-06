@@ -320,10 +320,10 @@ func save_state(data: BoardPiece.CharacterData) -> void:
 	data.level = level
 	data.xp = xp
 
-func _on_attack_component_attacked(attacked_body: Node2D, _amount: float) -> void:
+func _on_attack_component_attacked(attacked_body: Node2D, amount: float) -> void:
 	if attacked_body is Enemy:
 		add_xp(5)
-		Global.add_score(100)
+		Global.add_score(int(20 * amount))
 
 static func calculate_bar_count(char_id: PlayerCharacter.Type, char_level: int) -> int:
 	return BaseBarCount[char_id] + char_level - 1

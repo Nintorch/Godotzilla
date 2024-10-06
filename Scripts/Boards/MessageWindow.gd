@@ -1,6 +1,13 @@
 class_name MessageWindow
 extends NinePatchRect
 
+enum State {
+	HIDDEN,
+	SHOWN,
+	APPEARING,
+	DISAPPEARING,
+}
+
 enum Response {
 	YES,
 	NO,
@@ -17,13 +24,6 @@ enum Response {
 @onready var text: Label = $Text
 @onready var choice_nodes: Node2D = $Choice
 @onready var choice_selector: Sprite2D = $Choice/Selector
-
-enum State {
-	HIDDEN,
-	SHOWN,
-	APPEARING,
-	DISAPPEARING,
-}
 
 var default_window_size := Vector2i(window_size)
 var state := State.HIDDEN

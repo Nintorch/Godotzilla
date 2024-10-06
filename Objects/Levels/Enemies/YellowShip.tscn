@@ -59,3 +59,5 @@ root_node = NodePath("../Sprite")
 libraries = {
 "": SubResource("AnimationLibrary_lcmgl")
 }
+
+[connection signal="attacked" from="AttackComponent" to="." method="_on_attack_component_attacked"]

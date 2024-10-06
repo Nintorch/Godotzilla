@@ -127,7 +127,9 @@ func _process(_delta: float) -> void:
 				var result: MessageWindow.Response = await message_window.appear(
 					"Not going\nto move?", true, true)
 				if result == MessageWindow.Response.YES:
-					await not_going_to_move()
+					selector.moved_at_all = true
+					if selector.check_for_bosses(): return
+					not_going_to_move()
 					return
 				elif result == MessageWindow.Response.NO:
 					selected_piece.deselect()
@@ -182,7 +184,7 @@ func build_outline() -> void:
 		
 # The player skipped their move, make the bosses do their move
 func not_going_to_move() -> void:
-	await fade_out_selected()
+	await fade_out_selected(false)
 	returned()
 	
 # The player made their move
@@ -223,13 +225,14 @@ func start_playing(boss_piece: Node2D = null) -> void:
 	Global.change_scene(Global.get_next_level(), false)
 	
 # Fade out after the player made their move
-func fade_out_selected() -> void:
+func fade_out_selected(music_fade_out := true) -> void:
 	selected_piece.prepare_start()
 	get_tree().paused = true
 	
 	await get_tree().create_timer(0.5).timeout
 	
-	Global.music_fade_out()
+	if music_fade_out:
+		Global.music_fade_out()
 	await Global.fade_out()
 	
 	await get_tree().create_timer(0.5).timeout
@@ -343,7 +346,7 @@ func move_boss() -> bool:
 	await get_tree().create_timer(0.5).timeout
 	boss_piece.prepare_start()
 		
-	if selector.playing_levels.size() < boss_piece.steps:
+	if selector.playing_levels.size() <= boss_piece.steps:
 		selected_piece = player_piece
 		selector.playing_levels.clear()
 		start_playing(boss_piece)

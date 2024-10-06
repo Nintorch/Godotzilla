@@ -2,7 +2,6 @@ extends Node
 
 const PAUSE_MENU := preload("res://Scenes/MainMenu/PauseMenu.tscn")
 
-var pause_visible_objects: Array[Node] = []
 var previous_scene: Node
 
 signal pause_finished

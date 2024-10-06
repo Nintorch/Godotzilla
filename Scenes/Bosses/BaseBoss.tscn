@@ -1,15 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://cin1i4pomwy3a"]
+[gd_scene load_steps=4 format=3 uid="uid://cin1i4pomwy3a"]
 
 [ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/BaseLevel.tscn" id="1_ohey1"]
 [ext_resource type="PackedScene" uid="uid://bdedrxocj46sr" path="res://Objects/Characters/PlayerCharacter.tscn" id="2_atw37"]
-[ext_resource type="AudioStream" uid="uid://by7wimbn2cemn" path="res://Audio/Soundtrack/MogueraTheme.ogg" id="2_pg308"]
-[ext_resource type="Script" path="res://Scripts/Levels/BaseBoss.gd" id="2_xih6l"]
+[ext_resource type="Script" path="res://Scripts/Levels/Bosses/BaseBoss.gd" id="2_xih6l"]
 
 [node name="Boss" instance=ExtResource("1_ohey1")]
 script = ExtResource("2_xih6l")
 xp_amount = 100
 score_amount = 110000
-music = ExtResource("2_pg308")
 right_boundary_behaviour = 0
 
 [node name="Camera" parent="." index="1"]
@@ -22,7 +20,6 @@ texture = null
 
 [node name="Boss" parent="." index="3" instance=ExtResource("2_atw37")]
 position = Vector2(196, 189)
-character = 1
 is_player = false
 enable_intro = false
 direction = -1

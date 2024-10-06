@@ -94,7 +94,6 @@ _data = {
 script = ExtResource("2_5wmul")
 
 [node name="HealthComponent" parent="." index="0"]
-value = 1.0
 max_value = 1.0
 
 [node name="AttackComponent" parent="." index="1"]

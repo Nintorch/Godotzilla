@@ -10,7 +10,7 @@ enum MovementStyle {
 @export var board_outline: TileMapLayer
 @export var tilemap: TileMapLayer
 @export var message_window: Control
-@export var board: Node2D
+@export var board: Board
 
 # Speed (in pixels per frame for 60 fps)
 var speed := Vector2()
@@ -95,13 +95,7 @@ func update_movement(delta: float) -> void:
 		# If is stopped and movement is requested, move..
 		speed = next_speed
 		
-		if board.selected_piece and board.selected_piece.is_player() \
-		and moved_at_all and is_stopped():
-			for boss: Node2D in board.get_boss_pieces():
-				if boss.position.distance_to(position) < 36:
-					piece_collision.emit(boss, true)
-					moved_at_all = false
-					return
+		if check_for_bosses(): return
 		
 		# ..but be aware of things that should stop the movement
 		if not is_stopped():
@@ -145,6 +139,16 @@ func stop() -> void:
 	next_speed = Vector2i.ZERO
 	position = map_to_tilemap(position)
 	stopped.emit()
+	
+func check_for_bosses() -> bool:
+	if board.selected_piece and board.selected_piece.is_player() \
+		and moved_at_all and is_stopped():
+			for boss: Node2D in board.get_boss_pieces():
+				if boss.position.distance_to(position) < 36:
+					piece_collision.emit(boss, true)
+					moved_at_all = false
+					return true
+	return false
 	
 #endregion
 

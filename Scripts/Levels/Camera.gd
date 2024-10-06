@@ -14,14 +14,9 @@ enum CameraMode {
 var camera_x_old: float
 var camera_current_offset := 0
 
-func _ready() -> void:
-	Global.widescreen_changed.connect(func() -> void:
-		window_width_half = Global.get_content_size().x / 2
-		limit_left = maxi(int(position.x - window_width_half), 0)
-		)
-
 func _process(_delta: float) -> void:
 	camera_x_old = get_screen_center_position().x
+	position.y = target.position.y
 	match camera_mode:
 		# The default camera mode, the one from the original game
 		CameraMode.NORMAL:

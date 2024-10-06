@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://slv0bn0tcyna" path="res://Scenes/Boards/Jupiter.tscn" id="3_npn5c"]
 [ext_resource type="PackedScene" uid="uid://bdbahbhfgy3yt" path="res://Scenes/Levels/TransitionLevel.tscn" id="5_vaw1m"]
 [ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="6_vncvx"]
-[ext_resource type="PackedScene" uid="uid://cin1i4pomwy3a" path="res://Scenes/Bosses/BaseBoss.tscn" id="7_wraew"]
+[ext_resource type="PackedScene" uid="uid://df3jptqtpl75u" path="res://Scenes/Bosses/Mothra.tscn" id="7_ng0gx"]
 
 [node name="Board" instance=ExtResource("1_swyd4")]
 board_name = "The Earth"
@@ -24,9 +24,9 @@ region_rect = Rect2(0, 96, 48, 48)
 piece_character = 1
 
 [node name="Mothra2" parent="Board/Board Icons/Board Pieces" index="2" instance=ExtResource("6_vncvx")]
-position = Vector2(112, 72)
+position = Vector2(208, 120)
 scale = Vector2(-1, 1)
 region_rect = Rect2(0, 96, 48, 48)
 piece_character = 1
 piece_type = 1
-boss_scene = ExtResource("7_wraew")
+boss_scene = ExtResource("7_ng0gx")

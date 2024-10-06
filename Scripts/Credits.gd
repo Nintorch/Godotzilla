@@ -28,12 +28,14 @@ func _process(delta: float) -> void:
 			exit()
 		
 		if licensing.visible:
-			var speed := 6 if Input.is_action_pressed("Down") else 1
+			var diry := signf(Input.get_axis("Up", "Down"))
+			var speed := 1 if is_zero_approx(diry) else	6 if diry > 0.4 else 0
 			licensing.position.y -= speed * 60 * delta
 
 func display_text() -> void:
 	if current_text == texts.size():
 		text_node.text = ""
+		await get_tree().create_timer(0.1).timeout
 		prepare_licensing_text()
 		return
 	var text := "[center]%s[/center]" % texts[current_text]

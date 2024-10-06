@@ -5,10 +5,12 @@ extends CanvasLayer
 @export var boss_bar_color: Color
 @export var boss_timer_seconds := 60
 
-@onready var boss_timer: Timer = $BossCharacter/Timer
+## Runs the timeout signal every second
+@onready var boss_timer_second: Timer = $BossCharacter/Timer
 
 var vertical_size := 0
 
+## Runs when the boss timer is over and the battle should stop
 signal boss_timer_timeout
 
 func _ready() -> void:
@@ -41,14 +43,13 @@ func _ready() -> void:
 		timer_text.position = $PlayerCharacter/ScoreMeter.position
 		timer_text.text = str(boss_timer_seconds)
 		
-		var timer: Timer = $BossCharacter/Timer
-		timer.start()
-		timer.timeout.connect(func() -> void:
+		boss_timer_second.start()
+		boss_timer_second.timeout.connect(func() -> void:
 			boss_timer_seconds -= 1
 			timer_text.text = str(boss_timer_seconds)
 			if boss_timer_seconds <= 0:
 				boss_timer_timeout.emit()
-				timer.stop()
+				boss_timer_second.stop()
 			)
 	else:
 		$BgRect.size.y = 48

@@ -31,6 +31,9 @@ texture = ExtResource("3_s66fs")
 
 [node name="Camera" parent="." index="1"]
 limit_right = 780
+drag_vertical_enabled = true
+drag_top_margin = 0.05
+drag_bottom_margin = 0.05
 
 [node name="LevelLayout" type="Node2D" parent="." index="2"]
 

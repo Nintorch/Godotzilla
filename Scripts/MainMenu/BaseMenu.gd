@@ -1,6 +1,7 @@
 class_name BaseMenu
 extends Node2D
 
+@export var music: AudioStream = null
 @onready var selector: ColorRect = $Selector
 var selector_option := 0
 var current_menu: Node2D
@@ -13,6 +14,10 @@ func _ready() -> void:
 		enable_menu(menu, false)
 	
 	set_menu(%MenuMain)
+	
+	Global.hide_fade()
+	if music:
+		Global.play_music(music)
 
 func _process(_delta: float) -> void:
 	if selector.is_processing():
