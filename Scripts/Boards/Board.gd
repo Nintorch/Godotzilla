@@ -163,6 +163,7 @@ func cancel_move() -> void:
 	selected_piece.deselect()
 	selected_piece = null
 	message_window.disappear()
+	selector.set_process(true)
 		
 func adjust_message_pos() -> void:
 	if selector.position.y > 120:
@@ -188,7 +189,7 @@ func not_going_to_move() -> void:
 	returned()
 	
 # The player made their move
-func start_playing(boss_piece: Node2D = null) -> void:
+func start_playing(boss_piece: BoardPiece = null) -> void:
 	# The levels the player is going to go through
 	Global.playing_levels.assign(
 		selector.playing_levels.map(func(x: int) -> PackedScene:
@@ -412,7 +413,7 @@ func get_boss_pieces() -> Array[BoardPiece]:
 
 # 2 board pieces collided with each other
 # Boss collisions with other bosses are prohibited by the move_boss function
-func _on_selector_piece_collision(piece: BoardPiece, boss_collision: bool) -> void:
+func _on_selector_piece_collision(boss_collision: bool) -> void:
 	if not boss_collision and not message_window.visible:
 		message_window.appear(
 			"Unable to advance because a monster is blocking the way.",
@@ -421,12 +422,21 @@ func _on_selector_piece_collision(piece: BoardPiece, boss_collision: bool) -> vo
 		adjust_message_pos()
 	elif boss_collision:
 		adjust_message_pos()
-		var result: MessageWindow.Response = await message_window.appear(
-			"Will you\nfight\n" + piece.get_character_name() + "?",
-			false, true)
-		if result == MessageWindow.Response.CANCEL:
-			cancel_move()
-		elif result != MessageWindow.Response.UNKNOWN:
-			start_playing(piece if result == MessageWindow.Response.YES else null)
+		var no_moves := true
+		var bosses := selector.get_neighbor_pieces()
+		while no_moves:
+			for piece in bosses:
+				var result: MessageWindow.Response = await message_window.appear(
+					"Will you\nfight\n" + piece.get_character_name() + "?",
+					false, true)
+				if result == MessageWindow.Response.CANCEL:
+					cancel_move()
+					return
+				elif result == MessageWindow.Response.YES:
+					start_playing(piece)
+					no_moves = false
+				elif result == MessageWindow.Response.NO and bosses.size() == 1:
+					start_playing(null)
+					no_moves = false
 		
 #endregion

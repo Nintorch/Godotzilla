@@ -21,7 +21,7 @@ var moved_at_all := false
 var ignore_player_input := false
 var playing_levels: Array[int] = []
 
-signal piece_collision(piece: Sprite2D, boss_collision: bool)
+signal piece_collision(boss_collision: bool)
 signal stopped
 signal moved
 
@@ -71,7 +71,7 @@ func stop_conditions() -> void:
 		stop()
 	# Piece collision
 	elif board.selected_piece and next_piece:
-		piece_collision.emit(next_piece, not next_piece.is_player())
+		piece_collision.emit(not next_piece.is_player())
 		stop()
 		if not next_piece.is_player():
 			set_process(false)
@@ -141,14 +141,22 @@ func stop() -> void:
 	stopped.emit()
 	
 func check_for_bosses() -> bool:
-	if board.selected_piece and board.selected_piece.is_player() \
-		and moved_at_all and is_stopped():
-			for boss: Node2D in board.get_boss_pieces():
-				if boss.position.distance_to(position) < 36:
-					piece_collision.emit(boss, true)
-					moved_at_all = false
-					return true
+	if board.selected_piece and board.selected_piece.is_player() and moved_at_all:
+		if get_neighbor_pieces().size() > 0:
+			piece_collision.emit(true)
+			moved_at_all = false
+			next_speed = Vector2.ZERO
+			speed = Vector2.ZERO
+			set_process(false)
+			return true
 	return false
+	
+func get_neighbor_pieces() -> Array[BoardPiece]:
+	var array: Array[BoardPiece] = []
+	array.assign(board.get_boss_pieces().filter(func(p: BoardPiece) -> bool:
+		return p.position.distance_to(position) < 36
+		))
+	return array
 	
 #endregion
 
