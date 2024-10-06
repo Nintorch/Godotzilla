@@ -122,22 +122,23 @@ func _process(_delta: float) -> void:
 			else:
 				message_window.appear("There is no monster here.")
 			adjust_message_pos()
-		elif not message_window.visible:
-			if not selector.moved_at_all:
-				var result: MessageWindow.Response = await message_window.appear(
-					"Not going\nto move?", true, true)
-				if result == MessageWindow.Response.YES:
-					selector.moved_at_all = true
-					if selector.check_for_bosses(): return
-					not_going_to_move()
-					return
-				elif result == MessageWindow.Response.NO:
-					selected_piece.deselect()
-					selected_piece = null
-			else:
-				# If a board piece is selected and A was pressed, start playing
-				menubip.play()
-				start_playing()
+		elif not message_window.visible \
+			or message_window.text.text.begins_with("Unable to advance"):
+				if not selector.moved_at_all:
+					var result: MessageWindow.Response = await message_window.appear(
+						"Not going\nto move?", true, true)
+					if result == MessageWindow.Response.YES:
+						selector.moved_at_all = true
+						if selector.check_for_bosses(): return
+						not_going_to_move()
+						return
+					elif result == MessageWindow.Response.NO:
+						selected_piece.deselect()
+						selected_piece = null
+				else:
+					# If a board piece is selected and A was pressed, start playing
+					menubip.play()
+					start_playing()
 		
 	# Cancel the player's current move
 	if Input.is_action_just_pressed("B") and selected_piece:
@@ -414,30 +415,32 @@ func get_boss_pieces() -> Array[BoardPiece]:
 # 2 board pieces collided with each other
 # Boss collisions with other bosses are prohibited by the move_boss function
 func _on_selector_piece_collision(boss_collision: bool) -> void:
+	adjust_message_pos()
 	if not boss_collision and not message_window.visible:
 		message_window.appear(
 			"Unable to advance because a monster is blocking the way.",
 			false
 			)
-		adjust_message_pos()
 	elif boss_collision:
-		adjust_message_pos()
-		var bosses := selector.get_neighbor_pieces()
-		while true:
-			for piece in bosses:
-				var result: MessageWindow.Response = await message_window.appear(
-					"Will you\nfight\n" + piece.get_character_name() + "?",
-					false, true)
-				match result:
-					MessageWindow.Response.CANCEL:
-						cancel_move()
-						return
-					MessageWindow.Response.YES:
-						start_playing(piece)
-						return
-					MessageWindow.Response.NO:
-						if bosses.size() == 1:
-							start_playing(null)
+		var result: MessageWindow.Response = await message_window.appear(
+			"Will you fight\nthe enemy?",
+			false, true)
+		if result == MessageWindow.Response.YES:
+			var bosses := selector.get_neighbor_pieces()
+			while true:
+				for piece in bosses:
+					result = await message_window.appear(
+						"Will you fight\n%s?" % piece.get_character_name(),
+						false, true)
+					match result:
+						MessageWindow.Response.CANCEL:
+							cancel_move()
 							return
+						MessageWindow.Response.YES:
+							start_playing(piece)
+							return
+		elif result == MessageWindow.Response.NO:
+			message_window.appear("Unable to advance, contacting the enemy.")
+			selector.set_process(true)
 		
 #endregion

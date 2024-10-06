@@ -144,7 +144,6 @@ func check_for_bosses() -> bool:
 	if board.selected_piece and board.selected_piece.is_player() and moved_at_all:
 		if get_neighbor_pieces().size() > 0:
 			piece_collision.emit(true)
-			moved_at_all = false
 			next_speed = Vector2.ZERO
 			speed = Vector2.ZERO
 			set_process(false)
