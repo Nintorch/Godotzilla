@@ -91,7 +91,6 @@ position = Vector2(16, 24)
 
 [node name="Selector" parent="Board/Board Icons" node_paths=PackedStringArray("board_outline", "tilemap", "message_window", "board") instance=ExtResource("6_ysf6o")]
 position = Vector2(16, 24)
-movement_style = null
 board_outline = NodePath("../../Outline")
 tilemap = NodePath("..")
 message_window = NodePath("../../GUI/MessageWindow")

@@ -5,8 +5,8 @@
 
 [node name="Selector" type="Sprite2D"]
 texture = ExtResource("1_hejr5")
-hframes = 3
-vframes = 3
+region_enabled = true
+region_rect = Rect2(0, 0, 48, 48)
 script = ExtResource("2_4q06p")
 movement_style = null
 

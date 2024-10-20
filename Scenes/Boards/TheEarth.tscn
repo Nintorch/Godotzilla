@@ -81,11 +81,3 @@ boss_scene = ExtResource("7_ng0gx")
 position = Vector2(16, 56)
 region_rect = Rect2(0, 96, 48, 48)
 piece_character = 1
-
-[node name="Mothra2" parent="Board/Board Icons/Board Pieces" index="3" instance=ExtResource("6_vncvx")]
-position = Vector2(208, 120)
-scale = Vector2(-1, 1)
-region_rect = Rect2(0, 96, 48, 48)
-piece_character = 1
-piece_type = 1
-boss_scene = ExtResource("7_ng0gx")
