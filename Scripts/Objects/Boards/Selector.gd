@@ -99,7 +99,7 @@ func update_movement(delta: float) -> void:
 		# If is stopped and movement is requested, move..
 		speed = next_speed
 		
-		if check_for_bosses(): return
+		# if check_for_bosses(): return
 		
 		# ..but be aware of things that should stop the movement
 		if not is_stopped():

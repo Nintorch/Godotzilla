@@ -8,7 +8,6 @@ texture = ExtResource("1_hejr5")
 region_enabled = true
 region_rect = Rect2(0, 0, 48, 48)
 script = ExtResource("2_4q06p")
-movement_style = null
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -1

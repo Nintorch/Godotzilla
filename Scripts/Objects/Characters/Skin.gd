@@ -5,7 +5,11 @@ extends Node2D
 
 ## Stuff for Walk.gd
 
-var walk_frame_speed := 0
+var character_name := ""
+var bar_count := 6
+
+var walk_frame_speed := 0.0
+var jump_speed := -2 * 60
 
 func walk_process() -> void:
 	pass

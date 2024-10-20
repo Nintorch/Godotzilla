@@ -1,8 +1,6 @@
-extends State
+extends "res://Scripts/Objects/Characters/PlayerState.gd"
 
 var move_state: Node
-var sfx_step: AudioStreamPlayer
-var sfx_roar: AudioStreamPlayer
 
 const CHARACTER_PARAMS := [
 	{
@@ -22,31 +20,29 @@ const CHARACTER_PARAMS := [
 var current_params: Dictionary
 
 func state_init() -> void:
-	sfx_step = parent.get_sfx("Step")
-	sfx_roar = parent.get_sfx("Roar")
-	move_state = parent.state.states_list[parent.move_state]
-	current_params = CHARACTER_PARAMS[parent.character]
+	move_state = player.state.states_list[player.move_state]
+	current_params = CHARACTER_PARAMS[player.character]
 
 func _physics_process(delta: float) -> void:
-	parent.velocity.x = parent.move_speed
+	player.velocity.x = player.move_speed
 	
-	if not parent.is_flying():
+	if not player.is_flying():
 		move_state.walk_frame = wrapf(
 			move_state.walk_frame + move_state.walk_frame_speed * delta,
 			0, move_state.walk_frames)
-		parent.body.frame = int(move_state.walk_frame)
+		player.body.frame = int(move_state.walk_frame)
 		
 	if not Global.music.playing:
 		if Engine.get_physics_frames() >= current_params.step_sfx_start \
 		and Engine.get_physics_frames() % current_params.step_sfx_period \
 		== current_params.step_sfx_offset:
-			sfx_step.play()
+			player.play_sfx("Step")
 			
-	if parent.position.x > current_params.target_x:
-		parent.state.current = parent.move_state
-		parent.velocity = Vector2(0,0)
+	if player.position.x > current_params.target_x:
+		player.state.current = player.move_state
+		player.velocity = Vector2(0,0)
 		move_state.reset()
-		parent.body.frame = 0
+		player.body.frame = 0
 		if not Global.music.playing:
-			sfx_roar.play()
-		parent.intro_ended.emit()
+			player.play_sfx("Roar")
+		player.intro_ended.emit()

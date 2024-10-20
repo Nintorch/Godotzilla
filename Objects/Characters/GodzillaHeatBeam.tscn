@@ -1,8 +1,9 @@
 [gd_scene load_steps=29 format=3 uid="uid://twku26u8n2dy"]
 
 [ext_resource type="Texture2D" uid="uid://bg00wrudw7pi5" path="res://Sprites/Characters/Godzilla/heat_beam.png" id="1_g23gd"]
-[ext_resource type="Script" path="res://Scripts/Objects/Characters/GodzillaHeatBeam.gd" id="2_opyea"]
+[ext_resource type="Script" path="res://Scripts/Objects/Characters/Godzilla/GodzillaHeatBeam.gd" id="2_opyea"]
 [ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="3_acgqs"]
+
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6fyik"]
 atlas = ExtResource("1_g23gd")

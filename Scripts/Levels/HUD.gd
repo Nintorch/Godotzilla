@@ -30,6 +30,7 @@ func _ready() -> void:
 	
 	# Setup the boss bars if there's a boss in the scene
 	if is_instance_valid(boss):
+		await boss.character_ready
 		setup_character_listener(boss, $BossCharacter)
 		
 		$BgRect.size.y = 72

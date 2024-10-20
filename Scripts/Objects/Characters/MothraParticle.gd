@@ -21,7 +21,11 @@ func setup(init_type: Type, player: PlayerCharacter) -> void:
 	scale.x = player.direction
 	match type:
 		Type.EYE_BEAM:
+			# Mind you that this refers to the "animation" property
+			# of AnimatedSprite2D (the class that Mothra particles extend)
+			# and not the animation of the AnimationPlayer
 			animation = "EyeBeam"
+			
 			timer.start(0.3)
 			timer.timeout.connect(func() -> void: queue_free())
 			velocity = Vector2(5 * player.direction * 60, 0)

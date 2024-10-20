@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c3qwhre32yggp" path="res://Sprites/Characters/Godzilla/walk_body.png" id="1_3sn8y"]
 [ext_resource type="Texture2D" uid="uid://c8vjp0lgjim3x" path="res://Sprites/Characters/Godzilla/crouch.png" id="1_7wdfd"]
+[ext_resource type="Script" path="res://Scripts/Objects/Characters/Godzilla/Main.gd" id="1_gfjpc"]
 [ext_resource type="Texture2D" uid="uid://c7slof73fr1l6" path="res://Sprites/Characters/Godzilla/hurt.png" id="2_0y6ho"]
 [ext_resource type="Texture2D" uid="uid://drtem8jbie2f0" path="res://Sprites/Characters/Godzilla/heat_beaming.png" id="2_pgjrr"]
 [ext_resource type="Texture2D" uid="uid://huytihc5bj4n" path="res://Sprites/Characters/Godzilla/walk_head.png" id="2_rmc0n"]
@@ -10,43 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://b3aqq06ew63k8" path="res://Sprites/Characters/Godzilla/kick2.png" id="3_vxmse"]
 [ext_resource type="Texture2D" uid="uid://bsu6rokyd5rmu" path="res://Sprites/Characters/Godzilla/tail_whip.png" id="4_3ah1i"]
 [ext_resource type="Texture2D" uid="uid://cp7yo85faut6q" path="res://Sprites/Characters/Godzilla/punch2.png" id="4_7jbwm"]
-
-[sub_resource type="GDScript" id="GDScript_5gjb6"]
-script/source = "extends PlayerSkin
-
-@onready var offset_y: float = $Body/Head.position.y
-@onready var body := $Body
-@onready var head := $Body/Head
-
-func _ready() -> void:
-	walk_frame_speed = 9
-
-func _process(_delta: float) -> void:
-	if body.animation == \"Walk\":
-		if body.frame == 2 or body.frame == 6:
-			head.position.y = offset_y + 1
-		else:
-			head.position.y = offset_y
-		
-		if head.animation == \"Walk\":
-			head.frame = body.frame
-
-func walk_process() -> void:
-	common_ground_attacks()
-	if player.animation_player.current_animation == \"Crouch\" \\
-		and player.inputs_pressed[PlayerCharacter.Inputs.B]:
-			player.use_attack(PlayerCharacter.Attack.TAIL_WHIP)
-	if player.inputs_pressed[PlayerCharacter.Inputs.START] \\
-		and player.power.value >= 6 * 8:
-		player.use_attack(PlayerCharacter.Attack.HEAT_BEAM)
-
-func _on_animation_started(anim_name: StringName) -> void:
-	var size := 56
-	if anim_name == \"Crouch\" or anim_name == \"TailWhip\":
-		size = 40
-	player.set_collision(Vector2(20, size),
-		Vector2(0, -1 + (56 - size) / 2))
-"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r5110"]
 atlas = ExtResource("2_pgjrr")
@@ -88,34 +52,6 @@ region = Rect2(168, 0, 84, 71)
 atlas = ExtResource("2_0y6ho")
 region = Rect2(252, 0, 84, 71)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gjs8t"]
-atlas = ExtResource("2_s7teb")
-region = Rect2(0, 0, 86, 67)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7bhqf"]
-atlas = ExtResource("2_s7teb")
-region = Rect2(86, 0, 86, 67)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_htk6a"]
-atlas = ExtResource("3_vxmse")
-region = Rect2(0, 0, 86, 67)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mgkah"]
-atlas = ExtResource("3_vxmse")
-region = Rect2(86, 0, 86, 67)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tq1te"]
-atlas = ExtResource("4_3ah1i")
-region = Rect2(0, 0, 93, 53)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_u63gd"]
-atlas = ExtResource("4_3ah1i")
-region = Rect2(93, 0, 93, 53)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6wexl"]
-atlas = ExtResource("4_3ah1i")
-region = Rect2(186, 0, 93, 53)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_831hn"]
 atlas = ExtResource("1_3sn8y")
 region = Rect2(0, 0, 73, 37)
@@ -147,6 +83,34 @@ region = Rect2(438, 0, 73, 37)
 [sub_resource type="AtlasTexture" id="AtlasTexture_5sip1"]
 atlas = ExtResource("1_3sn8y")
 region = Rect2(511, 0, 73, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gjs8t"]
+atlas = ExtResource("2_s7teb")
+region = Rect2(0, 0, 86, 67)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7bhqf"]
+atlas = ExtResource("2_s7teb")
+region = Rect2(86, 0, 86, 67)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_htk6a"]
+atlas = ExtResource("3_vxmse")
+region = Rect2(0, 0, 86, 67)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mgkah"]
+atlas = ExtResource("3_vxmse")
+region = Rect2(86, 0, 86, 67)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tq1te"]
+atlas = ExtResource("4_3ah1i")
+region = Rect2(0, 0, 93, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u63gd"]
+atlas = ExtResource("4_3ah1i")
+region = Rect2(93, 0, 93, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6wexl"]
+atlas = ExtResource("4_3ah1i")
+region = Rect2(186, 0, 93, 53)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_lp8b5"]
 animations = [{
@@ -200,6 +164,35 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_831hn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ruh3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ddvgl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mhw6b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_75qy3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7oqr7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ka4vl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5sip1")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_gjs8t")
 }, {
 "duration": 1.0,
@@ -233,52 +226,7 @@ animations = [{
 "loop": true,
 "name": &"TailWhip",
 "speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_831hn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7ruh3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ddvgl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mhw6b")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_75qy3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7oqr7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ka4vl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5sip1")
-}],
-"loop": true,
-"name": &"Walk",
-"speed": 5.0
 }]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vhbmn"]
-atlas = ExtResource("3_64613")
-region = Rect2(0, 0, 60, 33)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jit7c"]
-atlas = ExtResource("3_64613")
-region = Rect2(60, 0, 60, 33)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_obhab"]
-atlas = ExtResource("4_7jbwm")
-region = Rect2(0, 0, 60, 33)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ldpp0"]
-atlas = ExtResource("4_7jbwm")
-region = Rect2(60, 0, 60, 33)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3so45"]
 atlas = ExtResource("2_rmc0n")
@@ -312,30 +260,24 @@ region = Rect2(282, 0, 47, 33)
 atlas = ExtResource("2_rmc0n")
 region = Rect2(329, 0, 47, 33)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_vhbmn"]
+atlas = ExtResource("3_64613")
+region = Rect2(0, 0, 60, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jit7c"]
+atlas = ExtResource("3_64613")
+region = Rect2(60, 0, 60, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_obhab"]
+atlas = ExtResource("4_7jbwm")
+region = Rect2(0, 0, 60, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ldpp0"]
+atlas = ExtResource("4_7jbwm")
+region = Rect2(60, 0, 60, 33)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_fkm46"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vhbmn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jit7c")
-}],
-"loop": true,
-"name": &"Punch1",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_obhab")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ldpp0")
-}],
-"loop": true,
-"name": &"Punch2",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3so45")
@@ -362,7 +304,29 @@ animations = [{
 "texture": SubResource("AtlasTexture_qigo6")
 }],
 "loop": true,
-"name": &"Walk",
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vhbmn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jit7c")
+}],
+"loop": true,
+"name": &"Punch1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_obhab")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ldpp0")
+}],
+"loop": true,
+"name": &"Punch2",
 "speed": 5.0
 }]
 
@@ -821,7 +785,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [&"Walk"]
+"values": [&"Idle"]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -857,7 +821,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [&"Walk"]
+"values": [&"Idle"]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -938,7 +902,7 @@ tracks/3/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_nf0ex"]
-resource_name = "Walk"
+resource_name = "Idle"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -949,7 +913,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [&"Walk"]
+"values": [&"Idle"]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -961,7 +925,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [&"Walk"]
+"values": [&"Idle"]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_m5kek"]
@@ -971,27 +935,27 @@ _data = {
 "HeatBeam2": SubResource("Animation_qafyb"),
 "HeatBeam3": SubResource("Animation_r8s0h"),
 "Hurt": SubResource("Animation_l466n"),
+"Idle": SubResource("Animation_nf0ex"),
 "Kick1": SubResource("Animation_pvo27"),
 "Kick2": SubResource("Animation_lycjq"),
 "Punch1": SubResource("Animation_nvyyh"),
 "Punch2": SubResource("Animation_kl1fp"),
 "RESET": SubResource("Animation_r5asl"),
-"TailWhip": SubResource("Animation_57mnw"),
-"Walk": SubResource("Animation_nf0ex")
+"TailWhip": SubResource("Animation_57mnw")
 }
 
 [node name="Character" type="Node2D"]
-script = SubResource("GDScript_5gjb6")
+script = ExtResource("1_gfjpc")
 
 [node name="Body" type="AnimatedSprite2D" parent="."]
 position = Vector2(-16.5, 8.5)
 sprite_frames = SubResource("SpriteFrames_lp8b5")
-animation = &"Walk"
+animation = &"Idle"
 
 [node name="Head" type="AnimatedSprite2D" parent="Body"]
 position = Vector2(17, -32)
 sprite_frames = SubResource("SpriteFrames_fkm46")
-animation = &"Walk"
+animation = &"Idle"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -140,7 +140,7 @@ func select() -> void:
 		# Move this piece above every other piece
 		parent.move_child(self, -1)
 	
-		Global.board.menubip.play()
+		Global.play_global_sfx("MenuBip")
 	
 func deselect() -> void:
 	selected = false
@@ -188,4 +188,4 @@ func get_nav_agent() -> NavigationAgent2D:
 	return $NavigationAgent2D
 	
 func get_character_name() -> String:
-	return PlayerCharacter.CHARACTER_NAMES[piece_character]
+	return PlayerCharacter.get_character_name_static(piece_character)

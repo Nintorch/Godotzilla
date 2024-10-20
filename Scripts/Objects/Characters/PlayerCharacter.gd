@@ -33,14 +33,9 @@ enum Attack {
 	WING_ATTACK,
 }
 
-const CHARACTER_NAMES: Array[String] = [
-	"Godzilla",
-	"Mothra",
-]
-
-const BaseBarCount: Array[int] = [
-	6, # Godzilla
-	8, # Mothra
+const SKINS: Array[String] = [
+	"res://Objects/Characters/Godzilla.tscn",
+	"res://Objects/Characters/Mothra.tscn",
 ]
 
 @export var character := PlayerCharacter.Type.GODZILLA
@@ -75,6 +70,7 @@ var body: AnimatedSprite2D
 var skin: PlayerSkin
 var animation_player: AnimationPlayer
 
+signal character_ready
 signal intro_ended
 signal level_amount_changed(new_value: int, new_bar_count: int)
 signal xp_amount_changed(new_value: int)
@@ -107,35 +103,8 @@ func _ready() -> void:
 			
 	await Global.get_current_scene().ready
 		
-	# PlayerCharacter-specific setup
-	match character:
-		PlayerCharacter.Type.GODZILLA:
-			# null here means the game shouldn't load a new skin as it's already loaded
-			change_skin(null)
-			set_collision(Vector2(20, 56), Vector2(0, -1))
-			
-			get_sfx("Step").stream = load("res://Audio/SFX/GodzillaStep.wav")
-			get_sfx("Roar").stream = load("res://Audio/SFX/GodzillaRoar.wav")
-			move_state = State.WALK
-			
-			# We set the character-specific position so when the character
-			# walks in a sudden walking animation frame change won't happen
-			# (walk_frame is set to 0 when the player gets control)
-			if is_player and enable_intro:
-				position.x = -35
-		
-		PlayerCharacter.Type.MOTHRA:
-			change_skin(load("res://Objects/Characters/Mothra.tscn").instantiate())
-			set_collision(Vector2(36, 14), Vector2(-4, 1))
-			
-			get_sfx("Step").stream = load("res://Audio/SFX/MothraStep.wav")
-			get_sfx("Roar").stream = load("res://Audio/SFX/MothraRoar.wav")
-			move_state = State.FLY
-			position.y -= 40
-			move_speed = 2 * 60
-			
-			if is_player and enable_intro:
-				position.x = -37
+	# Skin creation and character-specific setup (inside of the skin's _init and _ready)
+	change_skin(load(SKINS[character]).instantiate())
 			
 	# Setup for all characters
 	direction = direction
@@ -152,6 +121,7 @@ func _ready() -> void:
 			intro_ended.emit()
 	
 	state.init()
+	character_ready.emit()
 		
 func _physics_process(delta: float) -> void:
 	if state.current != State.DEAD and not is_on_floor() and not is_flying():
@@ -166,13 +136,10 @@ func _process(_delta: float) -> void:
 	
 func change_skin(new_skin: Node2D) -> void:
 	var prev_skin: Node2D = $Skin
-	if new_skin == null:
-		move_child(prev_skin, -1)
-		skin = prev_skin
-		return
-	
-	remove_child(prev_skin)
-	prev_skin.queue_free()
+
+	if prev_skin != null:
+		remove_child(prev_skin)
+		prev_skin.queue_free()
 	
 	new_skin.name = "Skin"
 	add_child(new_skin)
@@ -266,8 +233,13 @@ func add_xp(value: int) -> void:
 func get_sfx(sfx_name: String) -> AudioStreamPlayer:
 	return get_node("SFX/" + sfx_name)
 	
+func play_sfx(sfx_name: String) -> AudioStreamPlayer:
+	var sfx := get_sfx(sfx_name)
+	sfx.play()
+	return sfx
+	
 func get_character_name() -> String:
-	return CHARACTER_NAMES[character]
+	return skin.character_name
 	
 func is_flying() -> bool:
 	return move_state == State.FLY
@@ -326,7 +298,14 @@ func _on_attack_component_attacked(attacked_body: Node2D, amount: float) -> void
 		Global.add_score(int(20 * amount))
 
 static func calculate_bar_count(char_id: PlayerCharacter.Type, char_level: int) -> int:
-	return BaseBarCount[char_id] + char_level - 1
+	var skin: PlayerSkin = load(SKINS[char_id]).instantiate()
+	skin.queue_free()
+	return skin.bar_count + char_level - 1
 	
 static func calculate_xp_amount(char_level: int) -> int:
 	return 100 + 50 * (char_level - 1)
+
+static func get_character_name_static(char_id: PlayerCharacter.Type) -> String:
+	var skin: PlayerSkin = load(SKINS[char_id]).instantiate()
+	skin.queue_free()
+	return skin.character_name

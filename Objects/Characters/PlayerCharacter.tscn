@@ -1,7 +1,6 @@
 [gd_scene load_steps=19 format=3 uid="uid://bdedrxocj46sr"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/PlayerCharacter.gd" id="1_c8c0q"]
-[ext_resource type="PackedScene" uid="uid://m84defn1thau" path="res://Objects/Characters/Godzilla.tscn" id="1_swkt0"]
 [ext_resource type="PackedScene" uid="uid://camascwoory5h" path="res://Objects/HealthComponent.tscn" id="3_bws3y"]
 [ext_resource type="PackedScene" uid="uid://bffduqvb2xwju" path="res://Objects/StateMachine.tscn" id="3_eux1x"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/Walk.gd" id="3_r4s32"]
@@ -17,6 +16,9 @@
 [ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="12_re2uk"]
 [ext_resource type="AudioStream" uid="uid://clfqyu3fby0tv" path="res://Audio/SFX/LevelUp.wav" id="13_l1dc3"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_ywk1q"]
+font_size = 8
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yw7jv"]
 size = Vector2(20, 56)
 
@@ -27,7 +29,16 @@ size = Vector2(36, 6)
 collision_mask = 2
 script = ExtResource("1_c8c0q")
 
-[node name="Skin" parent="." instance=ExtResource("1_swkt0")]
+[node name="Skin" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="Skin"]
+offset_left = -31.0
+offset_top = -9.0
+offset_right = 32.0
+offset_bottom = 3.0
+text = "PlayerCharacter
+"
+label_settings = SubResource("LabelSettings_ywk1q")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1)

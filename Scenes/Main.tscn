@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://du38sf8ro3elu"]
 
 [ext_resource type="Script" path="res://Scripts/Main.gd" id="1_csd2w"]
-[ext_resource type="PackedScene" uid="uid://blo8x6bqjbe1w" path="res://Scenes/Boards/TheEarth.tscn" id="2_gw5uv"]
 [ext_resource type="AudioStream" uid="uid://bgfupmtntcg8x" path="res://Audio/SFX/Pause.wav" id="3_iol3x"]
 [ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="3_jlebr"]
 [ext_resource type="AudioStream" uid="uid://byy8g0bpfb65s" path="res://Audio/SFX/BlockDestruct.wav" id="4_oop6x"]
+[ext_resource type="AudioStream" uid="uid://bq6ov0bep762q" path="res://Audio/SFX/MenuBip.wav" id="6_mae3b"]
 
 [sub_resource type="Animation" id="Animation_xmtka"]
 resource_name = "FadeIn"
@@ -58,7 +58,6 @@ _data = {
 [node name="Main" type="Node2D"]
 process_mode = 3
 script = ExtResource("1_csd2w")
-initial_scene = ExtResource("2_gw5uv")
 
 [node name="CurrentScene" type="Node2D" parent="."]
 process_mode = 1
@@ -96,4 +95,9 @@ bus = &"SFX"
 [node name="BlockDestruct" type="AudioStreamPlayer" parent="GlobalSFX"]
 stream = ExtResource("4_oop6x")
 volume_db = 5.0
+bus = &"SFX"
+
+[node name="MenuBip" type="AudioStreamPlayer" parent="GlobalSFX"]
+process_mode = 3
+stream = ExtResource("6_mae3b")
 bus = &"SFX"

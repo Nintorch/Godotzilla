@@ -2,10 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://nhpib3frkqrg" path="res://Sprites/Characters/Mothra/hurt.png" id="1_64xd3"]
 [ext_resource type="Texture2D" uid="uid://dh0gtj20jut25" path="res://Sprites/Characters/Mothra/idle.png" id="1_f6h4m"]
-
-[sub_resource type="GDScript" id="GDScript_wq6ak"]
-script/source = "extends PlayerSkin
-"
+[ext_resource type="Script" path="res://Scripts/Objects/Characters/Mothra/Main.gd" id="1_p8tms"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w0xxw"]
 atlas = ExtResource("1_64xd3")
@@ -176,7 +173,7 @@ _data = {
 }
 
 [node name="Mothra" type="Node2D"]
-script = SubResource("GDScript_wq6ak")
+script = ExtResource("1_p8tms")
 
 [node name="Body" type="AnimatedSprite2D" parent="."]
 position = Vector2(-12, -28)

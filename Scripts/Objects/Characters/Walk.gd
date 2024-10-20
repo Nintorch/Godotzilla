@@ -1,34 +1,21 @@
-extends State
+extends "res://Scripts/Objects/Characters/PlayerState.gd"
 
 # Move state is used for characters that walk on the ground.
 # This state consists of not only walking but also crouching and jumping.
 # This state also includes the movement for flying characters.
-
-@onready var player := parent as PlayerCharacter
 
 var walk_frame := 0.0
 var walk_frames := 0
 var walk_frame_speed := 0
 
 var jumping := false
-var jump_speed := -2 * 60
+var jump_speed := 0.0
 
 func state_init() -> void:
-	
 	if not player.is_flying():
-		walk_frames = player.body.sprite_frames.get_frame_count("Walk")
-
-	# This
+		walk_frames = player.body.sprite_frames.get_frame_count("Idle")
 	walk_frame_speed = player.skin.walk_frame_speed
-	
-	# Instead of this :)
-	#match player.character:
-		#PlayerCharacter.Type.GODZILLA:
-			#walk_frame_speed = 9
-			## # You can change the jumping speed for your character like this
-			## jump_speed = -1 * 60
-		#PlayerCharacter.Type.NOTBARAGON:
-			#walk_frame_speed = 6
+	jump_speed = player.skin.jump_speed
 
 func _process(delta: float) -> void:
 	move(delta)
@@ -46,7 +33,7 @@ func move(delta: float) -> void:
 			walk_frame + walk_frame_speed * delta * dirx * player.direction,
 			0, walk_frames)
 			
-		if player.body.animation == "Walk":
+		if player.body.animation == "Idle":
 			player.body.frame = int(walk_frame)
 	else:
 		player.velocity.x = 0
@@ -68,12 +55,13 @@ func move(delta: float) -> void:
 	
 	# Crouch
 	if diry > 0.4 and player.body.sprite_frames.has_animation("Crouch"):
-		if player.animation_player.current_animation == "Walk"\
+		if player.animation_player.current_animation == "Idle"\
 			or player.animation_player.current_animation == "":
 			player.animation_player.play("Crouch")
 
 	if diry <= 0.4 and player.animation_player.current_animation == "Crouch":
 		player.animation_player.play("RESET")
+		walk_frame = 0
 
 func reset() -> void:
 	walk_frame = 0

@@ -27,8 +27,6 @@ extends Node2D
 # also includes the board name.
 @onready var board: Node2D = $Board
 
-@onready var menubip: AudioStreamPlayer = $Board/GUI/MessageWindow/MenuBip
-
 var selected_piece: BoardPiece = null
 var board_data := {
 	"players": {}, # [String (board piece name)] -> Dictionary ("xp", "level")
@@ -130,12 +128,12 @@ func _process(_delta: float) -> void:
 						selected_piece = null
 				else:
 					# If a board piece is selected and A was pressed, start playing
-					menubip.play()
+					Global.play_global_sfx("MenuBip")
 					start_playing()
 		
 	# Cancel the player's current move
 	if Input.is_action_just_pressed("B") and selected_piece:
-		menubip.play()
+		Global.play_global_sfx("MenuBip")
 		cancel_move()
 		
 	# Mini tutorial on how to use the board (from GMoM)
@@ -269,8 +267,8 @@ func returned(ignore_boss_moves := false) -> void:
 	selector.ignore_player_input = false
 	selector.playing_levels.clear()
 	
-func get_custom_tile_data(cell_pos: Vector2i, name: String) -> Variant:
-	return tilemap.get_cell_tile_data(cell_pos).get_custom_data(name)
+func get_custom_tile_data(cell_pos: Vector2i, data_name: String) -> Variant:
+	return tilemap.get_cell_tile_data(cell_pos).get_custom_data(data_name)
 	
 func get_tile_level(cell_pos: Vector2i) -> PackedScene:
 	return get_custom_tile_data(cell_pos, "Level")
@@ -278,7 +276,7 @@ func get_tile_level(cell_pos: Vector2i) -> PackedScene:
 func check_transition_level() -> bool:
 	var check: bool = get_custom_tile_data(selector.get_current_cell(), "TransitionLevel")
 	if check:
-		var result := await message_window.make_choice("Will you move to the next field?", false)
+		var result := await message_window.make_choice("Will you move to the next field?")
 		if result == MessageWindow.Response.YES:
 			await fade_out_selected()
 			selected_piece.save_data()
@@ -286,12 +284,12 @@ func check_transition_level() -> bool:
 			if get_player_pieces().size() > 0:
 				returned()
 			else:
-				save_data()
+				save_game_data()
 				Global.change_scene(Global.board.next_scene)
 			return true
 	return false
 	
-func save_data() -> void:
+func save_game_data() -> void:
 	if use_in_saves:
 		SaveManager.save_data["board_data"] = board_data
 		SaveManager.save_data["score"] = Global.score
@@ -303,7 +301,7 @@ func save_data() -> void:
 		
 # Information about a boss after the player pressed on their board piece
 func show_boss_info(piece: BoardPiece) -> void:
-	var text := PlayerCharacter.CHARACTER_NAMES[piece.piece_character] + " - "
+	var text := PlayerCharacter.get_character_name_static(piece.piece_character) + " - "
 	var size := Vector2i(message_window.default_window_size)
 	var hp_text := boss_hp_str(piece.character_data.hp / 8)
 	
@@ -440,7 +438,7 @@ func _on_selector_piece_collision(boss_collision: bool) -> void:
 			)
 	elif boss_collision:
 		var result: MessageWindow.Response = \
-			await message_window.make_choice("Will you fight\nthe enemy?", false)
+			await message_window.make_choice("Will you fight\nthe enemy?")
 			
 		if result == MessageWindow.Response.YES:
 			var bosses := selector.get_neighbor_bosses()
@@ -450,9 +448,8 @@ func _on_selector_piece_collision(boss_collision: bool) -> void:
 			while true:
 				for piece in bosses:
 					result = await message_window.make_choice(
-						"Will you fight\n%s?" % piece.get_character_name(),
-						false)
-						
+						"Will you fight\n%s?" % piece.get_character_name()
+						)
 					if result == MessageWindow.Response.YES:
 						start_playing(piece)
 						return
@@ -460,8 +457,9 @@ func _on_selector_piece_collision(boss_collision: bool) -> void:
 						cancel_move()
 						return
 		elif result == MessageWindow.Response.NO:
-			message_window.appear("Unable to advance, contacting the enemy.", false)
+			message_window.appear("Unable to advance, contacting the enemy.")
 			selector.set_process(true)
+			selector.moved_at_all = false
 		elif result == MessageWindow.Response.CANCEL:
 			cancel_move()
 		

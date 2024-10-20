@@ -19,7 +19,6 @@ enum Response {
 @export var window_size := Vector2i(96, 64)
 @export var alignment_horizontal := HORIZONTAL_ALIGNMENT_LEFT
 @export var alignment_vertical := VERTICAL_ALIGNMENT_TOP
-@onready var menu_bip: AudioStreamPlayer = $MenuBip
 
 @onready var text: Label = $Text
 @onready var choice_nodes: Node2D = $Choice
@@ -46,10 +45,8 @@ func _process(_delta: float) -> void:
 			choice_selector.position.x = 40
 		var input_a := Input.is_action_just_pressed("A")
 		if input_a or Input.is_action_just_pressed("B"):
-			menu_bip.play()
+			Global.play_global_sfx("MenuBip")
 			await disappear()
-			if selector:
-				selector.ignore_player_input = false
 				
 			if input_a:
 				choice_made.emit(
@@ -59,6 +56,8 @@ func _process(_delta: float) -> void:
 				choice_made.emit(Response.CANCEL)
 					
 			choice_selector.position.x = 0
+			if selector:
+				selector.ignore_player_input = false
 	
 func appear(
 		message: String,
@@ -97,8 +96,8 @@ func appear(
 		state = State.SHOWN
 		)
 	
-	if enable_sound:
-		menu_bip.play()
+	if enable_sound and not selector.ignore_player_input:
+		Global.play_global_sfx("MenuBip")
 		
 	await tween.finished
 	
