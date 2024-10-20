@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://m84defn1thau"]
+[gd_scene load_steps=69 format=3 uid="uid://d3shtbcndg6wf"]
 
 [ext_resource type="Texture2D" uid="uid://c3qwhre32yggp" path="res://Sprites/Characters/Godzilla/walk_body.png" id="1_3sn8y"]
 [ext_resource type="Texture2D" uid="uid://c8vjp0lgjim3x" path="res://Sprites/Characters/Godzilla/crouch.png" id="1_7wdfd"]
@@ -585,6 +585,33 @@ tracks/3/keys = {
 "values": [0, 1, 2, 3]
 }
 
+[sub_resource type="Animation" id="Animation_nf0ex"]
+resource_name = "Idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body/Head:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Idle"]
+}
+
 [sub_resource type="Animation" id="Animation_pvo27"]
 resource_name = "Kick1"
 length = 0.3
@@ -901,33 +928,6 @@ tracks/3/keys = {
 "values": [0, 1, 2, 1, 0]
 }
 
-[sub_resource type="Animation" id="Animation_nf0ex"]
-resource_name = "Idle"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Body:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Idle"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Body/Head:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Idle"]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_m5kek"]
 _data = {
 "Crouch": SubResource("Animation_gbymh"),
@@ -943,6 +943,21 @@ _data = {
 "RESET": SubResource("Animation_r5asl"),
 "TailWhip": SubResource("Animation_57mnw")
 }
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d8cwk"]
+size = Vector2(20, 65)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wf06n"]
+size = Vector2(20, 45)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8277w"]
+size = Vector2(30, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6lyr4"]
+size = Vector2(30, 26)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oeti2"]
+size = Vector2(50, 35)
 
 [node name="Character" type="Node2D"]
 script = ExtResource("1_gfjpc")
@@ -961,5 +976,30 @@ animation = &"Idle"
 libraries = {
 "": SubResource("AnimationLibrary_m5kek")
 }
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5.5)
+shape = SubResource("RectangleShape2D_d8cwk")
+
+[node name="CrouchCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4.5)
+shape = SubResource("RectangleShape2D_wf06n")
+
+[node name="Hitboxes" type="Node" parent="."]
+
+[node name="Punch" type="CollisionShape2D" parent="Hitboxes"]
+visible = false
+position = Vector2(20, -20)
+shape = SubResource("RectangleShape2D_8277w")
+
+[node name="Kick" type="CollisionShape2D" parent="Hitboxes"]
+visible = false
+position = Vector2(20, 12)
+shape = SubResource("RectangleShape2D_6lyr4")
+
+[node name="TailWhip" type="CollisionShape2D" parent="Hitboxes"]
+visible = false
+position = Vector2(30, 5.5)
+shape = SubResource("RectangleShape2D_oeti2")
 
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_started"]

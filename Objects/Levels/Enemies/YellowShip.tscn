@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dkwaunrisvrj0"]
+[gd_scene load_steps=8 format=3 uid="uid://dkwaunrisvrj0"]
 
 [ext_resource type="Texture2D" uid="uid://vwe0hqe8bxv4" path="res://Sprites/Levels/TestLevel/YellowShip.png" id="1_jpes6"]
 [ext_resource type="PackedScene" uid="uid://bvoxqi1x6lk52" path="res://Objects/Levels/Enemies/BaseEnemy.tscn" id="1_sghao"]
 [ext_resource type="Script" path="res://Scripts/Objects/Enemies/YellowShip.gd" id="2_164y3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exeov"]
+size = Vector2(17, 8)
 
 [sub_resource type="Animation" id="Animation_m62yt"]
 length = 0.001
@@ -48,6 +51,13 @@ script = ExtResource("2_164y3")
 
 [node name="HealthComponent" parent="." index="0"]
 max_value = 2.0
+
+[node name="AttackComponent" parent="." index="1" node_paths=PackedStringArray("default_hitbox")]
+default_hitbox = NodePath("../CollisionShape2D")
+
+[node name="CollisionShape2D" parent="." index="2"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_exeov")
 
 [node name="Sprite" type="Sprite2D" parent="." index="3"]
 texture = ExtResource("1_jpes6")

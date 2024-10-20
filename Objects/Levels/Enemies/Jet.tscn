@@ -1,8 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://gf7elbg3k3nj"]
+[gd_scene load_steps=10 format=3 uid="uid://gf7elbg3k3nj"]
 
 [ext_resource type="PackedScene" uid="uid://bvoxqi1x6lk52" path="res://Objects/Levels/Enemies/BaseEnemy.tscn" id="1_rc47s"]
 [ext_resource type="Script" path="res://Scripts/Objects/Enemies/Jet.gd" id="2_oq0b1"]
 [ext_resource type="Texture2D" uid="uid://dh1lle66u4pmf" path="res://Sprites/Objects/Enemies/Jet.png" id="2_v43kf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e8sqc"]
+size = Vector2(20, 9)
 
 [sub_resource type="Animation" id="Animation_1b12d"]
 length = 0.001
@@ -101,11 +104,14 @@ _data = {
 script = ExtResource("2_oq0b1")
 
 [node name="HealthComponent" parent="." index="0"]
-value = 1.0
 max_value = 1.0
 
-[node name="AttackComponent" parent="." index="1"]
-default_attack_amount = 1
+[node name="AttackComponent" parent="." index="1" node_paths=PackedStringArray("default_hitbox")]
+default_hitbox = NodePath("../CollisionShape2D")
+
+[node name="CollisionShape2D" parent="." index="2"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_e8sqc")
 
 [node name="Sprite2D" type="Sprite2D" parent="." index="3"]
 texture = ExtResource("2_v43kf")

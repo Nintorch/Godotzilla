@@ -15,9 +15,6 @@ var state := State.IDLE
 var velocity := Vector2()
 var launched_projectile := false
 
-func _ready() -> void:
-	attack_component.set_collision(Vector2(20, 10), Vector2.ZERO)
-
 func _process(delta: float) -> void:
 	match state:
 		State.IDLE:

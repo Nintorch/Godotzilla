@@ -53,7 +53,6 @@ var direction: int = 1:
 		if is_instance_valid(skin) and value != 0:
 			skin.scale.x = value
 
-@onready var collision: CollisionShape2D = $Collision
 @onready var health: HealthComponent = $HealthComponent
 @onready var power: PowerComponent = $PowerComponent
 @onready var attack: AttackComponent = $AttackComponent
@@ -78,8 +77,6 @@ signal xp_amount_changed(new_value: int)
 #endregion
 
 func _ready() -> void:
-	collision.shape = collision.shape.duplicate()
-	
 	if is_player:
 		Global.player = self
 		if enable_intro:
@@ -105,12 +102,12 @@ func _ready() -> void:
 		
 	# Skin creation and character-specific setup (inside of the skin's _init and _ready)
 	change_skin(load(SKINS[character]).instantiate())
+	set_collision(skin.get_node("Collision"))
 			
 	# Setup for all characters
 	direction = direction
 	body = $Skin/Body
 	animation_player = $Skin/AnimationPlayer
-	move_child(collision, -1)
 	
 	if is_flying():
 		animation_player.play("Idle")
@@ -144,6 +141,8 @@ func change_skin(new_skin: Node2D) -> void:
 	new_skin.name = "Skin"
 	add_child(new_skin)
 	skin = new_skin
+	
+	attack.hitboxes = skin.get_node("Hitboxes")
 	
 #region Input related
 	
@@ -244,9 +243,12 @@ func get_character_name() -> String:
 func is_flying() -> bool:
 	return move_state == State.FLY
 	
-func set_collision(size: Vector2, offset: Vector2) -> void:
-	collision.shape.size = size
-	collision.position = offset
+func set_collision(shape: CollisionShape2D) -> void:
+	get_children().map(func(c: Node) -> void:
+		if c is CollisionShape2D:
+			c.queue_free()
+		)
+	call_deferred("add_child", shape.duplicate())
 	
 func is_hurtable() -> bool:
 	return state not in [State.LEVEL_INTRO, State.HURT, State.DEAD]

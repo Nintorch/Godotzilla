@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="2_ma02d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mvstq"]
-size = Vector2(20, 10)
+size = Vector2(20, 16)
 
 [node name="Enemy" type="StaticBody2D"]
 script = ExtResource("1_sr5re")

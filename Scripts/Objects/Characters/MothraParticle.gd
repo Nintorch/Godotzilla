@@ -7,7 +7,7 @@ enum Type {
 
 @onready var timer := $Timer
 @onready var animation_player := $AnimationPlayer
-@onready var attack_component: Node2D = $AttackComponent
+@onready var attack_component: AttackComponent = $AttackComponent
 
 var velocity := Vector2()
 var type: Type
@@ -45,7 +45,7 @@ func setup(init_type: Type, player: PlayerCharacter) -> void:
 		queue_free()
 		)
 			
-	attack_component.set_collision(
+	attack_component.set_hitbox(
 		sprite_frames.get_frame_texture(animation, 0).get_size(),
 		Vector2.ZERO
 		)

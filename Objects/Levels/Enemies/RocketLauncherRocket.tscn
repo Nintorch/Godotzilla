@@ -66,7 +66,7 @@ _data = {
 "going_down": SubResource("Animation_jrg5h")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_px6nh"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2iivk"]
 size = Vector2(16, 16)
 
 [node name="RocketLauncherRocket" type="Node2D"]
@@ -81,16 +81,15 @@ libraries = {
 "": SubResource("AnimationLibrary_vwlvx")
 }
 
-[node name="AttackComponent" parent="." instance=ExtResource("3_y14pf")]
+[node name="AttackComponent" parent="." node_paths=PackedStringArray("default_hitbox") instance=ExtResource("3_y14pf")]
 enemy = true
+default_hitbox = NodePath("CollisionShape2D")
 
-[node name="CollisionShape2D" parent="AttackComponent/Area2D" index="0"]
-shape = SubResource("RectangleShape2D_px6nh")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackComponent"]
+shape = SubResource("RectangleShape2D_2iivk")
 
 [node name="DestroySFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_7tx0r")
 bus = &"SFX"
 
 [connection signal="attacked" from="AttackComponent" to="." method="_on_attack_component_attacked"]
-
-[editable path="AttackComponent"]

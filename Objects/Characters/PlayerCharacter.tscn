@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bdedrxocj46sr"]
+[gd_scene load_steps=18 format=3 uid="uid://bdedrxocj46sr"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/PlayerCharacter.gd" id="1_c8c0q"]
 [ext_resource type="PackedScene" uid="uid://camascwoory5h" path="res://Objects/HealthComponent.tscn" id="3_bws3y"]
@@ -19,9 +19,6 @@
 [sub_resource type="LabelSettings" id="LabelSettings_ywk1q"]
 font_size = 8
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yw7jv"]
-size = Vector2(20, 56)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ge4p2"]
 size = Vector2(36, 6)
 
@@ -31,6 +28,13 @@ script = ExtResource("1_c8c0q")
 
 [node name="Skin" type="Node2D" parent="."]
 
+[node name="ColorRect" type="ColorRect" parent="Skin"]
+offset_left = -15.0
+offset_top = -38.0
+offset_right = 15.0
+offset_bottom = 27.0
+color = Color(0.357983, 0.395136, 0.605111, 1)
+
 [node name="Label" type="Label" parent="Skin"]
 offset_left = -31.0
 offset_top = -9.0
@@ -39,10 +43,6 @@ offset_bottom = 3.0
 text = "PlayerCharacter
 "
 label_settings = SubResource("LabelSettings_ywk1q")
-
-[node name="Collision" type="CollisionShape2D" parent="."]
-position = Vector2(0, -1)
-shape = SubResource("RectangleShape2D_yw7jv")
 
 [node name="MothraFloorChecking" type="Area2D" parent="."]
 collision_layer = 4

@@ -2,7 +2,7 @@ extends AnimatedSprite2D
 
 @onready var flash_timer := $FlashTimer
 @onready var destroy_timer := $DestroyTimer
-@onready var attack: Node2D = $AttackComponent
+@onready var attack: AttackComponent = $AttackComponent
 
 var player: PlayerCharacter
 var id := 0
@@ -16,7 +16,7 @@ func setup(init_id: int, init_player: PlayerCharacter) -> void:
 	
 func _ready() -> void:
 	attack.objects_to_ignore.append(player)
-	attack.set_collision(Vector2(8, 4 * (id+1)), Vector2(0, 2 * (id+1) - 48/2 + 1))
+	attack.set_hitbox(Vector2(8, 4 * (id+1)), Vector2(0, 2 * (id+1) - 48/2 + 1))
 	attack.enemy = player.attack.enemy
 	
 func start() -> void:

@@ -21,6 +21,7 @@ func state_entered() -> void:
 	
 func state_exited() -> void:
 	player.allow_direction_changing = save_allow_direction_changing
+	attack_component.stop_attack()
 	
 func is_still_attacking() -> bool:
 	return player.state.current == PlayerCharacter.State.ATTACK
@@ -45,7 +46,7 @@ func use(type: PlayerCharacter.Attack) -> void:
 			player.animation_player.play("Punch1" if variation else "Punch2")
 			player.play_sfx("Punch")
 			
-			attack_component.set_collision(Vector2(30, 20), Vector2(20 * player.direction, -15))
+			attack_component.set_hitbox_template("Punch")
 			
 			attack_component.start_attack(2)
 			await player.animation_player.animation_finished
@@ -56,7 +57,7 @@ func use(type: PlayerCharacter.Attack) -> void:
 			player.animation_player.play("Kick1" if variation else "Kick2")
 			player.play_sfx("Punch")
 			
-			attack_component.set_collision(Vector2(30, 20), Vector2(20 * player.direction, 15))
+			attack_component.set_hitbox_template("Kick")
 			
 			attack_component.start_attack(2)
 			await player.animation_player.animation_finished
@@ -68,7 +69,7 @@ func use(type: PlayerCharacter.Attack) -> void:
 			await get_tree().create_timer(0.15, false).timeout
 			if not is_still_attacking(): return
 			
-			attack_component.set_collision(Vector2(50, 40), Vector2(30 * player.direction, 5))
+			attack_component.set_hitbox_template("TailWhip")
 			
 			attack_component.start_attack(2)
 			await player.animation_player.animation_finished

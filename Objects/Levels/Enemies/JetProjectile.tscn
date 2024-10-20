@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="2_373u2"]
 [ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="4_h0tpx"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rgpnx"]
-size = Vector2(8, 8)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_af28v"]
+size = Vector2(8, 2)
 
 [node name="JetProjectile" type="Node2D"]
 script = ExtResource("1_fygt2")
@@ -16,16 +16,15 @@ texture = ExtResource("1_654l8")
 region_enabled = true
 region_rect = Rect2(78, 0, 8, 2)
 
-[node name="AttackComponent" parent="." instance=ExtResource("2_373u2")]
+[node name="AttackComponent" parent="." node_paths=PackedStringArray("default_hitbox") instance=ExtResource("2_373u2")]
 enemy = true
+default_hitbox = NodePath("Collision")
 
-[node name="CollisionShape2D" parent="AttackComponent/Area2D" index="0"]
-shape = SubResource("RectangleShape2D_rgpnx")
+[node name="Collision" type="CollisionShape2D" parent="AttackComponent"]
+shape = SubResource("RectangleShape2D_af28v")
 
 [node name="DestroySFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_h0tpx")
 bus = &"SFX"
 
 [connection signal="attacked" from="AttackComponent" to="." method="_on_attack_component_attacked"]
-
-[editable path="AttackComponent"]

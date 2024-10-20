@@ -10,7 +10,6 @@ func _init() -> void:
 	walk_frame_speed = 9
 
 func _ready() -> void:
-	player.set_collision(Vector2(20, 56), Vector2(0, -1))
 	player.get_sfx("Step").stream = preload("res://Audio/SFX/GodzillaStep.wav")
 	player.get_sfx("Roar").stream = preload("res://Audio/SFX/GodzillaRoar.wav")
 	player.move_state = PlayerCharacter.State.WALK
@@ -37,8 +36,7 @@ func walk_process() -> void:
 		player.use_attack(PlayerCharacter.Attack.HEAT_BEAM)
 
 func _on_animation_started(anim_name: StringName) -> void:
-	var size := 56
+	var collision: CollisionShape2D = $Collision
 	if anim_name == "Crouch" or anim_name == "TailWhip":
-		size = 40
-	player.set_collision(Vector2(20, size),
-		Vector2(0, -1 + (56 - size) / 2))
+		collision = $CrouchCollision
+	player.set_collision(collision)

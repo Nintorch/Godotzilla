@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cqrpbxce3xquu"]
+[gd_scene load_steps=19 format=3 uid="uid://cqrpbxce3xquu"]
 
 [ext_resource type="Texture2D" uid="uid://nhpib3frkqrg" path="res://Sprites/Characters/Mothra/hurt.png" id="1_64xd3"]
 [ext_resource type="Texture2D" uid="uid://dh0gtj20jut25" path="res://Sprites/Characters/Mothra/idle.png" id="1_f6h4m"]
@@ -172,6 +172,9 @@ _data = {
 "RESET": SubResource("Animation_5r2jb")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ta221"]
+size = Vector2(36, 14)
+
 [node name="Mothra" type="Node2D"]
 script = ExtResource("1_p8tms")
 
@@ -184,3 +187,9 @@ animation = &"idle"
 libraries = {
 "": SubResource("AnimationLibrary_n42rb")
 }
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(-4, 1)
+shape = SubResource("RectangleShape2D_ta221")
+
+[node name="Hitboxes" type="Node" parent="."]

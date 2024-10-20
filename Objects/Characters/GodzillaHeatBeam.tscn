@@ -4,7 +4,6 @@
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/Godzilla/GodzillaHeatBeam.gd" id="2_opyea"]
 [ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="3_acgqs"]
 
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_6fyik"]
 atlas = ExtResource("1_g23gd")
 region = Rect2(0, 0, 8, 48)
@@ -200,7 +199,6 @@ one_shot = true
 
 [node name="AttackComponent" parent="." instance=ExtResource("3_acgqs")]
 attack_always = true
-default_attack_amount = 24
 
 [connection signal="timeout" from="FlashTimer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="DestroyTimer" to="." method="_on_destroy_timer_timeout"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c1nseuiv0k6ax"]
+[gd_scene load_steps=11 format=3 uid="uid://c1nseuiv0k6ax"]
 
 [ext_resource type="PackedScene" uid="uid://bvoxqi1x6lk52" path="res://Objects/Levels/Enemies/BaseEnemy.tscn" id="1_rx4fb"]
 [ext_resource type="Script" path="res://Scripts/Objects/Enemies/RocketLauncher.gd" id="2_5wmul"]
@@ -90,21 +90,29 @@ _data = {
 "launching": SubResource("Animation_vr21e")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cf2pk"]
+size = Vector2(20, 15)
+
 [node name="RocketLauncher" instance=ExtResource("1_rx4fb")]
 script = ExtResource("2_5wmul")
 
 [node name="HealthComponent" parent="." index="0"]
 max_value = 1.0
 
-[node name="AttackComponent" parent="." index="1"]
+[node name="AttackComponent" parent="." index="1" node_paths=PackedStringArray("default_hitbox")]
 should_attack = false
+default_hitbox = NodePath("../CollisionShape2D")
 
-[node name="Sprite2D" type="Sprite2D" parent="." index="3"]
+[node name="Sprite2D" type="Sprite2D" parent="." index="2"]
 position = Vector2(0, -8)
 texture = ExtResource("2_p5nvc")
 hframes = 5
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="3"]
 libraries = {
 "": SubResource("AnimationLibrary_edroy")
 }
+
+[node name="CollisionShape2D" parent="." index="4"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_cf2pk")
