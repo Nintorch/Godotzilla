@@ -72,7 +72,7 @@ var xp := 0
 var save_position: Array[Vector2]
 
 var body: AnimatedSprite2D
-var skin: Node2D
+var skin: PlayerSkin
 var animation_player: AnimationPlayer
 
 signal intro_ended

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5my8r3e30dr4"]
+
+[ext_resource type="Script" path="res://Scripts/Objects/Characters/Skin.gd" id="1_68e6j"]
+
+[node name="Skin" type="Node2D"]
+script = ExtResource("1_68e6j")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
