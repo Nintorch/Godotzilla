@@ -6,8 +6,6 @@ enum LevelBoundaryType {
 	WALL,
 	## The player will go to the next level upon touching the boundary
 	NEXT_LEVEL,
-	## The player character will be transported to the next planet upon touching the boundary
-	NEXT_PLANET,
 }
 
 const GAME_OVER_SCENE := preload("res://Scenes/GameOver.tscn")
@@ -66,13 +64,9 @@ func _process(_delta: float) -> void:
 				player.position.x = camera.limit_right - 10
 				player.velocity.x = 0.0
 			
-			LevelBoundaryType.NEXT_LEVEL, LevelBoundaryType.NEXT_PLANET:
+			LevelBoundaryType.NEXT_LEVEL:
 				save_player_state()
-				
-				if right_boundary_behaviour == LevelBoundaryType.NEXT_LEVEL:
-					next_level()
-				else:
-					next_planet()
+				next_level()
 
 func save_player_state() -> void:
 	var board_piece: Node2D = data.board_piece
@@ -127,42 +121,5 @@ func next_level() -> void:
 		data.board_piece.save_data() # Just in case
 		Global.change_scene_node(Global.board)
 		Global.board.returned()
-		
-func next_planet() -> void:
-	if OS.is_debug_build() and not Global.board:
-		get_tree().paused = true
-		Global.fade_out()
-		return
-		
-	assert(is_instance_valid(Global.board))
-	
-	data.board_piece.save_data()
-	data.board_piece.remove()
-	
-	if Global.board.get_player_pieces().size() == 0:
-		get_tree().paused = true
-		
-		Global.music_fade_out()
-		await Global.fade_out()
-		
-		await get_tree().create_timer(0.5).timeout
-		
-		get_tree().paused = false
-		save_data()
-		Global.change_scene(Global.board.next_scene)
-		
-	else:
-		if Global.board.music != music:
-			Global.music_fade_out()
-		await Global.fade_out_paused()
-		
-		Global.change_scene_node(Global.board)
-		Global.board.returned()
-
-func save_data() -> void:
-	if Global.board.use_in_saves:
-		SaveManager.save_data["board_data"] = Global.board.board_data
-		SaveManager.save_data["score"] = Global.score
-		SaveManager.store_save_data()
 		
 #endregion

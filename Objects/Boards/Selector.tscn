@@ -3,9 +3,17 @@
 [ext_resource type="Texture2D" uid="uid://wmgv6kcqcri0" path="res://Sprites/BoardSprites.png" id="1_hejr5"]
 [ext_resource type="Script" path="res://Scripts/Objects/Boards/Selector.gd" id="2_4q06p"]
 
-
 [node name="Selector" type="Sprite2D"]
 texture = ExtResource("1_hejr5")
 hframes = 3
 vframes = 3
 script = ExtResource("2_4q06p")
+movement_style = null
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+offset_left = -24.0
+offset_top = -8.0
+offset_right = 24.0
+offset_bottom = 24.0
+color = Color(0.446777, 0.446777, 0.446777, 1)

@@ -1,8 +1,7 @@
-[gd_scene load_steps=13 format=4 uid="uid://d2do8ilhab482"]
+[gd_scene load_steps=12 format=4 uid="uid://d2do8ilhab482"]
 
 [ext_resource type="Script" path="res://Scripts/Boards/Board.gd" id="1_qudp1"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="3_2wbjf"]
-[ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Sprites/Levels/TestLevel/board.png" id="4_yatfn"]
 [ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="5_5kcnc"]
 [ext_resource type="PackedScene" uid="uid://dtc8wqm5nbty2" path="res://Objects/Boards/Selector.tscn" id="6_ysf6o"]
 [ext_resource type="PackedScene" uid="uid://bn3se1dw6cfhu" path="res://Objects/Boards/MessageWindow.tscn" id="7_hcaag"]
@@ -52,12 +51,15 @@ tile_layout = 1
 tile_offset_axis = 1
 tile_size = Vector2i(32, 32)
 navigation_layer_0/layers = 1
+custom_data_layer_0/name = "Level"
+custom_data_layer_0/type = 24
+custom_data_layer_1/name = "TransitionLevel"
+custom_data_layer_1/type = 1
 sources/0 = SubResource("TileSetAtlasSource_y5qnd")
 sources/1 = SubResource("TileSetAtlasSource_dct05")
 
 [node name="Board" type="Node2D"]
 script = ExtResource("1_qudp1")
-tileset = ExtResource("4_yatfn")
 
 [node name="BoardName" type="CenterContainer" parent="."]
 visible = false
@@ -89,6 +91,7 @@ position = Vector2(16, 24)
 
 [node name="Selector" parent="Board/Board Icons" node_paths=PackedStringArray("board_outline", "tilemap", "message_window", "board") instance=ExtResource("6_ysf6o")]
 position = Vector2(16, 24)
+movement_style = null
 board_outline = NodePath("../../Outline")
 tilemap = NodePath("..")
 message_window = NodePath("../../GUI/MessageWindow")

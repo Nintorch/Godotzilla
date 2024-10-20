@@ -65,9 +65,9 @@ func appear(
 		enable_sound := true,
 		choice := false,
 		req_size: Vector2i = default_window_size,
-		) -> Response:
+		) -> void:
 	if state == State.APPEARING or state == State.DISAPPEARING:
-		return Response.UNKNOWN
+		return
 		
 	window_size = req_size
 	
@@ -102,9 +102,11 @@ func appear(
 		
 	await tween.finished
 	
-	if choice:
-		return await choice_made
-	return Response.UNKNOWN
+func make_choice(message: String, enable_sound := true) -> Response:
+	if state == State.APPEARING or state == State.DISAPPEARING:
+		return Response.UNKNOWN
+	await appear(message, enable_sound, true)
+	return await choice_made
 	
 func disappear() -> void:
 	if state != State.SHOWN:

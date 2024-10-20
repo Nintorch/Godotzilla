@@ -19,13 +19,17 @@ var next_speed := Vector2()
 var old_pos: Vector2
 var moved_at_all := false
 var ignore_player_input := false
-var playing_levels: Array[int] = []
+var playing_levels: Array[PackedScene] = []
 
 signal piece_collision(boss_collision: bool)
 signal stopped
 signal moved
 
 func _ready() -> void:
+	# This node is just to make the selector more easily selectable
+	# in the Godot editor, that is its sole purpose
+	$ColorRect.hide()
+	
 	position = map_to_tilemap(position)
 	old_pos = Vector2(position)
 
@@ -122,7 +126,7 @@ func update_movement(delta: float) -> void:
 			
 			# Save the level from the current hex
 			if board.selected_piece:
-				playing_levels.append(get_level_id(get_current_cell()))
+				playing_levels.append(board.get_tile_level(get_current_cell()))
 			
 			if check_for_bosses(): return
 				
@@ -189,7 +193,7 @@ func next_cell_exists() -> bool:
 	return cell_exists(get_next_cell_pos())
 	
 func get_current_cell() -> Vector2i:
-	return cell_from_pos(get_cell_pos(old_pos))
+	return get_cell_pos(old_pos)
 	
 #endregion
 

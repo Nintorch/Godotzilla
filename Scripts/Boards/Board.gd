@@ -6,7 +6,6 @@ extends Node2D
 @export_category("General board settings")
 @export var board_name: String = "Template"
 @export var music: AudioStream
-@export var tileset: Texture
 ## The scene the player will be sent to after completing this board
 @export var next_scene: PackedScene
 ## If set, after the player makes their turn, one of the bosses
@@ -18,12 +17,6 @@ extends Node2D
 ## scene starts
 @export var use_in_saves := true
 @export var board_id := "template"
-
-## The array of levels
-## Check out get_level_id(tile: Vector2i) -> int in Selector.gd
-## to get the level ID for a cell in the tilemap
-@export_category("Levels")
-@export var levels: Array[PackedScene]
 
 @onready var outline: TileMapLayer = $Board/Outline
 @onready var tilemap: TileMapLayer = $"Board/Board Icons"
@@ -72,8 +65,6 @@ func _ready() -> void:
 				SaveManager.store_save_data()
 
 	RenderingServer.set_default_clear_color(Color.BLACK)
-	tilemap.tile_set.get_source(0).texture = tileset
-	tilemap.tile_set.get_source(1).texture = tileset
 	outline.tile_set = tilemap.tile_set
 	build_outline()
 	
@@ -125,11 +116,13 @@ func _process(_delta: float) -> void:
 		elif not message_window.visible \
 			or message_window.text.text.begins_with("Unable to advance"):
 				if not selector.moved_at_all:
-					var result: MessageWindow.Response = await message_window.appear(
-						"Not going\nto move?", true, true)
+					var result: MessageWindow.Response = \
+						await message_window.make_choice("Not going\nto move?")
 					if result == MessageWindow.Response.YES:
 						selector.moved_at_all = true
-						if selector.check_for_bosses(): return
+						if (selector.check_for_bosses() or
+							await check_transition_level()):
+								return
 						not_going_to_move()
 						return
 					elif result == MessageWindow.Response.NO:
@@ -192,14 +185,7 @@ func not_going_to_move() -> void:
 # The player made their move
 func start_playing(boss_piece: BoardPiece = null) -> void:
 	# The levels the player is going to go through
-	Global.playing_levels.assign(
-		selector.playing_levels.map(func(x: int) -> PackedScene:
-			# Ignore non-existant levels
-			if x >= levels.size():
-				print("Level with id " + str(x) + " is out of bounds")
-				return null
-			return levels[x]
-			))
+	Global.playing_levels.assign(selector.playing_levels)
 			
 	# If the player also collided with a boss during their move
 	if boss_piece != null:
@@ -282,6 +268,34 @@ func returned(ignore_boss_moves := false) -> void:
 		
 	selector.ignore_player_input = false
 	selector.playing_levels.clear()
+	
+func get_custom_tile_data(cell_pos: Vector2i, name: String) -> Variant:
+	return tilemap.get_cell_tile_data(cell_pos).get_custom_data(name)
+	
+func get_tile_level(cell_pos: Vector2i) -> PackedScene:
+	return get_custom_tile_data(cell_pos, "Level")
+	
+func check_transition_level() -> bool:
+	var check: bool = get_custom_tile_data(selector.get_current_cell(), "TransitionLevel")
+	if check:
+		var result := await message_window.make_choice("Will you move to the next field?", false)
+		if result == MessageWindow.Response.YES:
+			await fade_out_selected()
+			selected_piece.save_data()
+			selected_piece.remove()
+			if get_player_pieces().size() > 0:
+				returned()
+			else:
+				save_data()
+				Global.change_scene(Global.board.next_scene)
+			return true
+	return false
+	
+func save_data() -> void:
+	if use_in_saves:
+		SaveManager.save_data["board_data"] = board_data
+		SaveManager.save_data["score"] = Global.score
+		SaveManager.store_save_data()
 		
 #endregion
 
@@ -348,11 +362,14 @@ func move_boss() -> bool:
 	await get_tree().create_timer(0.5).timeout
 	boss_piece.prepare_start()
 		
-	if selector.playing_levels.size() <= boss_piece.steps:
-		selected_piece = player_piece
-		selector.playing_levels.clear()
-		start_playing(boss_piece)
-		return false
+	if (selector.playing_levels.size() < boss_piece.steps or
+		(selector.playing_levels.size() == boss_piece.steps and 
+		selector.position.distance_to(player_piece.position) < 48)
+		):
+			selected_piece = player_piece
+			selector.playing_levels.clear()
+			start_playing(boss_piece)
+			return false
 	else:
 		selector.playing_levels.clear()
 		selected_piece = null
@@ -422,9 +439,9 @@ func _on_selector_piece_collision(boss_collision: bool) -> void:
 			false
 			)
 	elif boss_collision:
-		var result: MessageWindow.Response = await message_window.appear(
-			"Will you fight\nthe enemy?",
-			false, true)
+		var result: MessageWindow.Response = \
+			await message_window.make_choice("Will you fight\nthe enemy?", false)
+			
 		if result == MessageWindow.Response.YES:
 			var bosses := selector.get_neighbor_bosses()
 			# Keep looping through the bosses until the player either
@@ -432,9 +449,10 @@ func _on_selector_piece_collision(boss_collision: bool) -> void:
 			# ("No" response to all of the bosses is ignored basically)
 			while true:
 				for piece in bosses:
-					result = await message_window.appear(
+					result = await message_window.make_choice(
 						"Will you fight\n%s?" % piece.get_character_name(),
-						false, true)
+						false)
+						
 					if result == MessageWindow.Response.YES:
 						start_playing(piece)
 						return
