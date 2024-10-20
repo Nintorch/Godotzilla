@@ -12,12 +12,14 @@
 [ext_resource type="Texture2D" uid="uid://cp7yo85faut6q" path="res://Sprites/Characters/Godzilla/punch2.png" id="4_7jbwm"]
 
 [sub_resource type="GDScript" id="GDScript_5gjb6"]
-script/source = "extends Node2D
+script/source = "extends PlayerSkin
 
-@onready var parent: PlayerCharacter = get_parent()
 @onready var offset_y: float = $Body/Head.position.y
 @onready var body := $Body
 @onready var head := $Body/Head
+
+func _ready() -> void:
+	walk_frame_speed = 9
 
 func _process(_delta: float) -> void:
 	if body.animation == \"Walk\":
@@ -29,11 +31,20 @@ func _process(_delta: float) -> void:
 		if head.animation == \"Walk\":
 			head.frame = body.frame
 
+func walk_process() -> void:
+	common_ground_attacks()
+	if player.animation_player.current_animation == \"Crouch\" \\
+		and player.inputs_pressed[PlayerCharacter.Inputs.B]:
+			player.use_attack(PlayerCharacter.Attack.TAIL_WHIP)
+	if player.inputs_pressed[PlayerCharacter.Inputs.START] \\
+		and player.power.value >= 6 * 8:
+		player.use_attack(PlayerCharacter.Attack.HEAT_BEAM)
+
 func _on_animation_started(anim_name: StringName) -> void:
 	var size := 56
 	if anim_name == \"Crouch\" or anim_name == \"TailWhip\":
 		size = 40
-	parent.set_collision(Vector2(20, size),
+	player.set_collision(Vector2(20, size),
 		Vector2(0, -1 + (56 - size) / 2))
 "
 
