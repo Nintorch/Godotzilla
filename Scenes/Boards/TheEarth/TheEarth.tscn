@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Sprites/Levels/TestLevel/board.png" id="4_hpfut"]
 [ext_resource type="PackedScene" uid="uid://dhm8bcemuwqfo" path="res://Scenes/Levels/Wilderness.tscn" id="5_j0muf"]
 [ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="7_5qhq5"]
-[ext_resource type="PackedScene" uid="uid://cv04f1f1pkbcs" path="res://Scenes/Boards/TheEarth/TransitionLevel.tscn" id="7_h8vqw"]
+[ext_resource type="PackedScene" uid="uid://cv04f1f1pkbcs" path="res://Scenes/Boards/TransitionLevel.tscn" id="7_h8vqw"]
 [ext_resource type="PackedScene" uid="uid://df3jptqtpl75u" path="res://Scenes/Bosses/Mothra.tscn" id="8_wtl0u"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_1ofnh"]

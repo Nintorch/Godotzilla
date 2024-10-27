@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=4 uid="uid://d2do8ilhab482"]
+[gd_scene load_steps=13 format=4 uid="uid://d2do8ilhab482"]
 
 [ext_resource type="Script" path="res://Scripts/Boards/Board.gd" id="1_qudp1"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="3_2wbjf"]
 [ext_resource type="Texture2D" uid="uid://dhod63htftwaw" path="res://Sprites/EditorBoard.png" id="3_qn4m8"]
+[ext_resource type="PackedScene" uid="uid://cv04f1f1pkbcs" path="res://Scenes/Boards/TransitionLevel.tscn" id="4_tg6jw"]
 [ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="5_5kcnc"]
 [ext_resource type="PackedScene" uid="uid://dtc8wqm5nbty2" path="res://Objects/Boards/Selector.tscn" id="6_ysf6o"]
 [ext_resource type="PackedScene" uid="uid://bn3se1dw6cfhu" path="res://Objects/Boards/MessageWindow.tscn" id="7_hcaag"]
@@ -40,6 +41,10 @@ texture_region_size = Vector2i(48, 32)
 4:0/0 = 0
 4:1/0 = 0
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_q6vje"]
+resource_name = "TransitionLevel"
+scenes/1/scene = ExtResource("4_tg6jw")
+
 [sub_resource type="TileSet" id="TileSet_8es2h"]
 tile_shape = 2
 tile_layout = 1
@@ -52,6 +57,7 @@ custom_data_layer_1/name = "TransitionLevel"
 custom_data_layer_1/type = 1
 sources/0 = SubResource("TileSetAtlasSource_y5qnd")
 sources/1 = SubResource("TileSetAtlasSource_dct05")
+sources/2 = SubResource("TileSetScenesCollectionSource_q6vje")
 
 [node name="Board" type="Node2D"]
 script = ExtResource("1_qudp1")
@@ -75,7 +81,7 @@ position = Vector2(16, 8)
 [node name="Outline" type="TileMapLayer" parent="Board"]
 
 [node name="Board Icons" type="TileMapLayer" parent="Board"]
-tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAABAAEAAQAAAAAAAAABAAIAAQAAAAAAAAAAAAEAAQAAAAAAAAACAAEAAQAAAAAAAAACAAIAAQAAAAAAAAACAAMAAQAAAAAAAAABAAMAAQAAAAAAAAAAAAIAAQAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAABAAEAAQAAAAAAAAABAAIAAQAAAAAAAAAAAAEAAQAAAAAAAAACAAEAAQAAAAAAAAACAAIAAQAAAAAAAAACAAMAAQAAAAAAAAABAAMAAQAAAAAAAAAAAAIAAQAAAAAAAAADAAMAAgAAAAAAAQA=")
 tile_set = SubResource("TileSet_8es2h")
 
 [node name="Board Pieces" type="Node2D" parent="Board/Board Icons"]
