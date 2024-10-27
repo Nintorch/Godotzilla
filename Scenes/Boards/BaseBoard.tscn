@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=4 uid="uid://d2do8ilhab482"]
+[gd_scene load_steps=11 format=4 uid="uid://d2do8ilhab482"]
 
 [ext_resource type="Script" path="res://Scripts/Boards/Board.gd" id="1_qudp1"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="3_2wbjf"]
+[ext_resource type="Texture2D" uid="uid://dhod63htftwaw" path="res://Sprites/EditorBoard.png" id="3_qn4m8"]
 [ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="5_5kcnc"]
 [ext_resource type="PackedScene" uid="uid://dtc8wqm5nbty2" path="res://Objects/Boards/Selector.tscn" id="6_ysf6o"]
 [ext_resource type="PackedScene" uid="uid://bn3se1dw6cfhu" path="res://Objects/Boards/MessageWindow.tscn" id="7_hcaag"]
@@ -13,12 +14,9 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-6.71751, -16, 6.01041,
 source_geometry_group_name = &"navigation_polygon_source_group"
 agent_radius = 0.0
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5jw5i"]
-load_path = "res://.godot/imported/EditorBoard.png-dacee69496e3ef6b098dc372742f0496.ctex"
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y5qnd"]
 resource_name = "Outline"
-texture = SubResource("CompressedTexture2D_5jw5i")
+texture = ExtResource("3_qn4m8")
 texture_region_size = Vector2i(48, 34)
 use_texture_padding = false
 0:0/next_alternative_id = 2
@@ -26,12 +24,9 @@ use_texture_padding = false
 0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1ofnh")
 0:0/1 = 1
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a0gnq"]
-load_path = "res://.godot/imported/EditorBoard.png-dacee69496e3ef6b098dc372742f0496.ctex"
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dct05"]
 resource_name = "Icons"
-texture = SubResource("CompressedTexture2D_a0gnq")
+texture = ExtResource("3_qn4m8")
 margins = Vector2i(48, 0)
 texture_region_size = Vector2i(48, 32)
 0:0/0 = 0
