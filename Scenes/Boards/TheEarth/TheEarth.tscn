@@ -1,11 +1,10 @@
-[gd_scene load_steps=15 format=4 uid="uid://blo8x6bqjbe1w"]
+[gd_scene load_steps=14 format=4 uid="uid://blo8x6bqjbe1w"]
 
 [ext_resource type="PackedScene" uid="uid://d2do8ilhab482" path="res://Scenes/Boards/BaseBoard.tscn" id="1_kn3r1"]
 [ext_resource type="AudioStream" uid="uid://ij42lx3rq1l1" path="res://Audio/Soundtrack/Earth.ogg" id="2_ffjsg"]
 [ext_resource type="PackedScene" uid="uid://slv0bn0tcyna" path="res://Scenes/Boards/Jupiter/Jupiter.tscn" id="3_kuiql"]
 [ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Sprites/Levels/TestLevel/board.png" id="4_hpfut"]
 [ext_resource type="PackedScene" uid="uid://dhm8bcemuwqfo" path="res://Scenes/Levels/Wilderness.tscn" id="5_j0muf"]
-[ext_resource type="PackedScene" uid="uid://bdbahbhfgy3yt" path="res://Scenes/Levels/TransitionLevel.tscn" id="6_p0fi0"]
 [ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece.tscn" id="7_5qhq5"]
 [ext_resource type="PackedScene" uid="uid://cv04f1f1pkbcs" path="res://Scenes/Boards/TheEarth/TransitionLevel.tscn" id="7_h8vqw"]
 [ext_resource type="PackedScene" uid="uid://df3jptqtpl75u" path="res://Scenes/Bosses/Mothra.tscn" id="8_wtl0u"]
@@ -37,7 +36,7 @@ texture_region_size = Vector2i(48, 32)
 1:0/0 = 0
 1:0/0/custom_data_0 = ExtResource("5_j0muf")
 2:0/0 = 0
-2:0/0/custom_data_0 = ExtResource("6_p0fi0")
+2:0/0/custom_data_0 = ExtResource("5_j0muf")
 3:0/0 = 0
 0:1/0 = 0
 1:1/0 = 0

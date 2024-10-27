@@ -278,12 +278,19 @@ func get_custom_tile_data(cell_pos: Vector2i, data_name: String) -> Variant:
 	# If the current hex is a tile from the tile set
 	var tiledata := tilemap.get_cell_tile_data(cell_pos)
 	if tiledata != null:
-		return tiledata.get_custom_data(data_name)
+		var data: Variant = tiledata.get_custom_data(data_name)
+		if data_name == "Level" and data is LevelVariation:
+				return (data as LevelVariation).get_level(tilemap, cell_pos)
+		else:
+			return data
 		
 	# If the current hex is a tile scene
 	var tilescene := get_current_scene_tile(cell_pos)
 	if tilescene != null:
-		return tilescene.get(data_name.to_snake_case())
+		if data_name == "Level":
+			return tilescene.get_level(tilemap, cell_pos)
+		else:
+			return tilescene.get(data_name.to_snake_case())
 	
 	# In case there's no tile on that hex
 	return null
