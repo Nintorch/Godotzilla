@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://cv04f1f1pkbcs"]
+
+[ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Sprites/Levels/TestLevel/board.png" id="1_aunje"]
+[ext_resource type="Script" path="res://Scripts/Boards/LevelSceneTile.gd" id="2_xryvn"]
+[ext_resource type="PackedScene" uid="uid://bdbahbhfgy3yt" path="res://Scenes/Levels/TransitionLevel.tscn" id="3_4731o"]
+
+[node name="TransitionLevel" type="Sprite2D"]
+position = Vector2(0, -5)
+texture = ExtResource("1_aunje")
+region_enabled = true
+region_rect = Rect2(240, 0, 48, 48)
+script = ExtResource("2_xryvn")
+level = ExtResource("3_4731o")
+transition_level = true

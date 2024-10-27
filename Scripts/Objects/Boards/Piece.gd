@@ -32,10 +32,12 @@ const FRAME_SPEED := [
 
 var tilemap: TileMapLayer
 var selector: BoardSelector
+var board: Board
 
 var init_pos: Vector2
 var piece_frame := 0
 var tile_below := Vector2i(-1, -1)
+var scene_tile_below: LevelSceneTile
 var selected := false
 var steps := 0
 var walk_frame := 0.0
@@ -60,6 +62,7 @@ func _ready() -> void:
 	if selector == null:
 		return
 	tilemap = selector.tilemap
+	board = Global.board
 	process_priority = 1
 	
 	# Adjust position
@@ -114,6 +117,13 @@ func get_cell_pos() -> Vector2i:
 func hide_cell_below() -> void:
 	if Engine.is_editor_hint():
 		return
+		
+	# Check if there's a scene tile below
+	scene_tile_below = board.get_current_scene_tile(get_cell_pos())
+	if scene_tile_below != null:
+		scene_tile_below.hide()
+		return
+		
 	var tile: Vector2i = selector.cell_from_pos(get_cell_pos())
 	if tile.x < 0: # Return if already hidden
 		return
@@ -121,6 +131,10 @@ func hide_cell_below() -> void:
 	tilemap.erase_cell(get_cell_pos())
 	
 func show_cell_below() -> void:
+	if scene_tile_below != null:
+		scene_tile_below.show()
+		return
+	
 	tilemap.set_cell(get_cell_pos(), 1, tile_below)
 	tile_below = Vector2i(-1, -1)
 

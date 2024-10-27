@@ -267,8 +267,26 @@ func returned(ignore_boss_moves := false) -> void:
 	selector.ignore_player_input = false
 	selector.playing_levels.clear()
 	
+func get_current_scene_tile(cell_pos: Vector2i) -> LevelSceneTile:
+	var tilescene: Array[LevelSceneTile] = []
+	var tile_pos := tilemap.map_to_local(cell_pos)
+	tilescene.assign(tilemap.get_children().filter(func(x: Node) -> bool:
+		return x is LevelSceneTile and (x as LevelSceneTile).position.distance_to(tile_pos) < 32))
+	return tilescene[0] if tilescene.size() == 1 else null
+	
 func get_custom_tile_data(cell_pos: Vector2i, data_name: String) -> Variant:
-	return tilemap.get_cell_tile_data(cell_pos).get_custom_data(data_name)
+	# If the current hex is a tile from the tile set
+	var tiledata := tilemap.get_cell_tile_data(cell_pos)
+	if tiledata != null:
+		return tiledata.get_custom_data(data_name)
+		
+	# If the current hex is a tile scene
+	var tilescene := get_current_scene_tile(cell_pos)
+	if tilescene != null:
+		return tilescene.get(data_name.to_snake_case())
+	
+	# In case there's no tile on that hex
+	return null
 	
 func get_tile_level(cell_pos: Vector2i) -> PackedScene:
 	return get_custom_tile_data(cell_pos, "Level")

@@ -14,10 +14,6 @@ fill_to = Vector2(0, 0)
 
 [node name="Level" instance=ExtResource("1_sxqx2")]
 music = ExtResource("2_gkpwp")
-right_boundary_behaviour = 2
-
-[node name="Camera" parent="." index="1"]
-limit_right = 260
 
 [node name="Floor" parent="." index="2"]
 texture = SubResource("GradientTexture2D_kd1v6")
