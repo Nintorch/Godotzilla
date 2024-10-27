@@ -1,8 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://cqrpbxce3xquu"]
+[gd_scene load_steps=21 format=3 uid="uid://cqrpbxce3xquu"]
 
 [ext_resource type="Texture2D" uid="uid://nhpib3frkqrg" path="res://Sprites/Characters/Mothra/hurt.png" id="1_64xd3"]
 [ext_resource type="Texture2D" uid="uid://dh0gtj20jut25" path="res://Sprites/Characters/Mothra/idle.png" id="1_f6h4m"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/Mothra/Main.gd" id="1_p8tms"]
+[ext_resource type="AudioStream" uid="uid://d3q5gj1fhphte" path="res://Audio/SFX/MothraStep.wav" id="2_p6fl7"]
+[ext_resource type="AudioStream" uid="uid://ccjlv2riqxvf3" path="res://Audio/SFX/MothraRoar.wav" id="3_kfkrj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w0xxw"]
 atlas = ExtResource("1_64xd3")
@@ -177,6 +179,15 @@ size = Vector2(36, 14)
 
 [node name="Mothra" type="Node2D"]
 script = ExtResource("1_p8tms")
+character_name = "Mothra"
+bar_count = 8
+move_state = 1
+move_speed = 2.0
+level_intro_y_offset = -40
+walk_frame_speed = 0.0
+jump_speed = 0
+step_sfx = ExtResource("2_p6fl7")
+roar_sfx = ExtResource("3_kfkrj")
 
 [node name="Body" type="AnimatedSprite2D" parent="."]
 position = Vector2(-12, -28)

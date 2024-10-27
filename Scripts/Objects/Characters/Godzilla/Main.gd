@@ -4,18 +4,6 @@ extends PlayerSkin
 @onready var body := $Body
 @onready var head := $Body/Head
 
-func _init() -> void:
-	character_name = "Godzilla"
-	bar_count = 6
-	walk_frame_speed = 9
-
-func _ready() -> void:
-	player.get_sfx("Step").stream = preload("res://Audio/SFX/GodzillaStep.wav")
-	player.get_sfx("Roar").stream = preload("res://Audio/SFX/GodzillaRoar.wav")
-	player.move_state = PlayerCharacter.State.WALK
-	if player.is_player and player.enable_intro:
-		player.position.x = -35
-
 func _process(_delta: float) -> void:
 	if body.animation == "Idle":
 		if body.frame == 2 or body.frame == 6:

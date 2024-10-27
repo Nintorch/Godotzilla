@@ -94,16 +94,13 @@ func _ready() -> void:
 	setup_input(inputs_pressed)
 	
 	save_position.resize(60)
-	
-	move_speed = 1 * 60
-	load_state()
 			
 	await Global.get_current_scene().ready
 		
 	# Skin creation and character-specific setup (inside of the skin's _init and _ready)
 	change_skin(load(SKINS[character]).instantiate())
-	set_collision(skin.get_node("Collision"))
-			
+	load_state()
+
 	# Setup for all characters
 	direction = direction
 	body = $Skin/Body
@@ -131,7 +128,7 @@ func _physics_process(delta: float) -> void:
 func _process(_delta: float) -> void:
 	process_input()
 	
-func change_skin(new_skin: Node2D) -> void:
+func change_skin(new_skin: PlayerSkin) -> void:
 	var prev_skin: Node2D = $Skin
 
 	if prev_skin != null:
@@ -141,8 +138,20 @@ func change_skin(new_skin: Node2D) -> void:
 	new_skin.name = "Skin"
 	add_child(new_skin)
 	skin = new_skin
+	setup_character(skin)
 	
+func setup_character(skin: PlayerSkin) -> void:
 	attack.hitboxes = skin.get_node("Hitboxes")
+	set_collision(skin.get_node("Collision"))
+	# Bar count is set on the board via the board piece character data
+	move_state = skin.move_state
+	move_speed = skin.move_speed * 60
+	if state.current == State.LEVEL_INTRO and is_player and enable_intro:
+		position.x = skin.level_intro_x_start
+		position.y += skin.level_intro_y_offset
+	
+	get_sfx("Step").stream = skin.step_sfx
+	get_sfx("Roar").stream = skin.roar_sfx
 	
 #region Input related
 	
@@ -298,16 +307,17 @@ func _on_attack_component_attacked(attacked_body: Node2D, amount: float) -> void
 	if attacked_body is Enemy:
 		add_xp(5)
 		Global.add_score(int(20 * amount))
-
-static func calculate_bar_count(char_id: PlayerCharacter.Type, char_level: int) -> int:
+		
+static func _get_temporary_skin(char_id: PlayerCharacter.Type) -> PlayerSkin:
 	var skin: PlayerSkin = load(SKINS[char_id]).instantiate()
 	skin.queue_free()
-	return skin.bar_count + char_level - 1
+	return skin
+
+static func calculate_bar_count(char_id: PlayerCharacter.Type, char_level: int) -> int:
+	return _get_temporary_skin(char_id).bar_count + char_level - 1
 	
 static func calculate_xp_amount(char_level: int) -> int:
 	return 100 + 50 * (char_level - 1)
 
 static func get_character_name_static(char_id: PlayerCharacter.Type) -> String:
-	var skin: PlayerSkin = load(SKINS[char_id]).instantiate()
-	skin.queue_free()
-	return skin.character_name
+	return _get_temporary_skin(char_id).character_name

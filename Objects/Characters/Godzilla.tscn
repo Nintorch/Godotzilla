@@ -1,13 +1,15 @@
-[gd_scene load_steps=69 format=3 uid="uid://d3shtbcndg6wf"]
+[gd_scene load_steps=71 format=3 uid="uid://d3shtbcndg6wf"]
 
 [ext_resource type="Texture2D" uid="uid://c3qwhre32yggp" path="res://Sprites/Characters/Godzilla/walk_body.png" id="1_3sn8y"]
 [ext_resource type="Texture2D" uid="uid://c8vjp0lgjim3x" path="res://Sprites/Characters/Godzilla/crouch.png" id="1_7wdfd"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/Godzilla/Main.gd" id="1_gfjpc"]
 [ext_resource type="Texture2D" uid="uid://c7slof73fr1l6" path="res://Sprites/Characters/Godzilla/hurt.png" id="2_0y6ho"]
+[ext_resource type="AudioStream" uid="uid://d2qfi7m3jxc5r" path="res://Audio/SFX/GodzillaStep.wav" id="2_1c4ag"]
 [ext_resource type="Texture2D" uid="uid://drtem8jbie2f0" path="res://Sprites/Characters/Godzilla/heat_beaming.png" id="2_pgjrr"]
 [ext_resource type="Texture2D" uid="uid://huytihc5bj4n" path="res://Sprites/Characters/Godzilla/walk_head.png" id="2_rmc0n"]
 [ext_resource type="Texture2D" uid="uid://dr7cjajoy0wya" path="res://Sprites/Characters/Godzilla/kick1.png" id="2_s7teb"]
 [ext_resource type="Texture2D" uid="uid://bhjsxj2v3ms7" path="res://Sprites/Characters/Godzilla/punch1.png" id="3_64613"]
+[ext_resource type="AudioStream" uid="uid://cjhiq2x7oewnw" path="res://Audio/SFX/GodzillaRoar.wav" id="3_vj2ms"]
 [ext_resource type="Texture2D" uid="uid://b3aqq06ew63k8" path="res://Sprites/Characters/Godzilla/kick2.png" id="3_vxmse"]
 [ext_resource type="Texture2D" uid="uid://bsu6rokyd5rmu" path="res://Sprites/Characters/Godzilla/tail_whip.png" id="4_3ah1i"]
 [ext_resource type="Texture2D" uid="uid://cp7yo85faut6q" path="res://Sprites/Characters/Godzilla/punch2.png" id="4_7jbwm"]
@@ -961,6 +963,9 @@ size = Vector2(50, 35)
 
 [node name="Character" type="Node2D"]
 script = ExtResource("1_gfjpc")
+character_name = "Godzilla"
+step_sfx = ExtResource("2_1c4ag")
+roar_sfx = ExtResource("3_vj2ms")
 
 [node name="Body" type="AnimatedSprite2D" parent="."]
 position = Vector2(-16.5, 8.5)
