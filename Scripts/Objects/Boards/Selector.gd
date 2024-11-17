@@ -126,7 +126,6 @@ func update_movement(delta: float) -> void:
 			
 			# Save the level from the current hex
 			if board.selected_piece:
-				print(board.get_tile_level(get_current_cell()))
 				playing_levels.append(board.get_tile_level(get_current_cell()))
 			
 			if check_for_bosses(): return

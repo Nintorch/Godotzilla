@@ -42,38 +42,16 @@ func use(type: PlayerCharacter.Attack) -> void:
 	match type:
 		# Common ground attacks
 		PlayerCharacter.Attack.PUNCH:
-			variation = not variation
-			player.animation_player.play("Punch1" if variation else "Punch2")
 			player.play_sfx("Punch")
-			
-			attack_component.set_hitbox_template("Punch")
-			
-			attack_component.start_attack(2)
-			await player.animation_player.animation_finished
-			attack_component.stop_attack()
+			player.attack.start_attack("Punch")
 
 		PlayerCharacter.Attack.KICK:
-			variation = not variation
-			player.animation_player.play("Kick1" if variation else "Kick2")
 			player.play_sfx("Punch")
-			
-			attack_component.set_hitbox_template("Kick")
-			
-			attack_component.start_attack(2)
-			await player.animation_player.animation_finished
-			attack_component.stop_attack()
+			player.attack.start_attack("Kick")
 			
 		# Godzilla-specific attacks
 		PlayerCharacter.Attack.TAIL_WHIP:
-			player.animation_player.play("TailWhip")
-			await get_tree().create_timer(0.15, false).timeout
-			if not is_still_attacking(): return
-			
-			attack_component.set_hitbox_template("TailWhip")
-			
-			attack_component.start_attack(2)
-			await player.animation_player.animation_finished
-			attack_component.stop_attack()
+			player.attack.start_attack("TailWhip")
 			
 		PlayerCharacter.Attack.HEAT_BEAM:
 			var animations := [

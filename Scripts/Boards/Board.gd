@@ -101,6 +101,7 @@ func _process(_delta: float) -> void:
 		# If no board pieces are selected
 		if not selected_piece:
 			var piece := get_current_piece()
+			
 			if piece and piece.is_player():
 				piece.select()
 				selector.moved_at_all = false
@@ -110,12 +111,15 @@ func _process(_delta: float) -> void:
 				show_boss_info(piece)
 			else:
 				message_window.appear("There is no monster here.")
+				
 			adjust_message_pos()
+			
 		elif not message_window.visible \
-			or message_window.text.text.begins_with("Unable to advance"):
+			or message_window.get_text().begins_with("Unable to advance"):
 				if not selector.moved_at_all:
 					var result: MessageWindow.Response = \
-						await message_window.make_choice("Not going\nto move?")
+						await message_window.make_choice("Not going to move?")
+						
 					if result == MessageWindow.Response.YES:
 						selector.moved_at_all = true
 						if (selector.check_for_bosses() or
@@ -123,9 +127,10 @@ func _process(_delta: float) -> void:
 								return
 						not_going_to_move()
 						return
-					elif result == MessageWindow.Response.NO:
+					else:
 						selected_piece.deselect()
 						selected_piece = null
+						
 				else:
 					# If a board piece is selected and A was pressed, start playing
 					Global.play_global_sfx("MenuBip")
@@ -191,6 +196,7 @@ func start_playing(boss_piece: BoardPiece = null) -> void:
 		
 	# Let the developer know there's a missing level scene on the board
 	if Global.playing_levels.find(null) >= 0:
+		printerr("One of the playing levels has no scene attached to it.")
 		Global.playing_levels.clear()
 				
 	if Global.playing_levels.size() == 0:
@@ -335,7 +341,7 @@ func show_boss_info(piece: BoardPiece) -> void:
 		
 	var space_count := (size.x - 16) / 8 - hp_text.length()
 	text += "life\n" + " ".repeat(space_count) + hp_text
-	message_window.appear(text, true, false, size)
+	message_window.appear(text, true, size)
 		
 func boss_hp_str(hp: float) -> String:
 	var s := str(snappedf(hp, 0.1))

@@ -43,6 +43,7 @@ func _process(_delta: float) -> void:
 			choice_selector.position.x = 0
 		if Input.is_action_just_pressed("Right"):
 			choice_selector.position.x = 40
+			
 		var input_a := Input.is_action_just_pressed("A")
 		if input_a or Input.is_action_just_pressed("B"):
 			Global.play_global_sfx("MenuBip")
@@ -62,7 +63,6 @@ func _process(_delta: float) -> void:
 func appear(
 		message: String,
 		enable_sound := true,
-		choice := false,
 		req_size: Vector2i = default_window_size,
 		) -> void:
 	if state == State.APPEARING or state == State.DISAPPEARING:
@@ -86,25 +86,25 @@ func appear(
 	
 	var tween := create_tween()
 	tween.tween_property(self, "size:x", req_size.x, get_tween_seconds(req_size.x))
-	tween.finished.connect(func() -> void:
-		text.visible = true
-		if choice:
-			choice_nodes.position.y = req_size.y - 16
-			choice_nodes.visible = true
-			if selector:
-				selector.ignore_player_input = true
-		state = State.SHOWN
-		)
-	
-	if enable_sound and not selector.ignore_player_input:
+
+	if enable_sound and not (is_instance_valid(selector) and selector.ignore_player_input):
 		Global.play_global_sfx("MenuBip")
 		
 	await tween.finished
+	text.visible = true
+	state = State.SHOWN
 	
 func make_choice(message: String, enable_sound := true) -> Response:
 	if state == State.APPEARING or state == State.DISAPPEARING:
 		return Response.UNKNOWN
-	await appear(message, enable_sound, true)
+		
+	await appear(message, enable_sound)
+	
+	choice_nodes.show()
+	choice_nodes.position.y = default_window_size.y - 16
+	if selector:
+		selector.ignore_player_input = true
+
 	return await choice_made
 	
 func disappear() -> void:

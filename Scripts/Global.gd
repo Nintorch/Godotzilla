@@ -47,7 +47,7 @@ func is_widescreen() -> bool:
 	return get_content_size().x > get_default_resolution().x
 	
 func use_fullscreen(flag: bool) -> void:
-	const FULLSCREEN = DisplayServer.WINDOW_MODE_FULLSCREEN
+	const FULLSCREEN := DisplayServer.WINDOW_MODE_FULLSCREEN
 	if flag and not is_fullscreen():
 		DisplayServer.window_set_mode(FULLSCREEN)
 		fullscreen_changed.emit(true)
@@ -56,7 +56,7 @@ func use_fullscreen(flag: bool) -> void:
 		fullscreen_changed.emit(false)
 		
 func is_fullscreen() -> bool:
-	const FULLSCREEN = DisplayServer.WINDOW_MODE_FULLSCREEN
+	const FULLSCREEN := DisplayServer.WINDOW_MODE_FULLSCREEN
 	return DisplayServer.window_get_mode() == FULLSCREEN
 	
 func get_content_size() -> Vector2i:
