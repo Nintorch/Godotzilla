@@ -1,0 +1,70 @@
+[gd_scene load_steps=10 format=3 uid="uid://d117bxkmklikc"]
+
+[ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/BaseLevel.tscn" id="1_rvfa3"]
+[ext_resource type="Script" path="res://Scripts/Levels/Bosses/BaseBoss2.gd" id="2_ym8d5"]
+[ext_resource type="Texture2D" uid="uid://c3qwhre32yggp" path="res://Sprites/Characters/Godzilla/walk_body.png" id="3_gl3fo"]
+[ext_resource type="AudioStream" uid="uid://by7wimbn2cemn" path="res://Audio/Soundtrack/MogueraTheme.ogg" id="3_ti5w5"]
+[ext_resource type="Texture2D" uid="uid://huytihc5bj4n" path="res://Sprites/Characters/Godzilla/walk_head.png" id="4_ct3fj"]
+[ext_resource type="Script" path="res://Scripts/Objects/Characters/GameCharacter.gd" id="4_exksf"]
+[ext_resource type="Script" path="res://Scripts/Objects/HealthComponent.gd" id="7_4yohv"]
+[ext_resource type="Script" path="res://Scripts/Objects/PowerComponent.gd" id="8_mt5qq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_th4de"]
+size = Vector2(20, 65)
+
+[node name="Boss" instance=ExtResource("1_rvfa3")]
+script = ExtResource("2_ym8d5")
+xp_amount = 100
+score_amount = 110000
+music = ExtResource("3_ti5w5")
+
+[node name="Camera" parent="." index="1"]
+limit_right = 256
+
+[node name="Floor" parent="." index="2"]
+offset_top = 216.0
+offset_bottom = 249.0
+texture = null
+
+[node name="Player" parent="." index="3"]
+position = Vector2(39, 189)
+
+[node name="Boss" type="CharacterBody2D" parent="." index="4"]
+position = Vector2(201, 188)
+script = ExtResource("4_exksf")
+character_name = "Godzilliz"
+
+[node name="WalkBody" type="Sprite2D" parent="Boss" index="0"]
+position = Vector2(16, 9)
+texture = ExtResource("3_gl3fo")
+offset = Vector2(0.5, 0.5)
+flip_h = true
+hframes = 8
+region_rect = Rect2(298, 0, 42, 37)
+
+[node name="WalkHead" type="Sprite2D" parent="Boss/WalkBody" index="0"]
+position = Vector2(-17, -32)
+texture = ExtResource("4_ct3fj")
+offset = Vector2(0.5, 0.5)
+flip_h = true
+hframes = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boss" index="1"]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_th4de")
+
+[node name="HealthComponent" type="Node" parent="Boss" index="2"]
+script = ExtResource("7_4yohv")
+max_value = 48.0
+enemy = true
+
+[node name="PowerComponent" type="Node" parent="Boss" index="3"]
+script = ExtResource("8_mt5qq")
+value = 48.0
+max_value = 48.0
+
+[node name="HUD" parent="." index="5" node_paths=PackedStringArray("boss")]
+boss = NodePath("../Boss")
+boss_bar_color = Color(0.709804, 0.188235, 0.12549, 1)
+
+[connection signal="boss_timer_timeout" from="HUD" to="." method="_on_hud_boss_timer_timeout"]

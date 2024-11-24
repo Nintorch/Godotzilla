@@ -1,5 +1,5 @@
 class_name PlayerCharacter
-extends CharacterBody2D
+extends GameCharacter
 
 #region General constants, variables and signals
 
@@ -53,8 +53,6 @@ var direction: int = 1:
 		if is_instance_valid(skin) and value != 0:
 			skin.scale.x = value
 
-@onready var health: HealthComponent = $HealthComponent
-@onready var power: PowerComponent = $PowerComponent
 @onready var attack: AttackComponent = $AttackComponent
 @onready var state: StateMachine = $StateMachine
 

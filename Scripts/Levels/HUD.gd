@@ -1,7 +1,7 @@
 extends CanvasLayer
 
-@export var player: PlayerCharacter = null
-@export var boss: PlayerCharacter = null
+@export var player: GameCharacter = null
+@export var boss: GameCharacter = null
 @export var boss_bar_color: Color
 @export var boss_timer_seconds := 60
 
@@ -30,7 +30,8 @@ func _ready() -> void:
 	
 	# Setup the boss bars if there's a boss in the scene
 	if is_instance_valid(boss):
-		await boss.character_ready
+		if boss is PlayerCharacter:
+			await (boss as PlayerCharacter).character_ready
 		setup_character_listener(boss, $BossCharacter)
 		
 		$BgRect.size.y = 72
@@ -57,7 +58,7 @@ func _ready() -> void:
 		vertical_size = 48
 		$BossCharacter.visible = false
 		
-func setup_character_listener(character: PlayerCharacter, group: Node2D) -> void:
+func setup_character_listener(character: GameCharacter, group: Node2D) -> void:
 	# Set the character's name in the HUD
 	group.get_node("CharacterName").text = character.get_character_name()
 	
@@ -66,7 +67,17 @@ func setup_character_listener(character: PlayerCharacter, group: Node2D) -> void
 	
 	# Initial life/power bars and/or level text setup
 	
-	update_character_level(group, character.level, int(character.health.max_value / 8))
+	if character is PlayerCharacter:
+		update_character_level(group, (character as PlayerCharacter).level,
+			int(character.health.max_value / 8))
+			
+		# Update the character level (life/power bars and/or level text)
+		(character as PlayerCharacter).level_amount_changed.connect(
+			func(new_value: int, new_bar_count: int) -> void:
+				update_character_level(group, new_value, new_bar_count)
+				)
+	else:
+		update_character_level(group, 0, int(character.health.max_value / 8))
 	
 	life_bar.initial_value = character.health.value
 	life_bar.target_value = character.health.value
@@ -76,12 +87,6 @@ func setup_character_listener(character: PlayerCharacter, group: Node2D) -> void
 	character.health.value_changed.connect(func(new_value: float) -> void:
 		life_bar.target_value = new_value
 		)
-	
-	# Update the character level (life/power bars and/or level text)
-	character.level_amount_changed.connect(
-		func(new_value: int, new_bar_count: int) -> void:
-			update_character_level(group, new_value, new_bar_count)
-			)
 	
 	# Update the power bar
 	character.power.value_changed.connect(func(new_value: float) -> void:
