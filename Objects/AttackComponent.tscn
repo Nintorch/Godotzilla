@@ -1,22 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bi7wq6b7la5ki"]
+[gd_scene load_steps=2 format=3 uid="uid://bi7wq6b7la5ki"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/Attacks/AttackComponent.gd" id="1_kmts1"]
-[ext_resource type="Script" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="2_befmy"]
-
-[sub_resource type="Resource" id="Resource_u4c56"]
-script = ExtResource("2_befmy")
-name = ""
-type = 0
-damage_amount = 0.0
-hurt_time = -1.0
-animation_name = ""
-animation_name2 = ""
-hitbox_name = ""
-start_time_offset = 0.0
 
 [node name="AttackComponent" type="Node2D"]
 script = ExtResource("1_kmts1")
-attacks = Array[ExtResource("2_befmy")]([SubResource("Resource_u4c56")])
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 8

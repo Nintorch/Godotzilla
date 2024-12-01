@@ -32,7 +32,6 @@ position = Vector2(39, 189)
 [node name="Boss" type="CharacterBody2D" parent="." index="4"]
 position = Vector2(201, 188)
 script = ExtResource("4_exksf")
-character_name = "Godzilliz"
 
 [node name="WalkBody" type="Sprite2D" parent="Boss" index="0"]
 position = Vector2(16, 9)

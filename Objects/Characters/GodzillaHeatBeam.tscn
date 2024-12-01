@@ -1,8 +1,9 @@
-[gd_scene load_steps=29 format=3 uid="uid://twku26u8n2dy"]
+[gd_scene load_steps=31 format=3 uid="uid://twku26u8n2dy"]
 
 [ext_resource type="Texture2D" uid="uid://bg00wrudw7pi5" path="res://Sprites/Characters/Godzilla/heat_beam.png" id="1_g23gd"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/Godzilla/GodzillaHeatBeam.gd" id="2_opyea"]
 [ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="3_acgqs"]
+[ext_resource type="Script" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_t4p4k"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6fyik"]
 atlas = ExtResource("1_g23gd")
@@ -185,6 +186,19 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Resource" id="Resource_l0eq5"]
+script = ExtResource("4_t4p4k")
+name = "HeatBeam"
+type = 1
+damage_amount = 24.0
+hitbox_name = ""
+other_information = Array[String]([])
+hurt_time = -1.0
+start_time_offset = 0.0
+animation_name = ""
+animation_name2 = ""
+time_length = 1.0
+
 [node name="GodzillaHeatBeam" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_5qopn")
 offset = Vector2(0, 1)
@@ -194,12 +208,8 @@ script = ExtResource("2_opyea")
 wait_time = 0.05
 autostart = true
 
-[node name="DestroyTimer" type="Timer" parent="."]
-one_shot = true
-
 [node name="AttackComponent" parent="." instance=ExtResource("3_acgqs")]
-attack_always = true
+attacks = Array[ExtResource("4_t4p4k")]([SubResource("Resource_l0eq5")])
 
 [connection signal="timeout" from="FlashTimer" to="." method="_on_timer_timeout"]
-[connection signal="timeout" from="DestroyTimer" to="." method="_on_destroy_timer_timeout"]
 [connection signal="attacked" from="AttackComponent" to="." method="_on_attack_component_attacked"]

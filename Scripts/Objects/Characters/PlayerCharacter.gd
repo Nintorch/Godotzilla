@@ -139,7 +139,6 @@ func change_skin(new_skin: PlayerSkin) -> void:
 	setup_character(skin)
 	
 func setup_character(skin: PlayerSkin) -> void:
-	attack.hitboxes = skin.get_node("Hitboxes")
 	set_collision(skin.get_node("Collision"))
 	# Bar count is set on the board via the board piece character data
 	move_state = skin.move_state
@@ -150,6 +149,10 @@ func setup_character(skin: PlayerSkin) -> void:
 	
 	get_sfx("Step").stream = skin.step_sfx
 	get_sfx("Roar").stream = skin.roar_sfx
+	
+	attack.hitboxes = skin.attack_hitboxes
+	attack.attack_animation_player = skin.attack_animation_player
+	attack.attacks.assign(skin.attacks)
 	
 #region Input related
 	

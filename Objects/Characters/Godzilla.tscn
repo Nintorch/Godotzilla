@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://d3shtbcndg6wf"]
+[gd_scene load_steps=74 format=3 uid="uid://d3shtbcndg6wf"]
 
 [ext_resource type="Texture2D" uid="uid://c3qwhre32yggp" path="res://Sprites/Characters/Godzilla/walk_body.png" id="1_3sn8y"]
 [ext_resource type="Texture2D" uid="uid://c8vjp0lgjim3x" path="res://Sprites/Characters/Godzilla/crouch.png" id="1_7wdfd"]
@@ -13,6 +13,46 @@
 [ext_resource type="Texture2D" uid="uid://b3aqq06ew63k8" path="res://Sprites/Characters/Godzilla/kick2.png" id="3_vxmse"]
 [ext_resource type="Texture2D" uid="uid://bsu6rokyd5rmu" path="res://Sprites/Characters/Godzilla/tail_whip.png" id="4_3ah1i"]
 [ext_resource type="Texture2D" uid="uid://cp7yo85faut6q" path="res://Sprites/Characters/Godzilla/punch2.png" id="4_7jbwm"]
+[ext_resource type="Script" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_myvd7"]
+
+[sub_resource type="Resource" id="Resource_i1ivt"]
+script = ExtResource("4_myvd7")
+name = "Punch"
+type = 0
+damage_amount = 2.0
+hitbox_name = "Punch"
+other_information = Array[String]([])
+hurt_time = -1.0
+start_time_offset = 0.0
+animation_name = "Punch1"
+animation_name2 = "Punch2"
+time_length = -1.0
+
+[sub_resource type="Resource" id="Resource_vdkid"]
+script = ExtResource("4_myvd7")
+name = "Kick"
+type = 0
+damage_amount = 2.0
+hitbox_name = "Kick"
+other_information = Array[String]([])
+hurt_time = -1.0
+start_time_offset = 0.0
+animation_name = "Kick1"
+animation_name2 = "Kick2"
+time_length = -1.0
+
+[sub_resource type="Resource" id="Resource_tcgfr"]
+script = ExtResource("4_myvd7")
+name = "TailWhip"
+type = 0
+damage_amount = 2.0
+hitbox_name = "TailWhip"
+other_information = Array[String]([])
+hurt_time = -1.0
+start_time_offset = 0.16
+animation_name = "TailWhip"
+animation_name2 = ""
+time_length = -1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r5110"]
 atlas = ExtResource("2_pgjrr")
@@ -933,11 +973,14 @@ size = Vector2(30, 26)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oeti2"]
 size = Vector2(50, 35)
 
-[node name="Character" type="Node2D"]
+[node name="Character" type="Node2D" node_paths=PackedStringArray("attack_animation_player", "attack_hitboxes")]
 script = ExtResource("1_gfjpc")
 character_name = "Godzilla"
 step_sfx = ExtResource("2_1c4ag")
 roar_sfx = ExtResource("3_vj2ms")
+attack_animation_player = NodePath("AnimationPlayer")
+attack_hitboxes = NodePath("Hitboxes")
+attacks = Array[ExtResource("4_myvd7")]([SubResource("Resource_i1ivt"), SubResource("Resource_vdkid"), SubResource("Resource_tcgfr")])
 
 [node name="Body" type="AnimatedSprite2D" parent="."]
 position = Vector2(-16.5, 8.5)

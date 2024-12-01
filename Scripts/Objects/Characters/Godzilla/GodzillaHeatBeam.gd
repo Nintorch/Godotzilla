@@ -1,7 +1,6 @@
 extends AnimatedSprite2D
 
 @onready var flash_timer := $FlashTimer
-@onready var destroy_timer := $DestroyTimer
 @onready var attack: AttackComponent = $AttackComponent
 
 var player: PlayerCharacter
@@ -21,7 +20,8 @@ func _ready() -> void:
 	
 func start() -> void:
 	visible = true
-	destroy_timer.start()
+	await attack.start_attack("HeatBeam")
+	queue_free()
 	
 func _physics_process(_delta: float) -> void:
 	position.y = player.save_position[id].y - id - player.position.y
@@ -32,9 +32,6 @@ func _on_timer_timeout() -> void:
 	else:
 		animation = "default"
 	frame = id
-
-func _on_destroy_timer_timeout() -> void:
-	queue_free()
 
 func _on_attack_component_attacked(body: Node2D, _amount: float) -> void:
 	for particle in particle_array:

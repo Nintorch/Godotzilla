@@ -19,6 +19,11 @@ extends Node2D
 @export var step_sfx: AudioStream
 @export var roar_sfx: AudioStream
 
+@export_group("Attacks")
+@export var attack_animation_player: AnimationPlayer
+@export var attack_hitboxes: Node 
+@export var attacks: Array[AttackDescription]
+
 @onready var player: PlayerCharacter
 
 func _ready() -> void:

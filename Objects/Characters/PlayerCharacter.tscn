@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bdedrxocj46sr"]
+[gd_scene load_steps=18 format=3 uid="uid://bdedrxocj46sr"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/PlayerCharacter.gd" id="1_c8c0q"]
 [ext_resource type="PackedScene" uid="uid://camascwoory5h" path="res://Objects/HealthComponent.tscn" id="3_bws3y"]
@@ -15,46 +15,12 @@
 [ext_resource type="AudioStream" uid="uid://bnpu85disxvis" path="res://Audio/SFX/GodzillaHeatBeam.wav" id="11_y38wb"]
 [ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="12_re2uk"]
 [ext_resource type="AudioStream" uid="uid://clfqyu3fby0tv" path="res://Audio/SFX/LevelUp.wav" id="13_l1dc3"]
-[ext_resource type="Script" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="16_uw7gf"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ywk1q"]
 font_size = 8
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ge4p2"]
 size = Vector2(36, 6)
-
-[sub_resource type="Resource" id="Resource_i1ivt"]
-script = ExtResource("16_uw7gf")
-name = "Punch"
-type = 0
-damage_amount = 2.0
-hurt_time = -1.0
-animation_name = "Punch1"
-animation_name2 = "Punch2"
-hitbox_name = "Punch"
-start_time_offset = 0.0
-
-[sub_resource type="Resource" id="Resource_vdkid"]
-script = ExtResource("16_uw7gf")
-name = "Kick"
-type = 0
-damage_amount = 2.0
-hurt_time = -1.0
-animation_name = "Kick1"
-animation_name2 = "Kick2"
-hitbox_name = "Kick"
-start_time_offset = 0.0
-
-[sub_resource type="Resource" id="Resource_tcgfr"]
-script = ExtResource("16_uw7gf")
-name = "TailWhip"
-type = 0
-damage_amount = 2.0
-hurt_time = -1.0
-animation_name = "TailWhip"
-animation_name2 = ""
-hitbox_name = "TailWhip"
-start_time_offset = 0.15
 
 [node name="PlayerCharacter" type="CharacterBody2D"]
 collision_mask = 2
@@ -138,7 +104,6 @@ invincibility_time_seconds = 0.5
 [node name="PowerComponent" parent="." instance=ExtResource("4_434eu")]
 
 [node name="AttackComponent" parent="." instance=ExtResource("5_cce5b")]
-attacks = Array[ExtResource("16_uw7gf")]([SubResource("Resource_i1ivt"), SubResource("Resource_vdkid"), SubResource("Resource_tcgfr")])
 
 [connection signal="damaged" from="HealthComponent" to="." method="_on_health_damaged"]
 [connection signal="dead" from="HealthComponent" to="." method="_on_health_dead"]
