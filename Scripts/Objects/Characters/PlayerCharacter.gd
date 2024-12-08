@@ -147,8 +147,14 @@ func setup_character(skin: PlayerSkin) -> void:
 		position.x = skin.level_intro_x_start
 		position.y += skin.level_intro_y_offset
 	
-	get_sfx("Step").stream = skin.step_sfx
-	get_sfx("Roar").stream = skin.roar_sfx
+	var sfx_group := get_node("SFX")
+	if skin.has_node("SFX"):
+		for sfx: Node in skin.get_node("SFX").get_children():
+			if sfx is AudioStreamPlayer:
+				if sfx_group.has_node(NodePath(sfx.name)):
+					sfx_group.remove_child(sfx_group.get_node(NodePath(sfx.name)))
+				sfx.reparent(sfx_group)
+				
 	
 	attack.hitboxes = skin.attack_hitboxes
 	attack.attack_animation_player = skin.attack_animation_player

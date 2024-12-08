@@ -4,7 +4,6 @@ const VELOCITY := Vector2(-1 * 60, 0.5 * 60)
 const EXPLOSION := preload("res://Objects/Levels/Explosion.tscn")
 
 @onready var destroy_sfx: AudioStreamPlayer = $DestroySFX
-@onready var attack_component: Node2D = $AttackComponent
 
 func _process(delta: float) -> void:
 	position += VELOCITY * delta

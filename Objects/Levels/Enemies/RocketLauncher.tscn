@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://c1nseuiv0k6ax"]
+[gd_scene load_steps=12 format=3 uid="uid://c1nseuiv0k6ax"]
 
 [ext_resource type="PackedScene" uid="uid://bvoxqi1x6lk52" path="res://Objects/Levels/Enemies/BaseEnemy.tscn" id="1_rx4fb"]
 [ext_resource type="Script" path="res://Scripts/Objects/Enemies/RocketLauncher.gd" id="2_5wmul"]
 [ext_resource type="Texture2D" uid="uid://bc3bfeis78o8y" path="res://Sprites/Objects/Enemies/RocketLauncher.png" id="2_p5nvc"]
+[ext_resource type="Script" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="3_2nqwn"]
 
 [sub_resource type="Animation" id="Animation_1n8n6"]
 length = 0.001
@@ -99,9 +100,9 @@ script = ExtResource("2_5wmul")
 [node name="HealthComponent" parent="." index="0"]
 max_value = 1.0
 
-[node name="AttackComponent" parent="." index="1" node_paths=PackedStringArray("default_hitbox")]
-should_attack = false
-default_hitbox = NodePath("../CollisionShape2D")
+[node name="AttackComponent" parent="." index="1"]
+initial_attack = ""
+attacks = Array[ExtResource("3_2nqwn")]([])
 
 [node name="Sprite2D" type="Sprite2D" parent="." index="2"]
 position = Vector2(0, -8)

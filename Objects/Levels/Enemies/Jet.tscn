@@ -106,9 +106,6 @@ script = ExtResource("2_oq0b1")
 [node name="HealthComponent" parent="." index="0"]
 max_value = 1.0
 
-[node name="AttackComponent" parent="." index="1" node_paths=PackedStringArray("default_hitbox")]
-default_hitbox = NodePath("../CollisionShape2D")
-
 [node name="CollisionShape2D" parent="." index="2"]
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_e8sqc")

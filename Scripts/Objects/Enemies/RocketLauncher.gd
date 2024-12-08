@@ -31,6 +31,7 @@ func launch() -> void:
 
 func _on_health_component_dead() -> void:
 	$HealthComponent.queue_free()
+	$AttackComponent.queue_free()
 	launched = true
 	start_destroy_sfx()
 	

@@ -1,10 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://cqrpbxce3xquu"]
+[gd_scene load_steps=22 format=3 uid="uid://cqrpbxce3xquu"]
 
 [ext_resource type="Texture2D" uid="uid://nhpib3frkqrg" path="res://Sprites/Characters/Mothra/hurt.png" id="1_64xd3"]
 [ext_resource type="Texture2D" uid="uid://dh0gtj20jut25" path="res://Sprites/Characters/Mothra/idle.png" id="1_f6h4m"]
 [ext_resource type="Script" path="res://Scripts/Objects/Characters/Mothra/Main.gd" id="1_p8tms"]
 [ext_resource type="AudioStream" uid="uid://d3q5gj1fhphte" path="res://Audio/SFX/MothraStep.wav" id="2_p6fl7"]
 [ext_resource type="AudioStream" uid="uid://ccjlv2riqxvf3" path="res://Audio/SFX/MothraRoar.wav" id="3_kfkrj"]
+[ext_resource type="AudioStream" uid="uid://deo2ts4xdwwce" path="res://Audio/SFX/CharPunch.wav" id="6_ysyw7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w0xxw"]
 atlas = ExtResource("1_64xd3")
@@ -204,3 +205,17 @@ position = Vector2(-4, 1)
 shape = SubResource("RectangleShape2D_ta221")
 
 [node name="Hitboxes" type="Node" parent="."]
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="Step" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("2_p6fl7")
+bus = &"SFX"
+
+[node name="Roar" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("3_kfkrj")
+bus = &"SFX"
+
+[node name="Punch" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("6_ysyw7")
+bus = &"SFX"

@@ -1,12 +1,27 @@
-[gd_scene load_steps=6 format=3 uid="uid://ctvc76vle1gei"]
+[gd_scene load_steps=8 format=3 uid="uid://ctvc76vle1gei"]
 
 [ext_resource type="Texture2D" uid="uid://dh1lle66u4pmf" path="res://Sprites/Objects/Enemies/Jet.png" id="1_654l8"]
 [ext_resource type="Script" path="res://Scripts/Objects/Enemies/JetProjectile.gd" id="1_fygt2"]
 [ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="2_373u2"]
 [ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="4_h0tpx"]
+[ext_resource type="Script" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_vdb01"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_af28v"]
 size = Vector2(8, 2)
+
+[sub_resource type="Resource" id="Resource_107ip"]
+script = ExtResource("4_vdb01")
+name = "Main"
+type = 2
+damage_amount = 2.0
+hitbox_name = "Collision"
+other_information = Array[String]([])
+hurt_time = -1.0
+start_time_offset = 0.0
+animation_name = ""
+animation_name2 = ""
+time_length = -1.0
+reset_animation_after = true
 
 [node name="JetProjectile" type="Node2D"]
 script = ExtResource("1_fygt2")
@@ -16,12 +31,14 @@ texture = ExtResource("1_654l8")
 region_enabled = true
 region_rect = Rect2(78, 0, 8, 2)
 
-[node name="AttackComponent" parent="." node_paths=PackedStringArray("default_hitbox") instance=ExtResource("2_373u2")]
-enemy = true
-default_hitbox = NodePath("Collision")
-
-[node name="Collision" type="CollisionShape2D" parent="AttackComponent"]
+[node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_af28v")
+
+[node name="AttackComponent" parent="." node_paths=PackedStringArray("hitboxes") instance=ExtResource("2_373u2")]
+hitboxes = NodePath("..")
+enemy = true
+initial_attack = "Main"
+attacks = Array[ExtResource("4_vdb01")]([SubResource("Resource_107ip")])
 
 [node name="DestroySFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_h0tpx")

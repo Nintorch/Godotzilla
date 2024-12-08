@@ -198,6 +198,7 @@ start_time_offset = 0.0
 animation_name = ""
 animation_name2 = ""
 time_length = 1.0
+reset_animation_after = true
 
 [node name="GodzillaHeatBeam" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_5qopn")

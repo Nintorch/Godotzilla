@@ -5,24 +5,32 @@ extends Node2D
 ## A node that has attack hitboxes as its children
 @export var hitboxes: Node
 @export var enemy := false
+@export var initial_attack: String
 @export var attacks: Array[AttackDescription]
 @export var objects_to_ignore: Array[Node2D]
 
 @onready var area_2d: Area2D = $Area2D
+@onready var sfx_player: AudioStreamPlayer = $SFXPlayer
 
 var current_attack: AttackDescription = null
 var variation := false
 # We don't want to attack a body multiple times in the same attack
 var attacked_bodies: Array[Node2D] = []
-var attack_started := false
+var _attack_started := false
 
 signal body_attacked(body: Node2D, attack: AttackDescription)
 # DEPRECATED: Signal for compatibility reasons
 signal attacked(body: Node2D, amount: float)
+signal attack_started(attack: AttackDescription)
+signal attack_finished(attack: AttackDescription)
+
+func _ready() -> void:
+	if initial_attack != "":
+		start_attack(initial_attack)
 
 func _process(delta: float) -> void:
 	if (current_attack != null
-		and current_attack.type == AttackDescription.Type.CONTINUOUS):
+		and current_attack.type != AttackDescription.Type.ONE_TIME):
 			attack_bodies()
 	
 func start_attack(attack_name: String) -> void:
@@ -35,6 +43,10 @@ func start_attack(attack_name: String) -> void:
 	if current_attack == null:
 		printerr("Unknown attack: " + attack_name)
 		return
+		
+	sfx_player.stream = current_attack.sfx
+	sfx_player.play()
+	attack_started.emit(current_attack)
 	
 	if current_attack.animation_name != "" and current_attack.animation_name2 != "":
 		variation = not variation
@@ -42,22 +54,21 @@ func start_attack(attack_name: String) -> void:
 			else current_attack.animation_name2)
 	elif current_attack.animation_name != "":
 		attack_animation_player.play(current_attack.animation_name)
-	elif current_attack.time_length < 0.0:
-		printerr("No attack animation was assigned to attack " + attack_name +
-			" but the Time Length property is still negative.")
-		return
-		
+	elif (current_attack.time_length < 0.0
+		and current_attack.type != AttackDescription.Type.LASTS_FOREVER):
+			printerr("No attack animation was assigned to attack " + attack_name +
+				" but the Time Length property is still negative.")
+			return
+	
 	if current_attack.start_time_offset <= 0.0:
-		attack_started = true
+		_attack_started = true
 	else:
 		await get_tree().create_timer(current_attack.start_time_offset, false).timeout
 		# The attack could've been requested to be stopped by now
 		# (For example, the player could've been hit)
-		if current_attack != null:
-			attack_started = true
-		else:
-			printerr("The attack has been stopped after an await in AttackComponent.gd")
+		if current_attack == null:
 			return
+		_attack_started = true
 	
 	if current_attack.hitbox_name != "":
 		set_hitbox_template(current_attack.hitbox_name)
@@ -67,18 +78,27 @@ func start_attack(attack_name: String) -> void:
 		await get_tree().process_frame
 		await get_tree().process_frame
 		attack_bodies()
-	else:
+		
+	if current_attack.type != AttackDescription.Type.LASTS_FOREVER:
 		if current_attack.time_length < 0.0:
 			await attack_animation_player.animation_finished
 		else:
 			await get_tree().create_timer(current_attack.time_length, false).timeout
-	
-	stop_attack()
+		
+		stop_attack()
 	
 func stop_attack() -> void:
+	if current_attack == null:
+		return
+	var save_attack := current_attack
 	current_attack = null
+	attack_finished.emit(save_attack)
 	set_hitbox_node(null, Vector2.ZERO)
 	attacked_bodies = []
+	if (save_attack.reset_animation_after
+		and is_instance_valid(attack_animation_player)
+		and attack_animation_player.has_animation("RESET")):
+			attack_animation_player.play("RESET")
 	
 func attack_bodies() -> void:
 	var bodies := area_2d.get_overlapping_bodies()

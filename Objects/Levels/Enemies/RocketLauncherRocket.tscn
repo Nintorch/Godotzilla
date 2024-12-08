@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://kd587533e5l4"]
+[gd_scene load_steps=11 format=3 uid="uid://kd587533e5l4"]
 
 [ext_resource type="Texture2D" uid="uid://dnubo4iltw3px" path="res://Sprites/Objects/Enemies/RocketLauncherRocket.png" id="1_0euw7"]
 [ext_resource type="Script" path="res://Scripts/Objects/Enemies/RocketLauncherRocket.gd" id="1_1tm2y"]
 [ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="3_y14pf"]
 [ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="4_7tx0r"]
+[ext_resource type="Script" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_tpabq"]
 
 [sub_resource type="Animation" id="Animation_s4816"]
 length = 0.001
@@ -69,6 +70,20 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2iivk"]
 size = Vector2(16, 16)
 
+[sub_resource type="Resource" id="Resource_2n60p"]
+script = ExtResource("4_tpabq")
+name = "Main"
+type = 2
+damage_amount = 2.0
+hitbox_name = "CollisionShape2D"
+other_information = Array[String]([])
+hurt_time = -1.0
+start_time_offset = 0.0
+animation_name = ""
+animation_name2 = ""
+time_length = -1.0
+reset_animation_after = true
+
 [node name="RocketLauncherRocket" type="Node2D"]
 script = ExtResource("1_1tm2y")
 
@@ -81,12 +96,14 @@ libraries = {
 "": SubResource("AnimationLibrary_vwlvx")
 }
 
-[node name="AttackComponent" parent="." node_paths=PackedStringArray("default_hitbox") instance=ExtResource("3_y14pf")]
-enemy = true
-default_hitbox = NodePath("CollisionShape2D")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackComponent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_2iivk")
+
+[node name="AttackComponent" parent="." node_paths=PackedStringArray("hitboxes") instance=ExtResource("3_y14pf")]
+hitboxes = NodePath("..")
+enemy = true
+initial_attack = "Main"
+attacks = Array[ExtResource("4_tpabq")]([SubResource("Resource_2n60p")])
 
 [node name="DestroySFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_7tx0r")
