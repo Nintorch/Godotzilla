@@ -60,6 +60,7 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var level := 1
 var xp := 0
 var save_position: Array[Vector2]
+var _intro_ended := false
 
 var body: AnimatedSprite2D
 var skin: PlayerSkin
@@ -73,6 +74,8 @@ signal xp_amount_changed(new_value: int)
 #endregion
 
 func _ready() -> void:
+	intro_ended.connect(func() -> void: _intro_ended = true)
+	
 	if is_player:
 		Global.player = self
 		if enable_intro:
@@ -141,8 +144,9 @@ func setup_character(skin: PlayerSkin) -> void:
 	# Bar count is set on the board via the board piece character data
 	move_state = skin.move_state
 	move_speed = skin.move_speed * 60
-	if state.current == State.LEVEL_INTRO and is_player and enable_intro:
+	if state.current == State.LEVEL_INTRO and enable_intro:
 		position.x = skin.intro_start_x
+	if not _intro_ended:
 		position.y += skin.intro_y_offset
 	
 	attack.hitboxes = skin.attack_hitboxes

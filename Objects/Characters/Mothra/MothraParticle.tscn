@@ -97,7 +97,7 @@ script = ExtResource("2_v1kq8")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_4aq1u")
+&"": SubResource("AnimationLibrary_4aq1u")
 }
 
 [node name="AttackComponent" parent="." instance=ExtResource("3_f4212")]

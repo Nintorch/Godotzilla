@@ -41,7 +41,7 @@ func setup(init_type: Type, player: PlayerCharacter) -> void:
 			velocity = Vector2(randi_range(2, 10) * 0.1 * 60 * player.direction,
 							randi_range(6, 9) * 0.1 * 60)
 							
-	attack_component.attacked.connect(func(_body: Node2D, _amount: float) -> void:
+	attack_component.attacked.connect(func(_body: Node2D, _attack: AttackDescription) -> void:
 		queue_free()
 		)
 			

@@ -12,7 +12,7 @@ func _ready() -> void:
 	player.intro_ended.connect(boss_ai_start)
 	player.health.dead.connect(boss_ai_stop)
 	
-	boss.health.damaged.connect(func(amount: float, _hurt_time: float) -> void:
+	boss.health.damaged.connect(func(amount: float, _attack: AttackDescription) -> void:
 		Global.add_score(20 * int(amount))
 		)
 	boss.health.dead.connect(func() -> void:

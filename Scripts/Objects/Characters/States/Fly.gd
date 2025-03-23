@@ -19,7 +19,7 @@ func move(delta: float) -> void:
 	if camera != null:
 		ylimit += camera.limit_top
 		if camera.is_camera_moving():
-			xspeed = player.skin.flying_move_speed_2
+			xspeed = player.skin.flying_move_speed_2 * 60
 		
 	player.velocity.x = signf(player.inputs[player.Inputs.XINPUT]) * xspeed
 	player.velocity.y = signf(player.inputs[player.Inputs.YINPUT]) * player.move_speed
