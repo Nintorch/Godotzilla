@@ -142,7 +142,7 @@ func input_selector_process() -> void:
 					[END_POS.x, alphabet[0].length()]
 				]
 				
-				for pos: Array[int] in special_positions:
+				for pos: Array in special_positions:
 					if input_selector_position.x in range(pos[0], pos[1]):
 						input_selector_position.x = pos[0]
 						

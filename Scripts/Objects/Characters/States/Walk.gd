@@ -1,3 +1,4 @@
+class_name PlayerStateWalk
 extends "res://Scripts/Objects/Characters/States/PlayerState.gd"
 
 # Move state is used for characters that walk on the ground.

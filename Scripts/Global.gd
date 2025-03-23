@@ -6,7 +6,7 @@ const SCORE_MAX := 9999999
 var main: Node2D
 
 var _fade_player: AnimationPlayer
-var _fader: ColorRect
+var _fader: ShaderMaterial
 
 ## AudioStreamPlayer node dedicated to playing music in the game
 var music: AudioStreamPlayer
@@ -110,7 +110,7 @@ func add_score(value: int, delta: int = 20) -> void:
 
 ## Changes the current scene to the specified Node reference
 func change_scene_node(node: Node, free := true) -> void:
-	var curscene_parent := main.get_node("CurrentScene")
+	var curscene_parent: Node = main.get_scene_container()
 	var curscene := curscene_parent.get_child(0)
 	
 	curscene_parent.remove_child(curscene)
@@ -130,7 +130,7 @@ func get_initial_scene() -> PackedScene:
 	
 ## The currently playing scene
 func get_current_scene() -> Node:
-	return main.get_node("CurrentScene").get_child(0)
+	return main.get_scene_container().get_child(0)
 	
 #endregion
 	
@@ -145,13 +145,13 @@ func is_fading() -> bool:
 	return _fade_player.is_playing()
 	
 func is_fade_shown() -> bool:
-	return is_fading() or _fader.modulate.a > 0
+	return is_fading() or _fader.get_shader_parameter("Progress") > 0
 
 func _perform_fade(callable: Callable, pause_game: bool, color: FadeColor) -> void:
 	if pause_game:
 		get_tree().paused = true
 		
-	_fader.color = [Color.BLACK, Color.WHITE][color]
+	_fader.set_shader_parameter("WhiteFade", color == FadeColor.WHITE)
 	callable.call()
 	await _fade_player.animation_finished
 	fade_end.emit()
@@ -177,11 +177,11 @@ func fade_in_paused(color := FadeColor.BLACK) -> void:
 	
 ## Make the game screen visible instantly from fade effect
 func hide_fade() -> void:
-	_fader.modulate.a = 0
+	_fader.set_shader_parameter("Progress", 0.0)
 	
 ## Make the game screen black instantly via fade effect
 func show_fade() -> void:
-	_fader.modulate.a = 1
+	_fader.set_shader_parameter("Progress", 1.0)
 	
 #endregion
 

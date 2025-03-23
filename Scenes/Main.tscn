@@ -1,25 +1,32 @@
-[gd_scene load_steps=9 format=3 uid="uid://du38sf8ro3elu"]
+[gd_scene load_steps=11 format=3 uid="uid://du38sf8ro3elu"]
 
 [ext_resource type="Script" uid="uid://bhoifgsm365tw" path="res://Scripts/Main.gd" id="1_csd2w"]
+[ext_resource type="Shader" uid="uid://cnnerk4s8jbpe" path="res://Other/FadeShader.tres" id="2_v1gob"]
 [ext_resource type="AudioStream" uid="uid://bgfupmtntcg8x" path="res://Audio/SFX/Pause.wav" id="3_iol3x"]
 [ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="3_jlebr"]
 [ext_resource type="AudioStream" uid="uid://byy8g0bpfb65s" path="res://Audio/SFX/BlockDestruct.wav" id="4_oop6x"]
 [ext_resource type="AudioStream" uid="uid://bq6ov0bep762q" path="res://Audio/SFX/MenuBip.wav" id="6_mae3b"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jw32o"]
+shader = ExtResource("2_v1gob")
+shader_parameter/WhiteFade = false
+shader_parameter/Progress = 0.0
+
 [sub_resource type="Animation" id="Animation_xmtka"]
 resource_name = "FadeIn"
 length = 0.3
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Fader:modulate")
+tracks/0/path = NodePath("SubViewportContainer:material:shader_parameter/Progress")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(4.43828, 1, 1, 1.2394e-05),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.666667), Color(1, 1, 1, 0.333333), Color(1, 1, 1, 0)]
+"values": [1.0, 0.67, 0.33, 0.0]
 }
 
 [sub_resource type="Animation" id="Animation_mfy1u"]
@@ -27,26 +34,14 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Fader:color")
+tracks/0/path = NodePath("SubViewportContainer:material:shader_parameter/Progress")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0, 0, 0, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Fader:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Color(1, 1, 1, 1)]
+"values": [0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lb25u"]
@@ -59,23 +54,23 @@ _data = {
 process_mode = 3
 script = ExtResource("1_csd2w")
 
-[node name="CurrentScene" type="Node2D" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_jw32o")
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="CurrentScene" type="Node2D" parent="SubViewportContainer/SubViewport"]
 process_mode = 1
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 bus = &"Music"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-process_mode = 3
-layer = 10
-
-[node name="Fader" type="ColorRect" parent="CanvasLayer"]
-offset_right = 40.0
-offset_bottom = 40.0
-color = Color(0, 0, 0, 1)
-
-[node name="FadePlayer" type="AnimationPlayer" parent="CanvasLayer"]
+[node name="FadePlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_lb25u")
 }

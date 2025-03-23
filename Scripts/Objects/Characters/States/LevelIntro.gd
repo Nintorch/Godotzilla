@@ -9,10 +9,11 @@ func _physics_process(delta: float) -> void:
 	player.velocity.x = player.move_speed
 	
 	if not player.is_flying():
-		move_state.walk_frame = wrapf(
-			move_state.walk_frame + move_state.parameters.walking_walk_animation_speed * delta,
-			0, move_state.walk_frames)
-		player.body.frame = int(move_state.walk_frame)
+		var walk_state := move_state as PlayerStateWalk
+		walk_state.walk_frame = wrapf(
+			walk_state.walk_frame + walk_state.parameters.walking_walk_animation_speed * delta,
+			0, walk_state.walk_frames)
+		player.body.frame = int(walk_state.walk_frame)
 		
 	if not Global.music.playing:
 		if Engine.get_physics_frames() >= player.skin.intro_step_sfx_start \

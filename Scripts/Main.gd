@@ -8,8 +8,8 @@ var wait_before_start_flag := false
 func _ready() -> void:
 	Global.main = self
 	Global.music = $Music
-	Global._fade_player = $CanvasLayer/FadePlayer
-	Global._fader = $CanvasLayer/Fader
+	Global._fade_player = $FadePlayer
+	Global._fader = $SubViewportContainer.material as ShaderMaterial
 	
 	if wait_before_start:
 		get_tree().paused = true
@@ -25,7 +25,7 @@ func _wait_before_start_func() -> void:
 		start()
 	
 func start() -> void:
-	$CurrentScene.add_child(initial_scene.instantiate())
+	get_scene_container().add_child(initial_scene.instantiate())
 	Global.widescreen_changed.connect(_on_widescreen_change)
 	Global.scene_changed.connect(func(_from: Node, _to: Node) -> void:
 		_on_widescreen_change()
@@ -33,9 +33,12 @@ func start() -> void:
 	
 	Global.hide_fade()
 	_on_widescreen_change()
+	
+func get_scene_container() -> Node:
+	return $SubViewportContainer/SubViewport/CurrentScene
 
 func _on_widescreen_change() -> void:
-	$CanvasLayer/Fader.size = Global.get_content_size()
+	$SubViewportContainer/SubViewport.size = Global.get_content_size()
 	
 	if not Global.get_current_scene() is Node2D:
 		return

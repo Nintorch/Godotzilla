@@ -68,6 +68,9 @@ music = ExtResource("2_ffjsg")
 next_scene = ExtResource("3_kuiql")
 board_id = "earth"
 
+[node name="BoardName" parent="." index="0"]
+visible = true
+
 [node name="Outline" parent="Board" index="0"]
 z_index = -10
 
