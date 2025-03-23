@@ -8,7 +8,6 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 80.0
 offset_bottom = 8.0
-scale = Vector2(0.992631, 1)
 script = ExtResource("1_f4ary")
 
 [node name="Style1" type="Control" parent="." groups=["bar_style"]]

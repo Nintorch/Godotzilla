@@ -12,7 +12,7 @@
 [sub_resource type="Resource" id="Resource_l3d0x"]
 script = ExtResource("4_qw0ix")
 name = "EyeBeam"
-simple_or_advanced = 0
+simple_or_advanced = 1
 other_information = Array[String]([])
 type = 0
 damage_amount = 0.0
@@ -29,7 +29,7 @@ function_name = "attack_eye_beam"
 [sub_resource type="Resource" id="Resource_tkeyd"]
 script = ExtResource("4_qw0ix")
 name = "WingAttack"
-simple_or_advanced = 0
+simple_or_advanced = 1
 other_information = Array[String]([])
 type = 0
 damage_amount = 0.0

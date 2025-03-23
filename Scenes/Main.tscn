@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://du38sf8ro3elu"]
+[gd_scene load_steps=12 format=3 uid="uid://du38sf8ro3elu"]
 
 [ext_resource type="Script" uid="uid://bhoifgsm365tw" path="res://Scripts/Main.gd" id="1_csd2w"]
+[ext_resource type="PackedScene" uid="uid://dhm8bcemuwqfo" path="res://Scenes/Levels/Wilderness.tscn" id="2_jw32o"]
 [ext_resource type="Shader" uid="uid://cnnerk4s8jbpe" path="res://Other/FadeShader.tres" id="2_v1gob"]
 [ext_resource type="AudioStream" uid="uid://bgfupmtntcg8x" path="res://Audio/SFX/Pause.wav" id="3_iol3x"]
 [ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="3_jlebr"]
@@ -14,7 +15,7 @@ shader_parameter/Progress = 0.0
 
 [sub_resource type="Animation" id="Animation_xmtka"]
 resource_name = "FadeIn"
-length = 0.3
+length = 0.4
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -23,10 +24,10 @@ tracks/0/path = NodePath("SubViewportContainer:material:shader_parameter/Progres
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
-"values": [1.0, 0.67, 0.33, 0.0]
+"values": [1.0, 0.75, 0.5, 0.25, 0.0]
 }
 
 [sub_resource type="Animation" id="Animation_mfy1u"]
@@ -53,6 +54,7 @@ _data = {
 [node name="Main" type="Node2D"]
 process_mode = 3
 script = ExtResource("1_csd2w")
+initial_scene = ExtResource("2_jw32o")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_jw32o")
@@ -61,6 +63,7 @@ offset_bottom = 40.0
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
+snap_2d_vertices_to_pixel = true
 render_target_update_mode = 4
 
 [node name="CurrentScene" type="Node2D" parent="SubViewportContainer/SubViewport"]

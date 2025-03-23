@@ -2,7 +2,6 @@ extends Node2D
 
 @export var initial_scene: PackedScene = preload("res://Scenes/TitleScreen.tscn")
 @export var wait_before_start := false # Mostly just a debugging feature
-@onready var canvas_layer: CanvasLayer = $CanvasLayer
 var wait_before_start_flag := false
 
 func _ready() -> void:

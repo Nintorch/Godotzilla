@@ -11,11 +11,6 @@ func _ready() -> void:
 func init() -> void:
 	for i in states_list:
 		i.state_init()
-		if i == states_list[current]:
-			i.enable()
-			i.state_entered()
-		else:
-			i.disable()
 
 ## Don't call this method directly, use "current = your_value_here".
 ## Why? For consistency and for looks :D 
@@ -23,12 +18,10 @@ func _set_state(new_state: int) -> void:
 	if current == new_state:
 		return
 	
-	var old_state_node := states_list[current]
-	var new_state_node := states_list[new_state]
-	
-	old_state_node.state_exited()
-	old_state_node.disable()
-	new_state_node.enable()
-	new_state_node.state_entered()
+	states_list[current].state_exited()
+	for state in states_list:
+		state.disable()
+	states_list[new_state].enable()
+	states_list[new_state].state_entered()
 	
 	current = new_state

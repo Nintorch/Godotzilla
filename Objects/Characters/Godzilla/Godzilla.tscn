@@ -72,7 +72,7 @@ function_name = ""
 [sub_resource type="Resource" id="Resource_oxhfx"]
 script = ExtResource("4_1yni8")
 name = "HeatBeam"
-simple_or_advanced = 0
+simple_or_advanced = 1
 other_information = Array[String]([])
 type = 0
 damage_amount = 0.0

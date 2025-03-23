@@ -145,7 +145,7 @@ func is_fading() -> bool:
 	return _fade_player.is_playing()
 	
 func is_fade_shown() -> bool:
-	return is_fading() or _fader.get_shader_parameter("Progress") > 0
+	return _fader.get_shader_parameter("Progress") > 0
 
 func _perform_fade(callable: Callable, pause_game: bool, color: FadeColor) -> void:
 	if pause_game:

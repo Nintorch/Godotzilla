@@ -1,28 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dy3m74iswj1v"]
+[gd_scene load_steps=6 format=3 uid="uid://dy3m74iswj1v"]
 
 [ext_resource type="Script" uid="uid://ptjqbvajghok" path="res://Scripts/MainMenu/Controls.gd" id="1_pl7kv"]
 [ext_resource type="Texture2D" uid="uid://dewcb08w13bxc" path="res://Sprites/controller.png" id="2_nqnh2"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="3_alnrf"]
-
-[sub_resource type="Shader" id="Shader_j23ok"]
-code = "shader_type canvas_item;
-
-void vertex() {
-	// Called for every vertex the material is visible on.
-}
-
-void fragment() {
-	vec3 a = 
-}
-
-//void light() {
-//	// Called for every pixel for every light affecting the CanvasItem.
-//	// Uncomment to replace the default light processing function with this one.
-//}
-"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_j23ok"]
-shader = SubResource("Shader_j23ok")
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pvg2g"]
 blend_mode = 1
@@ -31,7 +11,6 @@ blend_mode = 1
 line_spacing = 0.0
 
 [node name="Controls" type="Node2D" groups=["menu"]]
-material = SubResource("ShaderMaterial_j23ok")
 script = ExtResource("1_pl7kv")
 
 [node name="Controller" type="Sprite2D" parent="."]
