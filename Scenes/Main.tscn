@@ -1,7 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://du38sf8ro3elu"]
+[gd_scene load_steps=11 format=3 uid="uid://du38sf8ro3elu"]
 
 [ext_resource type="Script" uid="uid://bhoifgsm365tw" path="res://Scripts/Main.gd" id="1_csd2w"]
-[ext_resource type="PackedScene" uid="uid://dhm8bcemuwqfo" path="res://Scenes/Levels/Wilderness.tscn" id="2_jw32o"]
 [ext_resource type="Shader" uid="uid://cnnerk4s8jbpe" path="res://Other/FadeShader.tres" id="2_v1gob"]
 [ext_resource type="AudioStream" uid="uid://bgfupmtntcg8x" path="res://Audio/SFX/Pause.wav" id="3_iol3x"]
 [ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="3_jlebr"]
@@ -54,7 +53,6 @@ _data = {
 [node name="Main" type="Node2D"]
 process_mode = 3
 script = ExtResource("1_csd2w")
-initial_scene = ExtResource("2_jw32o")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_jw32o")
