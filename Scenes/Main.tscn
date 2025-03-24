@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bhoifgsm365tw" path="res://Scripts/Main.gd" id="1_csd2w"]
 [ext_resource type="AudioStream" uid="uid://bgfupmtntcg8x" path="res://Audio/SFX/Pause.wav" id="3_iol3x"]
-[ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="3_jlebr"]
+[ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/Characters/CharHurt.wav" id="3_jlebr"]
 [ext_resource type="Shader" uid="uid://b1gvyj5igkgmm" path="res://Other/FadeShader.tres" id="3_jw32o"]
-[ext_resource type="AudioStream" uid="uid://byy8g0bpfb65s" path="res://Audio/SFX/BlockDestruct.wav" id="4_oop6x"]
+[ext_resource type="AudioStream" uid="uid://byy8g0bpfb65s" path="res://Audio/SFX/Levels/BlockDestruct.wav" id="4_oop6x"]
 [ext_resource type="AudioStream" uid="uid://bq6ov0bep762q" path="res://Audio/SFX/MenuBip.wav" id="6_mae3b"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_50glp"]

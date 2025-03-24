@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://ctvc76vle1gei"]
+
+[ext_resource type="Texture2D" uid="uid://dh1lle66u4pmf" path="res://Sprites/Objects/Enemies/Jet.png" id="1_654l8"]
+[ext_resource type="Script" uid="uid://j78jcyttajyv" path="res://Scripts/Objects/Enemies/TheEarth/JetProjectile.gd" id="1_fygt2"]
+[ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="2_373u2"]
+[ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/Characters/CharHurt.wav" id="4_h0tpx"]
+[ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_vdb01"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_af28v"]
+size = Vector2(8, 2)
+
+[sub_resource type="Resource" id="Resource_107ip"]
+script = ExtResource("4_vdb01")
+name = "Main"
+simple_or_advanced = 0
+other_information = Array[String]([])
+type = 2
+damage_amount = 2.0
+hitbox_name = "Collision"
+hurt_time = -1.0
+start_time_offset = 0.0
+animation_name = ""
+animation_name2 = ""
+time_length = -1.0
+reset_animation_before = true
+reset_animation_after = true
+function_name = ""
+
+[node name="JetProjectile" type="Node2D"]
+script = ExtResource("1_fygt2")
+
+[node name="Jet" type="Sprite2D" parent="."]
+texture = ExtResource("1_654l8")
+region_enabled = true
+region_rect = Rect2(78, 0, 8, 2)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_af28v")
+
+[node name="AttackComponent" parent="." node_paths=PackedStringArray("hitboxes") instance=ExtResource("2_373u2")]
+hitboxes = NodePath("..")
+enemy = true
+initial_attack = "Main"
+attacks = Array[ExtResource("4_vdb01")]([SubResource("Resource_107ip")])
+
+[node name="DestroySFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_h0tpx")
+bus = &"SFX"
+
+[connection signal="attacked" from="AttackComponent" to="." method="_on_attack_component_attacked"]

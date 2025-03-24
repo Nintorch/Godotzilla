@@ -7,7 +7,7 @@ enum LevelBoundaryType {
 	NEXT_LEVEL,
 }
 
-const GAME_OVER_SCENE := preload("res://Scenes/GameOver.tscn")
+const GAME_OVER_SCENE := preload("uid://chlit8t7aajq7")
 
 @export var music: AudioStream
 @export var bg_color := Color(0, 0, 0)

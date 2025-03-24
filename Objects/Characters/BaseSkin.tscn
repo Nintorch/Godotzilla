@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://2kanj7crlbl5"]
 
 [ext_resource type="Script" uid="uid://4xsybhxrghgq" path="res://Scripts/Objects/Characters/PlayerSkin.gd" id="1_qcc0a"]
-[ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="4_gtq3p"]
-[ext_resource type="AudioStream" uid="uid://clfqyu3fby0tv" path="res://Audio/SFX/LevelUp.wav" id="5_dhix0"]
-[ext_resource type="AudioStream" uid="uid://d2qfi7m3jxc5r" path="res://Audio/SFX/GodzillaStep.wav" id="14_w8djj"]
-[ext_resource type="AudioStream" uid="uid://cjhiq2x7oewnw" path="res://Audio/SFX/GodzillaRoar.wav" id="15_cfayp"]
+[ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/Characters/CharHurt.wav" id="4_gtq3p"]
+[ext_resource type="AudioStream" uid="uid://clfqyu3fby0tv" path="res://Audio/SFX/Characters/LevelUp.wav" id="5_dhix0"]
+[ext_resource type="AudioStream" uid="uid://d2qfi7m3jxc5r" path="res://Audio/SFX/Characters/Godzilla/GodzillaStep.wav" id="14_w8djj"]
+[ext_resource type="AudioStream" uid="uid://cjhiq2x7oewnw" path="res://Audio/SFX/Characters/Godzilla/GodzillaRoar.wav" id="15_cfayp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d8cwk"]
 size = Vector2(20, 65)

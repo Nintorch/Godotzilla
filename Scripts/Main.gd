@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var initial_scene: PackedScene = preload("res://Scenes/TitleScreen.tscn")
+@export var initial_scene: PackedScene = preload("uid://bcqw43w8eilwf")
 @export var wait_before_start := false # Mostly just a debugging feature
 @onready var fade: CanvasLayer = $Fade
 

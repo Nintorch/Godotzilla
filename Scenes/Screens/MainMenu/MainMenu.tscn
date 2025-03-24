@@ -1,0 +1,73 @@
+[gd_scene load_steps=10 format=3 uid="uid://b8f5oi120p3iu"]
+
+[ext_resource type="PackedScene" uid="uid://bjcf4tfdeo6ta" path="res://Scenes/Screens/MainMenu/BaseMenu.tscn" id="1_0ctmj"]
+[ext_resource type="AudioStream" uid="uid://nl06a7xp7bq7" path="res://Audio/Soundtrack/Screens/MainMenu.ogg" id="2_tex8m"]
+[ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="2_xjjqh"]
+[ext_resource type="Script" uid="uid://coasb3najbp48" path="res://Scripts/Screens/MainMenu/MainMenu.gd" id="3_qbfgv"]
+[ext_resource type="PackedScene" uid="uid://bdey4yd06l4t3" path="res://Scenes/Screens/MainMenu/Saves.tscn" id="4_bf7ph"]
+[ext_resource type="PackedScene" uid="uid://lxs5br5r3336" path="res://Scenes/Screens/MainMenu/Settings.tscn" id="5_jak1r"]
+[ext_resource type="PackedScene" uid="uid://bxtvwweer7x10" path="res://Scenes/Screens/MainMenu/VideoSettings.tscn" id="5_w2jg4"]
+[ext_resource type="PackedScene" uid="uid://dk6nkw1ue84ow" path="res://Scenes/Screens/MainMenu/SoundSettings.tscn" id="6_2krn8"]
+[ext_resource type="PackedScene" uid="uid://dy3m74iswj1v" path="res://Scenes/Screens/MainMenu/Controls.tscn" id="6_u2h2c"]
+
+[node name="MainMenu" instance=ExtResource("1_0ctmj")]
+music = ExtResource("2_tex8m")
+
+[node name="MenuMain" parent="." index="1"]
+script = ExtResource("3_qbfgv")
+
+[node name="NewGame" type="Label" parent="MenuMain" index="0" groups=["option"]]
+offset_left = 72.0
+offset_top = 80.0
+offset_right = 200.0
+offset_bottom = 96.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "new game"
+uppercase = true
+
+[node name="Password" type="Label" parent="MenuMain" index="1" groups=["option"]]
+offset_left = 72.0
+offset_top = 104.0
+offset_right = 184.0
+offset_bottom = 115.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "pass word game"
+uppercase = true
+
+[node name="Settings" type="Label" parent="MenuMain" index="2" groups=["option"]]
+offset_left = 72.0
+offset_top = 128.0
+offset_right = 184.0
+offset_bottom = 139.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "settings"
+uppercase = true
+
+[node name="Credits" type="Label" parent="MenuMain" index="3" groups=["option"]]
+offset_left = 72.0
+offset_top = 152.0
+offset_right = 184.0
+offset_bottom = 163.0
+theme_override_fonts/font = ExtResource("2_xjjqh")
+text = "credits"
+uppercase = true
+
+[node name="Saves" parent="." index="2" instance=ExtResource("4_bf7ph")]
+unique_name_in_owner = true
+visible = false
+
+[node name="Settings" parent="." index="3" instance=ExtResource("5_jak1r")]
+unique_name_in_owner = true
+visible = false
+
+[node name="Controls" parent="." index="4" instance=ExtResource("6_u2h2c")]
+unique_name_in_owner = true
+visible = false
+
+[node name="SoundSettings" parent="." index="5" instance=ExtResource("6_2krn8")]
+unique_name_in_owner = true
+visible = false
+
+[node name="VideoSettings" parent="." index="6" instance=ExtResource("5_w2jg4")]
+unique_name_in_owner = true
+visible = false

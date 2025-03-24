@@ -4,8 +4,9 @@ extends Level
 @export var xp_amount := 100
 ## The amount of score the player gets when the boss is defeated
 @export var score_amount := 110000
+@export var victory_music: AudioStream
 
-@onready var boss: PlayerCharacter = $Boss
+@onready var boss: GameCharacter = $Boss
 
 func _ready() -> void:
 	super._ready()
@@ -18,7 +19,7 @@ func _ready() -> void:
 	boss.health.dead.connect(func() -> void:
 		$HUD.boss_timer_second.stop()
 		player.add_xp(xp_amount)
-		Global.play_music(preload("res://Audio/Soundtrack/Victory.ogg"))
+		Global.play_music(victory_music)
 		save_player_state()
 		player_dead(boss, data.boss_piece)
 		Global.add_score(score_amount, 10000)
@@ -54,7 +55,8 @@ func boss_ai_start() -> void:
 	pass
 
 func boss_ai() -> void:
-	printerr("This boss AI has not been coded in or incorrectly overriden")
+	# printerr("This boss AI has not been coded in or incorrectly overriden")
+	pass
 
 func boss_ai_stop() -> void:
 	pass

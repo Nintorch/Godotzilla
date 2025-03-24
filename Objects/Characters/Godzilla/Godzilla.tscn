@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dy7tqloc3iyy3" path="res://Scripts/Objects/Characters/Godzilla/Main.gd" id="2_1ih3s"]
 [ext_resource type="Resource" uid="uid://dsq4b6j824v4x" path="res://Objects/Characters/Godzilla/GodzillaInfo.tres" id="3_0nm4j"]
 [ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_1yni8"]
-[ext_resource type="AudioStream" uid="uid://deo2ts4xdwwce" path="res://Audio/SFX/CharPunch.wav" id="5_acixn"]
+[ext_resource type="AudioStream" uid="uid://deo2ts4xdwwce" path="res://Audio/SFX/Characters/CharPunch.wav" id="5_acixn"]
 [ext_resource type="Texture2D" uid="uid://c8vjp0lgjim3x" path="res://Sprites/Characters/Godzilla/crouch.png" id="6_s5cu2"]
 [ext_resource type="Texture2D" uid="uid://drtem8jbie2f0" path="res://Sprites/Characters/Godzilla/heat_beaming.png" id="7_cu05u"]
 [ext_resource type="Texture2D" uid="uid://c7slof73fr1l6" path="res://Sprites/Characters/Godzilla/hurt.png" id="8_c1gx5"]
@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://huytihc5bj4n" path="res://Sprites/Characters/Godzilla/walk_head.png" id="13_rii3a"]
 [ext_resource type="Texture2D" uid="uid://bhjsxj2v3ms7" path="res://Sprites/Characters/Godzilla/punch1.png" id="14_760c4"]
 [ext_resource type="Texture2D" uid="uid://cp7yo85faut6q" path="res://Sprites/Characters/Godzilla/punch2.png" id="15_xms37"]
-[ext_resource type="AudioStream" uid="uid://bnpu85disxvis" path="res://Audio/SFX/GodzillaHeatBeam.wav" id="16_1ih3s"]
+[ext_resource type="AudioStream" uid="uid://bnpu85disxvis" path="res://Audio/SFX/Characters/Godzilla/GodzillaHeatBeam.wav" id="16_1ih3s"]
 
 [sub_resource type="Resource" id="Resource_knn82"]
 script = ExtResource("4_1yni8")

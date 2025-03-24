@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://dogn70fnkegjc" path="res://Scripts/Objects/Characters/States/Attack.gd" id="5_gtijs"]
 [ext_resource type="Script" uid="uid://dxxerqcy1ap7e" path="res://Scripts/Objects/Characters/States/Hurt.gd" id="5_t6xgh"]
 [ext_resource type="Script" uid="uid://cj0f2i6e2cd5j" path="res://Scripts/Objects/Characters/States/Dead.gd" id="6_b6u5i"]
-[ext_resource type="AudioStream" uid="uid://deo2ts4xdwwce" path="res://Audio/SFX/CharPunch.wav" id="11_npbvd"]
+[ext_resource type="AudioStream" uid="uid://deo2ts4xdwwce" path="res://Audio/SFX/Characters/CharPunch.wav" id="11_npbvd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ywk1q"]
 font_size = 8

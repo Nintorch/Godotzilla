@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c1n8vhgw5br0w" path="res://Sprites/Objects/capsules.png" id="1_0f167"]
 [ext_resource type="Script" uid="uid://pqn0sexvus23" path="res://Scripts/Objects/Capsule.gd" id="2_74wkk"]
-[ext_resource type="AudioStream" uid="uid://btqycedtut0o6" path="res://Audio/SFX/Capsule.wav" id="3_eegh8"]
+[ext_resource type="AudioStream" uid="uid://btqycedtut0o6" path="res://Audio/SFX/Levels/Capsule.wav" id="3_eegh8"]
 
 [sub_resource type="Animation" id="Animation_5m62m"]
 length = 0.001

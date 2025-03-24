@@ -1,6 +1,6 @@
 extends Node
 
-const PAUSE_MENU := preload("res://Scenes/MainMenu/PauseMenu.tscn")
+const PAUSE_MENU := preload("res://Scenes/Screens/MainMenu/PauseMenu.tscn")
 
 var previous_scene: Node
 

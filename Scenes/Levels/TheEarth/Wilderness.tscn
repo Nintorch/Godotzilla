@@ -1,0 +1,123 @@
+[gd_scene load_steps=10 format=3 uid="uid://dhm8bcemuwqfo"]
+
+[ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/BaseLevel.tscn" id="1_rvyoi"]
+[ext_resource type="AudioStream" uid="uid://ij42lx3rq1l1" path="res://Audio/Soundtrack/Levels/Earth.ogg" id="2_p0ue2"]
+[ext_resource type="PackedScene" uid="uid://bliqsom52mx1p" path="res://Objects/Levels/Sky.tscn" id="3_5eg2p"]
+[ext_resource type="Texture2D" uid="uid://d3vfgcp31ia42" path="res://Sprites/Levels/TestLevel/hills.png" id="4_ejcdd"]
+[ext_resource type="Texture2D" uid="uid://c1x100m2wxobm" path="res://Sprites/Levels/TestLevel/GodzillaMoMWilderness.png" id="5_61edf"]
+[ext_resource type="PackedScene" uid="uid://1q6rp0t4rh72" path="res://Objects/Levels/TestLevel/BreakableMountain.tscn" id="6_5jqiu"]
+[ext_resource type="PackedScene" uid="uid://dkwaunrisvrj0" path="res://Objects/Levels/TestLevel/Enemies/YellowShip.tscn" id="7_ua0h7"]
+[ext_resource type="PackedScene" uid="uid://gf7elbg3k3nj" path="res://Objects/Levels/TestLevel/Enemies/Jet.tscn" id="8_u0w6s"]
+[ext_resource type="PackedScene" uid="uid://c1nseuiv0k6ax" path="res://Objects/Levels/TestLevel/Enemies/RocketLauncher.tscn" id="9_87dsk"]
+
+[node name="Level" instance=ExtResource("1_rvyoi")]
+music = ExtResource("2_p0ue2")
+
+[node name="ParallaxLayer" type="Parallax2D" parent="Background" index="0"]
+scroll_scale = Vector2(0, 0)
+
+[node name="Sky" parent="Background/ParallaxLayer" index="0" instance=ExtResource("3_5eg2p")]
+
+[node name="Hills" type="Parallax2D" parent="Background" index="1"]
+scroll_scale = Vector2(0.7, 1)
+repeat_size = Vector2(320, 0)
+repeat_times = 4
+
+[node name="TextureRect" type="TextureRect" parent="Background/Hills" index="0"]
+offset_top = 160.0
+offset_right = 320.0
+offset_bottom = 200.0
+texture = ExtResource("4_ejcdd")
+
+[node name="Camera" parent="." index="1"]
+limit_right = 780
+drag_vertical_enabled = true
+drag_top_margin = 0.05
+drag_bottom_margin = 0.05
+
+[node name="LevelLayout" type="Node2D" parent="." index="2"]
+
+[node name="Rock1" type="Sprite2D" parent="LevelLayout" index="0"]
+z_index = -11
+position = Vector2(120, 176)
+texture = ExtResource("5_61edf")
+region_enabled = true
+region_rect = Rect2(339, 142, 42, 64)
+
+[node name="Rock2" type="Sprite2D" parent="LevelLayout" index="1"]
+z_index = -11
+position = Vector2(160, 184)
+texture = ExtResource("5_61edf")
+region_enabled = true
+region_rect = Rect2(339, 142, 42, 64)
+
+[node name="BreakableMountain" parent="LevelLayout" index="2" instance=ExtResource("6_5jqiu")]
+position = Vector2(272, 208)
+
+[node name="BreakableMountain2" parent="LevelLayout" index="3" instance=ExtResource("6_5jqiu")]
+position = Vector2(304, 208)
+
+[node name="YellowShip" parent="LevelLayout" index="4" instance=ExtResource("7_ua0h7")]
+position = Vector2(336, 200)
+
+[node name="Rock3" type="Sprite2D" parent="LevelLayout" index="5"]
+z_index = -11
+position = Vector2(416, 176)
+texture = ExtResource("5_61edf")
+region_enabled = true
+region_rect = Rect2(339, 142, 42, 64)
+
+[node name="Rock4" type="Sprite2D" parent="LevelLayout" index="6"]
+z_index = -11
+position = Vector2(360, 184)
+texture = ExtResource("5_61edf")
+region_enabled = true
+region_rect = Rect2(339, 142, 42, 64)
+
+[node name="BreakableMountain3" parent="LevelLayout" index="7" instance=ExtResource("6_5jqiu")]
+position = Vector2(472, 208)
+type = 2
+
+[node name="Rock5" type="Sprite2D" parent="LevelLayout" index="8"]
+z_index = -11
+position = Vector2(536, 184)
+texture = ExtResource("5_61edf")
+region_enabled = true
+region_rect = Rect2(545, 217, 66, 48)
+
+[node name="Rock6" type="Sprite2D" parent="LevelLayout" index="9"]
+z_index = -11
+position = Vector2(600, 192)
+texture = ExtResource("5_61edf")
+region_enabled = true
+region_rect = Rect2(336, 217, 64, 36)
+
+[node name="Jet" parent="LevelLayout" index="10" instance=ExtResource("8_u0w6s")]
+position = Vector2(568, 184)
+
+[node name="RocketLauncher" parent="LevelLayout" index="11" instance=ExtResource("9_87dsk")]
+position = Vector2(600, 168)
+
+[node name="Rock7" type="Sprite2D" parent="LevelLayout" index="12"]
+z_index = -11
+position = Vector2(669, 176)
+texture = ExtResource("5_61edf")
+region_enabled = true
+region_rect = Rect2(339, 142, 42, 64)
+
+[node name="Rock8" type="Sprite2D" parent="LevelLayout" index="13"]
+z_index = -11
+position = Vector2(757, 176)
+texture = ExtResource("5_61edf")
+region_enabled = true
+region_rect = Rect2(339, 142, 42, 64)
+
+[node name="Rock9" type="Sprite2D" parent="LevelLayout" index="14"]
+z_index = -11
+position = Vector2(797, 176)
+texture = ExtResource("5_61edf")
+region_enabled = true
+region_rect = Rect2(339, 142, 42, 64)
+
+[node name="Jet2" parent="LevelLayout" index="15" instance=ExtResource("8_u0w6s")]
+position = Vector2(664, 184)

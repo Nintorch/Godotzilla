@@ -1,14 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://cin1i4pomwy3a"]
+[gd_scene load_steps=5 format=3 uid="uid://cin1i4pomwy3a"]
 
 [ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/BaseLevel.tscn" id="1_ohey1"]
 [ext_resource type="PackedScene" uid="uid://bdedrxocj46sr" path="res://Objects/Characters/PlayerCharacter.tscn" id="2_atw37"]
-[ext_resource type="Script" uid="uid://0d2jb6apu4qs" path="res://Scripts/Levels/Bosses/BaseBoss.gd" id="2_xih6l"]
+[ext_resource type="Script" uid="uid://x488hqkc1b0" path="res://Scripts/Levels/Bosses/BaseBoss.gd" id="2_xih6l"]
+[ext_resource type="AudioStream" uid="uid://du1acm7e0olkd" path="res://Audio/Soundtrack/Bosses/Victory.ogg" id="3_3mphf"]
 
 [node name="Boss" instance=ExtResource("1_ohey1")]
 script = ExtResource("2_xih6l")
 xp_amount = 100
 score_amount = 110000
-right_boundary_behaviour = 0
+victory_music = ExtResource("3_3mphf")
 
 [node name="Camera" parent="." index="1"]
 limit_right = 256
@@ -20,9 +21,9 @@ texture = null
 
 [node name="Boss" parent="." index="3" instance=ExtResource("2_atw37")]
 position = Vector2(196, 189)
+direction = -1
 is_player = false
 enable_intro = false
-direction = -1
 
 [node name="Player" parent="." index="4"]
 position = Vector2(39, 189)

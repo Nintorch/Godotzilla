@@ -1,9 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://d117bxkmklikc"]
 
 [ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/BaseLevel.tscn" id="1_rvfa3"]
-[ext_resource type="Script" uid="uid://x488hqkc1b0" path="res://Scripts/Levels/Bosses/BaseBoss2.gd" id="2_ym8d5"]
+[ext_resource type="Script" uid="uid://x488hqkc1b0" path="res://Scripts/Levels/Bosses/BaseBoss.gd" id="2_skion"]
+[ext_resource type="AudioStream" uid="uid://du1acm7e0olkd" path="res://Audio/Soundtrack/Bosses/Victory.ogg" id="3_dqcxi"]
 [ext_resource type="Texture2D" uid="uid://c3qwhre32yggp" path="res://Sprites/Characters/Godzilla/walk_body.png" id="3_gl3fo"]
-[ext_resource type="AudioStream" uid="uid://by7wimbn2cemn" path="res://Audio/Soundtrack/MogueraTheme.ogg" id="3_ti5w5"]
 [ext_resource type="Texture2D" uid="uid://huytihc5bj4n" path="res://Sprites/Characters/Godzilla/walk_head.png" id="4_ct3fj"]
 [ext_resource type="Script" uid="uid://chxrupql5dhoy" path="res://Scripts/Objects/Characters/GameCharacter.gd" id="4_exksf"]
 [ext_resource type="Script" uid="uid://u2e54l4b6l0f" path="res://Scripts/Objects/HealthComponent.gd" id="7_4yohv"]
@@ -13,10 +13,10 @@
 size = Vector2(20, 65)
 
 [node name="Boss" instance=ExtResource("1_rvfa3")]
-script = ExtResource("2_ym8d5")
+script = ExtResource("2_skion")
 xp_amount = 100
 score_amount = 110000
-music = ExtResource("3_ti5w5")
+victory_music = ExtResource("3_dqcxi")
 
 [node name="Camera" parent="." index="1"]
 limit_right = 256
