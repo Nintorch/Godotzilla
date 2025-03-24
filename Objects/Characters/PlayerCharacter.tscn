@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bdedrxocj46sr"]
+[gd_scene load_steps=15 format=3 uid="uid://bdedrxocj46sr"]
 
 [ext_resource type="Script" uid="uid://b4ngjsw4t2vgx" path="res://Scripts/Objects/Characters/PlayerCharacter.gd" id="1_c8c0q"]
 [ext_resource type="PackedScene" uid="uid://camascwoory5h" path="res://Objects/HealthComponent.tscn" id="3_bws3y"]
@@ -12,9 +12,6 @@
 [ext_resource type="Script" uid="uid://dxxerqcy1ap7e" path="res://Scripts/Objects/Characters/States/Hurt.gd" id="5_t6xgh"]
 [ext_resource type="Script" uid="uid://cj0f2i6e2cd5j" path="res://Scripts/Objects/Characters/States/Dead.gd" id="6_b6u5i"]
 [ext_resource type="AudioStream" uid="uid://deo2ts4xdwwce" path="res://Audio/SFX/CharPunch.wav" id="11_npbvd"]
-[ext_resource type="AudioStream" uid="uid://bnpu85disxvis" path="res://Audio/SFX/GodzillaHeatBeam.wav" id="11_y38wb"]
-[ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/CharHurt.wav" id="12_re2uk"]
-[ext_resource type="AudioStream" uid="uid://clfqyu3fby0tv" path="res://Audio/SFX/LevelUp.wav" id="13_l1dc3"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ywk1q"]
 font_size = 8
@@ -82,19 +79,6 @@ bus = &"SFX"
 
 [node name="Punch" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("11_npbvd")
-bus = &"SFX"
-
-[node name="Hurt" type="AudioStreamPlayer" parent="SFX"]
-stream = ExtResource("12_re2uk")
-bus = &"SFX"
-
-[node name="HeatBeam" type="AudioStreamPlayer" parent="SFX"]
-stream = ExtResource("11_y38wb")
-bus = &"SFX"
-
-[node name="LevelUp" type="AudioStreamPlayer" parent="SFX"]
-stream = ExtResource("13_l1dc3")
-volume_db = 8.0
 bus = &"SFX"
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_bws3y")]

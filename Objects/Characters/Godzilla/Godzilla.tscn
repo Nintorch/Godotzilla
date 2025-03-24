@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://cii02kmoys3xf"]
+[gd_scene load_steps=76 format=3 uid="uid://cii02kmoys3xf"]
 
 [ext_resource type="PackedScene" uid="uid://2kanj7crlbl5" path="res://Objects/Characters/BaseSkin.tscn" id="1_oa7ph"]
 [ext_resource type="Script" uid="uid://dy7tqloc3iyy3" path="res://Scripts/Objects/Characters/Godzilla/Main.gd" id="2_1ih3s"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://huytihc5bj4n" path="res://Sprites/Characters/Godzilla/walk_head.png" id="13_rii3a"]
 [ext_resource type="Texture2D" uid="uid://bhjsxj2v3ms7" path="res://Sprites/Characters/Godzilla/punch1.png" id="14_760c4"]
 [ext_resource type="Texture2D" uid="uid://cp7yo85faut6q" path="res://Sprites/Characters/Godzilla/punch2.png" id="15_xms37"]
+[ext_resource type="AudioStream" uid="uid://bnpu85disxvis" path="res://Audio/SFX/GodzillaHeatBeam.wav" id="16_1ih3s"]
 
 [sub_resource type="Resource" id="Resource_knn82"]
 script = ExtResource("4_1yni8")
@@ -1041,6 +1042,10 @@ visible = false
 position = Vector2(30, 5.5)
 shape = SubResource("RectangleShape2D_7tuv5")
 
-[node name="Punch" type="AudioStreamPlayer" parent="SFX" index="2"]
+[node name="Punch" type="AudioStreamPlayer" parent="SFX" index="4"]
 stream = ExtResource("5_acixn")
+bus = &"SFX"
+
+[node name="HeatBeam" type="AudioStreamPlayer" parent="SFX" index="5"]
+stream = ExtResource("16_1ih3s")
 bus = &"SFX"
