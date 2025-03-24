@@ -2,13 +2,15 @@ extends Node2D
 
 @export var initial_scene: PackedScene = preload("res://Scenes/TitleScreen.tscn")
 @export var wait_before_start := false # Mostly just a debugging feature
+@onready var fade: CanvasLayer = $Fade
+
 var wait_before_start_flag := false
 
 func _ready() -> void:
 	Global.main = self
 	Global.music = $Music
-	Global._fade_player = $FadePlayer
-	Global._fader = $SubViewportContainer.material as ShaderMaterial
+	Global._fade_player = $Fade/FadePlayer
+	Global._fader = $Fade/FadeRect.material as ShaderMaterial
 	
 	if wait_before_start:
 		get_tree().paused = true
@@ -34,22 +36,20 @@ func start() -> void:
 	_on_widescreen_change()
 	
 func get_scene_container() -> Node:
-	return $SubViewportContainer/SubViewport/CurrentScene
+	return %CurrentScene
 
-func _on_widescreen_change() -> void:
-	$SubViewportContainer/SubViewport.size = Global.get_content_size()
-	
-	if not Global.get_current_scene() is Node2D:
+func _on_widescreen_change() -> void:	
+	var curscene: Node2D = Global.get_current_scene() as Node2D
+	if curscene == null:
 		return
 	
-	var curscene: Node2D = Global.get_current_scene() as Node2D
-	if not get_viewport().get_camera_2d():
+	var camera := curscene.get_viewport().get_camera_2d()
+	if camera == null:
 		curscene.position.x = (Global.get_content_size().x - \
 			Global.get_default_resolution().x) / 2
 		return
 
-	if get_viewport().get_camera_2d().limit_right <= Global.get_content_size().x:
-		curscene.position.x = (get_viewport().get_camera_2d().limit_right - \
-			Global.get_content_size().x) / 2
+	if camera.limit_right <= Global.get_content_size().x:
+		curscene.position.x = (camera.limit_right - Global.get_content_size().x) / 2
 	else:
 		curscene.position.x = 0

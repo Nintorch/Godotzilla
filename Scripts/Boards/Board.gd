@@ -21,6 +21,7 @@ class_name Board extends Node2D
 @onready var tilemap: TileMapLayer = $"Board/Board Icons"
 @onready var message_window: MessageWindow = $Board/GUI/MessageWindow
 @onready var selector: BoardSelector = $"Board/Board Icons/Selector"
+@onready var camera: Camera2D = %Camera2D
 
 # The actual playable board, the node that has this script
 # also includes the board name.
@@ -311,7 +312,7 @@ func get_tile_level(cell_pos: Vector2i) -> PackedScene:
 func check_transition_level() -> bool:
 	var check: bool = get_custom_tile_data(selector.get_current_cell(), "TransitionLevel")
 	if check:
-		var result := await message_window.make_choice("Will you move to the next field?")
+		var result := await message_window.make_choice("Will you move to\nthe next field?")
 		if result == MessageWindow.Response.YES:
 			await fade_out_selected()
 			selected_piece.save_data()

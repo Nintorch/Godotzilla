@@ -29,11 +29,10 @@ func _ready() -> void:
 	image_count = images.get_child_count()
 	
 	Global.play_music(music)
-	Global.fade_in()
-	await get_tree().create_timer(1, false).timeout
+	await Global.fade_in()
 	started = true
 	
-	bars.reparent(Global.main.canvas_layer)
+	bars.reparent(Global.main.fade)
 	Global.fade_in()
 	Global.show_fade()
 	show_current_image()

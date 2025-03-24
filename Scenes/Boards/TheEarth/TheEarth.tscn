@@ -91,3 +91,6 @@ boss_scene = ExtResource("8_wtl0u")
 position = Vector2(16, 56)
 region_rect = Rect2(0, 96, 48, 48)
 piece_character = 1
+
+[node name="Camera2D" parent="Board/Board Icons/Selector" index="1"]
+unique_name_in_owner = true
