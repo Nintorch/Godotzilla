@@ -113,7 +113,7 @@ drag_bottom_margin = 0.1
 editor_draw_limits = true
 
 [node name="GUI" type="CanvasLayer" parent="Board"]
-layer = 5
+layer = 10
 
 [node name="MessageWindow" parent="Board/GUI" node_paths=PackedStringArray("selector") instance=ExtResource("7_hcaag")]
 visible = false

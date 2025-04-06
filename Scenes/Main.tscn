@@ -59,6 +59,7 @@ unique_name_in_owner = true
 process_mode = 1
 
 [node name="Fade" type="CanvasLayer" parent="."]
+layer = 100
 
 [node name="FadeRect" type="ColorRect" parent="Fade"]
 material = SubResource("ShaderMaterial_50glp")

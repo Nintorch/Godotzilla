@@ -31,4 +31,5 @@ offset_bottom = 240.0
 position = Vector2(53, 181)
 
 [node name="HUD" parent="." node_paths=PackedStringArray("player") instance=ExtResource("4_cq3ox")]
+layer = 20
 player = NodePath("../Player")
