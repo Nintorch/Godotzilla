@@ -1,4 +1,4 @@
-class_name State extends Node
+class_name StateMachineState extends Node
 
 @onready var parent: Node = $"../.."
 

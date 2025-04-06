@@ -42,8 +42,8 @@ class_name PlayerSkin extends Node2D
 @onready var attack_hitboxes: Node2D = $Hitboxes
 
 var player: PlayerCharacter
-var attack_state_node: Node
-var move_state_node: Node
+var attack_state_node: StateMachineState
+var move_state_node: StateMachineState
 
 func _ready() -> void:
 	if get_parent() is PlayerCharacter:

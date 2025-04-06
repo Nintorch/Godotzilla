@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dy3m74iswj1v"]
 
 [ext_resource type="Script" uid="uid://ptjqbvajghok" path="res://Scripts/Screens/MainMenu/Controls.gd" id="1_pl7kv"]
-[ext_resource type="Texture2D" uid="uid://dewcb08w13bxc" path="res://Sprites/controller.png" id="2_nqnh2"]
+[ext_resource type="Texture2D" uid="uid://dewcb08w13bxc" path="res://Sprites/Menus/controller.png" id="2_nqnh2"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="3_alnrf"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pvg2g"]

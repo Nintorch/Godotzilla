@@ -1,3 +1,3 @@
-extends State
+extends StateMachineState
 
 @onready var player: PlayerCharacter = parent

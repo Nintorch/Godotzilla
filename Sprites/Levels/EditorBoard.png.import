@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdqaohmcc1tj1"
-path="res://.godot/imported/hudbar.png-34485a2648c952469e69bd916abf151d.ctex"
+uid="uid://dhod63htftwaw"
+path="res://.godot/imported/EditorBoard.png-1e19a20cef838ca5edb03d09cc782920.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/hudbar.png"
-dest_files=["res://.godot/imported/hudbar.png-34485a2648c952469e69bd916abf151d.ctex"]
+source_file="res://Sprites/Levels/EditorBoard.png"
+dest_files=["res://.godot/imported/EditorBoard.png-1e19a20cef838ca5edb03d09cc782920.ctex"]
 
 [params]
 

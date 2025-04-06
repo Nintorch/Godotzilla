@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cavxehselt3he"]
 
-[ext_resource type="Texture2D" uid="uid://wmgv6kcqcri0" path="res://Sprites/BoardSprites.png" id="1_vlmlk"]
+[ext_resource type="Texture2D" uid="uid://wmgv6kcqcri0" path="res://Sprites/Levels/BoardSprites.png" id="1_vlmlk"]
 [ext_resource type="Script" uid="uid://b1u12xjidjlt5" path="res://Scripts/Objects/Boards/Piece.gd" id="2_f5xfm"]
 
 [node name="Piece" type="Sprite2D"]

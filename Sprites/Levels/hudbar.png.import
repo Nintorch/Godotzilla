@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5trtmb05sfr4"
-path="res://.godot/imported/PassWordGame.png-71e07406097ea0bf4e128e9c37edfa71.ctex"
+uid="uid://cdqaohmcc1tj1"
+path="res://.godot/imported/hudbar.png-a9a6f2f95f6762632ed12618898a7bf5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/PassWordGame.png"
-dest_files=["res://.godot/imported/PassWordGame.png-71e07406097ea0bf4e128e9c37edfa71.ctex"]
+source_file="res://Sprites/Levels/hudbar.png"
+dest_files=["res://.godot/imported/hudbar.png-a9a6f2f95f6762632ed12618898a7bf5.ctex"]
 
 [params]
 

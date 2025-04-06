@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dewcb08w13bxc"
-path="res://.godot/imported/controller.png-cb0f9d41953f03d392065756984a0dc0.ctex"
+uid="uid://wmgv6kcqcri0"
+path="res://.godot/imported/BoardSprites.png-a3fe28ac9ebbd4647c9e7b61b0b928c6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/controller.png"
-dest_files=["res://.godot/imported/controller.png-cb0f9d41953f03d392065756984a0dc0.ctex"]
+source_file="res://Sprites/Levels/BoardSprites.png"
+dest_files=["res://.godot/imported/BoardSprites.png-a3fe28ac9ebbd4647c9e7b61b0b928c6.ctex"]
 
 [params]
 
