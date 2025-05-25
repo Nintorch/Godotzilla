@@ -24,18 +24,18 @@ const HIGHLIGHTS: Array[Rect2] = [
 @onready var current_button: Label = $CurrentButton
 @onready var reset_controls: Label = $ResetControls
 @onready var key_already_mapped: Label = $KeyAlreadyMapped
+@onready var controller_connected: Label = $ControllerConnected
 
 var current_input := 0
 var mapping: Array[InputEvent] = []
-
-func _ready() -> void:
-	key_already_mapped.hide()
 
 func menu_enter() -> void:
 	reset_controls.text = reset_controls.text.replace("key",
 		(InputMap.action_get_events("ResetControls")[0] as InputEventKey).as_text_physical_keycode())
 	current_input = 0
 	update_text()
+	key_already_mapped.hide()
+	controller_connected.visible = Input.get_connected_joypads().size() > 0
 	
 	mapping.resize(ACTIONS.size())
 	mapping.fill(null)
@@ -49,8 +49,10 @@ func _input(event: InputEvent) -> void:
 			exit()
 			return
 		process_input(event)
-	elif (event is InputEventJoypadMotion and absf(event.axis_value) >= 0.5) \
-		or (event is InputEventJoypadButton and event.pressed):
+	elif controller_connected.visible and (
+		(event is InputEventJoypadMotion and absf(event.axis_value) >= 0.5)
+		or (event is InputEventJoypadButton and event.pressed)
+		):
 			process_input(event)
 			
 func update_text() -> void:

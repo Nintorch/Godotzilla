@@ -65,3 +65,14 @@ a button, pick a different one!"
 label_settings = SubResource("LabelSettings_vln1q")
 horizontal_alignment = 1
 uppercase = true
+
+[node name="ControllerConnected" type="Label" parent="."]
+modulate = Color(0, 1, 0, 1)
+offset_top = 16.0
+offset_right = 256.0
+offset_bottom = 24.0
+theme_override_fonts/font = ExtResource("3_alnrf")
+text = "a controller is connected!"
+label_settings = SubResource("LabelSettings_vln1q")
+horizontal_alignment = 1
+uppercase = true

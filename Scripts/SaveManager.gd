@@ -25,8 +25,9 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ResetControls"):
 		InputMap.load_from_project_settings()
 		var file := load_settings_file()
-		file.erase_section("Input")
-		save_settings_file(file)
+		if file.has_section("Input"):
+			file.erase_section("Input")
+			save_settings_file(file)
 
 func load_settings_file() -> ConfigFile:
 	var file := ConfigFile.new()

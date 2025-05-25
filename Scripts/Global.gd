@@ -72,6 +72,22 @@ func get_content_size() -> Vector2i:
 	return get_tree().get_root().content_scale_size
 	
 #endregion
+
+func get_left_camera_boundary() -> float:
+	return (get_viewport().get_camera_2d().get_screen_center_position().x
+		- get_content_size().x / 2)
+
+func get_right_camera_boundary() -> float:
+	return (get_viewport().get_camera_2d().get_screen_center_position().x
+		+ get_content_size().x / 2)
+
+func get_top_camera_boundary() -> float:
+	return (get_viewport().get_camera_2d().get_screen_center_position().y
+		- get_content_size().y / 2)
+
+func get_bottom_camera_boundary() -> float:
+	return (get_viewport().get_camera_2d().get_screen_center_position().y
+		+ get_content_size().y / 2)
 	
 ## Get the next level the player should play (if any) and remove it from the queue
 func get_next_level() -> PackedScene:

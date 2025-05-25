@@ -1,10 +1,14 @@
 extends Node2D
 
-@export var initial_scene: PackedScene = preload("uid://bcqw43w8eilwf")
+## The scene that runs when you run the game from the editor
+@export var initial_scene_debug: PackedScene = preload("uid://bcqw43w8eilwf")
+## The scene that runs when you run the exported game
+@export var initial_scene_release: PackedScene = preload("uid://bcqw43w8eilwf")
 @export var wait_before_start := false # Mostly just a debugging feature
 @onready var fade: CanvasLayer = $Fade
 
 var wait_before_start_flag := false
+var initial_scene: PackedScene
 
 func _ready() -> void:
 	Global.main = self
@@ -12,11 +16,15 @@ func _ready() -> void:
 	Global._fade_player = $Fade/FadePlayer
 	Global._fader = $Fade/FadeRect.material as ShaderMaterial
 	
-	if wait_before_start:
-		get_tree().paused = true
-		get_tree().process_frame.connect(_wait_before_start_func)
+	if OS.is_debug_build():
+		initial_scene = initial_scene_debug
+		if wait_before_start:
+			get_tree().paused = true
+			get_tree().process_frame.connect(_wait_before_start_func)
+		else:
+			start()
 	else:
-		start()
+		initial_scene = initial_scene_release
 		
 func _wait_before_start_func() -> void:
 	if not wait_before_start_flag and Global.any_action_button_pressed():
