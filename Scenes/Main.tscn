@@ -1,7 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://du38sf8ro3elu"]
+[gd_scene load_steps=11 format=3 uid="uid://du38sf8ro3elu"]
 
 [ext_resource type="Script" uid="uid://bhoifgsm365tw" path="res://Scripts/Main.gd" id="1_csd2w"]
-[ext_resource type="PackedScene" uid="uid://blo8x6bqjbe1w" path="res://Scenes/Boards/TheEarth/TheEarth.tscn" id="2_jw32o"]
 [ext_resource type="AudioStream" uid="uid://bgfupmtntcg8x" path="res://Audio/SFX/Pause.wav" id="3_iol3x"]
 [ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/Characters/CharHurt.wav" id="3_jlebr"]
 [ext_resource type="Shader" uid="uid://b1gvyj5igkgmm" path="res://Other/FadeShader.tres" id="3_jw32o"]
@@ -54,7 +53,6 @@ _data = {
 [node name="Main" type="Node2D"]
 process_mode = 3
 script = ExtResource("1_csd2w")
-initial_scene_debug = ExtResource("2_jw32o")
 
 [node name="CurrentScene" type="Node2D" parent="."]
 unique_name_in_owner = true

@@ -13,7 +13,6 @@ var simple_attack_time := 0
 
 func boss_ai_start() -> void:
 	state = IDLE
-	boss.health.set_value(4)
 	
 func boss_ai_stop() -> void:
 	state = NONE
