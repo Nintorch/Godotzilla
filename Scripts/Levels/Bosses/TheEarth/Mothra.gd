@@ -13,12 +13,13 @@ var simple_attack_time := 0
 
 func boss_ai_start() -> void:
 	state = IDLE
+	boss.health.set_value(4)
 	
 func boss_ai_stop() -> void:
 	state = NONE
 
 func boss_ai() -> void:
-	if state == NONE or boss.current == boss.DEAD:
+	if state == NONE or (boss as PlayerCharacter).state.current == PlayerCharacter.State.DEAD:
 		return
 	
 	time -= 1

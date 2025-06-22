@@ -245,6 +245,7 @@ func returned(ignore_boss_moves := false) -> void:
 		Global.play_music(music)
 	if selected_piece:
 		selected_piece.deselect()
+		selected_piece.hide_cell_below()
 		selected_piece = null
 		
 	if ignore_boss_moves:
@@ -278,9 +279,9 @@ func returned(ignore_boss_moves := false) -> void:
 ## If the cell_pos position on the tilemap points to a scene tile, returns it, otherwise returns null
 func get_current_scene_tile(cell_pos: Vector2i) -> LevelSceneTile:
 	var tilescene: Array[LevelSceneTile] = []
-	var tile_pos := tilemap.map_to_local(cell_pos)
+	var tile_pos := tilemap.to_global(tilemap.map_to_local(cell_pos))
 	tilescene.assign(tilemap.get_children().filter(func(x: Node) -> bool:
-		return x is LevelSceneTile and (x as LevelSceneTile).position.distance_to(tile_pos) < 32))
+		return x is LevelSceneTile and (x as LevelSceneTile).global_position.distance_to(tile_pos) < 10.0))
 	return tilescene[0] if tilescene.size() == 1 else null
 	
 func get_custom_tile_data(cell_pos: Vector2i, data_name: String) -> Variant:

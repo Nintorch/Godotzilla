@@ -20,7 +20,8 @@ func _ready() -> void:
 	
 func start() -> void:
 	visible = true
-	await attack.start_attack("HeatBeam")
+	if is_instance_valid(attack) and is_instance_valid(attack.get_tree()):
+		await attack.start_attack("HeatBeam")
 	queue_free()
 	
 func _physics_process(_delta: float) -> void:
