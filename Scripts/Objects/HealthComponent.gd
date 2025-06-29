@@ -5,8 +5,10 @@ class_name HealthComponent extends Node
 @export var enemy := false
 ## The amount of time in seconds the component should be invincible after getting damaged
 @export var invincibility_time_seconds := 0.0
-## How many health points should be taken each frame
-@export var health_speed := 1.0
+## How many health points should be taken each frame.
+## Put 0.0, if you want the HP value to be immediately set the target value
+## without any smoothing.
+@export var health_speed := 0.0
 
 ## The current amount of health
 var target_value := 0.0
@@ -35,7 +37,10 @@ func _ready() -> void:
 	set_value(max_value)
 	
 func _process(delta: float) -> void:
-	value = move_toward(value, target_value, health_speed * 60 * delta)
+	if health_speed > 0.0:
+		value = move_toward(value, target_value, health_speed * 60 * delta)
+	else:
+		value = target_value
 	if value <= 0.0 and not died:
 		died = true
 		dead.emit()
@@ -53,7 +58,8 @@ func damage(attack: AttackDescription, amount := -1.0) -> void:
 			return
 	
 	target_value = clampf(target_value - attack_damage, 0.0, max_value)
-	damaged.emit(attack_damage, attack)
+	if target_value > 0.0 or health_speed > 0.0:
+		damaged.emit(attack_damage, attack)
 	if invincibility_time_seconds > 0.0:
 		invincible = true
 		invincibility_started.emit()
