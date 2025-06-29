@@ -212,7 +212,6 @@ func start_playing(boss_piece: BoardPiece = null) -> void:
 	Global.level_data.current_character = selected_piece.piece_character
 	Global.level_data.board_piece = selected_piece
 	Global.level_data.boss_piece = boss_piece
-	selected_piece = null
 	
 	# We don't free the board scene so we can later return to it,
 	# hence the second false argument.
