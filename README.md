@@ -36,6 +36,7 @@ This framework can be used for anything you want, this includes but not limited 
 - Cioss - NES controller sprite for "Controls" menu
 - Special thanks to MadzillaKOTH and Dino for following the development
   of the framework, giving me motivation to work on it and testing and Z-9 Lurker as well for testing
+- Special thanks to the framework testers: MadzillaKOTH, Dino, Z-9 Lurker and LasagaIviolar
 - [Godot Engine](https://godotengine.org/) and its [contributors](https://github.com/godotengine/godot/blob/master/AUTHORS.md)
   for the awesome game engine this framework was made for
 - "Godzilla: Monster of Monsters" NES game © Toho Co., Ltd. & Compile
