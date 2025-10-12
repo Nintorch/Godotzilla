@@ -79,7 +79,7 @@ func save_player_state() -> void:
 		board_piece.save_data()
 
 # Can also be used on bosses, hence the "character" argument
-func player_dead(character: PlayerCharacter,
+func player_dead(character: GameCharacter,
 				piece: BoardPiece = data.board_piece) -> void:
 	await Global.music.finished
 	await Global.fade_out_paused()
@@ -95,7 +95,7 @@ func player_dead(character: PlayerCharacter,
 		return
 		
 	Global.change_scene_node(Global.board)
-	Global.board.returned(not character.is_player)
+	Global.board.returned(character is not PlayerCharacter)
 
 ## A method to start the next level after this level has been completed
 func next_level() -> void:
