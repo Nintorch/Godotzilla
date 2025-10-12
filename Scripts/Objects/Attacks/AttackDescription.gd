@@ -15,6 +15,7 @@ var simple_or_advanced: int
 @export var type: Type
 @export var damage_amount: float
 @export var hitbox_name: String
+@export_node_path("CollisionShape2D") var hitbox_node: NodePath
 @export var sfx: AudioStream
 @export var sfx_db: float
 @export var sfx_offset: float

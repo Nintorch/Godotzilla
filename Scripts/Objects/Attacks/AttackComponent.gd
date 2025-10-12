@@ -32,7 +32,7 @@ func _ready() -> void:
 	if initial_attack != "":
 		start_attack(initial_attack)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if (current_attack != null
 		and current_attack.type != AttackDescription.Type.ONE_TIME):
 			attack_bodies()
@@ -123,10 +123,15 @@ func _simple_attack() -> void:
 	if current_attack.hitbox_name != "":
 		set_hitbox_template(current_attack.hitbox_name)
 		
-	# Not sure why I have to wait 3 frames for it to work
+	if not current_attack.hitbox_node.is_empty():
+		var node: CollisionShape2D = get_node(current_attack.hitbox_node)
+		set_hitbox_node(node, node.position)
+		
 	if current_attack.type == AttackDescription.Type.ONE_TIME:
+		# Not sure why I have to wait 3 frames for it to work
 		for i in 3:
 			await get_tree().process_frame
+			
 		if not is_attacking(): return
 		attack_bodies()
 		
