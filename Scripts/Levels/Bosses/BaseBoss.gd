@@ -42,6 +42,12 @@ func _process(delta: float) -> void:
 	boss_ai()
 	
 func _on_hud_boss_timer_timeout() -> void:
+	# We're debugging, so we don't expect this method to work properly
+	if Global.is_initial_scene():
+		Global.music_fade_out()
+		Global.fade_out_paused()
+		return
+	
 	boss.save_state(data.boss_piece.character_data)
 	
 	Global.music_fade_out()
