@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://nbd34bkxryjd" path="res://Objects/Bar.tscn" id="3_y64wl"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ke5ce"]
-line_spacing = 0.0
+line_spacing = -4.0
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_no1ya")
@@ -42,7 +42,6 @@ offset_left = 56.0
 offset_top = 8.0
 offset_right = 137.0
 offset_bottom = 16.0
-scale = Vector2(1, 1)
 width = 6
 
 [node name="Life" parent="PlayerCharacter" instance=ExtResource("3_y64wl")]
@@ -50,7 +49,6 @@ offset_left = 56.0
 offset_top = 16.0
 offset_right = 137.0
 offset_bottom = 24.0
-scale = Vector2(1, 1)
 width = 6
 color2 = Color(0.709804, 0.188235, 0.12549, 1)
 
@@ -75,6 +73,7 @@ label_settings = SubResource("LabelSettings_ke5ce")
 uppercase = true
 
 [node name="Bar" parent="PlayerCharacter/Level" instance=ExtResource("3_y64wl")]
+layout_mode = 0
 offset_right = 64.0
 style = 1
 width = 100
