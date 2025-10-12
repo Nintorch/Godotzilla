@@ -270,7 +270,7 @@ func is_hurtable() -> bool:
 
 func _on_health_damaged(_amount: float, attack: AttackDescription) -> void:
 	var attack_state := $StateMachine/Attack
-	var hurt_time := attack.hurt_time if attack != null else 0.0
+	var hurt_time := attack.hurt_time if attack != null else -1.0
 	if(state.current == State.ATTACK
 		and attack_state.current_attack.name == "HeatBeam"):
 			hurt_time = 0
