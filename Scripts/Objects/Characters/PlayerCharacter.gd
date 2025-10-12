@@ -117,6 +117,8 @@ func _ready() -> void:
 	character_ready.emit()
 		
 func _physics_process(delta: float) -> void:
+	super._physics_process(delta)
+	
 	if state.current != State.DEAD and not is_on_floor() and not is_flying():
 		velocity.y += gravity * delta
 
@@ -124,7 +126,7 @@ func _physics_process(delta: float) -> void:
 	save_position.pop_back()
 	save_position.insert(0, Vector2(position))
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	process_input()
 	
 func change_skin(new_skin: PlayerSkin) -> void:
