@@ -32,6 +32,10 @@ func _ready() -> void:
 	if get_child_count() == 0:
 		push_warning("Attack component for " + str(get_parent()) + " was NOT instanced"
 			+ " by using its scene file, so it can't access its internal nodes.")
+			
+	if null in [attack_animation_player, hitboxes]:
+		push_warning("Attack component for " + str(get_parent()) + ": "
+			+ "Some exported nodes are null")
 	
 	if initial_attack != "":
 		start_attack(initial_attack)
