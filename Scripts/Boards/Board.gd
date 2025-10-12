@@ -21,7 +21,6 @@ class_name Board extends Node2D
 @onready var tilemap: TileMapLayer = $"Board/Board Icons"
 @onready var message_window: MessageWindow = $Board/GUI/MessageWindow
 @onready var selector: BoardSelector = $"Board/Board Icons/Selector"
-@onready var camera: Camera2D = %Camera2D
 
 # The actual playable board, the node that has this script
 # also includes the board name.
