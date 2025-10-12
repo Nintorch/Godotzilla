@@ -15,10 +15,11 @@ func _process(delta: float) -> void:
 		old_value = value
 		value_changed.emit(value)
 
-func use(amount: float) -> void:
+func use(amount: float) -> bool:
 	if value < amount:
-		return
+		return false
 	value = maxf(value - amount, 0)
+	return true
 
 func add(amount: float) -> void:
 	value = minf(value + amount, max_value)
