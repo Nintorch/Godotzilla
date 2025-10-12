@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d117bxkmklikc"]
+[gd_scene load_steps=9 format=3 uid="uid://d117bxkmklikc"]
 
 [ext_resource type="PackedScene" uid="uid://jnprrhsi16ey" path="res://Scenes/Levels/BaseLevel.tscn" id="1_rvfa3"]
 [ext_resource type="Script" uid="uid://x488hqkc1b0" path="res://Scripts/Levels/Bosses/BaseBoss.gd" id="2_skion"]
@@ -49,13 +49,6 @@ offset = Vector2(0.5, 0.5)
 flip_h = true
 hframes = 8
 region_rect = Rect2(298, 0, 42, 37)
-
-[node name="WalkHead" type="Sprite2D" parent="Boss/WalkBody" index="0"]
-position = Vector2(-17, -32)
-texture = ExtResource("4_ct3fj")
-offset = Vector2(0.5, 0.5)
-flip_h = true
-hframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boss" index="1"]
 position = Vector2(0, -4.5)
