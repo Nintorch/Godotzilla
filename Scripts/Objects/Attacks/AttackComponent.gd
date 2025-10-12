@@ -29,6 +29,10 @@ signal attack_started(attack: AttackDescription)
 signal attack_finished(attack: AttackDescription)
 
 func _ready() -> void:
+	if get_child_count() == 0:
+		push_warning("Attack component for " + str(get_parent()) + " was NOT instanced"
+			+ " by using its scene file, so it can't access its internal nodes.")
+	
 	if initial_attack != "":
 		start_attack(initial_attack)
 
