@@ -71,4 +71,7 @@ static func load_sound_settings(file: ConfigFile) -> void:
 		volume_db_from_save(file.get_value(SECTION, "music", 100)))
 
 static func volume_db_from_save(value: int) -> int:
-	return roundi((value - 100) * 0.8)
+	# db is a logarithmic scale, % is a linear scale,
+	# so we convert a linear scale to a logarithmic one like this.
+	# Maybe that's not how it's done, but this sounds good enough.
+	return (sqrt(value/100.0) - 1) * 80
