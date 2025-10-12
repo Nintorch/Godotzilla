@@ -39,6 +39,7 @@ var direction: int = 1:
 		direction = signi(value)
 		if is_instance_valid(skin):
 			skin.scale.x = direction
+			attack.scale.x = direction
 
 @export_category("Features")
 ## If not checked, then the PlayerCharacter is treated as a boss
