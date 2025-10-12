@@ -52,4 +52,6 @@ COPYRIGHT BY NINTENDO
 MADE WITH
 [color=Deepskyblue]GODOT ENGINE[/color]
 
+[color=Deepskyblue]HTTPS://GODOTENGINE.ORG/LICENSE/[/color]
+
 THANK YOU FOR PLAYING
