@@ -16,10 +16,13 @@ var simple_or_advanced: int
 @export var damage_amount: float
 @export var hitbox_name: String
 @export var sfx: AudioStream
+@export var sfx_db: float
+@export var sfx_offset: float
 
 @export_group("Simple Attack/Animation And Timing")
 ## Use -1.0 for the default value
 @export var hurt_time: float = -1.0
+@export var invincibility_time: float = -1.0
 ## Use this if you want the attack to first start the animation and
 ## after this amount of seconds start attacking the enemy 
 @export var start_time_offset: float

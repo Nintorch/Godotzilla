@@ -51,8 +51,11 @@ func _process(delta: float) -> void:
 ## If you don't have an AttackDescription object, pass null as the first argument.
 func damage(attack: AttackDescription, amount := -1.0) -> void:
 	var attack_damage := amount
+	var invincibility_time := invincibility_time_seconds
 	if attack != null:
 		attack_damage = attack.damage_amount
+		if attack.invincibility_time >= 0:
+			invincibility_time = attack.invincibility_time
 	if attack_damage <= 0 or invincible or died \
 		or (get_parent().has_method("is_hurtable") and not get_parent().is_hurtable()):
 			return
@@ -60,7 +63,7 @@ func damage(attack: AttackDescription, amount := -1.0) -> void:
 	target_value = clampf(target_value - attack_damage, 0.0, max_value)
 	if target_value > 0.0 or health_speed > 0.0:
 		damaged.emit(attack_damage, attack)
-	if invincibility_time_seconds > 0.0:
+	if invincibility_time > 0.0:
 		invincible = true
 		invincibility_started.emit()
 		

@@ -21,6 +21,8 @@ var score := 0
 ## Important gameplay that should be passed between levels 
 var level_data: Level.GameplayData = null
 
+var _initial_scene := true
+
 signal widescreen_changed
 signal fullscreen_changed(flag: bool) # only through use_fullscreen()
 signal scene_changed(from: Node, to: Node)
@@ -129,6 +131,11 @@ func change_scene_node(node: Node, free := true) -> void:
 	var curscene_parent: Node = main.get_scene_container()
 	var curscene := curscene_parent.get_child(0)
 	
+	if curscene == node:
+		return
+		
+	_initial_scene = false
+	
 	curscene_parent.remove_child(curscene)
 	if free:
 		curscene.queue_free()
@@ -143,6 +150,9 @@ func change_scene(scene: PackedScene, free := true) -> void:
 ## Get the scene that the player entered upon starting the game
 func get_initial_scene() -> PackedScene:
 	return main.initial_scene
+	
+func is_initial_scene() -> bool:
+	return _initial_scene
 	
 ## The currently playing scene
 func get_current_scene() -> Node:

@@ -77,12 +77,24 @@ func _start_simple_attack() -> bool:
 		if current_attack.type != AttackDescription.Type.LASTS_FOREVER:
 			stop_attack()
 	return result
+	
+func _simple_attack_play_sfx() -> void:
+	if is_instance_valid(current_attack.sfx):
+		if current_attack.sfx_offset > 0:
+			await get_tree().create_timer(current_attack.sfx_offset, false).timeout
+		sfx_player.stream = current_attack.sfx
+		sfx_player.volume_db = current_attack.sfx_db
+		sfx_player.play()
 		
 func _simple_attack() -> void:
 	if current_attack == null:
 		return
-	sfx_player.stream = current_attack.sfx
-	sfx_player.play()
+		
+	_simple_attack_play_sfx()
+		
+	var animation_player := attack_animation_player
+	if not current_attack.animation_player.is_empty():
+		animation_player = get_node(current_attack.animation_player)
 	
 	if (current_attack.reset_animation_before
 		and is_instance_valid(attack_animation_player)
