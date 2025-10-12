@@ -98,6 +98,9 @@ func _simple_attack() -> void:
 	if current_attack == null:
 		return
 		
+	if current_attack.damage_amount < 0.0 or is_zero_approx(current_attack.damage_amount):
+		push_warning("Bug: Attack damage amount is 0 or negative, so no one will get hurt")
+		
 	_simple_attack_play_sfx()
 		
 	var animation_player := attack_animation_player
