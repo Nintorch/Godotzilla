@@ -26,6 +26,7 @@ var simple_or_advanced: int
 ## Use this if you want the attack to first start the animation and
 ## after this amount of seconds start attacking the enemy 
 @export var start_time_offset: float
+@export_node_path("AnimationPlayer") var animation_player: NodePath
 ## Other information about the attack, for example, if this is a
 ## poison attack and the objects have to react to it differently
 @export var animation_name: String

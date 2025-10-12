@@ -97,19 +97,19 @@ func _simple_attack() -> void:
 		animation_player = get_node(current_attack.animation_player)
 	
 	if (current_attack.reset_animation_before
-		and is_instance_valid(attack_animation_player)
-		and attack_animation_player.has_animation("RESET")):
-			attack_animation_player.play("RESET")
+		and is_instance_valid(animation_player)
+		and animation_player.has_animation("RESET")):
+			animation_player.play("RESET")
 			
 	await get_tree().process_frame
 	if not is_attacking(): return # Just in case
 	
 	if current_attack.animation_name != "" and current_attack.animation_name2 != "":
 		variation = not variation
-		attack_animation_player.play(current_attack.animation_name if variation
+		animation_player.play(current_attack.animation_name if variation
 			else current_attack.animation_name2)
 	elif current_attack.animation_name != "":
-		attack_animation_player.play(current_attack.animation_name)
+		animation_player.play(current_attack.animation_name)
 	elif (current_attack.time_length < 0.0
 		and current_attack.type != AttackDescription.Type.LASTS_FOREVER):
 			printerr("No attack animation was assigned to attack " + current_attack.name +
@@ -132,7 +132,7 @@ func _simple_attack() -> void:
 		
 	if current_attack and current_attack.type != AttackDescription.Type.LASTS_FOREVER:
 		if current_attack.time_length < 0.0:
-			await attack_animation_player.animation_finished
+			await animation_player.animation_finished
 		else:
 			await get_tree().create_timer(current_attack.time_length, false).timeout
 	# if not is_attacking(): return
@@ -141,15 +141,18 @@ func stop_attack() -> void:
 	if current_attack == null:
 		return
 	var save_attack := current_attack
+	var animation_player := attack_animation_player
+	if not current_attack.animation_player.is_empty():
+		animation_player = get_node(current_attack.animation_player)
 	current_attack = null
 	attack_finished.emit(save_attack)
 	set_hitbox_node(null, Vector2.ZERO)
 	attacked_bodies = []
 	if ((save_attack.simple_or_advanced == 0 or save_attack.simple_or_advanced == 2)
 		and save_attack.reset_animation_after
-		and is_instance_valid(attack_animation_player)
-		and attack_animation_player.has_animation("RESET")):
-			attack_animation_player.play("RESET")
+		and is_instance_valid(animation_player)
+		and animation_player.has_animation("RESET")):
+			animation_player.play("RESET")
 	
 func attack_bodies() -> void:
 	var bodies := area_2d.get_overlapping_bodies()
