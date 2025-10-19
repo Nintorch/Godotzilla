@@ -13,7 +13,13 @@ class_name AttackComponent extends Node2D
 ## If an attack is of advanced type, it will call its specified function on this node
 @export var attack_function_node: Node
 
+@export_group("Attack By Touching", "touch_damage_")
+@export var touch_damage_enable := false
+@export var touch_damage_amount := 0.0
+@export var touch_damage_hitbox: CollisionShape2D
+
 @onready var area_2d: Area2D = $Area2D
+@onready var touch_damage_area: Area2D = $TouchDamageArea
 @onready var sfx_player: AudioStreamPlayer = $SFXPlayer
 
 var current_attack: AttackDescription = null
@@ -39,8 +45,15 @@ func _ready() -> void:
 	
 	if initial_attack != "":
 		start_attack(initial_attack)
+		
+	if touch_damage_enable:
+		touch_damage_area.add_child(touch_damage_hitbox.duplicate())
 
-func _process(_delta: float) -> void:
+	if touch_damage_enable:
+		var bodies := touch_damage_area.get_overlapping_bodies()
+		for body in bodies:
+			attack_body(body, null, touch_damage_amount, false)
+	
 	if (current_attack != null
 		and current_attack.type != AttackDescription.Type.ONE_TIME):
 			attack_bodies()
@@ -138,8 +151,8 @@ func _simple_attack() -> void:
 		var node: CollisionShape2D = get_node(current_attack.hitbox_node)
 		set_hitbox_node(node, node.position)
 		
+	# Not sure why I have to wait 3 frames for it to work
 	if current_attack.type == AttackDescription.Type.ONE_TIME:
-		# Not sure why I have to wait 3 frames for it to work
 		for i in 3:
 			await get_tree().process_frame
 			
@@ -171,19 +184,30 @@ func stop_attack() -> void:
 			animation_player.play("RESET")
 	
 func attack_bodies() -> void:
+	if current_attack == null:
+		return
+		
 	var bodies := area_2d.get_overlapping_bodies()
 	for body in bodies:
-		attack_body(body)
+		attack_body(body, current_attack)
 			
-func attack_body(body: Node2D) -> void:
-	if body == get_parent() or body in objects_to_ignore or current_attack == null:
+func attack_body(
+	body: Node2D,
+	attack: AttackDescription,
+	amount: float = 0.0,
+	add_to_attacked := true) -> void:
+	if body == get_parent() or body in objects_to_ignore:
 		return
 	if body.has_node("HealthComponent") and (enemy != body.get_node("HealthComponent").enemy) \
 		and body not in attacked_bodies:
 			var hc: HealthComponent = body.get_node("HealthComponent")
-			hc.damage(current_attack)
-			attacked.emit(body, current_attack)
-			attacked_bodies.append(body)
+			if attack != null:
+				hc.damage(attack)
+			else:
+				hc.damage_amount(amount)
+			attacked.emit(body, attack)
+			if add_to_attacked:
+				attacked_bodies.append(body)
 			
 func is_attacking() -> bool:
 	return current_attack != null
