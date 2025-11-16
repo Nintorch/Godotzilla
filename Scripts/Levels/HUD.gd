@@ -130,3 +130,9 @@ func adapt_to_content_size() -> void:
 	
 	var score := $PlayerCharacter/ScoreMeter
 	score.position.x = width / 2 - score.size.x / 2 - 8
+
+func pause_boss_timer() -> void:
+	boss_timer_second.paused = true
+	
+func unpause_boss_timer() -> void:
+	boss_timer_second.paused = false
