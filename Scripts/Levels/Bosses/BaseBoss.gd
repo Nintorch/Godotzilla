@@ -1,3 +1,4 @@
+class_name BaseBoss
 extends Level
 
 ## The amount of XP the player gets when the boss is defeated
@@ -5,6 +6,7 @@ extends Level
 ## The amount of score the player gets when the boss is defeated
 @export var score_amount := 110000
 @export var victory_music: AudioStream
+@export var boss_wall_distance := 20.0
 
 @onready var boss: GameCharacter = $Boss
 
@@ -31,8 +33,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	super._process(delta)
 
-	if player.position.x > boss.position.x - 20:
-		player.position.x = boss.position.x - 20
+	if player.position.x > boss.position.x - boss_wall_distance:
+		player.position.x = boss.position.x - boss_wall_distance
 		player.velocity.x = 0
 		
 	if boss.position.x > camera.limit_right - 10:
