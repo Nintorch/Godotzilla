@@ -336,7 +336,7 @@ func save_game_data() -> void:
 		
 ## Information about a boss after the player pressed on their board piece
 func show_boss_info(piece: BoardPiece) -> void:
-	var text := PlayerCharacter.get_character_name_static(piece.piece_character) + " - "
+	var text := piece.get_character_name() + " - "
 	var size := Vector2i(message_window.default_window_size)
 	var hp_text := boss_hp_str(piece.character_data.hp / 8)
 	

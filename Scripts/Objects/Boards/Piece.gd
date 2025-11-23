@@ -15,22 +15,19 @@ const PIECE_INFO: Dictionary[PlayerCharacter.Type, Dictionary] = {
 
 const FRAME_COUNT := 3 # White piece and 2 colored walking sprites
 
-@export var piece_character := PlayerCharacter.Type.GODZILLA:
-	set(value):
-		piece_character = value
-		update_frame()
-		queue_redraw()
-@export_enum("Player", "Boss") var piece_type := 0:
-	set(value):
-		piece_type = value
-		update_frame()
-		queue_redraw()
-## When the boss piece meets with a player piece, this scene should start
-@export var boss_scene: PackedScene = null
+## TODO: comment
+@export var piece_character := PlayerCharacter.Type.GODZILLA
+@export var piece_info: BoardPieceInfo
+@export_enum("Player", "Boss") var piece_type := 0
+
 ## XP level of the piece.
 ## Only works if it's a boss, otherwise loaded from the current save.
 ## If there's no current save, then it's 1.
 @export var level := 1
+
+@export_tool_button("Update Sprites") var _update_sprites := func() -> void:
+	update_frame()
+	queue_redraw()
 
 # "Board Pieces" node
 @onready var parent := get_parent()
@@ -107,6 +104,9 @@ func update_frame() -> void:
 	# + 1 to skip the top row of the spritesheet (non-character sprites for boards)
 	var xoffset := 48 * piece_frame
 	var yoffset := 48 * (piece_character + 1)
+	
+	if piece_info != null:
+		yoffset = 0
 	
 	region_rect.position.x = xoffset
 	region_rect.position.y = yoffset
@@ -212,4 +212,6 @@ func get_nav_agent() -> NavigationAgent2D:
 	return $NavigationAgent2D
 	
 func get_character_name() -> String:
+	if piece_info != null:
+		return piece_info.name
 	return PlayerCharacter.get_character_name_static(piece_character)
