@@ -74,17 +74,22 @@ func _ready() -> void:
 	await get_tree().process_frame
 	hide_cell_below()
 	
-	if piece_character == PlayerCharacter.Type.MOTHRA:
-		walk_anim = 1
-	
 	var players_data: Dictionary = Global.board.board_data["players"]
 	if players_data.has(name):
 		character_data.level = players_data[name]["level"]
 		character_data.xp = players_data[name]["xp"]
 		level = character_data.level
-		
-	steps = PIECE_INFO[piece_character].steps
-	character_data.bars = PlayerCharacter.calculate_bar_count(piece_character, level)
+	
+	if piece_info == null:
+		steps = PIECE_INFO[piece_character].steps
+		character_data.bars = PlayerCharacter.calculate_bar_count(piece_character, level)
+		if piece_character == PlayerCharacter.Type.MOTHRA:
+			walk_anim = 1
+	else:
+		steps = piece_info.steps_count
+		character_data.bars = piece_info.bar_count
+		if piece_info.flying_animation:
+			walk_anim = 1
 	character_data.hp = character_data.bars * 8
 
 func _process(delta: float) -> void:
