@@ -125,6 +125,9 @@ func _simple_attack() -> void:
 		and animation_player.has_animation("RESET")):
 			animation_player.play("RESET")
 			
+	if get_tree() == null: # Prevents a rare crash
+		return
+		
 	await get_tree().process_frame
 	if not is_attacking(): return # Just in case
 	
