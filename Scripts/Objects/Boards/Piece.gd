@@ -106,6 +106,11 @@ func _process(delta: float) -> void:
 				update_frame()
 
 func update_frame() -> void:
+	if piece_info != null:
+		texture = piece_info.sprites
+	else:
+		texture = preload("uid://wmgv6kcqcri0")
+	
 	# + 1 to skip the top row of the spritesheet (non-character sprites for boards)
 	var xoffset := 48 * piece_frame
 	var yoffset := 48 * (piece_character + 1)
