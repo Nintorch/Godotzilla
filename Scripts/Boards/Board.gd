@@ -192,8 +192,8 @@ func start_playing(boss_piece: BoardPiece = null) -> void:
 	Global.playing_levels.assign(selector.playing_levels)
 			
 	# If the player also collided with a boss during their move
-	if boss_piece != null:
-		Global.playing_levels.append(boss_piece.boss_scene)
+	if boss_piece != null and boss_piece.piece_info != null:
+		Global.playing_levels.append(boss_piece.piece_info.boss_scene)
 		
 	# Let the developer know there's a missing level scene on the board
 	if Global.playing_levels.find(null) >= 0:
