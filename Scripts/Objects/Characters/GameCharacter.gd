@@ -23,3 +23,21 @@ func start_death_animation() -> void:
 	
 @abstract func get_character_name() -> String
 @abstract func is_hurtable() -> bool
+
+## Load the character data from a board piece
+func load_state(data: BoardPiece.CharacterData = null) -> void:
+	if data == null:
+		return
+		
+	var bar_value := data.bars * 8
+	health.resize(bar_value)
+	health.set_value(data.hp)
+	power.max_value = bar_value
+	power.value = bar_value
+
+## Save the character data into a board piece
+func save_state(data: BoardPiece.CharacterData = null) -> void:
+	if data == null:
+		return
+	data.hp = health.value
+	data.bars = int(power.max_value / 8)
