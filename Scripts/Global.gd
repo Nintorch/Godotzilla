@@ -31,8 +31,6 @@ signal fade_end
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	if main == null:
-		push_error("You started the game incorrectly. You should use the 'Run Project' button, not the 'Run Current Scene'. Expect errors when the game runs.")
 	
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("FullScreen"):
@@ -158,6 +156,8 @@ func is_initial_scene() -> bool:
 	
 ## The currently playing scene
 func get_current_scene() -> Node:
+	if main == null:
+		push_error("You started the game incorrectly. You should use the 'Run Project' button, not the 'Run Current Scene'. Expect errors when the game runs.")
 	return main.get_scene_container().get_child(0)
 	
 #endregion
