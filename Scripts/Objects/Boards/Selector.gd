@@ -85,8 +85,8 @@ func stop_conditions() -> void:
 	# The next cell is outside the camera limits
 	elif movement_style == MovementStyle.OUTSIDE_CELLS:
 		var next_cell := get_next_cell_pos()
-		var xlimit: int = $Camera2D.limit_right / 32 - 2
-		var ylimit: int = $Camera2D.limit_bottom / 32 - 2
+		var xlimit: int = get_viewport().get_camera_2d().limit_right / 32 - 2
+		var ylimit: int = get_viewport().get_camera_2d().limit_bottom / 32 - 2
 		if next_cell.x < 0 or next_cell.y < next_cell.x % 2 \
 			or next_cell.x > xlimit or next_cell.y > ylimit:
 			stop()
@@ -136,6 +136,9 @@ func update_movement(delta: float) -> void:
 			
 	position.x += speed.x * 60 * delta
 	position.y += speed.y * 60 * delta
+	
+	if speed.length() > 0:
+		get_viewport().get_camera_2d().global_position = global_position
 
 func is_stopped() -> bool:
 	return absf(speed.x) < 0.01 && absf(speed.y) < 0.01

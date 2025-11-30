@@ -173,7 +173,7 @@ func build_outline() -> void:
 	for cell in outline.get_used_cells():
 		var cell_id := outline.get_cell_atlas_coords(cell)
 		if cell_id != Vector2i(0, 0) and cell_id != Vector2i(-1, -1):
-			print("Warning: Icon moved from outline layer to board icons layer")
+			push_warning("Icon moved from outline layer to board icons layer")
 			tilemap.set_cell(cell, 0, cell_id)
 			
 	outline.clear()
@@ -350,6 +350,14 @@ func show_boss_info(piece: BoardPiece) -> void:
 func boss_hp_str(hp: float) -> String:
 	return str(snappedf(hp, 0.1))
 	
+func can_camera_move_left() -> bool:
+	var camera := get_viewport().get_camera_2d()
+	return camera.get_screen_center_position().x > camera.limit_left + Global.get_content_size().x / 2
+	
+func can_camera_move_right() -> bool:
+	var camera := get_viewport().get_camera_2d()
+	return camera.get_screen_center_position().x < camera.limit_right - Global.get_content_size().x / 2
+	
 ## Make the boss piece move using pathfinding
 func move_boss() -> bool:
 	var boss_piece: BoardPiece = get_boss_pieces().pick_random()
@@ -362,7 +370,20 @@ func move_boss() -> bool:
 		
 	var player_piece: BoardPiece = get_closest_player(boss_piece)
 	await get_tree().create_timer(0.5).timeout
+	
+	# Slowly move the camera to the boss piece
+	var camera := get_viewport().get_camera_2d()
+	camera.global_position = camera.get_screen_center_position()
+	while camera.global_position.x < boss_piece.global_position.x and can_camera_move_right():
+		camera.global_position.x += 2
+		await get_tree().physics_frame
+		
+	while camera.global_position.x > boss_piece.global_position.x and can_camera_move_left():
+		camera.global_position.x -= 2
+		await get_tree().physics_frame
+		
 	boss_piece.select()
+	camera.global_position = selector.global_position
 	selected_piece = boss_piece
 	
 	var nav_agent: NavigationAgent2D = boss_piece.get_nav_agent()
@@ -370,7 +391,9 @@ func move_boss() -> bool:
 	nav_agent.target_position = player_piece.global_position
 	nav_agent.get_next_path_position() # Build the navigation path
 	var path := convert_navigation_path(nav_agent.get_current_navigation_path())
-	
+	if path.size() == 0:
+		push_warning("Empty boss navigation path!")
+		
 	for p: BoardPiece in get_boss_pieces():
 		if p != boss_piece:
 			outline.set_cell(p.get_cell_pos(), 0, Vector2i(0, 0))
@@ -391,6 +414,7 @@ func move_boss() -> bool:
 	
 	await get_tree().create_timer(0.5).timeout
 	boss_piece.prepare_start()
+	Global.play_global_sfx("MenuBip")
 		
 	if (selector.playing_levels.size() < boss_piece.steps or
 		(selector.playing_levels.size() == boss_piece.steps and 
