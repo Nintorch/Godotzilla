@@ -50,6 +50,7 @@ class CharacterData:
 	var bars := 0
 	var xp := 0
 	var level := 1
+	var custom_data: Dictionary = {}
 
 var character_data := CharacterData.new()
 
