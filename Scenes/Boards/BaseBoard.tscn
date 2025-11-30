@@ -63,9 +63,9 @@ sources/2 = SubResource("TileSetScenesCollectionSource_q6vje")
 script = ExtResource("1_qudp1")
 
 [node name="BoardName" type="CenterContainer" parent="."]
-visible = false
-offset_right = 256.0
-offset_bottom = 240.0
+offset_right = 56.0
+offset_bottom = 32.0
+use_top_left = true
 
 [node name="Label" type="Label" parent="BoardName"]
 layout_mode = 2

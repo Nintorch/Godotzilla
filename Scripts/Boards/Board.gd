@@ -67,9 +67,12 @@ func _ready() -> void:
 	
 	if board_name:
 		# Show the board name and hide the actual board for now
-		$BoardName.visible = true
-		$BoardName.size = Global.get_default_resolution()
-		$BoardName/Label.text = board_name
+		var board_name_node: CenterContainer = $BoardName
+
+		board_name_node.visible = true
+		board_name_node.size = Global.get_default_resolution()
+		board_name_node.get_node("Label").text = board_name
+		board_name_node.global_position = get_viewport().get_camera_2d().get_screen_center_position()
 			
 		board.visible = false
 		board.process_mode = Node.PROCESS_MODE_DISABLED
