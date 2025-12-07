@@ -238,6 +238,7 @@ func fade_out_selected(music_fade_out := true) -> void:
 ## ignore_boss_moves indicates that the game returned to the board
 ## after a boss scene where the boss timer ran out
 func returned(ignore_boss_moves := false) -> void:
+	selector.ignore_player_input = true
 	await get_tree().create_timer(0.5).timeout
 	
 	message_window.make_hide()
@@ -265,7 +266,6 @@ func returned(ignore_boss_moves := false) -> void:
 		# notice that selector was used/moved
 		var selector_pos_saved := Vector2(selector.position)
 		selector.hide()
-		selector.ignore_player_input = true
 
 		await Global.fade_end
 		if await move_boss():
