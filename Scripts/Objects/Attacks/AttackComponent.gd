@@ -152,7 +152,7 @@ func _simple_attack() -> void:
 		
 	if not current_attack.hitbox_node.is_empty():
 		var node: CollisionShape2D = get_node(current_attack.hitbox_node)
-		set_hitbox_node(node, node.position)
+		set_hitbox_node(node.duplicate(), node.position)
 		
 	# Not sure why I have to wait 3 frames for it to work
 	if current_attack.type == AttackDescription.Type.ONE_TIME:
