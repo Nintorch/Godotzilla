@@ -277,7 +277,7 @@ func set_collision(shape: CollisionShape2D) -> void:
 	call_deferred("add_child", new_shape)
 	
 func is_hurtable() -> bool:
-	return state not in [State.LEVEL_INTRO, State.HURT, State.DEAD]
+	return state.current not in [State.LEVEL_INTRO, State.HURT, State.DEAD]
 
 func _on_health_damaged(_amount: float, attack: AttackDescription) -> void:
 	var attack_state := $StateMachine/Attack
