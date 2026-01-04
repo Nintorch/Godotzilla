@@ -189,6 +189,17 @@ func process_input() -> void:
 		for i in range(Inputs.B, Inputs.size()):
 			inputs[i] = Input.is_action_pressed(INPUT_ACTIONS[i])
 			inputs_pressed[i] = Input.is_action_just_pressed(INPUT_ACTIONS[i])
+			
+func clear_inputs() -> void:
+	inputs[Inputs.XINPUT] = 0.0
+	inputs[Inputs.YINPUT] = 0.0
+	
+	inputs_pressed[Inputs.XINPUT] = 0
+	inputs_pressed[Inputs.YINPUT] = 0
+		
+	for i in range(Inputs.B, Inputs.size()):
+		inputs[i] = false
+		inputs_pressed[i] = false
 
 ## Useful for boss attacks in AI code
 func simulate_input_press(key: Inputs) -> void:
