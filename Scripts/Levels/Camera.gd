@@ -6,6 +6,7 @@ enum CameraMode {
 	NORMAL,
 	## The camera can move in both sides, useful for more complicated levels
 	TWO_SIDES,
+	LOCKED,
 }
 
 @export var camera_offset := Vector2(30, -20)
@@ -36,6 +37,9 @@ func _process(_delta: float) -> void:
 				2
 			))
 			position.x = target.position.x + camera_current_offset
+			
+		CameraMode.LOCKED:
+			pass # Don't move
 
 func is_camera_moving() -> bool:
 	return camera_x_old != get_screen_center_position().x
