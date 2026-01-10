@@ -13,7 +13,7 @@ const GAME_OVER_SCENE := preload("uid://chlit8t7aajq7")
 @export var bg_color := Color(0, 0, 0)
 @export var right_boundary_behaviour := LevelBoundaryType.NEXT_LEVEL
 
-@onready var camera: Camera2D = $Camera
+@onready var camera: LevelCamera = $Camera
 @onready var player: PlayerCharacter = $Player
 
 ## Important gameplay data that should be passed between levels (and from the boards)
