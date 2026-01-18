@@ -17,8 +17,7 @@ This framework can be used for anything you want, this includes but not limited 
   - "Pass word game"
   - Settings
   - Credits
-- Save system
-  - With encryption and (hopefully working) protection against using other people's save files
+- Save system with encryption
 - Wide screen support (togglable)
 - Gamepad support
   - Tested with cheap controllers as well as Dualshock 4 and Xbox One controllers
