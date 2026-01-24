@@ -3,6 +3,7 @@ extends CanvasLayer
 @export var player: GameCharacter = null
 @export var boss: GameCharacter = null
 @export var boss_bar_color: Color
+## The length of the boss fight in seconds. Put 0 if you don't want to use the timer for the fight.
 @export var boss_timer_seconds := 60
 
 ## Runs the timeout signal every second
@@ -42,17 +43,20 @@ func _ready() -> void:
 		boss_bar.size.x = Global.get_content_size().x
 		
 		var timer_text: Label = $BossCharacter/TimerText
-		timer_text.position = $PlayerCharacter/ScoreMeter.position
-		timer_text.text = str(boss_timer_seconds)
-		
-		boss_timer_second.start()
-		boss_timer_second.timeout.connect(func() -> void:
-			boss_timer_seconds -= 1
+		if boss_timer_seconds > 0:
+			timer_text.position = $PlayerCharacter/ScoreMeter.position
 			timer_text.text = str(boss_timer_seconds)
-			if boss_timer_seconds <= 0:
-				boss_timer_timeout.emit()
-				boss_timer_second.stop()
-			)
+			
+			boss_timer_second.start()
+			boss_timer_second.timeout.connect(func() -> void:
+				boss_timer_seconds -= 1
+				timer_text.text = str(boss_timer_seconds)
+				if boss_timer_seconds <= 0:
+					boss_timer_timeout.emit()
+					boss_timer_second.stop()
+				)
+		else:
+			timer_text.hide()
 	else:
 		$BgRect.size.y = 48
 		vertical_size = 48
