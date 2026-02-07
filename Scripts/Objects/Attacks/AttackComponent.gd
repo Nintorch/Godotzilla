@@ -16,7 +16,16 @@ class_name AttackComponent extends Node2D
 @export_group("Attack By Touching", "touch_damage_")
 @export var touch_damage_enable := false
 @export var touch_damage_amount := 0.0
-@export var touch_damage_hitbox: CollisionShape2D
+@export var touch_damage_hitbox: CollisionShape2D:
+	set(value):
+		if value == touch_damage_hitbox:
+			return
+		touch_damage_hitbox = value
+		if not is_inside_tree():
+			return
+		for node in touch_damage_area.get_children():
+			node.queue_free()
+		touch_damage_area.add_child(touch_damage_hitbox.duplicate())
 
 @onready var area_2d: Area2D = $Area2D
 @onready var touch_damage_area: Area2D = $TouchDamageArea
