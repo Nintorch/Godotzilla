@@ -9,6 +9,7 @@ class_name HealthComponent extends Node
 ## Put 0.0, if you want the HP value to be immediately set the target value
 ## without any smoothing.
 @export var health_speed := 0.0
+@export var damage_coefficient := 1.0
 
 ## The current amount of health
 var target_value := 0.0
@@ -50,13 +51,13 @@ func _process(delta: float) -> void:
 ## will start the invincibility timer, if the invincibility time was specified.
 ## If you don't have an AttackDescription object, pass null as the first argument.
 func damage(attack: AttackDescription, amount := -1.0) -> void:
-	var attack_damage := amount
+	var attack_damage := amount * damage_coefficient
 	var invincibility_time := invincibility_time_seconds
 	if attack != null:
-		attack_damage = attack.damage_amount
+		attack_damage = attack.damage_amount * damage_coefficient
 		if attack.invincibility_time >= 0:
 			invincibility_time = attack.invincibility_time
-	if attack_damage <= 0 or invincible or died \
+	if (attack_damage <= 0 and damage_coefficient > 0) or invincible or died \
 		or (get_parent().has_method("is_hurtable") and not get_parent().is_hurtable()):
 			return
 	
