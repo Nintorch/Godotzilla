@@ -21,6 +21,8 @@ var score := 0
 ## Important gameplay that should be passed between levels 
 var level_data: Level.GameplayData = null
 
+var controller_vibration := true
+
 var _initial_scene := true
 
 signal widescreen_changed
