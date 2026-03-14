@@ -34,7 +34,7 @@ func _on_timeout() -> void:
 	player.state.current = player.move_state
 
 func setup_from_attack(attack: AttackDescription) -> void:
-	if attack.hurt_speed < 0.0:
+	if not is_instance_valid(attack) or attack.hurt_speed < 0.0:
 		hurt_speed = player.move_speed
 	else:
 		hurt_speed = attack.hurt_speed * 60
