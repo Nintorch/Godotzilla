@@ -281,6 +281,7 @@ func is_hurtable() -> bool:
 
 func _on_health_damaged(_amount: float, attack: AttackDescription) -> void:
 	var attack_state := $StateMachine/Attack
+	var hurt_state := $StateMachine/Hurt
 	var hurt_time := attack.hurt_time if attack != null else -1.0
 	if(state.current == State.ATTACK
 		and attack_state.current_attack.name == "HeatBeam"):
@@ -289,8 +290,10 @@ func _on_health_damaged(_amount: float, attack: AttackDescription) -> void:
 	if hurt_time < 0:
 		hurt_time = 0.6
 	if hurt_time > 0:
-		$StateMachine/Hurt.hurt_time = hurt_time
+		hurt_state.hurt_time = hurt_time
 		state.current = State.HURT
+		
+	hurt_state.setup_from_attack(attack)
 		
 	if Global.controller_vibration and not Input.get_connected_joypads().is_empty():
 		var device := Input.get_connected_joypads()[0]
