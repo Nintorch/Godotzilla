@@ -57,9 +57,8 @@ func damage(attack: AttackDescription, amount := -1.0) -> void:
 		attack_damage = attack.damage_amount * damage_coefficient
 		if attack.invincibility_time >= 0:
 			invincibility_time = attack.invincibility_time
-	if (attack_damage <= 0 and damage_coefficient > 0) or invincible or died \
-		or (get_parent().has_method("is_hurtable") and not get_parent().is_hurtable()):
-			return
+	if (attack_damage <= 0 and damage_coefficient > 0) or not is_hurtable():
+		return
 	
 	target_value = clampf(target_value - attack_damage, 0.0, max_value)
 	if target_value > 0.0 or health_speed > 0.0:
@@ -107,3 +106,6 @@ func resize_and_fill(new_hp_amount: float) -> void:
 func set_value(new_value: float) -> void:
 	target_value = minf(new_value, max_value)
 	value = target_value
+
+func is_hurtable() -> bool:
+	return not (invincible or died or (get_parent().has_method("is_hurtable") and not get_parent().is_hurtable()))

@@ -204,18 +204,21 @@ func attack_body(
 	attack: AttackDescription,
 	amount: float = 0.0,
 	add_to_attacked := true) -> void:
-	if body == get_parent() or body in objects_to_ignore:
+	if (body == get_parent()
+		or body in objects_to_ignore
+		or body in attacked_bodies
+		or not body.has_node("HealthComponent")):
+			return
+	var hc: HealthComponent = body.get_node("HealthComponent")
+	if enemy == hc.enemy or not hc.is_hurtable():
 		return
-	if body.has_node("HealthComponent") and (enemy != body.get_node("HealthComponent").enemy) \
-		and body not in attacked_bodies:
-			var hc: HealthComponent = body.get_node("HealthComponent")
-			if attack != null:
-				hc.damage(attack)
-			else:
-				hc.damage_amount(amount)
-			attacked.emit(body, attack)
-			if add_to_attacked:
-				attacked_bodies.append(body)
+	if attack != null:
+		hc.damage(attack)
+	else:
+		hc.damage_amount(amount)
+	attacked.emit(body, attack)
+	if add_to_attacked:
+		attacked_bodies.append(body)
 			
 func is_attacking() -> bool:
 	return current_attack != null
