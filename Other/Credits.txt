@@ -52,6 +52,10 @@ COPYRIGHT BY NINTENDO
 MADE WITH
 [color=Deepskyblue]GODOT ENGINE[/color]
 
-[color=Deepskyblue]HTTPS://GODOTENGINE.ORG/LICENSE/[/color]
+[color=Deepskyblue]GODOTENGINE.ORG/LICENSE[/color]
+
+AND [color=Blue]GODOTZILLA[/color]
+
+[color=Blue]GITHUB.COM/NINTORCH/GODOTZILLA[/color]
 
 THANK YOU FOR PLAYING

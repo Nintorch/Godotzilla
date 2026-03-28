@@ -25,16 +25,12 @@ func _process(_delta: float) -> void:
 			exit()
 
 func display_text() -> void:
-	if current_text == texts.size():
-		text_node.text = ""
-		await get_tree().create_timer(0.1).timeout
-		return
 	var text := "[center]%s[/center]" % texts[current_text]
 	text_node.text = text
 
 func next_text() -> void:
 	current_text += 1
-	if current_text >= texts.size() + 1:
+	if current_text >= texts.size():
 		exit()
 		return
 	else:
