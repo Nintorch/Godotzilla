@@ -68,7 +68,7 @@ func _ready() -> void:
 func start_attack(attack_name: String) -> bool:
 	# An attack is still playing
 	if current_attack != null:
-		return false
+		await stop_attack()
 		
 	# Find the attack description
 	for attack_desc in attacks:
