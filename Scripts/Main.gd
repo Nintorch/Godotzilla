@@ -15,6 +15,7 @@ func _ready() -> void:
 	Global.music = $Music
 	Global._fade_player = $Fade/FadePlayer
 	Global._fader = $Fade/FadeRect.material as ShaderMaterial
+	Global._fade_rect = $Fade/FadeRect
 	
 	if OS.is_debug_build():
 		initial_scene = initial_scene_debug

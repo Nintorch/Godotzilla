@@ -7,6 +7,7 @@ var main: Node2D
 
 var _fade_player: AnimationPlayer
 var _fader: ShaderMaterial
+var _fade_rect: ColorRect
 
 ## AudioStreamPlayer node dedicated to playing music in the game
 var music: AudioStreamPlayer
@@ -177,13 +178,19 @@ func is_fading() -> bool:
 func is_fade_shown() -> bool:
 	return _fader.get_shader_parameter("Progress") > 0
 
-func _perform_fade(callable: Callable, pause_game: bool, color: FadeColor) -> void:
+func _perform_fade(use_fade_in: bool, pause_game: bool, color: FadeColor) -> void:
 	if pause_game:
 		get_tree().paused = true
-		
+	
+	_fade_rect.show()
 	_fader.set_shader_parameter("WhiteFade", color == FadeColor.WHITE)
-	callable.call()
+	if use_fade_in:
+		_fade_player.play("FadeIn")
+	else:
+		_fade_player.play_backwards("FadeIn")
 	await _fade_player.animation_finished
+	if use_fade_in:
+		_fade_rect.hide()
 	fade_end.emit()
 	
 	if pause_game:
@@ -191,19 +198,19 @@ func _perform_fade(callable: Callable, pause_game: bool, color: FadeColor) -> vo
 
 ## Show the fade out effect on the screen
 func fade_out(color := FadeColor.BLACK) -> void:
-	await _perform_fade(func() -> void: _fade_player.play_backwards("FadeIn"), false, color)
+	await _perform_fade(false, false, color)
 	
 ## Show the fade in effect on the screen
 func fade_in(color := FadeColor.BLACK) -> void:
-	await _perform_fade(func() -> void: _fade_player.play("FadeIn"), false, color)
+	await _perform_fade(true, false, color)
 	
 ## Show the fade out effect on the screen while also pausing the game while it's playing
 func fade_out_paused(color := FadeColor.BLACK) -> void:
-	await _perform_fade(func() -> void: _fade_player.play_backwards("FadeIn"), true, color)
+	await _perform_fade(false, true, color)
 	
 ## Show the fade in effect on the screen while also pausing the game while it's playing
 func fade_in_paused(color := FadeColor.BLACK) -> void:
-	await _perform_fade(func() -> void: _fade_player.play("FadeIn"), true, color)
+	await _perform_fade(true, true, color)
 	
 ## Make the game screen visible instantly from fade effect
 func hide_fade() -> void:
