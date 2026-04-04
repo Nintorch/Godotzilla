@@ -178,16 +178,16 @@ func is_fading() -> bool:
 func is_fade_shown() -> bool:
 	return _fader.get_shader_parameter("Progress") > 0
 
-func _perform_fade(use_fade_in: bool, pause_game: bool, color: FadeColor) -> void:
+func _perform_fade(use_fade_in: bool, pause_game: bool, color: FadeColor, custom_speed := 1.0) -> void:
 	if pause_game:
 		get_tree().paused = true
 	
 	_fade_rect.show()
 	_fader.set_shader_parameter("WhiteFade", color == FadeColor.WHITE)
 	if use_fade_in:
-		_fade_player.play("FadeIn")
+		_fade_player.play("FadeIn", -1, custom_speed)
 	else:
-		_fade_player.play_backwards("FadeIn")
+		_fade_player.play("FadeIn", -1, -custom_speed, true)
 	await _fade_player.animation_finished
 	if use_fade_in:
 		_fade_rect.hide()
@@ -197,20 +197,20 @@ func _perform_fade(use_fade_in: bool, pause_game: bool, color: FadeColor) -> voi
 		get_tree().paused = false
 
 ## Show the fade out effect on the screen
-func fade_out(color := FadeColor.BLACK) -> void:
-	await _perform_fade(false, false, color)
+func fade_out(color := FadeColor.BLACK, custom_speed := 1.0) -> void:
+	await _perform_fade(false, false, color, custom_speed)
 	
 ## Show the fade in effect on the screen
-func fade_in(color := FadeColor.BLACK) -> void:
-	await _perform_fade(true, false, color)
+func fade_in(color := FadeColor.BLACK, custom_speed := 1.0) -> void:
+	await _perform_fade(true, false, color, custom_speed)
 	
 ## Show the fade out effect on the screen while also pausing the game while it's playing
-func fade_out_paused(color := FadeColor.BLACK) -> void:
-	await _perform_fade(false, true, color)
+func fade_out_paused(color := FadeColor.BLACK, custom_speed := 1.0) -> void:
+	await _perform_fade(false, true, color, custom_speed)
 	
 ## Show the fade in effect on the screen while also pausing the game while it's playing
-func fade_in_paused(color := FadeColor.BLACK) -> void:
-	await _perform_fade(true, true, color)
+func fade_in_paused(color := FadeColor.BLACK, custom_speed := 1.0) -> void:
+	await _perform_fade(true, true, color, custom_speed)
 	
 ## Make the game screen visible instantly from fade effect
 func hide_fade() -> void:
@@ -224,13 +224,13 @@ func show_fade() -> void:
 
 #region Music
 
-func play_music(stream: AudioStream) -> void:
+func play_music(stream: AudioStream, from_position: float = 0.0) -> void:
 	if music.playing:
 		music.stop()
 	
 	music.stream = stream
 	music.volume_db = 0
-	music.play()
+	music.play(from_position)
 	
 func stop_music() -> void:
 	music.stop()
