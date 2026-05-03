@@ -36,6 +36,8 @@ var variation := false
 # We don't want to attack a body multiple times in the same attack
 var attacked_bodies: Array[Node2D] = []
 
+## Happens when the attack component touches an attackable body
+signal touched_body(body: Node2D)
 ## Happens when the attack component attacks a body
 signal attacked(body: Node2D, attack: AttackDescription)
 ## Happens before an attack starts
@@ -210,7 +212,10 @@ func attack_body(
 		or not body.has_node("HealthComponent")):
 			return
 	var hc: HealthComponent = body.get_node("HealthComponent")
-	if enemy == hc.enemy or not hc.is_hurtable():
+	if enemy == hc.enemy:
+		return
+	touched_body.emit(body)
+	if not hc.is_hurtable():
 		return
 	if attack != null:
 		hc.damage(attack)
