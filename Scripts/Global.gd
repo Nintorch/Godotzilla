@@ -1,5 +1,7 @@
 extends Node
 
+const EXPLOSION = preload("uid://cpxp6boj611rb")
+
 const SCORE_MAX := 9999999
 
 ## Reference to the main scene, i.e. container of all scenes
@@ -20,7 +22,8 @@ var board: Board
 ## Amount of score the player currently has
 var score := 0
 ## Important gameplay that should be passed between levels 
-var level_data: Level.GameplayData = null
+var level_data: Level.GameplayData
+var hud: HUD
 
 var controller_vibration := true
 
@@ -252,3 +255,11 @@ func play_global_sfx(sfx_name: String) -> AudioStreamPlayer:
 	return sfx
 
 #endregion
+
+
+func create_explosion(explosion_global_position: Vector2, sfx := true) -> void:
+	var explosion: Node2D = EXPLOSION.instantiate()
+	get_current_scene().add_child(explosion)
+	explosion.global_position = explosion_global_position
+	if sfx:
+		play_global_sfx("Explosion")
