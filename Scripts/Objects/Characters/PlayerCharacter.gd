@@ -51,6 +51,7 @@ var direction: int = 1:
 @export var enable_attacks := true
 ## If checked, the player can change the character's facing direction while moving left or right
 @export var allow_direction_changing := false
+@export var enable_bottomless_pits := true
 
 @onready var attack: AttackComponent = $AttackComponent
 @onready var state: StateMachine = $StateMachine
@@ -62,6 +63,7 @@ var level := 1
 var xp := 0
 var save_position: Array[Vector2]
 var _intro_ended := false
+var _died_from_bottomless_pit := false
 
 var body: AnimatedSprite2D
 var skin: PlayerSkin
@@ -126,8 +128,13 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	save_position.pop_back()
 	save_position.insert(0, Vector2(position))
+	
+	var camera := get_viewport().get_camera_2d()
+	if is_instance_valid(camera) and global_position.y > camera.limit_bottom - 16:
+		health.set_value(0)
+		_died_from_bottomless_pit = true
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	process_input()
 	
 func change_skin(new_skin: PlayerSkin) -> void:
@@ -142,20 +149,20 @@ func change_skin(new_skin: PlayerSkin) -> void:
 	skin = new_skin
 	setup_character(skin)
 	
-func setup_character(skin: PlayerSkin) -> void:
-	set_collision(skin.get_node("Collision"))
+func setup_character(new_skin: PlayerSkin) -> void:
+	set_collision(new_skin.get_node("Collision"))
 	# Bar count is set on the board via the board piece character data
-	move_state = skin.move_state
-	move_speed = skin.move_speed * 60
+	move_state = new_skin.move_state
+	move_speed = new_skin.move_speed * 60
 	if state.current == State.LEVEL_INTRO and enable_intro:
-		position.x = skin.intro_start_x
+		position.x = new_skin.intro_start_x
 	if not _intro_ended:
-		position.y += skin.intro_y_offset
+		position.y += new_skin.intro_y_offset
 	
-	attack.hitboxes = skin.attack_hitboxes
-	attack.attack_animation_player = skin.attack_animation_player
-	attack.attacks.assign(skin.attacks)
-	attack.attack_function_node = skin.attack_function_callback_node
+	attack.hitboxes = new_skin.attack_hitboxes
+	attack.attack_animation_player = new_skin.attack_animation_player
+	attack.attacks.assign(new_skin.attacks)
+	attack.attack_function_node = new_skin.attack_function_callback_node
 	
 #region Input related
 	
@@ -278,6 +285,9 @@ func set_collision(shape: CollisionShape2D) -> void:
 	
 func is_hurtable() -> bool:
 	return state.current not in [State.LEVEL_INTRO, State.HURT, State.DEAD]
+	
+func should_replay_after_death() -> bool:
+	return _died_from_bottomless_pit
 
 func _on_health_damaged(_amount: float, attack: AttackDescription) -> void:
 	var attack_state := $StateMachine/Attack

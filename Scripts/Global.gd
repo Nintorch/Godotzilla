@@ -24,6 +24,7 @@ var score := 0
 ## Important gameplay that should be passed between levels 
 var level_data: Level.GameplayData
 var hud: HUD
+var last_scene: PackedScene
 
 var controller_vibration := true
 
@@ -151,7 +152,11 @@ func change_scene_node(node: Node, free := true) -> void:
 	
 ## Changes the current scene to the specified scene
 func change_scene(scene: PackedScene, free := true) -> void:
+	last_scene = scene
 	change_scene_node(scene.instantiate(), free)
+	
+func replay_last_scene() -> void:
+	change_scene(last_scene)
 	
 ## Get the scene that the player entered upon starting the game
 func get_initial_scene() -> PackedScene:

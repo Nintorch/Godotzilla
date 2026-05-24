@@ -24,6 +24,9 @@ func start_death_animation() -> void:
 @abstract func get_character_name() -> String
 @abstract func is_hurtable() -> bool
 
+func should_replay_after_death() -> bool:
+	return false
+
 ## Load the character data from a board piece
 func load_state(data: BoardPiece.CharacterData = null) -> void:
 	if data == null:

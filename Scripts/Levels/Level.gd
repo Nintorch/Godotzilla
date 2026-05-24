@@ -84,6 +84,10 @@ func player_dead(character: GameCharacter,
 	await Global.music.finished
 	await Global.fade_out_paused()
 	
+	if character.should_replay_after_death():
+		Global.replay_last_scene()
+		return
+	
 	if not is_instance_valid(Global.board):
 		return
 	

@@ -35,6 +35,7 @@ func _wait_before_start_func() -> void:
 		start()
 	
 func start() -> void:
+	Global.last_scene = initial_scene
 	get_scene_container().add_child(initial_scene.instantiate())
 	Global.widescreen_changed.connect(_on_widescreen_change)
 	Global.scene_changed.connect(func(_from: Node, _to: Node) -> void:
