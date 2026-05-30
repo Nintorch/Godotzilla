@@ -114,6 +114,15 @@ func _simple_attack_play_sfx() -> void:
 		sfx_player.volume_db = current_attack.sfx_db
 		sfx_player.play()
 		
+func _simple_attack_repeat_animation(animation_player: AnimationPlayer, repeat_times: int) -> void:
+	var animation_name := animation_player.current_animation
+	await animation_player.animation_finished
+	for i in repeat_times - 1:
+		await get_tree().process_frame # Just why is it required???
+		if not is_instance_valid(animation_player): return
+		animation_player.play(animation_name)
+		await animation_player.animation_finished
+		
 func _simple_attack() -> void:
 	if current_attack == null:
 		return
@@ -171,7 +180,7 @@ func _simple_attack() -> void:
 		
 	if current_attack and current_attack.type != AttackDescription.Type.LASTS_FOREVER:
 		if current_attack.time_length < 0.0:
-			await animation_player.animation_finished
+			await _simple_attack_repeat_animation(animation_player, current_attack.animation_repeat_times)
 		else:
 			await get_tree().create_timer(current_attack.time_length, false).timeout
 	# if not is_attacking(): return

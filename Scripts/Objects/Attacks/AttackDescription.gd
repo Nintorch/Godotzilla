@@ -36,6 +36,7 @@ var simple_or_advanced: int
 ## The second animation name is used for animataion variation,
 ## leave it empty if you don't need animation variation for this attack
 @export var animation_name2: String
+@export var animation_repeat_times := 1
 ## Use -1.0 to use the animation's length
 @export var time_length: float = -1.0
 ## Specifies if the attack animation player should play the "RESET"
