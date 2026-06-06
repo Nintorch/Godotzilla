@@ -27,6 +27,7 @@ class_name Board extends Node2D
 @onready var board: Node2D = $Board
 
 var selected_piece: BoardPiece = null
+var selector_pos_saved := Vector2()
 var board_data: Dictionary[String, Variant] = {
 	"players": {}, # [String (board piece name)] -> Dictionary ("xp", "level")
 	"player_characters": [],
@@ -245,6 +246,10 @@ func returned(ignore_boss_moves := false) -> void:
 	Global.fade_in()
 	if not Global.music.playing or Global.music.stream != music:
 		Global.play_music(music)
+		
+	if selector_pos_saved:
+		selector.position = selector_pos_saved
+		
 	if selected_piece:
 		selected_piece.deselect()
 		selected_piece.hide_cell_below()
@@ -264,13 +269,12 @@ func returned(ignore_boss_moves := false) -> void:
 		# The bosses also use the selector to move, so we should
 		# save its current position so later the player won't
 		# notice that selector was used/moved
-		var selector_pos_saved := Vector2(selector.position)
+		selector_pos_saved = Vector2(selector.position)
 		selector.hide()
 
 		await Global.fade_end
 		if await move_boss():
 			selector.show()
-		selector.position = selector_pos_saved
 	else:
 		selector.show()
 		
@@ -402,6 +406,7 @@ func move_boss() -> bool:
 			outline.set_cell(p.get_cell_pos(), 0, Vector2i(0, 0))
 	
 	selector.playing_levels.clear()
+	selector.set_process(true)
 	
 	for i in mini(boss_piece.steps, path.size()):
 		await get_tree().create_timer(0.5).timeout
