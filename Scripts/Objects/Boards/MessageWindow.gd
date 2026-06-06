@@ -99,11 +99,11 @@ func appear(
 	state = State.SHOWN
 	
 ## Make the message window appear and ask the player to make a Yes/No choice
-func make_choice(message: String, enable_sound := true) -> Response:
+func make_choice(message: String, enable_sound := true, req_size := default_window_size) -> Response:
 	if state == State.APPEARING or state == State.DISAPPEARING:
 		return Response.UNKNOWN
 		
-	await appear(message, enable_sound)
+	await appear(message, enable_sound, req_size)
 	
 	choice_nodes.show()
 	choice_nodes.position.y = default_window_size.y - 16

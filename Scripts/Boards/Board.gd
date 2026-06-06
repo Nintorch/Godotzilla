@@ -509,9 +509,13 @@ func _on_selector_piece_collision(boss_collision: bool) -> void:
 			# ("No" response to all of the bosses is ignored basically)
 			while true:
 				for piece in bosses:
-					result = await message_window.make_choice(
-						"Will you fight\n%s?" % piece.get_character_name()
-						)
+					var size := Vector2i(message_window.default_window_size)
+					var text := piece.get_character_name() + "?"
+					
+					if text.length() >= (size.x - 16) / 8:
+						size.x = (text.length() + 2) * 8
+					
+					result = await message_window.make_choice("Will you\nfight\n" + text, true, size)
 					if result == MessageWindow.Response.YES:
 						start_playing(piece)
 						return
