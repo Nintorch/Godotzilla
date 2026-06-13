@@ -13,6 +13,7 @@ var vertical_size := 0
 
 ## Runs when the boss timer is over and the battle should stop
 signal boss_timer_timeout
+signal hud_ready
 
 func _ready() -> void:
 	Global.widescreen_changed.connect(adapt_to_content_size)
@@ -61,6 +62,8 @@ func _ready() -> void:
 		$BgRect.size.y = 48
 		vertical_size = 48
 		$BossCharacter.visible = false
+		
+	hud_ready.emit()
 		
 func setup_character_listener(character: GameCharacter, group: Node2D) -> void:
 	# Set the character's name in the HUD
