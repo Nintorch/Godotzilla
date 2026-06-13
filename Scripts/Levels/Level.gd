@@ -81,7 +81,8 @@ func save_player_state() -> void:
 # Can also be used on bosses, hence the "character" argument
 func player_dead(character: GameCharacter,
 				piece: BoardPiece = data.board_piece) -> void:
-	await Global.music.finished
+	if Global.music.playing:
+		await Global.music.finished
 	await Global.fade_out_paused()
 	
 	if character.should_replay_after_death():
