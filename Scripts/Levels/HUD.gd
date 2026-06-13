@@ -38,7 +38,7 @@ func _ready() -> void:
 		
 		$BgRect.size.y = 72
 		vertical_size = 80
-		$BossCharacter.visible = true
+		show_boss_ui()
 		var boss_bar: ColorRect = $BossCharacter/BgRect2
 		boss_bar.color = boss_bar_color
 		boss_bar.size.x = Global.get_content_size().x
@@ -143,3 +143,9 @@ func pause_boss_timer() -> void:
 	
 func unpause_boss_timer() -> void:
 	boss_timer_second.paused = false
+
+func show_boss_ui() -> void:
+	$BossCharacter.show()
+
+func hide_boss_ui() -> void:
+	$BossCharacter.hide()
