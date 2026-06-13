@@ -227,9 +227,9 @@ func attack_body(
 	if not hc.is_hurtable():
 		return
 	if attack != null:
-		hc.damage(attack)
+		hc.damage(attack, -1, get_parent())
 	else:
-		hc.damage_amount(amount)
+		hc.damage_amount(amount, get_parent())
 	attacked.emit(body, attack)
 	if add_to_attacked:
 		attacked_bodies.append(body)

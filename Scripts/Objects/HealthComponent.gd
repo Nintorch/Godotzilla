@@ -21,6 +21,7 @@ var value := 0.0:
 		value_changed.emit(value)
 var died := false
 var invincible := false
+var attacker_body: Node = null
 
 ## The health amount that should be shown on screen has changed
 signal value_changed(new_value: float)
@@ -50,7 +51,7 @@ func _process(delta: float) -> void:
 ## by specifying the damage amount. Additionally, damaging the health component
 ## will start the invincibility timer, if the invincibility time was specified.
 ## If you don't have an AttackDescription object, pass null as the first argument.
-func damage(attack: AttackDescription, amount := -1.0) -> void:
+func damage(attack: AttackDescription, amount := -1.0, attacker: Node = null) -> void:
 	var attack_damage := amount * damage_coefficient
 	var invincibility_time := invincibility_time_seconds
 	if attack != null:
@@ -60,6 +61,7 @@ func damage(attack: AttackDescription, amount := -1.0) -> void:
 	if (attack_damage <= 0 and damage_coefficient > 0) or not is_hurtable():
 		return
 	
+	attacker_body = attacker
 	target_value = clampf(target_value - attack_damage, 0.0, max_value)
 	if target_value > 0.0 or health_speed > 0.0:
 		damaged.emit(attack_damage, attack)
@@ -73,8 +75,8 @@ func damage(attack: AttackDescription, amount := -1.0) -> void:
 		invincibility_ended.emit()
 		
 ## Convenience method for calling damage(null, the_amount_specified_here)
-func damage_amount(amount: float) -> void:
-	damage(null, amount)
+func damage_amount(amount: float, attacker: Node = null) -> void:
+	damage(null, amount, attacker)
 		
 func heal(amount: float) -> void:
 	if amount <= 0 or target_value >= max_value or died:
@@ -109,3 +111,6 @@ func set_value(new_value: float) -> void:
 
 func is_hurtable() -> bool:
 	return not (invincible or died or (get_parent().has_method("is_hurtable") and not get_parent().is_hurtable()))
+
+func get_last_attacker() -> Node:
+	return attacker_body
