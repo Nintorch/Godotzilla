@@ -1,19 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://cx8rkmxhgw3oc"]
 
 [ext_resource type="Texture2D" uid="uid://b2vt2myb2u4qi" path="res://Sprites/Levels/TestLevel/floor.png" id="1_fk1m6"]
-
-[sub_resource type="GDScript" id="GDScript_jtqjn"]
-script/source = "extends TextureRect
-
-@export var width_before_0 := 50
-
-func _ready() -> void:
-	var width: float = get_parent().get_node(\"Camera\").limit_right + width_before_0
-	size.x = width
-	var collision_shape := $StaticBody2D/CollisionShape2D
-	collision_shape.shape.size.x = width + width_before_0 * 2
-	collision_shape.position.x = width / 2 - width_before_0
-"
+[ext_resource type="Texture2D" uid="uid://b2vt2myb2u4qi" path="res://Sprites/Levels/TheEarth/Wilderness/floor.png" id="1_fk1m6"]
+[ext_resource type="Script" uid="uid://dnq6up0j3gx1s" path="res://Scripts/Levels/Floor.gd" id="2_mjgpp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ajba1"]
 size = Vector2(200, 32)
@@ -23,7 +12,7 @@ offset_right = 100.0
 offset_bottom = 32.0
 texture = ExtResource("1_fk1m6")
 stretch_mode = 1
-script = SubResource("GDScript_jtqjn")
+script = ExtResource("2_mjgpp")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(0, -200)
