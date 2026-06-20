@@ -1,5 +1,8 @@
 extends Sprite2D
 
+const TYPE_HEALTH = "health"
+const TYPE_POWER = "power"
+
 @onready var sfx: AudioStreamPlayer = $SFX
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var area_2d: Area2D = $Area2D
