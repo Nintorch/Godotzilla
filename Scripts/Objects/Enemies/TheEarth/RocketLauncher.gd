@@ -1,7 +1,6 @@
 extends "res://Scripts/Objects/Enemies/BaseEnemy.gd"
 
 const ROCKET_LAUNCHER_ROCKET = preload("res://Objects/Levels/TestLevel/Enemies/RocketLauncherRocket.tscn")
-const CAPSULE := preload("res://Objects/Levels/Capsule.tscn")
 const EXPLOSION := preload("res://Objects/Levels/Explosion.tscn")
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -39,10 +38,8 @@ func _on_health_component_dead() -> void:
 	explosion.global_position = global_position
 	add_sibling(explosion)
 	
-	var capsule := CAPSULE.instantiate()
-	Global.get_current_scene().call_deferred("add_child", capsule)
 	await get_tree().process_frame
-	capsule.initialize(global_position, "health")
+	Global.create_capsule(global_position, Global.Capsule.TYPE_HEALTH)
 	
 	animation_player.play("dead")
 	

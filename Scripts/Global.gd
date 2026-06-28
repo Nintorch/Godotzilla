@@ -1,7 +1,8 @@
 extends Node
 
 const EXPLOSION = preload("uid://cpxp6boj611rb")
-
+const CAPSULE = preload("uid://hos7shkktc1k")
+const Capsule = preload("uid://pqn0sexvus23")
 const SCORE_MAX := 9999999
 
 ## Reference to the main scene, i.e. container of all scenes
@@ -268,3 +269,9 @@ func create_explosion(explosion_global_position: Vector2, sfx := true) -> void:
 	explosion.global_position = explosion_global_position
 	if sfx:
 		play_global_sfx("Explosion")
+
+func create_capsule(capsule_global_position: Vector2, type: String) -> Capsule:
+	var capsule: Capsule = CAPSULE.instantiate()
+	get_current_scene().add_child(capsule)
+	capsule.initialize(capsule_global_position, type)
+	return capsule
