@@ -130,7 +130,7 @@ func _physics_process(delta: float) -> void:
 	save_position.insert(0, Vector2(position))
 	
 	var camera := get_viewport().get_camera_2d()
-	if is_instance_valid(camera) and global_position.y > camera.limit_bottom - 16:
+	if state.current != State.DEAD and is_instance_valid(camera) and global_position.y > camera.limit_bottom - 16:
 		health.set_value(0)
 		_died_from_bottomless_pit = true
 
