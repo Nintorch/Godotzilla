@@ -33,9 +33,7 @@ func move(delta: float) -> void:
 	if Global.get_current_scene().has_node("HUD"):
 		ylimit += Global.get_current_scene().get_node("HUD").vertical_size
 	
-	if floor_checking.has_overlapping_bodies() and player.velocity.y > 0:
-		player.velocity.y = 0
-	elif (player.position.y + player.velocity.y * delta) < ylimit \
+	if (player.position.y + player.velocity.y * delta) < ylimit \
 		and player.velocity.y < 0:
 		player.velocity.y = 0
 		player.position.y = ylimit

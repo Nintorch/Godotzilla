@@ -22,6 +22,8 @@ func state_entered() -> void:
 	
 	# -1 if facing right and 1 if facing left
 	player.velocity.x = -player.direction * hurt_speed
+	if player.character == PlayerCharacter.Type.MOTHRA:
+		player.velocity.y = hurt_speed
 	player.play_sfx("Hurt")
 	timer.start(hurt_time)
 

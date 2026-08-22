@@ -55,6 +55,7 @@ var direction: int = 1:
 
 @onready var attack: AttackComponent = $AttackComponent
 @onready var state: StateMachine = $StateMachine
+@onready var mothra_floor_checking: Area2D = $MothraFloorChecking
 
 var move_state := State.WALK
 var move_speed := 0.0
@@ -125,6 +126,9 @@ func _physics_process(delta: float) -> void:
 	if state.current != State.DEAD and not is_on_floor() and not is_flying():
 		velocity.y += gravity * delta
 
+	if is_flying() and mothra_floor_checking.has_overlapping_bodies() and velocity.y > 0:
+		velocity.y = 0
+		
 	move_and_slide()
 	save_position.pop_back()
 	save_position.insert(0, Vector2(position))
