@@ -1,3 +1,4 @@
+class_name HUD
 extends CanvasLayer
 
 @export var player: GameCharacter = null
@@ -16,6 +17,7 @@ signal boss_timer_timeout
 signal hud_ready
 
 func _ready() -> void:
+	Global.hud = self
 	Global.widescreen_changed.connect(adapt_to_content_size)
 	adapt_to_content_size()
 	

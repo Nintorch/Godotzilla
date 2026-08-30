@@ -1,5 +1,5 @@
 # Godotzilla
-Godotzilla is a Godzilla: Monster of Monsters-styled framework made for Godot 4.4.
+Godotzilla is a Godzilla: Monster of Monsters-styled framework made for Godot 4.7.
 
 This framework can be used for anything you want, this includes but not limited to:
 - GMoM remakes

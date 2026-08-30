@@ -1,58 +1,58 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcqw43w8eilwf"]
+[gd_scene format=3 uid="uid://bcqw43w8eilwf"]
 
 [ext_resource type="Script" uid="uid://c5ouvc1j74iwu" path="res://Scripts/Screens/TitleScreen.gd" id="1_c6qok"]
 [ext_resource type="Texture2D" uid="uid://b0k23sbm3154y" path="res://Sprites/Menus/TitleScreen.png" id="2_d8r6t"]
 [ext_resource type="AudioStream" uid="uid://dvs4g8yucjai4" path="res://Audio/Soundtrack/Screens/TitleScreen.ogg" id="2_shcti"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="3_shcti"]
 
-[node name="TitleScreen" type="Node2D"]
+[node name="TitleScreen" type="Node2D" unique_id=770216221]
 script = ExtResource("1_c6qok")
 music = ExtResource("2_shcti")
 
-[node name="FlashTimer" type="Timer" parent="."]
+[node name="FlashTimer" type="Timer" parent="." unique_id=406255547]
 wait_time = 4.0
 one_shot = true
 autostart = true
 
-[node name="BeforeFlash" type="Node2D" parent="."]
+[node name="BeforeFlash" type="Node2D" parent="." unique_id=746863743]
 visible = false
 
-[node name="ColorRect" type="ColorRect" parent="BeforeFlash"]
+[node name="ColorRect" type="ColorRect" parent="BeforeFlash" unique_id=213651433]
 offset_top = 48.0
 offset_right = 256.0
 offset_bottom = 184.0
 color = Color(0.423529, 0.027451, 0, 1)
 
-[node name="GodzillaSilhouette" type="Sprite2D" parent="BeforeFlash"]
+[node name="GodzillaSilhouette" type="Sprite2D" parent="BeforeFlash" unique_id=1075162216]
 position = Vector2(0, 48)
 texture = ExtResource("2_d8r6t")
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 256, 136)
 
-[node name="AfterFlash" type="Node2D" parent="."]
+[node name="AfterFlash" type="Node2D" parent="." unique_id=1073800166]
 
-[node name="ColorRect2" type="ColorRect" parent="AfterFlash"]
+[node name="ColorRect2" type="ColorRect" parent="AfterFlash" unique_id=854400384]
 offset_top = 48.0
 offset_right = 256.0
 offset_bottom = 184.0
 color = Color(0.678431, 0.678431, 0.678431, 1)
 
-[node name="Godzilla" type="Sprite2D" parent="AfterFlash"]
+[node name="Godzilla" type="Sprite2D" parent="AfterFlash" unique_id=1530731143]
 position = Vector2(0, 48)
 texture = ExtResource("2_d8r6t")
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 136, 256, 136)
 
-[node name="OriginalCopyrights" type="Sprite2D" parent="AfterFlash"]
+[node name="OriginalCopyrights" type="Sprite2D" parent="AfterFlash" unique_id=422072435]
 position = Vector2(16, 192)
 texture = ExtResource("2_d8r6t")
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 272, 256, 24)
 
-[node name="Godotzilla" type="Label" parent="AfterFlash"]
+[node name="Godotzilla" type="Label" parent="AfterFlash" unique_id=1962792031]
 offset_left = 40.0
 offset_top = 24.0
 offset_right = 216.0
