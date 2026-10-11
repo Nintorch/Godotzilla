@@ -309,9 +309,8 @@ func _on_health_damaged(_amount: float, attack: AttackDescription) -> void:
 		
 	hurt_state.setup_from_attack(attack)
 		
-	if Global.controller_vibration and not Input.get_connected_joypads().is_empty():
-		var device := Input.get_connected_joypads()[0]
-		Input.start_joy_vibration(device, 0.2, 0.2, 0.4)
+	if Global.controller_vibration and 0 in Input.get_connected_joypads():
+		Input.start_joy_vibration(0, 0.2, 0.2, 0.4)
 		
 func _on_health_dead() -> void:
 	state.current = State.DEAD

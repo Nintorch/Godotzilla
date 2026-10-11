@@ -1,12 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://lxs5br5r3336"]
+[gd_scene format=3 uid="uid://lxs5br5r3336"]
 
 [ext_resource type="Script" uid="uid://bq1jm1apooi6f" path="res://Scripts/Screens/MainMenu/Settings.gd" id="1_au57p"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="1_bmng2"]
 
-[node name="Settings" type="Node2D" groups=["menu"]]
+
 script = ExtResource("1_au57p")
 
-[node name="Video" type="Label" parent="." groups=["option"]]
+[node name="Video" type="Label" parent="." unique_id=742423442 groups=["option"]]
 offset_left = 72.0
 offset_top = 80.0
 offset_right = 136.0
@@ -15,7 +15,7 @@ theme_override_fonts/font = ExtResource("1_bmng2")
 text = "video options"
 uppercase = true
 
-[node name="Sound" type="Label" parent="." groups=["option"]]
+[node name="Sound" type="Label" parent="." unique_id=1819628159 groups=["option"]]
 offset_left = 72.0
 offset_top = 104.0
 offset_right = 176.0
@@ -24,7 +24,7 @@ theme_override_fonts/font = ExtResource("1_bmng2")
 text = "sound options"
 uppercase = true
 
-[node name="Controls" type="Label" parent="." groups=["option"]]
+[node name="Controls" type="Label" parent="." unique_id=1058726086 groups=["option"]]
 offset_left = 72.0
 offset_top = 128.0
 offset_right = 184.0
@@ -34,11 +34,21 @@ text = "controls
 "
 uppercase = true
 
-[node name="Exit" type="Label" parent="." groups=["option"]]
+[node name="Vibration" type="Label" parent="." unique_id=1693828215 groups=["option"]]
 offset_left = 72.0
 offset_top = 152.0
-offset_right = 184.0
+offset_right = 200.0
 offset_bottom = 163.0
+theme_override_fonts/font = ExtResource("1_bmng2")
+text = "vibration: off"
+uppercase = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Exit" type="Label" parent="." unique_id=1580520227 groups=["option"]]
+offset_left = 72.0
+offset_top = 176.0
+offset_right = 184.0
+offset_bottom = 187.0
 theme_override_fonts/font = ExtResource("1_bmng2")
 text = "exit"
 uppercase = true

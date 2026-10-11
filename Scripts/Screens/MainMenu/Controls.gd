@@ -103,6 +103,10 @@ func save_mapping() -> void:
 	SaveManager.save_settings_file(file)
 	
 static func init_controls() -> void:
+	var file := SaveManager.load_settings_file()
+	Global.controller_vibration = file.get_value(SECTION, "vibration", false)
+	# The controller vibration can be set in the main settings menu
+	
 	Input.joy_connection_changed.connect(func(_device: int, _connected: bool) -> void:
 		load_mapping(SaveManager.load_settings_file())
 		)

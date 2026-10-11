@@ -27,7 +27,7 @@ var level_data: Level.GameplayData
 var hud: HUD
 var last_scene: PackedScene
 
-var controller_vibration := true
+var controller_vibration := false
 
 var _initial_scene := true
 
