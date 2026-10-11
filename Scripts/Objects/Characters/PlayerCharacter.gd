@@ -311,7 +311,7 @@ func _on_health_damaged(_amount: float, attack: AttackDescription) -> void:
 		
 	if Global.controller_vibration and not Input.get_connected_joypads().is_empty():
 		var device := Input.get_connected_joypads()[0]
-		Input.start_joy_vibration(device, 0, 1, 0.4) # TODO: When we switch to Godot 4.6, swap these values
+		Input.start_joy_vibration(device, 0.2, 0.2, 0.4)
 		
 func _on_health_dead() -> void:
 	state.current = State.DEAD
