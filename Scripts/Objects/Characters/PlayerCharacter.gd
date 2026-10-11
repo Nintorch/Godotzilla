@@ -316,6 +316,12 @@ func _on_health_dead() -> void:
 	state.current = State.DEAD
 	power.set_empty()
 	
+	if Global.controller_vibration and 0 in Input.get_connected_joypads():
+		var tween := create_tween()
+		tween.tween_method(
+			func(value: float) -> void: Input.start_joy_vibration(0, value, value, 0.4),
+			0.3, 0, 1)
+	
 ## Load the character state from data from a board piece
 func load_state(data: BoardPiece.CharacterData = null) -> void:
 	super.load_state(data)
