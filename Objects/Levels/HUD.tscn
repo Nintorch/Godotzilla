@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bono4mu6juvo8"]
+[gd_scene format=3 uid="uid://bono4mu6juvo8"]
 
 [ext_resource type="Script" uid="uid://eijj177ldfik" path="res://Scripts/Levels/HUD.gd" id="1_no1ya"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="2_doi0m"]
@@ -7,18 +7,18 @@
 [sub_resource type="LabelSettings" id="LabelSettings_ke5ce"]
 line_spacing = -4.0
 
-[node name="HUD" type="CanvasLayer"]
+[node name="HUD" type="CanvasLayer" unique_id=856041718]
 script = ExtResource("1_no1ya")
 
-[node name="BgRect" type="ColorRect" parent="."]
+[node name="BgRect" type="ColorRect" parent="." unique_id=1340581089]
 offset_right = 256.0
 offset_bottom = 48.0
 color = Color(0, 0, 0, 1)
 
-[node name="PlayerCharacter" type="Node2D" parent="."]
+[node name="PlayerCharacter" type="Node2D" parent="." unique_id=1636729120]
 position = Vector2(8, 24)
 
-[node name="CharacterName" type="Label" parent="PlayerCharacter"]
+[node name="CharacterName" type="Label" parent="PlayerCharacter" unique_id=109446645]
 offset_right = 104.0
 offset_bottom = 8.0
 theme_override_fonts/font = ExtResource("2_doi0m")
@@ -26,7 +26,7 @@ text = "player"
 label_settings = SubResource("LabelSettings_ke5ce")
 uppercase = true
 
-[node name="PowerLife" type="Label" parent="PlayerCharacter"]
+[node name="PowerLife" type="Label" parent="PlayerCharacter" unique_id=1380338455]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 48.0
@@ -37,14 +37,14 @@ life"
 label_settings = SubResource("LabelSettings_ke5ce")
 uppercase = true
 
-[node name="Power" parent="PlayerCharacter" instance=ExtResource("3_y64wl")]
+[node name="Power" parent="PlayerCharacter" unique_id=575020470 instance=ExtResource("3_y64wl")]
 offset_left = 56.0
 offset_top = 8.0
 offset_right = 137.0
 offset_bottom = 16.0
 width = 6
 
-[node name="Life" parent="PlayerCharacter" instance=ExtResource("3_y64wl")]
+[node name="Life" parent="PlayerCharacter" unique_id=1813272506 instance=ExtResource("3_y64wl")]
 offset_left = 56.0
 offset_top = 16.0
 offset_right = 137.0
@@ -52,7 +52,7 @@ offset_bottom = 24.0
 width = 6
 color2 = Color(0.709804, 0.188235, 0.12549, 1)
 
-[node name="ScoreMeter" type="Label" parent="PlayerCharacter"]
+[node name="ScoreMeter" type="Label" parent="PlayerCharacter" unique_id=303857283]
 offset_left = 88.0
 offset_right = 152.0
 offset_bottom = 8.0
@@ -62,7 +62,7 @@ label_settings = SubResource("LabelSettings_ke5ce")
 horizontal_alignment = 2
 uppercase = true
 
-[node name="Level" type="Label" parent="PlayerCharacter"]
+[node name="Level" type="Label" parent="PlayerCharacter" unique_id=715425942]
 clip_children = 2
 offset_left = 168.0
 offset_right = 232.0
@@ -72,7 +72,7 @@ text = "level 01"
 label_settings = SubResource("LabelSettings_ke5ce")
 uppercase = true
 
-[node name="Bar" parent="PlayerCharacter/Level" instance=ExtResource("3_y64wl")]
+[node name="Bar" parent="PlayerCharacter/Level" unique_id=2146290153 instance=ExtResource("3_y64wl")]
 layout_mode = 0
 offset_right = 64.0
 style = 1
@@ -96,10 +96,10 @@ offset_top = 0.0
 offset_right = 19.2
 offset_bottom = 8.0
 
-[node name="BossCharacter" type="Node2D" parent="."]
+[node name="BossCharacter" type="Node2D" parent="." unique_id=1470972637]
 position = Vector2(8, 48)
 
-[node name="CharacterName" type="Label" parent="BossCharacter"]
+[node name="CharacterName" type="Label" parent="BossCharacter" unique_id=593208828]
 offset_right = 150.0
 offset_bottom = 8.0
 theme_override_fonts/font = ExtResource("2_doi0m")
@@ -107,7 +107,7 @@ text = "boss"
 label_settings = SubResource("LabelSettings_ke5ce")
 uppercase = true
 
-[node name="PowerLife" type="Label" parent="BossCharacter"]
+[node name="PowerLife" type="Label" parent="BossCharacter" unique_id=1995845167]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 48.0
@@ -118,19 +118,19 @@ life"
 label_settings = SubResource("LabelSettings_ke5ce")
 uppercase = true
 
-[node name="Power" parent="BossCharacter" instance=ExtResource("3_y64wl")]
+[node name="Power" parent="BossCharacter" unique_id=238769910 instance=ExtResource("3_y64wl")]
 offset_left = 56.0
 offset_top = 8.0
 offset_right = 137.0
 offset_bottom = 16.0
 
-[node name="Life" parent="BossCharacter" instance=ExtResource("3_y64wl")]
+[node name="Life" parent="BossCharacter" unique_id=447384375 instance=ExtResource("3_y64wl")]
 offset_left = 56.0
 offset_top = 16.0
 offset_right = 137.0
 offset_bottom = 24.0
 
-[node name="TimerText" type="Label" parent="BossCharacter"]
+[node name="TimerText" type="Label" parent="BossCharacter" unique_id=267833478]
 offset_left = 88.0
 offset_right = 152.0
 offset_bottom = 8.0
@@ -140,13 +140,13 @@ label_settings = SubResource("LabelSettings_ke5ce")
 horizontal_alignment = 2
 uppercase = true
 
-[node name="BgRect2" type="ColorRect" parent="BossCharacter"]
+[node name="BgRect2" type="ColorRect" parent="BossCharacter" unique_id=1333603737]
 offset_left = -8.0
 offset_top = 24.0
 offset_right = 248.0
 offset_bottom = 32.0
 color = Color(0, 0, 0, 1)
 
-[node name="Timer" type="Timer" parent="BossCharacter"]
+[node name="Timer" type="Timer" parent="BossCharacter" unique_id=2102200730]
 
 [editable path="PlayerCharacter/Level/Bar"]

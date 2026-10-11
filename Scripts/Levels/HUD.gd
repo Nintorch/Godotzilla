@@ -19,6 +19,8 @@ signal hud_ready
 func _ready() -> void:
 	Global.hud = self
 	Global.widescreen_changed.connect(adapt_to_content_size)
+	PauseManager.pause_started.connect(hide)
+	PauseManager.pause_finished.connect(show)
 	adapt_to_content_size()
 	
 	await Global.get_current_scene().ready

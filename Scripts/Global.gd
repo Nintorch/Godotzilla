@@ -144,7 +144,8 @@ func change_scene_node(node: Node, free := true) -> void:
 		
 	_initial_scene = false
 	
-	curscene_parent.remove_child(curscene)
+	for child in curscene_parent.get_children():
+		curscene_parent.remove_child(child)
 	if free:
 		curscene.queue_free()
 	curscene_parent.add_child(node)

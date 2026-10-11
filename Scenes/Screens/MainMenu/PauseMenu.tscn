@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cmoopalhh65x1"]
+[gd_scene format=3 uid="uid://cmoopalhh65x1"]
 
 [ext_resource type="PackedScene" uid="uid://bjcf4tfdeo6ta" path="res://Scenes/Screens/MainMenu/BaseMenu.tscn" id="1_3ivqh"]
 [ext_resource type="Script" uid="uid://c0sb3tnll0e3i" path="res://Scripts/Screens/MainMenu/PauseMenu.gd" id="2_dmdnm"]
@@ -14,7 +14,7 @@ process_mode = 2
 [node name="MenuMain" parent="." index="1"]
 script = ExtResource("2_dmdnm")
 
-[node name="Pause" type="Label" parent="MenuMain" index="0"]
+[node name="Pause" type="Label" parent="MenuMain" index="0" unique_id=583259066]
 offset_left = 64.0
 offset_top = 80.0
 offset_right = 184.0
@@ -24,7 +24,7 @@ text = "pause"
 horizontal_alignment = 1
 uppercase = true
 
-[node name="Continue" type="Label" parent="MenuMain" index="1" groups=["option"]]
+[node name="Continue" type="Label" parent="MenuMain" index="1" unique_id=486712809 groups=["option"]]
 offset_left = 72.0
 offset_top = 104.0
 offset_right = 184.0
@@ -33,7 +33,7 @@ theme_override_fonts/font = ExtResource("4_vods2")
 text = "continue"
 uppercase = true
 
-[node name="Settings" type="Label" parent="MenuMain" index="2" groups=["option"]]
+[node name="Settings" type="Label" parent="MenuMain" index="2" unique_id=989576093 groups=["option"]]
 offset_left = 72.0
 offset_top = 128.0
 offset_right = 184.0
@@ -46,19 +46,19 @@ uppercase = true
 offset_top = 152.0
 offset_bottom = 163.0
 
-[node name="Settings" parent="." index="2" instance=ExtResource("5_frcs8")]
+[node name="Settings" parent="." index="2" unique_id=879154929 instance=ExtResource("5_frcs8")]
 unique_name_in_owner = true
 visible = false
 
-[node name="Controls" parent="." index="3" instance=ExtResource("6_kgulq")]
+[node name="Controls" parent="." index="3" unique_id=1680981975 instance=ExtResource("6_kgulq")]
 unique_name_in_owner = true
 visible = false
 
-[node name="SoundSettings" parent="." index="4" instance=ExtResource("7_w1mw8")]
+[node name="SoundSettings" parent="." index="4" unique_id=528870102 instance=ExtResource("7_w1mw8")]
 unique_name_in_owner = true
 visible = false
 
-[node name="VideoSettings" parent="." index="5" instance=ExtResource("8_f0twr")]
+[node name="VideoSettings" parent="." index="5" unique_id=1593833953 instance=ExtResource("8_f0twr")]
 unique_name_in_owner = true
 visible = false
 include_widescreen = false

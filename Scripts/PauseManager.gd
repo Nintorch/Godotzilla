@@ -2,7 +2,8 @@ extends Node
 
 const PAUSE_MENU := preload("res://Scenes/Screens/MainMenu/PauseMenu.tscn")
 
-var previous_scene: Node
+var previous_scene: Node2D
+var pause_node: Node2D
 
 signal pause_started
 signal pause_finished
@@ -12,12 +13,16 @@ func accept_pause() -> void:
 		start_pause()
 		
 func start_pause() -> void:
+	# Create the pause menu alongside the current scene to avoid having bugs
+	# due to nodes not being in the scene tree
 	previous_scene = Global.get_current_scene()
-	# Change to pause menu scene but don't free the previous one
-	Global.change_scene(PAUSE_MENU, false)
+	pause_node = PAUSE_MENU.instantiate()
+	previous_scene.add_sibling(pause_node)
+	previous_scene.hide()
 	# Position the current pause menu on the center of the screen
-	Global.get_current_scene().position.x = \
-		(Global.get_content_size().x - Global.get_default_resolution().x) / 2
+	pause_node.position.x = \
+		(Global.get_content_size().x - Global.get_default_resolution().x) / 2 + Global.get_left_camera_boundary()
+	pause_node.position.y = Global.get_top_camera_boundary()
 	get_tree().paused = true
 	
 	Global.music.stream_paused = true
@@ -26,10 +31,9 @@ func start_pause() -> void:
 	pause_started.emit()
 
 func finish_pause() -> void:
-	var current_pause_menu := Global.get_current_scene()
 	# Don't free the pause menu yet, we will free it later below
-	Global.change_scene_node(previous_scene, false)
-	previous_scene = null
+	pause_node.queue_free()
+	previous_scene.show()
 	get_tree().paused = false
 	
 	pause_finished.emit()
@@ -39,13 +43,9 @@ func finish_pause() -> void:
 	# Don't resume the music if the player was fast enough
 	# to pause again before sfx.finished above fired and
 	# they're on pause menu again
-	if previous_scene == null:
+	if not is_instance_valid(pause_node) or not pause_node.visible:
 		Global.music.stream_paused = false
-	
-	current_pause_menu.queue_free()
 
 func prepare_for_exit() -> void:
 	if is_instance_valid(Global.board):
 		Global.board.queue_free()
-	if is_instance_valid(previous_scene):
-		previous_scene.queue_free()
