@@ -12,6 +12,10 @@ const GAME_OVER_SCENE := preload("uid://chlit8t7aajq7")
 @export var music: AudioStream
 @export var bg_color := Color(0, 0, 0)
 @export var right_boundary_behaviour := LevelBoundaryType.NEXT_LEVEL
+@export_category("Debug Features")
+## The character type that will be used if the game started from this level scene
+## and the debug build of Godot is used 
+@export var debug_character_type := PlayerCharacter.Type.GODZILLA
 
 @onready var camera: LevelCamera = $Camera
 @onready var player: PlayerCharacter = $Player
@@ -33,6 +37,8 @@ func _ready() -> void:
 	data = Global.level_data if Global.level_data != null else GameplayData.new()
 		
 	player.character = data.current_character
+	if OS.is_debug_build() and Global.is_initial_scene():
+		player.character = debug_character_type
 	player.health.dead.connect(func() -> void: 
 		Global.play_music(preload("res://Audio/Soundtrack/PlayerDeath.ogg"))
 		player_dead(player)
