@@ -20,7 +20,6 @@ var camera_current_offset := 0
 
 func _process(_delta: float) -> void:
 	camera_x_old = get_screen_center_position().x
-	position.y = target.position.y + camera_offset.y
 	match camera_mode:
 		CameraMode.NORMAL:
 			if position.x < target.position.x + camera_offset.x \
@@ -28,6 +27,7 @@ func _process(_delta: float) -> void:
 				position.x = clampf(target.position.x + camera_offset.x,
 					window_width_half, limit_right - window_width_half)
 				limit_left = max(position.x - window_width_half, 0)
+			position.y = target.position.y + camera_offset.y
 		
 		CameraMode.TWO_SIDES:
 			var direction: int = target.direction if "direction" in target else 1
@@ -37,6 +37,7 @@ func _process(_delta: float) -> void:
 				2
 			))
 			position.x = target.position.x + camera_current_offset
+			position.y = target.position.y + camera_offset.y
 			
 		CameraMode.LOCKED:
 			pass # Don't move
