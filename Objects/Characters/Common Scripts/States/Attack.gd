@@ -1,4 +1,4 @@
-extends "res://Scripts/Objects/Characters/States/PlayerState.gd"
+extends PlayerState
 
 var move_state: StateMachineState
 var current_attack: AttackDescription

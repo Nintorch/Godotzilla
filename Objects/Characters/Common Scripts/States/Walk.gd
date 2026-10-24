@@ -1,5 +1,5 @@
 class_name PlayerStateWalk
-extends "res://Scripts/Objects/Characters/States/PlayerState.gd"
+extends PlayerState
 
 # Move state is used for characters that walk on the ground.
 # This state consists of not only walking but also crouching and jumping.
