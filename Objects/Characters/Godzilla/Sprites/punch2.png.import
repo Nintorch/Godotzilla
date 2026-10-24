@@ -2,22 +2,24 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b3aqq06ew63k8"
-path="res://.godot/imported/kick2.png-2c2563d7aa1fe8c3366355d4e78b3675.ctex"
+uid="uid://cp7yo85faut6q"
+path="res://.godot/imported/punch2.png-fc359a20e85d6b7fde6c7b07314513ef.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Characters/Godzilla/kick2.png"
-dest_files=["res://.godot/imported/kick2.png-2c2563d7aa1fe8c3366355d4e78b3675.ctex"]
+source_file="res://Objects/Characters/Godzilla/Sprites/punch2.png"
+dest_files=["res://.godot/imported/punch2.png-fc359a20e85d6b7fde6c7b07314513ef.ctex"]
 
 [params]
 
 compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
@@ -25,6 +27,10 @@ mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
+process/channel_remap/red=0
+process/channel_remap/green=1
+process/channel_remap/blue=2
+process/channel_remap/alpha=3
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

@@ -37,7 +37,7 @@ func _on_animation_started(anim_name: StringName) -> void:
 	player.set_collision(collision)
 
 #region Attacks
-const GodzillaHeatBeam := preload("res://Objects/Characters/Godzilla/GodzillaHeatBeam.tscn")
+const GodzillaHeatBeam := preload("uid://twku26u8n2dy")
 
 func attack_tail_whip_after() -> void:
 	move_state_node.walk_frame = 0

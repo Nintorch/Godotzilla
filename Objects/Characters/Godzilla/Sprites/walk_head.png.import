@@ -2,22 +2,24 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bsu6rokyd5rmu"
-path="res://.godot/imported/tail_whip.png-0a88fa98ed00532b69bfc96ce7be9857.ctex"
+uid="uid://huytihc5bj4n"
+path="res://.godot/imported/walk_head.png-5d04108c07d2e2602c1531e47c19f86d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Characters/Godzilla/tail_whip.png"
-dest_files=["res://.godot/imported/tail_whip.png-0a88fa98ed00532b69bfc96ce7be9857.ctex"]
+source_file="res://Objects/Characters/Godzilla/Sprites/walk_head.png"
+dest_files=["res://.godot/imported/walk_head.png-5d04108c07d2e2602c1531e47c19f86d.ctex"]
 
 [params]
 
 compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
@@ -25,6 +27,10 @@ mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
+process/channel_remap/red=0
+process/channel_remap/green=1
+process/channel_remap/blue=2
+process/channel_remap/alpha=3
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

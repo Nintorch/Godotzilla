@@ -1,7 +1,7 @@
-[gd_scene load_steps=31 format=3 uid="uid://twku26u8n2dy"]
+[gd_scene format=3 uid="uid://twku26u8n2dy"]
 
-[ext_resource type="Texture2D" uid="uid://bg00wrudw7pi5" path="res://Sprites/Characters/Godzilla/heat_beam.png" id="1_g23gd"]
-[ext_resource type="Script" uid="uid://diyrx6scgmacy" path="res://Scripts/Objects/Characters/Godzilla/GodzillaHeatBeam.gd" id="2_opyea"]
+[ext_resource type="Texture2D" uid="uid://bg00wrudw7pi5" path="res://Objects/Characters/Godzilla/Sprites/heat_beam.png" id="1_g23gd"]
+[ext_resource type="Script" uid="uid://diyrx6scgmacy" path="res://Objects/Characters/Godzilla/Scripts/GodzillaHeatBeam.gd" id="2_opyea"]
 [ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="3_acgqs"]
 [ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_t4p4k"]
 
