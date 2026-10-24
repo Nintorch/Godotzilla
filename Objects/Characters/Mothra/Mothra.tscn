@@ -1,11 +1,11 @@
-[gd_scene load_steps=26 format=3 uid="uid://bxqvrtbf0bm8p"]
+[gd_scene format=3 uid="uid://bxqvrtbf0bm8p"]
 
 [ext_resource type="PackedScene" uid="uid://2kanj7crlbl5" path="res://Objects/Characters/BaseSkin.tscn" id="1_pe2a4"]
-[ext_resource type="Script" uid="uid://dykjfxayd8shd" path="res://Scripts/Objects/Characters/Mothra/Main.gd" id="2_en534"]
+[ext_resource type="Script" uid="uid://dykjfxayd8shd" path="res://Objects/Characters/Mothra/Scripts/Main.gd" id="2_en534"]
 [ext_resource type="Resource" uid="uid://eaudwwedeccd" path="res://Objects/Characters/Mothra/MothraInfo.tres" id="3_cwrxe"]
 [ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_qw0ix"]
-[ext_resource type="Texture2D" uid="uid://nhpib3frkqrg" path="res://Sprites/Characters/Mothra/hurt.png" id="5_b4vwa"]
-[ext_resource type="Texture2D" uid="uid://dh0gtj20jut25" path="res://Sprites/Characters/Mothra/idle.png" id="6_jnfkx"]
+[ext_resource type="Texture2D" uid="uid://nhpib3frkqrg" path="res://Objects/Characters/Mothra/Sprites/hurt.png" id="5_b4vwa"]
+[ext_resource type="Texture2D" uid="uid://dh0gtj20jut25" path="res://Objects/Characters/Mothra/Sprites/idle.png" id="6_jnfkx"]
 [ext_resource type="AudioStream" uid="uid://d3q5gj1fhphte" path="res://Audio/SFX/Characters/Mothra/MothraStep.wav" id="7_hse6l"]
 [ext_resource type="AudioStream" uid="uid://ccjlv2riqxvf3" path="res://Audio/SFX/Characters/Mothra/MothraRoar.wav" id="8_ngo0w"]
 
@@ -13,34 +13,12 @@
 script = ExtResource("4_qw0ix")
 name = "EyeBeam"
 simple_or_advanced = 1
-other_information = Array[String]([])
-type = 0
-damage_amount = 0.0
-hitbox_name = ""
-hurt_time = -1.0
-start_time_offset = 0.0
-animation_name = ""
-animation_name2 = ""
-time_length = -1.0
-reset_animation_before = true
-reset_animation_after = true
 function_name = "attack_eye_beam"
 
 [sub_resource type="Resource" id="Resource_tkeyd"]
 script = ExtResource("4_qw0ix")
 name = "WingAttack"
 simple_or_advanced = 1
-other_information = Array[String]([])
-type = 0
-damage_amount = 0.0
-hitbox_name = ""
-hurt_time = -1.0
-start_time_offset = 0.0
-animation_name = ""
-animation_name2 = ""
-time_length = -1.0
-reset_animation_before = true
-reset_animation_after = true
 function_name = "attack_wing_attack"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w0xxw"]
@@ -100,7 +78,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_t68ms")
 }],
-"loop": true,
+"loop": 1,
 "name": &"hurt",
 "speed": 5.0
 }, {
@@ -114,7 +92,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_k0g7u")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 5.0
 }]
@@ -214,7 +192,7 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_75xht"]
 size = Vector2(36, 14)
 
-[node name="Character" instance=ExtResource("1_pe2a4")]
+[node name="Character" unique_id=780097870 instance=ExtResource("1_pe2a4")]
 script = ExtResource("2_en534")
 character_info = ExtResource("3_cwrxe")
 move_state = 1
@@ -231,9 +209,7 @@ sprite_frames = SubResource("SpriteFrames_amh6r")
 animation = &"idle"
 
 [node name="AnimationPlayer" parent="." index="1"]
-libraries = {
-&"": SubResource("AnimationLibrary_fqsl6")
-}
+libraries/ = SubResource("AnimationLibrary_fqsl6")
 
 [node name="Collision" parent="." index="2"]
 position = Vector2(-4, 1)

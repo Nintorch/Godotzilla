@@ -1,7 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://wk0ngrdkwnbv"]
+[gd_scene format=3 uid="uid://wk0ngrdkwnbv"]
 
-[ext_resource type="Texture2D" uid="uid://di5yqmheu2g18" path="res://Sprites/Characters/Mothra/particles.png" id="1_ok31u"]
-[ext_resource type="Script" uid="uid://b238jtllubx8n" path="res://Scripts/Objects/Characters/MothraParticle.gd" id="2_v1kq8"]
+[ext_resource type="Texture2D" uid="uid://di5yqmheu2g18" path="res://Objects/Characters/Mothra/Sprites/particles.png" id="1_ok31u"]
+[ext_resource type="Script" uid="uid://b238jtllubx8n" path="res://Objects/Characters/Mothra/Scripts/MothraParticle.gd" id="2_v1kq8"]
 [ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="3_f4212"]
 [ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_nmrfy"]
 
@@ -19,7 +19,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5tse6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"EyeBeam",
 "speed": 5.0
 }, {
@@ -27,7 +27,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_akx7u")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Wing",
 "speed": 5.0
 }]
@@ -74,32 +74,19 @@ _data = {
 [sub_resource type="Resource" id="Resource_hgkoj"]
 script = ExtResource("4_nmrfy")
 name = "Main"
-simple_or_advanced = 0
-other_information = Array[String]([])
 type = 2
 damage_amount = 2.0
-hitbox_name = ""
-hurt_time = -1.0
-start_time_offset = 0.0
-animation_name = ""
-animation_name2 = ""
-time_length = -1.0
-reset_animation_before = true
-reset_animation_after = true
-function_name = ""
 
-[node name="MothraParticle" type="AnimatedSprite2D"]
+[node name="MothraParticle" type="AnimatedSprite2D" unique_id=466374950]
 sprite_frames = SubResource("SpriteFrames_8dfex")
 animation = &"Wing"
 script = ExtResource("2_v1kq8")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=187474882]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_4aq1u")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=837217812]
+libraries/ = SubResource("AnimationLibrary_4aq1u")
 
-[node name="AttackComponent" parent="." instance=ExtResource("3_f4212")]
+[node name="AttackComponent" parent="." unique_id=2130848050 instance=ExtResource("3_f4212")]
 initial_attack = "Main"
 attacks = Array[ExtResource("4_nmrfy")]([SubResource("Resource_hgkoj")])
