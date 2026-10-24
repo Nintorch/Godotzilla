@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dtc8wqm5nbty2"]
+[gd_scene format=3 uid="uid://dtc8wqm5nbty2"]
 
-[ext_resource type="Texture2D" uid="uid://wmgv6kcqcri0" path="res://Sprites/Levels/BoardSprites.png" id="1_hejr5"]
-[ext_resource type="Script" uid="uid://bj8lxdnlveorw" path="res://Scripts/Objects/Boards/Selector.gd" id="2_4q06p"]
+[ext_resource type="Texture2D" uid="uid://wmgv6kcqcri0" path="res://Objects/Boards/BoardSprites.png" id="1_hejr5"]
+[ext_resource type="Script" uid="uid://bj8lxdnlveorw" path="res://Objects/Boards/Selector/Selector.gd" id="2_4q06p"]
 
 [node name="Selector" type="Sprite2D"]
 texture = ExtResource("1_hejr5")

@@ -1,6 +1,6 @@
 class_name SaveSlot extends Control
 
-const BOARD_PIECE := preload("res://Objects/Boards/Piece.tscn")
+const BOARD_PIECE = preload("uid://cavxehselt3he")
 
 @onready var save_exists: Node2D = $SaveExists
 @onready var doesnt_exist: Node2D = $DoesntExist

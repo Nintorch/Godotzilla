@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cavxehselt3he"]
+
+[ext_resource type="Texture2D" uid="uid://wmgv6kcqcri0" path="res://Objects/Boards/BoardSprites.png" id="1_i1jtf"]
+[ext_resource type="Script" uid="uid://b1u12xjidjlt5" path="res://Objects/Boards/Piece/Piece.gd" id="2_dln06"]
+
+[node name="Piece" type="Sprite2D" unique_id=989514320]
+texture = ExtResource("1_i1jtf")
+region_enabled = true
+region_rect = Rect2(0, 48, 48, 48)
+script = ExtResource("2_dln06")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=700580361]
+path_postprocessing = 1
+avoidance_mask = 2
