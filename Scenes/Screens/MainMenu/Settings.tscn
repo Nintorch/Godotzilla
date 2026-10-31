@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bq1jm1apooi6f" path="res://Scripts/Screens/MainMenu/Settings.gd" id="1_au57p"]
 [ext_resource type="FontFile" uid="uid://dycfyvuoxfwc0" path="res://Sprites/font1.png" id="1_bmng2"]
 
-
+[node name="Settings" type="Node2D" groups=["menu"]]
 script = ExtResource("1_au57p")
 
 [node name="Video" type="Label" parent="." unique_id=742423442 groups=["option"]]
