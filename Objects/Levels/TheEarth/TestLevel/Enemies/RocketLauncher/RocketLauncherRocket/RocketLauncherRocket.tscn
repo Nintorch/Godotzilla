@@ -2,9 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://dnubo4iltw3px" path="res://Objects/Levels/TheEarth/TestLevel/Enemies/RocketLauncher/RocketLauncherRocket/RocketLauncherRocket.png" id="1_0euw7"]
 [ext_resource type="Script" uid="uid://bw6rcpqpbdnyc" path="res://Objects/Levels/TheEarth/TestLevel/Enemies/RocketLauncher/RocketLauncherRocket/RocketLauncherRocket.gd" id="1_1tm2y"]
-[ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="3_y14pf"]
+[ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/Components/AttackComponent/AttackComponent.tscn" id="3_y14pf"]
 [ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Objects/Characters/Common SFX/CharHurt.wav" id="4_7tx0r"]
-[ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_tpabq"]
+[ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Objects/Components/AttackComponent/AttackDescription.gd" id="4_tpabq"]
 
 [sub_resource type="Animation" id="Animation_s4816"]
 length = 0.001

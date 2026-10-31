@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bi7wq6b7la5ki"]
+
+[ext_resource type="Script" uid="uid://bu73pv6am0uoj" path="res://Objects/Components/AttackComponent/AttackComponent.gd" id="1_kmts1"]
+
+[node name="AttackComponent" type="Node2D" unique_id=598207358]
+script = ExtResource("1_kmts1")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1346994025]
+collision_layer = 8
+collision_mask = 9
+
+[node name="TouchDamageArea" type="Area2D" parent="." unique_id=1859520595]
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="." unique_id=516109001]
+bus = &"SFX"

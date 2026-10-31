@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://2kanj7crlbl5" path="res://Objects/Characters/BaseSkin.tscn" id="1_oa7ph"]
 [ext_resource type="Script" uid="uid://dy7tqloc3iyy3" path="res://Objects/Characters/Godzilla/Scripts/Main.gd" id="2_1ih3s"]
 [ext_resource type="Resource" uid="uid://dsq4b6j824v4x" path="res://Objects/Characters/Godzilla/GodzillaInfo.tres" id="3_0nm4j"]
-[ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_1yni8"]
+[ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Objects/Components/AttackComponent/AttackDescription.gd" id="4_1yni8"]
 [ext_resource type="AudioStream" uid="uid://deo2ts4xdwwce" path="res://Objects/Characters/Common SFX/CharPunch.wav" id="5_acixn"]
 [ext_resource type="Texture2D" uid="uid://c8vjp0lgjim3x" path="res://Objects/Characters/Godzilla/Sprites/crouch.png" id="6_s5cu2"]
 [ext_resource type="Texture2D" uid="uid://drtem8jbie2f0" path="res://Objects/Characters/Godzilla/Sprites/heat_beaming.png" id="7_cu05u"]

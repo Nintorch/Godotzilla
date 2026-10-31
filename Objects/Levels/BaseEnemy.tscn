@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bvoxqi1x6lk52"]
 
-[ext_resource type="PackedScene" uid="uid://camascwoory5h" path="res://Objects/HealthComponent.tscn" id="1_cy6fi"]
+[ext_resource type="PackedScene" uid="uid://camascwoory5h" path="res://Objects/Components/HealthComponent/HealthComponent.tscn" id="1_cy6fi"]
 [ext_resource type="Script" uid="uid://cggoo3cl4mpvp" path="res://Scripts/Objects/Enemies/BaseEnemy.gd" id="1_sr5re"]
-[ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="2_ma02d"]
-[ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_mfmwy"]
+[ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/Components/AttackComponent/AttackComponent.tscn" id="2_ma02d"]
+[ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Objects/Components/AttackComponent/AttackDescription.gd" id="4_mfmwy"]
 
 [sub_resource type="Resource" id="Resource_hffvk"]
 script = ExtResource("4_mfmwy")

@@ -2,9 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://di5yqmheu2g18" path="res://Objects/Characters/Mothra/Sprites/particles.png" id="1_ok31u"]
 [ext_resource type="Script" uid="uid://b238jtllubx8n" path="res://Objects/Characters/Mothra/Scripts/MothraParticle.gd" id="2_v1kq8"]
-[ext_resource type="Script" uid="uid://b238jtllubx8n" path="res://Scripts/Objects/Characters/MothraParticle.gd" id="2_v1kq8"]
-[ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="3_f4212"]
-[ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_nmrfy"]
+[ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/Components/AttackComponent/AttackComponent.tscn" id="3_f4212"]
+[ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Objects/Components/AttackComponent/AttackDescription.gd" id="4_nmrfy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5tse6"]
 atlas = ExtResource("1_ok31u")

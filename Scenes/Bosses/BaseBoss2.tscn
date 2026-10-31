@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://x488hqkc1b0" path="res://Scripts/Levels/Bosses/BaseBoss.gd" id="2_skion"]
 [ext_resource type="AudioStream" uid="uid://du1acm7e0olkd" path="res://Audio/Soundtrack/Bosses/Victory.ogg" id="3_dqcxi"]
 [ext_resource type="Texture2D" uid="uid://c3qwhre32yggp" path="res://Objects/Characters/Godzilla/Sprites/walk_body.png" id="3_gl3fo"]
-[ext_resource type="Script" uid="uid://u2e54l4b6l0f" path="res://Scripts/Objects/HealthComponent.gd" id="7_4yohv"]
-[ext_resource type="Script" uid="uid://c3dtxhct44y05" path="res://Scripts/Objects/PowerComponent.gd" id="8_mt5qq"]
+[ext_resource type="Script" uid="uid://u2e54l4b6l0f" path="res://Objects/Components/HealthComponent/HealthComponent.gd" id="7_4yohv"]
+[ext_resource type="Script" uid="uid://c3dtxhct44y05" path="res://Objects/Components/PowerComponent/PowerComponent.gd" id="8_mt5qq"]
 
 [sub_resource type="GDScript" id="GDScript_x81a7"]
 resource_name = "."

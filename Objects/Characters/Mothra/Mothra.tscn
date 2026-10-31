@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://2kanj7crlbl5" path="res://Objects/Characters/BaseSkin.tscn" id="1_pe2a4"]
 [ext_resource type="Script" uid="uid://dykjfxayd8shd" path="res://Objects/Characters/Mothra/Scripts/Main.gd" id="2_en534"]
 [ext_resource type="Resource" uid="uid://eaudwwedeccd" path="res://Objects/Characters/Mothra/MothraInfo.tres" id="3_cwrxe"]
-[ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_qw0ix"]
+[ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Objects/Components/AttackComponent/AttackDescription.gd" id="4_qw0ix"]
 [ext_resource type="Texture2D" uid="uid://nhpib3frkqrg" path="res://Objects/Characters/Mothra/Sprites/hurt.png" id="5_b4vwa"]
 [ext_resource type="Texture2D" uid="uid://dh0gtj20jut25" path="res://Objects/Characters/Mothra/Sprites/idle.png" id="6_jnfkx"]
 [ext_resource type="AudioStream" uid="uid://d3q5gj1fhphte" path="res://Objects/Characters/Mothra/SFX/MothraStep.wav" id="7_hse6l"]

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c1x100m2wxobm" path="res://Scenes/Levels/TheEarth/Wilderness/Sprites/GodzillaMoMWilderness.png" id="1_ppbww"]
 [ext_resource type="PackedScene" uid="uid://camascwoory5h" path="res://Objects/HealthComponent.tscn" id="2_k6k24"]
 
+[ext_resource type="PackedScene" uid="uid://camascwoory5h" path="res://Objects/Components/HealthComponent/HealthComponent.tscn" id="3_lm0ru"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gssje"]
 size = Vector2(32, 48)

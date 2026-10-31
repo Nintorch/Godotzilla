@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bvoxqi1x6lk52" path="res://Objects/Levels/BaseEnemy.tscn" id="1_rx4fb"]
 [ext_resource type="Script" uid="uid://du5tsx1enyo5v" path="res://Objects/Levels/TheEarth/TestLevel/Enemies/RocketLauncher/RocketLauncher.gd" id="2_5wmul"]
 [ext_resource type="Texture2D" uid="uid://bc3bfeis78o8y" path="res://Objects/Levels/TheEarth/TestLevel/Enemies/RocketLauncher/Sprites.png" id="2_p5nvc"]
-[ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="3_2nqwn"]
+[ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Objects/Components/AttackComponent/AttackDescription.gd" id="3_2nqwn"]
 
 [sub_resource type="Animation" id="Animation_1n8n6"]
 length = 0.001
