@@ -9,7 +9,7 @@ func menu_select(id: int) -> void:
 		2: # Settings
 			main_menu.set_menu(%Settings)
 		3: # Credits
-			main_menu.change_scene(preload("res://Scenes/Screens/Credits.tscn"))
+			main_menu.change_scene(preload("uid://cqlhofm4kl4y"))
 		4: # Exit
 			get_tree().paused = true
 			
