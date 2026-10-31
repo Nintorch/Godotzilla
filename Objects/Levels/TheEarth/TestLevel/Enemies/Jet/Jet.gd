@@ -1,4 +1,4 @@
-extends "res://Scripts/Objects/Enemies/BaseEnemy.gd"
+extends Enemy
 
 enum {
 	IDLE,
@@ -6,8 +6,7 @@ enum {
 	MOVING_RIGHT,
 }
 
-const JET_PROJECTILE = preload("res://Objects/Levels/TestLevel/Enemies/JetProjectile.tscn")
-const EXPLOSION := preload("res://Objects/Levels/Explosion.tscn")
+const JET_PROJECTILE = preload("uid://ctvc76vle1gei")
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -51,9 +50,5 @@ func _on_health_component_damaged(_amount: float, _attack: AttackDescription) ->
 	pass
 	
 func _on_health_component_dead() -> void:
-	var explosion := EXPLOSION.instantiate()
-	explosion.global_position = global_position
-	
-	start_destroy_sfx()
-	add_sibling(explosion)
+	Global.create_explosion(global_position)
 	queue_free()

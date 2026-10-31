@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bliqsom52mx1p"]
+[gd_scene format=3 uid="uid://bliqsom52mx1p"]
 
-[ext_resource type="Texture2D" uid="uid://c0ixfjb2bb5p5" path="res://Sprites/Levels/TestLevel/sky.png" id="1_ugp5p"]
+[ext_resource type="Texture2D" uid="uid://c0ixfjb2bb5p5" path="res://Scenes/Levels/TheEarth/sky.png" id="1_ugp5p"]
 
 [sub_resource type="GDScript" id="GDScript_4hac0"]
 resource_name = "SkyScript"

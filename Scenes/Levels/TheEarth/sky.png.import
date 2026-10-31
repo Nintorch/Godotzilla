@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vwe0hqe8bxv4"
-path="res://.godot/imported/YellowShip.png-2cfb91cfbaf3ab18f812385827aa8a2c.ctex"
+uid="uid://c0ixfjb2bb5p5"
+path="res://.godot/imported/sky.png-4e4fa3653bb1e6fc87dbf7104910db54.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Levels/TestLevel/YellowShip.png"
-dest_files=["res://.godot/imported/YellowShip.png-2cfb91cfbaf3ab18f812385827aa8a2c.ctex"]
+source_file="res://Scenes/Levels/TheEarth/sky.png"
+dest_files=["res://.godot/imported/sky.png-4e4fa3653bb1e6fc87dbf7104910db54.ctex"]
 
 [params]
 

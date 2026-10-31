@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2vt2myb2u4qi"
-path="res://.godot/imported/floor.png-1dbb95ce4a82eced2997d41da1ac2385.ctex"
+uid="uid://c1x100m2wxobm"
+path="res://.godot/imported/GodzillaMoMWilderness.png-b5eeab633cc342f435c9e07f34cb52c0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Levels/TestLevel/floor.png"
-dest_files=["res://.godot/imported/floor.png-1dbb95ce4a82eced2997d41da1ac2385.ctex"]
+source_file="res://Scenes/Levels/TheEarth/Wilderness/Sprites/GodzillaMoMWilderness.png"
+dest_files=["res://.godot/imported/GodzillaMoMWilderness.png-b5eeab633cc342f435c9e07f34cb52c0.ctex"]
 
 [params]
 

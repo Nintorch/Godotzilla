@@ -1,9 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://kd587533e5l4"]
+[gd_scene format=3 uid="uid://kd587533e5l4"]
 
-[ext_resource type="Texture2D" uid="uid://dnubo4iltw3px" path="res://Sprites/Objects/Enemies/RocketLauncherRocket.png" id="1_0euw7"]
-[ext_resource type="Script" uid="uid://bw6rcpqpbdnyc" path="res://Scripts/Objects/Enemies/TheEarth/RocketLauncherRocket.gd" id="1_1tm2y"]
+[ext_resource type="Texture2D" uid="uid://dnubo4iltw3px" path="res://Objects/Levels/TheEarth/TestLevel/Enemies/RocketLauncher/RocketLauncherRocket/RocketLauncherRocket.png" id="1_0euw7"]
+[ext_resource type="Script" uid="uid://bw6rcpqpbdnyc" path="res://Objects/Levels/TheEarth/TestLevel/Enemies/RocketLauncher/RocketLauncherRocket/RocketLauncherRocket.gd" id="1_1tm2y"]
 [ext_resource type="PackedScene" uid="uid://bi7wq6b7la5ki" path="res://Objects/AttackComponent.tscn" id="3_y14pf"]
-[ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Audio/SFX/Characters/CharHurt.wav" id="4_7tx0r"]
+[ext_resource type="AudioStream" uid="uid://dcy2jbwfd2no" path="res://Objects/Characters/Common SFX/CharHurt.wav" id="4_7tx0r"]
 [ext_resource type="Script" uid="uid://b1bjey1kvrefj" path="res://Scripts/Objects/Attacks/AttackDescription.gd" id="4_tpabq"]
 
 [sub_resource type="Animation" id="Animation_s4816"]
@@ -73,42 +73,30 @@ size = Vector2(16, 16)
 [sub_resource type="Resource" id="Resource_2n60p"]
 script = ExtResource("4_tpabq")
 name = "Main"
-simple_or_advanced = 0
-other_information = Array[String]([])
 type = 2
 damage_amount = 2.0
 hitbox_name = "CollisionShape2D"
-hurt_time = -1.0
-start_time_offset = 0.0
-animation_name = ""
-animation_name2 = ""
-time_length = -1.0
-reset_animation_before = true
-reset_animation_after = true
-function_name = ""
 
-[node name="RocketLauncherRocket" type="Node2D"]
+[node name="RocketLauncherRocket" type="Node2D" unique_id=311585481]
 script = ExtResource("1_1tm2y")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=305475936]
 texture = ExtResource("1_0euw7")
 hframes = 3
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_vwlvx")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1718927975]
+libraries/ = SubResource("AnimationLibrary_vwlvx")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=673678490]
 shape = SubResource("RectangleShape2D_2iivk")
 
-[node name="AttackComponent" parent="." node_paths=PackedStringArray("hitboxes") instance=ExtResource("3_y14pf")]
+[node name="AttackComponent" parent="." unique_id=621399024 node_paths=PackedStringArray("hitboxes") instance=ExtResource("3_y14pf")]
 hitboxes = NodePath("..")
 enemy = true
 initial_attack = "Main"
 attacks = Array[ExtResource("4_tpabq")]([SubResource("Resource_2n60p")])
 
-[node name="DestroySFX" type="AudioStreamPlayer" parent="."]
+[node name="DestroySFX" type="AudioStreamPlayer" parent="." unique_id=725098744]
 stream = ExtResource("4_7tx0r")
 bus = &"SFX"
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1x100m2wxobm"
-path="res://.godot/imported/GodzillaMoMWilderness.png-a3fd224830a82c0bba7e56f959cdb5a8.ctex"
+uid="uid://bc3bfeis78o8y"
+path="res://.godot/imported/Sprites.png-c40717e2052602c7a03a8f0bdb9e1c24.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Levels/TestLevel/GodzillaMoMWilderness.png"
-dest_files=["res://.godot/imported/GodzillaMoMWilderness.png-a3fd224830a82c0bba7e56f959cdb5a8.ctex"]
+source_file="res://Objects/Levels/TheEarth/TestLevel/Enemies/RocketLauncher/Sprites.png"
+dest_files=["res://.godot/imported/Sprites.png-c40717e2052602c7a03a8f0bdb9e1c24.ctex"]
 
 [params]
 

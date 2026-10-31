@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cx8rkmxhgw3oc"]
+[gd_scene format=3 uid="uid://cx8rkmxhgw3oc"]
 
-[ext_resource type="Texture2D" uid="uid://b2vt2myb2u4qi" path="res://Sprites/Levels/TestLevel/floor.png" id="1_fk1m6"]
-[ext_resource type="Texture2D" uid="uid://b2vt2myb2u4qi" path="res://Sprites/Levels/TheEarth/Wilderness/floor.png" id="1_fk1m6"]
+[ext_resource type="Texture2D" uid="uid://b2vt2myb2u4qi" path="res://Scenes/Levels/TheEarth/Wilderness/Sprites/floor.png" id="1_fk1m6"]
+[ext_resource type="Texture2D" path="res://Sprites/Levels/TheEarth/Wilderness/floor.png" id="1_fk1m6"]
 [ext_resource type="Script" uid="uid://dnq6up0j3gx1s" path="res://Scripts/Levels/Floor.gd" id="2_mjgpp"]
+
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ajba1"]
 size = Vector2(200, 32)

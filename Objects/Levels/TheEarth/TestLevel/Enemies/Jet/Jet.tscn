@@ -1,8 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://gf7elbg3k3nj"]
+[gd_scene format=3 uid="uid://gf7elbg3k3nj"]
 
 [ext_resource type="PackedScene" uid="uid://bvoxqi1x6lk52" path="res://Objects/Levels/BaseEnemy.tscn" id="1_rc47s"]
-[ext_resource type="Script" uid="uid://om5o0esohhur" path="res://Scripts/Objects/Enemies/TheEarth/Jet.gd" id="2_oq0b1"]
-[ext_resource type="Texture2D" uid="uid://dh1lle66u4pmf" path="res://Sprites/Objects/Enemies/Jet.png" id="2_v43kf"]
+[ext_resource type="Script" uid="uid://om5o0esohhur" path="res://Objects/Levels/TheEarth/TestLevel/Enemies/Jet/Jet.gd" id="2_oq0b1"]
+[ext_resource type="Texture2D" uid="uid://dh1lle66u4pmf" path="res://Objects/Levels/TheEarth/TestLevel/Enemies/Jet/Sprites.png" id="2_v43kf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e8sqc"]
 size = Vector2(20, 9)
@@ -100,7 +100,7 @@ _data = {
 &"idle": SubResource("Animation_on3rk")
 }
 
-[node name="Jet" instance=ExtResource("1_rc47s")]
+[node name="Jet" unique_id=270859592 instance=ExtResource("1_rc47s")]
 script = ExtResource("2_oq0b1")
 
 [node name="HealthComponent" parent="." index="0"]
@@ -110,16 +110,14 @@ max_value = 1.0
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_e8sqc")
 
-[node name="Sprite2D" type="Sprite2D" parent="." index="3"]
+[node name="Sprite2D" type="Sprite2D" parent="." index="3" unique_id=424469137]
 texture = ExtResource("2_v43kf")
 hframes = 3
 frame = 1
 region_enabled = true
 region_rect = Rect2(0, 0, 78, 16)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
-libraries = {
-"": SubResource("AnimationLibrary_gx3mi")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4" unique_id=140495218]
+libraries/ = SubResource("AnimationLibrary_gx3mi")
 
 [connection signal="attacked" from="AttackComponent" to="." method="_on_attack_component_attacked"]

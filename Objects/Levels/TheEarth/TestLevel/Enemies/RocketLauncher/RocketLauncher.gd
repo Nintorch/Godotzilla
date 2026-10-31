@@ -1,7 +1,6 @@
-extends "res://Scripts/Objects/Enemies/BaseEnemy.gd"
+extends Enemy
 
-const ROCKET_LAUNCHER_ROCKET = preload("res://Objects/Levels/TestLevel/Enemies/RocketLauncherRocket.tscn")
-const EXPLOSION := preload("res://Objects/Levels/Explosion.tscn")
+const ROCKET_LAUNCHER_ROCKET = preload("uid://kd587533e5l4")
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 var launched := false
@@ -32,11 +31,8 @@ func _on_health_component_dead() -> void:
 	$HealthComponent.queue_free()
 	$AttackComponent.queue_free()
 	launched = true
-	start_destroy_sfx()
-	
-	var explosion := EXPLOSION.instantiate()
-	explosion.global_position = global_position
-	add_sibling(explosion)
+
+	Global.create_explosion(global_position)
 	
 	await get_tree().process_frame
 	Global.create_capsule(global_position, Global.Capsule.TYPE_HEALTH)

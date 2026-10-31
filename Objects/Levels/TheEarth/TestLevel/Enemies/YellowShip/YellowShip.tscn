@@ -1,8 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dkwaunrisvrj0"]
+[gd_scene format=3 uid="uid://dkwaunrisvrj0"]
 
-[ext_resource type="Texture2D" uid="uid://vwe0hqe8bxv4" path="res://Sprites/Levels/TestLevel/YellowShip.png" id="1_jpes6"]
+[ext_resource type="Texture2D" uid="uid://vwe0hqe8bxv4" path="res://Objects/Levels/TheEarth/TestLevel/Enemies/YellowShip/YellowShip.png" id="1_jpes6"]
 [ext_resource type="PackedScene" uid="uid://bvoxqi1x6lk52" path="res://Objects/Levels/BaseEnemy.tscn" id="1_sghao"]
-[ext_resource type="Script" uid="uid://cy3jhd73i3ptx" path="res://Scripts/Objects/Enemies/TheEarth/YellowShip.gd" id="2_164y3"]
+[ext_resource type="Script" uid="uid://cy3jhd73i3ptx" path="res://Objects/Levels/TheEarth/TestLevel/Enemies/YellowShip/YellowShip.gd" id="2_164y3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exeov"]
 size = Vector2(17, 8)
@@ -46,7 +46,7 @@ _data = {
 &"main": SubResource("Animation_xt50m")
 }
 
-[node name="YellowShip" instance=ExtResource("1_sghao")]
+[node name="YellowShip" unique_id=1296975592 instance=ExtResource("1_sghao")]
 script = ExtResource("2_164y3")
 
 [node name="HealthComponent" parent="." index="0"]
@@ -56,15 +56,13 @@ max_value = 2.0
 position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_exeov")
 
-[node name="Sprite" type="Sprite2D" parent="." index="3"]
+[node name="Sprite" type="Sprite2D" parent="." index="3" unique_id=1649871615]
 texture = ExtResource("1_jpes6")
 region_enabled = true
 region_rect = Rect2(7, 11, 20, 12)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4" unique_id=910870471]
 root_node = NodePath("../Sprite")
-libraries = {
-"": SubResource("AnimationLibrary_lcmgl")
-}
+libraries/ = SubResource("AnimationLibrary_lcmgl")
 
 [connection signal="attacked" from="AttackComponent" to="." method="_on_attack_component_attacked"]

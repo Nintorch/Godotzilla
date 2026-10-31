@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxfvrtpci8esq"
-path="res://.godot/imported/board.png-1b78ed14a91707b6976a5222ab837d64.ctex"
+uid="uid://dh1lle66u4pmf"
+path="res://.godot/imported/Sprites.png-19cc129ca52f17d6827e03bdeb893bb6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Levels/TestLevel/board.png"
-dest_files=["res://.godot/imported/board.png-1b78ed14a91707b6976a5222ab837d64.ctex"]
+source_file="res://Objects/Levels/TheEarth/TestLevel/Enemies/Jet/Sprites.png"
+dest_files=["res://.godot/imported/Sprites.png-19cc129ca52f17d6827e03bdeb893bb6.ctex"]
 
 [params]
 

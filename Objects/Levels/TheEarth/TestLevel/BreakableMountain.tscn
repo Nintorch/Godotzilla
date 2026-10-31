@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://1q6rp0t4rh72"]
+[gd_scene format=3 uid="uid://1q6rp0t4rh72"]
 
 [ext_resource type="Script" uid="uid://d11i1qu332ujy" path="res://Scripts/Objects/Levels/TestLevel/BreakableMountain.gd" id="1_oxw1c"]
-[ext_resource type="Texture2D" uid="uid://c1x100m2wxobm" path="res://Sprites/Levels/TestLevel/GodzillaMoMWilderness.png" id="1_ppbww"]
+[ext_resource type="Texture2D" uid="uid://c1x100m2wxobm" path="res://Scenes/Levels/TheEarth/Wilderness/Sprites/GodzillaMoMWilderness.png" id="1_ppbww"]
 [ext_resource type="PackedScene" uid="uid://camascwoory5h" path="res://Objects/HealthComponent.tscn" id="2_k6k24"]
+
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gssje"]
 size = Vector2(32, 48)
