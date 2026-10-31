@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://ccjlv2riqxvf3"
-path="res://.godot/imported/MothraRoar.wav-8164320257fc77a08cc677649aefcab4.sample"
+path="res://.godot/imported/MothraRoar.wav-3e615a7abf034ab99ada52df33d81592.sample"
 
 [deps]
 
-source_file="res://Audio/SFX/Characters/Mothra/MothraRoar.wav"
-dest_files=["res://.godot/imported/MothraRoar.wav-8164320257fc77a08cc677649aefcab4.sample"]
+source_file="res://Objects/Characters/Mothra/SFX/MothraRoar.wav"
+dest_files=["res://.godot/imported/MothraRoar.wav-3e615a7abf034ab99ada52df33d81592.sample"]
 
 [params]
 

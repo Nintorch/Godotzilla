@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://d2qfi7m3jxc5r"
-path="res://.godot/imported/GodzillaStep.wav-f984f6a0dbe6adb0da2e971b763c3e9c.sample"
+path="res://.godot/imported/GodzillaStep.wav-8e7700a43a8746fba384d5115c500017.sample"
 
 [deps]
 
-source_file="res://Audio/SFX/Characters/Godzilla/GodzillaStep.wav"
-dest_files=["res://.godot/imported/GodzillaStep.wav-f984f6a0dbe6adb0da2e971b763c3e9c.sample"]
+source_file="res://Objects/Characters/Godzilla/SFX/GodzillaStep.wav"
+dest_files=["res://.godot/imported/GodzillaStep.wav-8e7700a43a8746fba384d5115c500017.sample"]
 
 [params]
 

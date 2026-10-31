@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cjhiq2x7oewnw"
-path="res://.godot/imported/GodzillaRoar.wav-abea68e041c16589ae757a0246142482.sample"
+path="res://.godot/imported/GodzillaRoar.wav-d248be3ec3d2ba532298307bdc77383b.sample"
 
 [deps]
 
-source_file="res://Audio/SFX/Characters/Godzilla/GodzillaRoar.wav"
-dest_files=["res://.godot/imported/GodzillaRoar.wav-abea68e041c16589ae757a0246142482.sample"]
+source_file="res://Objects/Characters/Godzilla/SFX/GodzillaRoar.wav"
+dest_files=["res://.godot/imported/GodzillaRoar.wav-d248be3ec3d2ba532298307bdc77383b.sample"]
 
 [params]
 

@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://dogn70fnkegjc" path="res://Objects/Characters/Common Scripts/States/Attack.gd" id="5_gtijs"]
 [ext_resource type="Script" uid="uid://dxxerqcy1ap7e" path="res://Objects/Characters/Common Scripts/States/Hurt.gd" id="5_t6xgh"]
 [ext_resource type="Script" uid="uid://cj0f2i6e2cd5j" path="res://Objects/Characters/Common Scripts/States/Dead.gd" id="6_b6u5i"]
-[ext_resource type="AudioStream" uid="uid://deo2ts4xdwwce" path="res://Audio/SFX/Characters/CharPunch.wav" id="11_npbvd"]
+[ext_resource type="AudioStream" uid="uid://deo2ts4xdwwce" path="res://Objects/Characters/Common SFX/CharPunch.wav" id="11_npbvd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ywk1q"]
 font_size = 8
@@ -19,20 +19,20 @@ font_size = 8
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ge4p2"]
 size = Vector2(36, 6)
 
-[node name="PlayerCharacter" type="CharacterBody2D"]
+[node name="PlayerCharacter" type="CharacterBody2D" unique_id=917784891]
 collision_mask = 2
 script = ExtResource("1_c8c0q")
 
-[node name="Skin" type="Node2D" parent="."]
+[node name="Skin" type="Node2D" parent="." unique_id=2144331610]
 
-[node name="ColorRect" type="ColorRect" parent="Skin"]
+[node name="ColorRect" type="ColorRect" parent="Skin" unique_id=913800598]
 offset_left = -15.0
 offset_top = -38.0
 offset_right = 15.0
 offset_bottom = 27.0
 color = Color(0.357983, 0.395136, 0.605111, 1)
 
-[node name="Label" type="Label" parent="Skin"]
+[node name="Label" type="Label" parent="Skin" unique_id=1374879714]
 offset_left = -31.0
 offset_top = -9.0
 offset_right = 32.0
@@ -41,53 +41,53 @@ text = "PlayerCharacter
 "
 label_settings = SubResource("LabelSettings_ywk1q")
 
-[node name="MothraFloorChecking" type="Area2D" parent="."]
+[node name="MothraFloorChecking" type="Area2D" parent="." unique_id=162239956]
 collision_layer = 4
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MothraFloorChecking"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MothraFloorChecking" unique_id=1507235821]
 shape = SubResource("RectangleShape2D_ge4p2")
 
-[node name="StateMachine" parent="." node_paths=PackedStringArray("initial_state") instance=ExtResource("3_eux1x")]
+[node name="StateMachine" parent="." unique_id=346789762 node_paths=PackedStringArray("initial_state") instance=ExtResource("3_eux1x")]
 initial_state = NodePath("LevelIntro")
 
-[node name="Walk" type="Node" parent="StateMachine"]
+[node name="Walk" type="Node" parent="StateMachine" unique_id=1055907085]
 script = ExtResource("3_r4s32")
 
-[node name="Fly" type="Node" parent="StateMachine"]
+[node name="Fly" type="Node" parent="StateMachine" unique_id=698200555]
 script = ExtResource("4_amfr8")
 
-[node name="LevelIntro" type="Node" parent="StateMachine"]
+[node name="LevelIntro" type="Node" parent="StateMachine" unique_id=1702113971]
 script = ExtResource("4_n3l83")
 
-[node name="Hurt" type="Node" parent="StateMachine"]
+[node name="Hurt" type="Node" parent="StateMachine" unique_id=1020908145]
 script = ExtResource("5_t6xgh")
 
-[node name="Dead" type="Node" parent="StateMachine"]
+[node name="Dead" type="Node" parent="StateMachine" unique_id=937267677]
 script = ExtResource("6_b6u5i")
 
-[node name="Attack" type="Node" parent="StateMachine"]
+[node name="Attack" type="Node" parent="StateMachine" unique_id=1962615287]
 script = ExtResource("5_gtijs")
 
-[node name="SFX" type="Node" parent="."]
+[node name="SFX" type="Node" parent="." unique_id=85404934]
 
-[node name="Step" type="AudioStreamPlayer" parent="SFX"]
+[node name="Step" type="AudioStreamPlayer" parent="SFX" unique_id=927421920]
 bus = &"SFX"
 
-[node name="Roar" type="AudioStreamPlayer" parent="SFX"]
+[node name="Roar" type="AudioStreamPlayer" parent="SFX" unique_id=1048841859]
 bus = &"SFX"
 
-[node name="Punch" type="AudioStreamPlayer" parent="SFX"]
+[node name="Punch" type="AudioStreamPlayer" parent="SFX" unique_id=1593768696]
 stream = ExtResource("11_npbvd")
 bus = &"SFX"
 
-[node name="HealthComponent" parent="." instance=ExtResource("3_bws3y")]
+[node name="HealthComponent" parent="." unique_id=481687837 instance=ExtResource("3_bws3y")]
 invincibility_time_seconds = 0.5
 health_speed = 1.0
 
-[node name="PowerComponent" parent="." instance=ExtResource("4_434eu")]
+[node name="PowerComponent" parent="." unique_id=256722171 instance=ExtResource("4_434eu")]
 
-[node name="AttackComponent" parent="." instance=ExtResource("5_cce5b")]
+[node name="AttackComponent" parent="." unique_id=966782354 instance=ExtResource("5_cce5b")]
 
 [connection signal="damaged" from="HealthComponent" to="." method="_on_health_damaged"]
 [connection signal="dead" from="HealthComponent" to="." method="_on_health_dead"]

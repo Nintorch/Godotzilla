@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://dcy2jbwfd2no"
-path="res://.godot/imported/CharHurt.wav-fa1e2c7c75615aa81acee261a654f2ad.sample"
+path="res://.godot/imported/CharHurt.wav-6a7787ea96a2f4b78390cca503354deb.sample"
 
 [deps]
 
-source_file="res://Audio/SFX/Characters/CharHurt.wav"
-dest_files=["res://.godot/imported/CharHurt.wav-fa1e2c7c75615aa81acee261a654f2ad.sample"]
+source_file="res://Objects/Characters/Common SFX/CharHurt.wav"
+dest_files=["res://.godot/imported/CharHurt.wav-6a7787ea96a2f4b78390cca503354deb.sample"]
 
 [params]
 

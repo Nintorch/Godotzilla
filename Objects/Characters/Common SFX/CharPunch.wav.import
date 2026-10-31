@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://deo2ts4xdwwce"
-path="res://.godot/imported/CharPunch.wav-caf9d5909d8c2805c9425174d2e3e657.sample"
+path="res://.godot/imported/CharPunch.wav-a4daa429a91a9e3aed96f51c15e7424a.sample"
 
 [deps]
 
-source_file="res://Audio/SFX/Characters/CharPunch.wav"
-dest_files=["res://.godot/imported/CharPunch.wav-caf9d5909d8c2805c9425174d2e3e657.sample"]
+source_file="res://Objects/Characters/Common SFX/CharPunch.wav"
+dest_files=["res://.godot/imported/CharPunch.wav-a4daa429a91a9e3aed96f51c15e7424a.sample"]
 
 [params]
 
