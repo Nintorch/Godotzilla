@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dkwaunrisvrj0" path="res://Objects/Levels/TheEarth/TestLevel/Enemies/YellowShip/YellowShip.tscn" id="7_ua0h7"]
 [ext_resource type="PackedScene" uid="uid://gf7elbg3k3nj" path="res://Objects/Levels/TheEarth/TestLevel/Enemies/Jet/Jet.tscn" id="8_u0w6s"]
 [ext_resource type="PackedScene" uid="uid://c1nseuiv0k6ax" path="res://Objects/Levels/TheEarth/TestLevel/Enemies/RocketLauncher/RocketLauncher.tscn" id="9_87dsk"]
+[ext_resource type="Texture2D" uid="uid://b2vt2myb2u4qi" path="res://Scenes/Levels/TheEarth/Wilderness/Sprites/floor.png" id="10_ye07n"]
 
 [node name="Level" unique_id=1230005702 instance=ExtResource("1_rvyoi")]
 music = ExtResource("2_p0ue2")
@@ -121,3 +122,6 @@ region_rect = Rect2(339, 142, 42, 64)
 
 [node name="Jet2" parent="LevelLayout" index="15" unique_id=635678287 instance=ExtResource("8_u0w6s")]
 position = Vector2(664, 184)
+
+[node name="Floor" parent="." index="3"]
+texture = ExtResource("10_ye07n")
