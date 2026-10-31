@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dxfvrtpci8esq"
-path="res://.godot/imported/board.png-04bc1dfccecc73c1c77f1d7a6eb1050e.ctex"
+path="res://.godot/imported/board_sprites.png-5602fa720c5cfb2177ca3d542932a66f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Levels/TheEarth/Wilderness/Sprites/board.png"
-dest_files=["res://.godot/imported/board.png-04bc1dfccecc73c1c77f1d7a6eb1050e.ctex"]
+source_file="res://Scenes/Boards/TheEarth/board_sprites.png"
+dest_files=["res://.godot/imported/board_sprites.png-5602fa720c5cfb2177ca3d542932a66f.ctex"]
 
 [params]
 

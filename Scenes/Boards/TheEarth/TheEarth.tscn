@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://d2do8ilhab482" path="res://Scenes/Boards/BaseBoard.tscn" id="1_kn3r1"]
 [ext_resource type="AudioStream" uid="uid://ij42lx3rq1l1" path="res://Audio/Soundtrack/Levels/Earth.ogg" id="2_ffjsg"]
 [ext_resource type="PackedScene" uid="uid://slv0bn0tcyna" path="res://Scenes/Boards/Jupiter/Jupiter.tscn" id="3_kuiql"]
-[ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Scenes/Levels/TheEarth/Wilderness/Sprites/board.png" id="4_hpfut"]
+[ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Scenes/Boards/TheEarth/board_sprites.png" id="4_hpfut"]
 [ext_resource type="PackedScene" uid="uid://dhm8bcemuwqfo" path="res://Scenes/Levels/TheEarth/Wilderness/Wilderness.tscn" id="5_j0muf"]
 [ext_resource type="PackedScene" uid="uid://cavxehselt3he" path="res://Objects/Boards/Piece/Piece.tscn" id="7_5qhq5"]
 [ext_resource type="PackedScene" uid="uid://cv04f1f1pkbcs" path="res://Scenes/Boards/TransitionLevel.tscn" id="7_h8vqw"]

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cv04f1f1pkbcs"]
 
-[ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Scenes/Levels/TheEarth/Wilderness/Sprites/board.png" id="1_aunje"]
+[ext_resource type="Texture2D" uid="uid://dxfvrtpci8esq" path="res://Scenes/Boards/TheEarth/board_sprites.png" id="1_aunje"]
 [ext_resource type="Script" uid="uid://bqsq76b4qq43b" path="res://Scenes/Boards/LevelSceneTile.gd" id="2_xryvn"]
 [ext_resource type="PackedScene" uid="uid://bdbahbhfgy3yt" path="res://Scenes/Levels/TheEarth/TransitionLevel.tscn" id="3_4731o"]
 

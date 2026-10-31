@@ -3,21 +3,23 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://56livh2aqxw0"
-path="res://.godot/imported/board.png-6913aaf44e9b1cbc0bdaeaa5cdd7fecc.ctex"
+path="res://.godot/imported/board_sprites.png-dd00adf3534e5b40f65e90a376614024.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Levels/Jupiter/board.png"
-dest_files=["res://.godot/imported/board.png-6913aaf44e9b1cbc0bdaeaa5cdd7fecc.ctex"]
+source_file="res://Scenes/Boards/Jupiter/board_sprites.png"
+dest_files=["res://.godot/imported/board_sprites.png-dd00adf3534e5b40f65e90a376614024.ctex"]
 
 [params]
 
 compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
@@ -25,6 +27,10 @@ mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
+process/channel_remap/red=0
+process/channel_remap/green=1
+process/channel_remap/blue=2
+process/channel_remap/alpha=3
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false
